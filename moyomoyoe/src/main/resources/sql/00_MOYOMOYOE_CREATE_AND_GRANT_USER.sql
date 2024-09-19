@@ -1,7 +1,7 @@
 use mysql;
 
 CREATE DATABASE moyomoyoedb;
-SHOW DATABASE;
+SHOW DATABASES;
 
 CREATE USER 'moyomoyoe'@'%' IDENTIFIED BY  'moyomoyoe';
 SELECT * FROM USER;
