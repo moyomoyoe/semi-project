@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS tbl_comment
 CREATE TABLE IF NOT EXISTS tbl_store
 (
     store_id INT AUTO_INCREMENT COMMENT '사업장아이디',
+    store_name VARCHAR(20) COMMENT '사업장명',
     store_address VARCHAR(30) NOT NULL COMMENT '사업장주소',
     store_sort VARCHAR(30) NOT NULL COMMENT '업종',
     business_user_id INT NOT NULL COMMENT '사업자유저아이디',
@@ -191,8 +192,8 @@ INSERT INTO tbl_user (username, password, nickname, email, phone, user_role, ima
 																									(3, 1, 'nick1', '세 번째 게시물 잘 읽었습니다.', '2024-09-09', 3),
 																									(4, 1, 'nick3', '음식 리뷰 기대돼요!', '2024-09-10', 1);
 
- INSERT INTO tbl_store (store_address, store_sort, business_user_id, description) VALUES ('서울 강남구 테헤란로 123', '카페', 4, '아늑한 분위기의 커피 전문점입니다.'),
-																						 ('서울 마포구 홍익로 456', '레스토랑', 2, '신선한 재료로 만든 맛있는 음식을 제공합니다.');
+ INSERT INTO tbl_store (store_name, store_address, store_sort, business_user_id, description) VALUES ('강남카페', '서울 강남구 테헤란로 123', '카페', 4, '아늑한 분위기의 커피 전문점입니다.'),
+																						 ('홍대김밥', '서울 마포구 홍익로 456', '레스토랑', 2, '신선한 재료로 만든 맛있는 음식을 제공합니다.');
 
 INSERT INTO tbl_schedule (store_id, schedule_id, start_time, end_time, capacity) VALUES (2, 1, '15:00', '16:00', 30),
 																						(2, 2, '11:00', '13:00', 30),
