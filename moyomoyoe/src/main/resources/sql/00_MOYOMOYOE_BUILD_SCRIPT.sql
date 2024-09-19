@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS tbl_comment
 CREATE TABLE IF NOT EXISTS tbl_store
 (
     store_id INT AUTO_INCREMENT COMMENT '사업장아이디',
+    store_name VARCHAR(20) COMMENT '사업장명',
     store_address VARCHAR(30) NOT NULL COMMENT '사업장주소',
     store_sort VARCHAR(30) NOT NULL COMMENT '업종',
     business_user_id INT NOT NULL COMMENT '사업자유저아이디',
