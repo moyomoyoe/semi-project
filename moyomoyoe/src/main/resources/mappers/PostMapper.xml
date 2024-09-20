@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="moyomoyoe.board.model.dao.PostMapper">
+
+    <resultMap id="postResultMap" type="moyomoyoe.board.model.dto.PostDTO">
+        <id property="postId" column="post_id"/>
+        <result property="title" column="title"/>
+        <result property="context" column="context"/>
+        <result property="nickname" column="nickname"/>
+        <result property="postDate" column="post_date"/>
+        <result property="userOpen" column="user_open"/>
+        <result property="regionCode" column="region_code"/>
+        <result property="imageId" column="image_id"/>
+        <result property="keywordId" column="keyword_id"/>
+    </resultMap>
+
+    <select id="findAllPost" resultMap="postResultMap">
+        SELECT
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            region_code,
+            image_id,
+            keyword_id
+        FROM
+            tbl_post_list
+        ORDER BY
+            post_date
+    </select>
+
+</mapper>

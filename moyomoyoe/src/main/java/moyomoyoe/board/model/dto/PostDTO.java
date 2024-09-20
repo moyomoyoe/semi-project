@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PostDTO {
 
-    private int postlistId;
+    private int postId;
     private String title;
     private String context;
     private String nickname;
@@ -19,11 +19,11 @@ public class PostDTO {
     }
 
     public int getPostlistId() {
-        return postlistId;
+        return postId;
     }
 
     public void setPostlistId(int postlistId) {
-        this.postlistId = postlistId;
+        this.postId = postlistId;
     }
 
     public String getTitle() {
@@ -100,8 +100,8 @@ public class PostDTO {
 
     @Override
     public String toString() {
-        return "PostlistDTO{" +
-                "postlistId=" + postlistId +
+        return "PostDTO{" +
+                "postId=" + postId +
                 ", title='" + title + '\'' +
                 ", context='" + context + '\'' +
                 ", nickname='" + nickname + '\'' +

@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS tbl_image CASCADE;
 
 /* 테이블 생성 */
 
-
 CREATE TABLE IF NOT EXISTS tbl_image
 (
     image_id INT AUTO_INCREMENT COMMENT '이미지번호',
@@ -43,6 +42,7 @@ CREATE TABLE IF NOT EXISTS tbl_user
 (
     id INT AUTO_INCREMENT COMMENT '사용자번호',
     username VARCHAR(10) NOT NULL COMMENT '이름',
+    account VARCHAR(10) NOT NULL COMMENT '아이디',
     password VARCHAR(20) NOT NULL COMMENT '비밀번호',
     nickname VARCHAR(10) NOT NULL COMMENT '닉네임',
     email VARCHAR(25) NOT NULL COMMENT '이메일',
@@ -172,11 +172,11 @@ INSERT INTO tbl_region (city, district) VALUES  ('서울', '강남구'),
 												('서울', '중구'),
 												('서울', '중랑구');
 
-INSERT INTO tbl_user (username, password, nickname, email, phone, user_role, image_id) VALUES ('user1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', '일반회원', 1),
-																							  ('user2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', '사업자회원', NULL),
-																						  	  ('user3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', '일반회원', NULL),
-																							  ('user4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', '사업자회원', NULL),
-																							  ('admin', 'admin', 'admin', 'admin@example.com', '010-5678-9012', '관리자', NULL);
+INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id) VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', '일반회원', 1),
+																							           ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', '사업자회원', NULL),
+																						  	           ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', '일반회원', NULL),
+																							           ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', '사업자회원', NULL),
+																							           ('admin', 'admin', 'admin', 'admin', 'admin@example.com', '010-5678-9012', '관리자', NULL);
 
  INSERT INTO tbl_business_user (id, busy_no) VALUES (2, '1234567890'),
 													(4, '2233445566');
