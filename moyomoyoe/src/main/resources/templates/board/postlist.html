@@ -3,9 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        const successMessage = `[[${ successMessage}]]`;
+        if(successMessage) alert(successMessage);
+    </script>
+
+    <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 </head>
 <body>
     <h3>게시판 전체조회 페이지</h3>
+
+    <div th:replace="common/header.html"></div>
+    <div id="grid"></div>
+
+    <script th:inline="javascript">
+        let postList = /*[[${postList}]]*/ [];
+
+        console.log(postList);
+
+
+        const grid = new tui.Grid({
+            el: document.getElementById('grid'),
+            data: postList,
+            scrollX: false,
+            scrollY: true,
+            columns: [
+                {
+                    header: '게시글번호',
+                    name: 'postId'
+                },
+                {
+                    header: '제목',
+                    name: 'title'
+                },
+                {
+                    header: '내용',
+                    name: 'context'
+                },
+                {
+                    header: '닉네임',
+                    name: 'nickname'
+                },
+                {
+                    header: '작성일자',
+                    name: 'postDate',
+                    sortable: 'true',
+                    sortingType: 'desc',
+                },
+                {
+                    header: '비회원열람여부',
+                    name: 'userOpen'
+                },
+                {
+                    header: '이미지',
+                    name: 'imageId'
+                },
+                {
+                    header: '키워드',
+                    name: 'keywordId'
+                }
+            ]
+        })
+            grid.sort('postDate', false);
+    </script>
+    <button onclick="location.href='/'">메인으로</button>
 
 </body>
 </html>

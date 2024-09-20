@@ -29,8 +29,6 @@
             keyword_id
         FROM
             tbl_post_list
-        ORDER BY
-            post_date
     </select>
 
 </mapper>

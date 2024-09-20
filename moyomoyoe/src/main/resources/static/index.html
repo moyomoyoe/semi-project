@@ -5,7 +5,57 @@
     <title>Title</title>
 </head>
 <body>
-<h3>전체게시글조회</h3>
-<button onclick="location.href='/board/postlist'">게시글조회</button><br>
+    <h3>전체게시글조회</h3>
+    <button onclick="location.href='/board/postlist'">게시글조회</button><br>
+
+    <br>
+    <hr>
+
+    <h3>키워드게시글조회</h3>
+    <!--키워드 조회 창-->
+    <style>
+        /* 세부 버튼 컨테이너는 기본적으로 숨김 처리 */
+        #keywordContainer {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* 세부 버튼을 가로로 정렬하는 플렉스 박스 */
+        #keywordContainer {
+            display: flex;
+            justify-content: space-between; /* 버튼 사이 간격 균등 */
+            gap: 10px; /* 버튼 간격 */
+        }
+    </style>
+    <!-- 세부 선택 버튼 표시 버튼 -->
+    <button onclick="keywordButtons()">키워드별게시글조회</button>
+
+    <!-- 세부 선택 버튼이 추가될 영역 -->
+    <div id="keywordContainer"></div>
+
+    <script>
+        // 버튼 클릭 시 세부 선택 버튼 추가 함수
+        function keywordButtons() {
+            var container = document.getElementById("keywordContainer");
+
+            // 세부 버튼들이 이미 생성되어 있는지 확인
+            if (container.style.display === "none") {
+                container.style.display = "block"; // 세부 버튼 컨테이너 보이기
+
+                // 세부 버튼 6개 생성
+                var buttons = ['독서', '영화', '스터디', '스포츠', '여행', '기타'];
+                container.innerHTML = ''; // 기존 버튼 초기화
+
+                for (var i = 0; i < buttons.length; i++) {
+                    var btn = document.createElement("button");
+                    btn.className = "keyword-button";
+                    btn.innerText = buttons[i];
+                    container.appendChild(btn);
+                }
+            } else {
+                container.style.display = "none"; // 세부 버튼 숨기기
+            }
+        }
+    </script>
 </body>
 </html>

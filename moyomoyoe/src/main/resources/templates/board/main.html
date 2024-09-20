@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moyomoye</title>
+</head>
+<body>
+
+    <button onclick="location.href='/main'">전체</button>
+
+
+
+
+
+
+
+
+    <!--키워드 조회 창-->
+    <style>
+        /* 세부 버튼 컨테이너는 기본적으로 숨김 처리 */
+        #keywordContainer {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* 세부 버튼을 가로로 정렬하는 플렉스 박스 */
+        #keywordContainer {
+            display: flex;
+            justify-content: space-between; /* 버튼 사이 간격 균등 */
+            gap: 10px; /* 버튼 간격 */
+        }
+    </style>
+    <!-- 세부 선택 버튼 표시 버튼 -->
+    <button onclick="keywordButtons()">키워드</button>
+
+    <!-- 세부 선택 버튼이 추가될 영역 -->
+    <div id="keywordContainer"></div>
+
+    <script>
+        // 버튼 클릭 시 세부 선택 버튼 추가 함수
+        function keywordButtons() {
+            var container = document.getElementById("keywordContainer");
+
+            // 세부 버튼들이 이미 생성되어 있는지 확인
+            if (container.style.display === "none") {
+                container.style.display = "block"; // 세부 버튼 컨테이너 보이기
+
+                // 세부 버튼 6개 생성
+                var buttons = ['독서', '영화', '스터디', '스포츠', '여행', '기타'];
+                container.innerHTML = ''; // 기존 버튼 초기화
+
+                for (var i = 0; i < buttons.length; i++) {
+                    var btn = document.createElement("button");
+                    btn.className = "keyword-button";
+                    btn.innerText = buttons[i];
+                    container.appendChild(btn);
+                }
+            } else {
+                container.style.display = "none"; // 세부 버튼 숨기기
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 지역 검색 창-->
+    <style>
+        /* 기본적으로 검색창은 숨김 처리 */
+        #regionForm {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+    <!-- 지역 선택 버튼 -->
+    <button onclick="showRegionSelect()">지역</button>
+
+    <!-- 지역 선택창을 담는 컨테이너 -->
+    <div class="select-container">
+        <!-- 첫 번째 선택창: 도시 -->
+        <label for="citySelect"></label>
+        <select id="citySelect" onchange="updateDistrictSelect()">
+            <option value="">       시</option>
+            <%
+            regions.stream()
+            .map(RegionDTO::getCity)
+            .distinct()
+            .forEach(city -> {
+            %>
+            <option value="<%= city %>"><%= city %></option>
+            <% }); %>
+        </select>
+
+        <!-- 두 번째 선택창: 구역 -->
+        <label for="districtSelect"></label>
+        <select id="districtSelect">
+            <option value="">       구</option>
+        </select>
+    </div>
+
+<!--    <script>-->
+<!--        // 도시와 구역 데이터를 담을 JavaScript 객체-->
+<!--        var regionData = {}-->
+<!--        // 도시와 구역 데이터를 각각의 배열로 저장-->
+<!--        regionData = {-->
+<!--            <%-->
+<!--                List<RegionDTO> regions = (List<RegionDTO>) request.getAttribute("regions");-->
+<!--                boolean isFirst = true;  // 처음인지 확인하는 변수-->
+<!--                for (RegionDTO region : regions) {-->
+<!--                    if (!isFirst) { %>, <% } %>-->
+<!--                    "<%= region.getCity() %>": <%= region.getDistrict() == null ? "[]" : "[\"" + region.getDistrict().replace("\"", "\\\"") + "\"]" %>-->
+<!--                    <% isFirst = false;-->
+<!--                }-->
+<!--            %>-->
+<!--        };-->
+
+<!--        // 첫 번째 선택창에서 도시 선택 시, 두 번째 선택창에 해당 도시의 구역을 표시-->
+<!--        function updateDistrictSelect() {-->
+<!--            var citySelect = document.getElementById("citySelect");-->
+<!--            var districtSelect = document.getElementById("districtSelect");-->
+
+<!--            // 선택된 도시 가져오기-->
+<!--            var selectedCity = citySelect.value;-->
+
+<!--            // 구역 선택창 초기화-->
+<!--            districtSelect.innerHTML = "";-->
+
+<!--            if (regionData[selectedCity]) {-->
+<!--                regionData[selectedCity].forEach(function(district) {-->
+<!--                    var option = document.createElement('option');-->
+<!--                    option.value = district;-->
+<!--                    option.innerText = district;-->
+<!--                    districtSelect.appendChild(option);-->
+<!--                });-->
+<!--            }-->
+<!--        }-->
+
+<!--        // 버튼 클릭 시 선택창을 보여주는 함수-->
+<!--        function showRegionSelect() {-->
+<!--            var container = document.querySelector('.select-container');-->
+<!--            container.style.display = 'block';  // 선택창을 보이게 설정-->
+<!--        }-->
+<!--    </script>-->
+
+
+
+
+
+
+
+
+    <!-- 제목검색 창 -->
+    <style>
+        /* 기본적으로 검색창은 숨김 처리 */
+        #searchForm {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+    <button onclick="toggleSearchForm()">검색</button>
+    <!-- 숨겨진 검색창 -->
+    <div id="searchForm">
+        <form method="GET" action="search.jsp">
+            제목: <input type="text" name="title" placeholder="검색할 제목을 입력하세요">
+            <input type="submit" value="검색">
+        </form>
+    </div>
+    <script>
+        // 검색 버튼 클릭 시 검색창 표시 함수
+        function toggleSearchForm() {
+            var form = document.getElementById("searchForm");
+            if (form.style.display === "none") {
+                form.style.display = "block";  // 검색창 보이기
+            } else {
+                form.style.display = "none";   // 검색창 숨기기
+            }
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>
