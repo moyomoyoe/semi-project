@@ -15,7 +15,14 @@
         <result property="imageId" column="image_id"/>
         <result property="keywordId" column="keyword_id"/>
     </resultMap>
+    
+    <resultMap id="regionResultMap" type="moyomoyoe.board.model.dto.RegionDTO">
+        <id property="regionCode" column="region_code"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+    </resultMap>
 
+    <!-- 전체메뉴 쿼리 -->
     <select id="findAllPost" resultMap="postResultMap">
         SELECT
             post_id,
@@ -31,6 +38,7 @@
             tbl_post_list
     </select>
 
+    <!-- 키워드 쿼리 -->
     <select id="findKeywordPost" parameterType="int" resultMap="postResultMap">
         SELECT
             post_id,
@@ -46,6 +54,15 @@
             tbl_post_list
         WHERE
             keyword_id = #{keywordId}
+    </select>
+
+    <!-- 지역 쿼리-->
+    <select id="findRegionPost" resultMap="regionResultMap">
+        SELECT
+            city,
+            district
+        FROM
+            tbl_region
     </select>
 
 </mapper>

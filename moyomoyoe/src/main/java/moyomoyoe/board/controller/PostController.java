@@ -1,6 +1,7 @@
 package moyomoyoe.board.controller;
 
 import moyomoyoe.board.model.dto.PostDTO;
+import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +54,16 @@ public class PostController {
         model.addAttribute("keywordList", keywordList);
 
         return "board/keywordlist";
+    }
+
+    @GetMapping("/regionlist")
+    public String RegionList(@RequestParam("regionId") int regionId, Model model){
+
+        List<RegionDTO> regionList = postService.findRegionPost();
+
+        model.addAttribute("regionList", regionList);
+
+        return "board/regionlist";
     }
 
 
