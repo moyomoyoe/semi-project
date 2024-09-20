@@ -21,4 +21,8 @@ public class PostService {
     public List<PostDTO> findAllPost() {
         return postMapper.findAllPost();
     }
+
+    public List<PostDTO> findKeywordPost(int keywordId) {
+        return postMapper.findKeywordPost(keywordId);
+    }
 }

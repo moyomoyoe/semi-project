@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -41,6 +42,17 @@ public class PostController {
         model.addAttribute("postList", postList);
 
         return "board/postlist";
+    }
+
+    @GetMapping("/keywordlist")
+    public String KeywordList(@RequestParam("keywordId") int keywordId, Model model){
+
+        List<PostDTO> keywordList = postService.findKeywordPost(keywordId);
+
+        model.addAttribute("keywordId", keywordId);
+        model.addAttribute("keywordList", keywordList);
+
+        return "board/keywordlist";
     }
 
 

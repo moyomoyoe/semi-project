@@ -39,23 +39,41 @@
             var container = document.getElementById("keywordContainer");
 
             // 세부 버튼들이 이미 생성되어 있는지 확인
-            if (container.style.display === "none") {
+            if (container.style.display === "none" || container.style.display === "") {
                 container.style.display = "block"; // 세부 버튼 컨테이너 보이기
 
                 // 세부 버튼 6개 생성
-                var buttons = ['독서', '영화', '스터디', '스포츠', '여행', '기타'];
+                var buttons = [
+                    {name: '영화', keywordId: 1},
+                    {name: '독서', keywordId: 2},
+                    {name: '스터디', keywordId: 3},
+                    {name: '스포츠', keywordId: 4},
+                    {name: '여행', keywordId: 5},
+                    {name: '기타', keywordId: 6}
+                ];
                 container.innerHTML = ''; // 기존 버튼 초기화
 
+                // 각 버튼을 생성하고 클릭 시 keywordId 전송
                 for (var i = 0; i < buttons.length; i++) {
                     var btn = document.createElement("button");
                     btn.className = "keyword-button";
-                    btn.innerText = buttons[i];
-                    container.appendChild(btn);
+                    btn.innerText = buttons[i].name;
+                    btn.setAttribute("data-keyword-id", buttons[i].keywordId); // keywordId를 data 속성으로 저장
+
+                    // 버튼 클릭 시 서버로 keywordId 전송
+                    btn.onclick = function () {
+                        var keywordId = this.getAttribute("data-keyword-id"); // keywordId 추출
+                        window.location.href = "board/keywordlist?keywordId=" + keywordId; // keywordId를 포함한 URL로 이동
+                    };
+
+                    container.appendChild(btn); // 버튼을 컨테이너에 추가
                 }
-            } else {
-                container.style.display = "none"; // 세부 버튼 숨기기
+            }else
+                {
+                    container.style.display = "none"; // 세부 버튼 숨기기
+                }
             }
-        }
+
     </script>
 </body>
 </html>

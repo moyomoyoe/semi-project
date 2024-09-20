@@ -31,4 +31,21 @@
             tbl_post_list
     </select>
 
+    <select id="findKeywordPost" parameterType="int" resultMap="postResultMap">
+        SELECT
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            region_code,
+            image_id,
+            keyword_id
+        FROM
+            tbl_post_list
+        WHERE
+            keyword_id = #{keywordId}
+    </select>
+
 </mapper>
