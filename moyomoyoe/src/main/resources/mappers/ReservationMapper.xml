@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="moyomoyoe.reservation.mapper.ReservationMapper">
+    <resultMap id="scheduleMap" type="moyomoyoe.reservation.DTO.ScheduleDTO">
+        <id property="scheduleId" column="schedule_id"/>
+        <id property="storeId" column="store_id"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="capacity" column="capacity"/>
+    </resultMap>
+    <resultMap id="storeMap" type="moyomoyoe.reservation.DTO.StoreDTO">
+        <id property="storeId" column="store_id"/>
+        <result property="storeName" column="store_name"/>
+        <result property="storeAddress" column="store_address"/>
+        <result property="storeSort" column="store_sort"/>
+        <result property="businessNo" column="busy_no"/>
+        <result property="description" column="description"/>
+        <result property="userId" column="id"/>
+        <result property="imageId" column="image_id_store"/>
+</resultMap>
+    <select id="getStoreAllInfo" resultMap="storeMap">
+        SELECT
+            store_name,
+            description,
+            store_address,
+            store_sort,
+            description,
+            id,
+            image_id_store
+        FROM tbl_store
+        WHERE store_id = #{code}
+    </select>
+    <select id="getSchedule" resultMap="scheduleMap">
+        SELECT
+        schedule_id, store_id, start_time, end_time, capacity
+        FROM tbl_schedule
+        WHERE store_id = #{code}
+    </select>
+    <insert id="registSchedule" parameterType="moyomoyoe.reservation.DTO.ScheduleDTO">
+
+    </insert>
+    <insert id="registStore" parameterType="moyomoyoe.reservation.DTO.StoreDTO">
+
+    </insert>
+</mapper>
