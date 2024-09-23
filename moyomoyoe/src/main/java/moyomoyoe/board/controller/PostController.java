@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -48,7 +48,7 @@ public class PostController {
     @GetMapping("/keywordlist")
     public String KeywordList(@RequestParam("keywordId") int keywordId, Model model){
 
-        List<PostDTO> keywordList = postService.findKeywordPost(keywordId);
+        List<PostDTO> keywordList = postService.findKeywordList(keywordId);
 
         model.addAttribute("keywordId", keywordId);
         model.addAttribute("keywordList", keywordList);
@@ -56,15 +56,42 @@ public class PostController {
         return "board/keywordlist";
     }
 
+    // 시와 구 목록을 JSON으로 반환하는 메서드 (API)
+    @GetMapping("/regionlistdata")
+    @ResponseBody  // 이 부분은 API에서 JSON을 반환하기 때문에 반드시 필요합니다.
+    public List<RegionDTO> getRegionData(@RequestParam(required = false) String city) {
+        if (city == null || city.isEmpty()) {
+            return postService.findRegionCityList();
+        } else {
+            return postService.findRegionDistrictList(city);
+        }
+    }
+
+    // 페이지를 렌더링하는 메서드
     @GetMapping("/regionlist")
-    public String RegionList(@RequestParam("regionId") int regionId, Model model){
-
-        List<RegionDTO> regionList = postService.findRegionPost();
-
-        model.addAttribute("regionList", regionList);
-
+    public String districtList(@RequestParam(required = false) String city, Model model) {
+        if (city != null && !city.isEmpty()) {
+            List<RegionDTO> districtList = postService.findRegionDistrictList(city);
+            model.addAttribute("districtList", districtList);
+            model.addAttribute("city", city);  // 선택된 시도 모델에 추가
+        }
+        // 템플릿 페이지로 이동 (regionlist.html로 이동)
         return "board/regionlist";
     }
+
+
+
+        @GetMapping("/titlelist")
+    public String titleList(@RequestParam("title") String title, Model model){
+        List<PostDTO> titleList = postService.findTitleList(title);
+
+        System.out.println("조회된 titleList 데임이터" + titleList);
+
+        model.addAttribute("titleList", titleList);
+
+        return "board/titlelist";
+    }
+
 
 
 

@@ -39,7 +39,7 @@
     </select>
 
     <!-- 키워드 쿼리 -->
-    <select id="findKeywordPost" parameterType="int" resultMap="postResultMap">
+    <select id="findKeywordList" parameterType="int" resultMap="postResultMap">
         SELECT
             post_id,
             title,
@@ -56,13 +56,57 @@
             keyword_id = #{keywordId}
     </select>
 
-    <!-- 지역 쿼리-->
-    <select id="findRegionPost" resultMap="regionResultMap">
+    <!-- 지역 시 쿼리-->
+    <select id="findRegionCityList" resultMap="regionResultMap">
         SELECT
-            city,
-            district
+            distinct city
         FROM
             tbl_region
+    </select>
+
+    <select id="findRegionDistrictList" resultMap="regionResultMap">
+        SELECT
+            district,
+            region_code
+        FROM
+            tbl_region
+        WHERE
+            city = #{city}
+        ORDER BY
+            district
+    </select>
+
+    <!-- 지역선택에 따른 게시글 목록 -->
+    <select id="findPostsByCityAndDistrict" resultType="postResultMap">
+        SELECT
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            image_id,
+        FROM
+            tbl_post
+        WHERE
+            city = #{city} AND district = #{district}
+    </select>
+
+    <!--제목검색 쿼리-->
+    <select id="findTitleList" resultMap="postResultMap">
+    SELECT
+        post_id,
+        title,
+        context,
+        nickname,
+        post_date,
+        user_open,
+        region_code,
+        image_id,
+        keyword_id
+    FROM
+        tbl_post_list
+    WHERE
+        title LIKE CONCAT('%', #{title}, '%')
     </select>
 
 </mapper>

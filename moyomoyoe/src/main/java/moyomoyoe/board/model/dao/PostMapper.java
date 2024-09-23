@@ -12,7 +12,11 @@ public interface PostMapper {
 
     List<PostDTO> findAllPost();
 
-    List<PostDTO> findKeywordPost(@Param("keywordId") int keywordId);
+    List<PostDTO> findKeywordList(@Param("keywordId") int keywordId);
 
-    List<RegionDTO> findRegionPost();
+    List<RegionDTO> findRegionCityList();
+
+    List<RegionDTO> findRegionDistrictList(@Param("city") String city);
+
+    List<PostDTO> findTitleList(@Param("title") String title);
 }

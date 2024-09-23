@@ -80,39 +80,161 @@
 
     <h3>지역 별 게시글 조회</h3>
     <!-- 지역 버튼 -->
-    <button class="button" onclick="toggleDropdown()">지역 선택</button>
 
-        <!-- 시, 구 선택창 (처음에는 숨김) -->
-        <div id="regionContainer" class="region-container">
-            <div class="button-group">
-                <!-- 시 선택 -->
-                <div class="city">
-                    <label for="citySelect">       시</label>
-                    <select id="citySelect" onchange="updateDistricts()">
-                        <option value="">시를 선택하세요</option>
-                        <div th:each="region : ${regionCode}">
-                            <option th:value="${region.city}" th:text="${region.city}"></option>
-                        </div>
-                    </select>
-                </div>
 
-                <!-- 구 선택 -->
-                <div class="district">
-                    <label for="districtSelect">       구</label>
-                    <select id="districtSelect">
-                        <option value="">구를 선택하세요</option>
-                        <div th:each="region : ${regionCode}">
-                            <option th:value="${region.district}" th:text="${region.district}"></option>
-                        </div>
-                    </select>
-                </div>
+    <!-- 지역 선택 버튼 -->
+    <button class="region" onclick="showCityDistrictDropdowns()">지역</button>
 
-                <!-- 확인 버튼 -->
-                <div class="dropdown">
-                    <button class="button" onclick="submitSelection()">확인</button>
-                </div>
-            </div>
+    <div class="region-group">
+        <!-- 시 선택 드롭다운 -->
+        <div id="regionCityContainer" style="display: none;">
+            <label for="regionCity">시</label>
+            <select id="regionCity" required onchange="loadDistricts()">
+                <option value="">시를 선택하세요</option>
+            </select>
         </div>
+
+        <!-- 구 선택 드롭다운 -->
+        <div id="regionDistrictContainer" style="display: none;">
+            <label for="regionDistrict">구</label>
+            <select id="regionDistrict" required>
+                <option value="">구를 선택하세요</option>
+            </select>
+        </div>
+
+        <!-- 확인 버튼 -->
+        <button id="regionAccept" class="regionAccept" style="display: none;" onclick="submitSelection()">확인</button>
+    </div>
+
+    <script>
+        // 시/도 드롭다운과 확인 버튼을 보여주는 함수
+        function showCityDistrictDropdowns() {
+            const regionCityContainer = document.getElementById('regionCityContainer');
+            const regionCitySelect = document.getElementById('regionCity');
+            const regionAcceptButton = document.getElementById('regionAccept');
+
+            // 시/도 드롭다운과 확인 버튼 보이기
+            regionCityContainer.style.display = "block";
+            regionAcceptButton.style.display = "block";
+
+            // 시/도 목록을 처음 한 번만 로드
+            if (regionCitySelect.options.length === 1) {
+                fetch("/board/regionlistdata")  // 데이터를 JSON으로 가져옴
+                    .then(res => res.json())
+                    .then(data => {
+                        data.forEach(city => {
+                            const option = document.createElement('option');
+                            option.textContent = city.city;  // 시/도 이름
+                            option.value = city.city;        // 시/도 값
+                            regionCitySelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error loading city data:", error);
+                        alert("목록을 불러오는 중 오류가 발생했습니다.");
+                    });
+            }
+        }
+
+        // 구 목록을 불러오는 함수
+        function loadDistricts() {
+            const selectedCity = document.getElementById('regionCity').value;  // 선택된 시
+            const regionDistrictContainer = document.getElementById('regionDistrictContainer');  // 구 드롭다운 컨테이너
+            const regionDistrictSelect = document.getElementById('regionDistrict');  // 구 드롭다운
+
+            if (selectedCity) {
+                fetch(`/board/regionlistdata?city=${encodeURIComponent(selectedCity)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        // 구 목록 초기화
+                        regionDistrictSelect.innerHTML = '<option value="">구를 선택하세요</option>';
+
+                        // 구 목록 추가
+                        data.forEach(district => {
+                            const option = document.createElement('option');
+                            option.textContent = district.district;  // 구 이름
+                            option.value = district.district;        // 구 값
+                            regionDistrictSelect.appendChild(option);
+                        });
+
+                        // 구 선택 드롭다운 보이기
+                        regionDistrictContainer.style.display = "block";
+                    })
+                    .catch(error => {
+                        console.error("Error loading district data:", error);
+                        alert("구 목록을 불러오는 중 오류가 발생했습니다.");
+                    });
+            } else {
+                // 시 선택이 취소되면 구 선택 드롭다운 숨기기
+                regionDistrictContainer.style.display = "none";
+            }
+        }
+
+        // 확인 버튼 클릭 시 선택된 값을 처리하는 함수
+        function submitSelection() {
+            const selectedCity = document.getElementById('regionCity').value;
+            const selectedDistrict = document.getElementById('regionDistrict').value;
+
+            if (selectedCity && selectedDistrict) {
+                // 선택된 시/구가 있으면 페이지로 이동 (쿼리 파라미터로 전달)
+                window.location.href = `/board/regionlist?city=${encodeURIComponent(selectedCity)}&district=${encodeURIComponent(selectedDistrict)}`;
+            } else if (!selectedCity) {
+                alert("시를 선택해주세요.");
+            } else {
+                alert("구를 선택해주세요.");
+            }
+        }
+
+    </script>
+
+
+
+    <br>
+    <hr>
+    <!--제목검색창-->
+    <style>
+        /* 기본적인 스타일 */
+        #searchBox {
+            display: none; /* 처음에 검색창은 숨겨둠 */
+            margin-top: 10px;
+        }
+    </style>
+    <button id="titleSearch">제목</button>
+
+    <div id="searchBox">
+        <input type="text" id="searchInput" placeholder="제목을 입력하세요">
+        <button type="button" id="searchButton" onclick="search()">검색</button>
+    </div>
+
+    <div id="result"></div> <!-- 검색 결과를 표시할 영역 -->
+
+    <script>
+        // 제목 버튼을 클릭하면 검색창을 토글하는 함수
+        document.getElementById('titleSearch').addEventListener('click', function() {
+            var searchBox = document.getElementById('searchBox');
+            if (searchBox.style.display === 'none' || searchBox.style.display === '') {
+                searchBox.style.display = 'block'; // 검색창을 보이게 함
+            } else {
+                searchBox.style.display = 'none'; // 검색창을 숨김
+            }
+        });
+
+        //검색버튼 눌렀을때 실행되는 함수
+        document.getElementById('searchButton').onclick = function () {
+            var searchInput = document.getElementById('searchInput');
+            var title = searchInput.value; // 검색어 추출
+
+            if (title) {
+                // 페이지 이동 (검색어를 쿼리 파라미터로 전달)
+                window.location.href = 'board/titlelist?title=' + encodeURIComponent(title);
+            } else {
+                alert('검색어를 입력하세요.');
+            }
+        };
+
+
+    </script>
+
 
 
 

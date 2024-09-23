@@ -2,30 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>regionlist</title>
+    <title>postList</title>
+
+    <!-- 성공 메시지 처리 -->
     <script>
-        const successMessage = `[[${ successMessage}]]`;
-        if(successMessage) alert(successMessage);
+        const successMessage = `[[${successMessage}]]`;
+        if (successMessage) alert(successMessage);
     </script>
 
+    <!-- TOAST UI Grid 스타일 및 스크립트 -->
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 </head>
 <body>
-<h3>게시판 지역조회 페이지</h3>
 
+<h3>게시판 제목검색 페이지</h3>
+
+<!-- 공통 헤더 파일 포함 -->
 <div th:replace="common/header.html"></div>
+
 <div id="grid"></div>
 
 <script th:inline="javascript">
-    let regionList = /*[[${regionList}]]*/ [];
+    // 서버에서 전달된 postList 데이터를 JavaScript로 주입
+    let titleList = /*[[${titleList}]]*/ [];
 
-    console.log(regionList);
-
+    console.log("titleList 데이터: ", titleList);
 
     const grid = new tui.Grid({
         el: document.getElementById('grid'),
-        data: regionList,
+        data: titleList,
         scrollX: false,
         scrollY: true,
         columns: [
@@ -48,11 +54,11 @@
             {
                 header: '작성일자',
                 name: 'postDate',
-                sortable: 'true',
-                sortingType: 'desc',
+                sortable: true,
+                sortingType: 'desc'
             },
             {
-                header: '비회원열람여부',
+                header: '비회원 열람 여부',
                 name: 'userOpen'
             },
             {
@@ -64,9 +70,13 @@
                 name: 'keywordId'
             }
         ]
-    })
+    });
+
+    // 기본적으로 작성일자 기준 내림차순 정렬
     grid.sort('postDate', false);
 </script>
+
+<!-- 메인 페이지로 이동하는 버튼 -->
 <button onclick="location.href='/'">메인으로</button>
 
 </body>
