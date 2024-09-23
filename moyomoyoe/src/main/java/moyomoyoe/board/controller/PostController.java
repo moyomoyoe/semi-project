@@ -56,28 +56,61 @@ public class PostController {
         return "board/keywordlist";
     }
 
-    // 시와 구 목록을 JSON으로 반환하는 메서드 (API)
-    @GetMapping("/regionlistdata")
-    @ResponseBody  // 이 부분은 API에서 JSON을 반환하기 때문에 반드시 필요합니다.
-    public List<RegionDTO> getRegionData(@RequestParam(required = false) String city) {
-        if (city == null || city.isEmpty()) {
-            return postService.findRegionCityList();
-        } else {
-            return postService.findRegionDistrictList(city);
-        }
+//    // 시와 구 목록을 JSON으로 반환하는 메서드 (API)
+//    @GetMapping("/regionlistdata")
+//    @ResponseBody  // 이 부분은 API에서 JSON을 반환하기 때문에 반드시 필요합니다.
+//    public List<RegionDTO> getRegionData(@RequestParam(required = false) String city) {
+//        if (city == null || city.isEmpty()) {
+//            return postService.findRegionCityList();
+//        } else {
+//            return postService.findRegionDistrictList(city);
+//        }
+//    }
+//
+//    // 페이지를 렌더링하는 메서드
+//    @GetMapping("/regionlist")
+//    public String districtList(@RequestParam(required = false) String city, Model model) {
+//        if (city != null && !city.isEmpty()) {
+//            List<RegionDTO> districtList = postService.findRegionDistrictList(city);
+//            model.addAttribute("districtList", districtList);
+//            model.addAttribute("city", city);  // 선택된 시도 모델에 추가
+//        }
+//        // 템플릿 페이지로 이동 (regionlist.html로 이동)
+//        return "board/regionlist";
+//    }
+
+
+    // 시 목록을 JSON으로 반환하는 API
+    @GetMapping("/api/regionlist/cities")
+    @ResponseBody
+    public List<RegionDTO> getCityList() {
+        return postService.findRegionCityList();
     }
 
-    // 페이지를 렌더링하는 메서드
-    @GetMapping("/regionlist")
-    public String districtList(@RequestParam(required = false) String city, Model model) {
-        if (city != null && !city.isEmpty()) {
-            List<RegionDTO> districtList = postService.findRegionDistrictList(city);
-            model.addAttribute("districtList", districtList);
-            model.addAttribute("city", city);  // 선택된 시도 모델에 추가
+    // 선택한 시에 해당하는 구 목록을 JSON으로 반환하는 API
+    @GetMapping("/api/regionlist/districts")
+    @ResponseBody
+    public List<RegionDTO> getDistrictList(@RequestParam String city) {
+        if (city == null || city.isEmpty()) {
+            throw new IllegalArgumentException("City parameter is required");
         }
-        // 템플릿 페이지로 이동 (regionlist.html로 이동)
+        return postService.findRegionDistrictList(city);
+    }
+
+    @GetMapping("/regionlist")
+    public String getPostsByRegion(@RequestParam String city, @RequestParam int regionCode, Model model) {
+        // 시와 구에 따른 게시글 목록을 조회
+        List<PostDTO> regionList = postService.findPostsByRegion(city, regionCode);
+
+        // 조회된 게시글 목록을 모델에 추가
+        model.addAttribute("regionList", regionList);
+        model.addAttribute("city", city);
+        model.addAttribute("regionCode", regionCode);
+
+        // regionlist.html로 데이터 전달 및 렌더링
         return "board/regionlist";
     }
+
 
 
 

@@ -37,9 +37,15 @@ public class PostService {
         return districtList;
     }
 
+    public List<PostDTO> findPostsByRegion(String city, int regionCode) {
+        return postMapper.findPostsByRegion(city, regionCode);
+    }
+
     public List<PostDTO> findTitleList(String title) {
         List<PostDTO> titleList = postMapper.findTitleList(title);
-        System.out.println("검색된 titleList 데이터: " + titleList);
+
         return titleList;
     }
+
+
 }

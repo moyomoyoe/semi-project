@@ -19,4 +19,6 @@ public interface PostMapper {
     List<RegionDTO> findRegionDistrictList(@Param("city") String city);
 
     List<PostDTO> findTitleList(@Param("title") String title);
+
+    List<PostDTO> findPostsByRegion(@Param("city") String city, @Param("regionCode") int regionCode);
 }

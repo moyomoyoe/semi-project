@@ -97,7 +97,7 @@
         <!-- 구 선택 드롭다운 -->
         <div id="regionDistrictContainer" style="display: none;">
             <label for="regionDistrict">구</label>
-            <select id="regionDistrict" required>
+            <select id="regionDistrict" required onchange="enableSubmitButton()">
                 <option value="">구를 선택하세요</option>
             </select>
         </div>
@@ -119,10 +119,12 @@
 
             // 시/도 목록을 처음 한 번만 로드
             if (regionCitySelect.options.length === 1) {
-                fetch("/board/regionlistdata")  // 데이터를 JSON으로 가져옴
+                fetch('/board/api/regionlist/cities')
                     .then(res => res.json())
                     .then(data => {
+                        console.log(data)
                         data.forEach(city => {
+                            console.log(city)
                             const option = document.createElement('option');
                             option.textContent = city.city;  // 시/도 이름
                             option.value = city.city;        // 시/도 값
@@ -143,9 +145,14 @@
             const regionDistrictSelect = document.getElementById('regionDistrict');  // 구 드롭다운
 
             if (selectedCity) {
-                fetch(`/board/regionlistdata?city=${encodeURIComponent(selectedCity)}`)
+                console.log(`선택된 시 = ${selectedCity}`);
+
+                // 시에 맞는 구 목록을 서버에서 가져오기
+                fetch(`/board/api/regionlist/districts?city=${encodeURIComponent(selectedCity)}`)
                     .then(res => res.json())
                     .then(data => {
+                        console.log('받은 구 데이터:', data);
+
                         // 구 목록 초기화
                         regionDistrictSelect.innerHTML = '<option value="">구를 선택하세요</option>';
 
@@ -153,7 +160,7 @@
                         data.forEach(district => {
                             const option = document.createElement('option');
                             option.textContent = district.district;  // 구 이름
-                            option.value = district.district;        // 구 값
+                            option.value = district.regionCode;        // 구 값
                             regionDistrictSelect.appendChild(option);
                         });
 
@@ -171,20 +178,26 @@
         }
 
         // 확인 버튼 클릭 시 선택된 값을 처리하는 함수
-        function submitSelection() {
-            const selectedCity = document.getElementById('regionCity').value;
-            const selectedDistrict = document.getElementById('regionDistrict').value;
-
-            if (selectedCity && selectedDistrict) {
-                // 선택된 시/구가 있으면 페이지로 이동 (쿼리 파라미터로 전달)
-                window.location.href = `/board/regionlist?city=${encodeURIComponent(selectedCity)}&district=${encodeURIComponent(selectedDistrict)}`;
-            } else if (!selectedCity) {
-                alert("시를 선택해주세요.");
-            } else {
-                alert("구를 선택해주세요.");
-            }
+        function enableSubmitButton() {
+            // 구 선택 여부와 상관없이 확인 버튼을 항상 보이도록 설정 (이 부분을 단순화)
+            const regionAcceptButton = document.getElementById('regionAccept');
+            regionAcceptButton.style.display = "block";
         }
 
+            // 확인 버튼 클릭 시 선택된 값을 처리하는 함수
+            function submitSelection() {
+                const selectedCity = document.getElementById('regionCity').value;
+                const selectedRegionCode = document.getElementById('regionDistrict').value;  // 선택된 구의 region_code
+
+                if (selectedCity && selectedRegionCode) {
+                    // 선택된 시/구가 있으면 regionlist.html로 이동
+                    window.location.href = `/board/regionlist?city=${encodeURIComponent(selectedCity)}&regionCode=${encodeURIComponent(selectedRegionCode)}`;
+                } else if (!selectedCity) {
+                    alert("시를 선택해주세요.");
+                } else {
+                    alert("구를 선택해주세요.");
+                }
+            }
     </script>
 
 

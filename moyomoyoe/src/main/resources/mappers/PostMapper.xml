@@ -77,18 +77,20 @@
     </select>
 
     <!-- 지역선택에 따른 게시글 목록 -->
-    <select id="findPostsByCityAndDistrict" resultType="postResultMap">
+    <select id="findPostsByRegion" resultMap="postResultMap">
         SELECT
             post_id,
             title,
             context,
             nickname,
             post_date,
+            user_open,
             image_id,
+            keyword_id
         FROM
-            tbl_post
+            tbl_post_list
         WHERE
-            city = #{city} AND district = #{district}
+            region_code = #{regionCode}
     </select>
 
     <!--제목검색 쿼리-->
