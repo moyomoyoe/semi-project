@@ -37,8 +37,8 @@ public class ReservationService {
     }
 
     // 예약 리스트 조회 서비스
-    @Transactional(readOnly = true)
-    public List<ReservationDTO> getAllReservations() {
+    // ScheduleDTO 리스트를 반환하도록 수정
+    public List<ScheduleDTO> getAllReservations() {
         return reservationMapper.getAllReservations();
     }
 }

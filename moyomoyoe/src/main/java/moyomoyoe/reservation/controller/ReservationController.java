@@ -71,7 +71,7 @@ public class ReservationController {
             @RequestParam("storeName") String storeName,
             RedirectAttributes redirectAttributes) {
 
-        // 하드코딩된 사용자 ID (테스트용)
+        // 임시로 부여한 사용자 ID (테스트용)
         int userId = 1;
 
         // ScheduleDTO 생성 및 설정
@@ -118,17 +118,33 @@ public class ReservationController {
     }
 
     // 예약 일정 리스트 조회 페이지로 이동
+//    @GetMapping("/reservationList")
+//    public String getReservationListPage(Model model) {
+//        return "reservationList";  // reservationList.html 반환
+//    }
+
     @GetMapping("/reservationList")
     public String getReservationListPage(Model model) {
-        return "reservationList";  // reservationList.html 반환
+        // 서비스에서 예약 데이터를 조회
+        List<ScheduleDTO> reservationList = reservationService.getAllReservations();
+
+        // 예약 리스트가 제대로 조회되었는지 콘솔에 출력 (디버깅용)
+        System.out.println("예약 리스트: " + reservationList); // 여기서 예약 리스트 확인
+
+        // 모델에 추가하여 뷰에 전달
+        model.addAttribute("reservationList", reservationList);
+        return "reservation/reservationList";  // reservationList.html로 연결
     }
 
     // 예약 일정 리스트 데이터를 반환
-    @GetMapping("/getAllReservations")
-    @ResponseBody
-    public List<ReservationDTO> getAllReservations() {
-        return reservationService.getAllReservations();
-    }
+//    @GetMapping("/reservationList")
+//    public String getReservationList(Model model) {
+//        // 예약 데이터를 model에 추가하는 로직 (예시)
+//        model.addAttribute("reservations", reservationService.getAllReservations());
+//
+//        // "reservationList" 템플릿을 반환
+//        return "reservation/reservationList";
+//    }
 
     // 홈으로 돌아가기 기능 추가
     @Controller
