@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS tbl_image CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_image
 (
     image_id INT AUTO_INCREMENT COMMENT '이미지번호',
-    image_name VARCHAR(20) COMMENT '이미지이름',
+    image_name VARCHAR(20) NULL COMMENT '이미지이름',
 
     CONSTRAINT pk_image_id PRIMARY KEY (image_id)
 ) ENGINE=INNODB COMMENT '이미지';
@@ -43,12 +43,12 @@ CREATE TABLE IF NOT EXISTS tbl_user
     id INT AUTO_INCREMENT COMMENT '사용자번호',
     username VARCHAR(10) NOT NULL COMMENT '이름',
     account VARCHAR(10) NOT NULL COMMENT '아이디',
-    password VARCHAR(20) NOT NULL COMMENT '비밀번호',
+    password VARCHAR(100) NOT NULL COMMENT '비밀번호',
     nickname VARCHAR(10) NOT NULL COMMENT '닉네임',
     email VARCHAR(25) NOT NULL COMMENT '이메일',
     phone VARCHAR(20) NOT NULL COMMENT '핸드폰',
     user_role VARCHAR(10) NOT NULL COMMENT '사용자권한',
-    image_id INT COMMENT '이미지번호',
+    image_id INT NULL COMMENT '이미지번호',
 
     CONSTRAINT pk_id PRIMARY KEY (id),
     CONSTRAINT img_id FOREIGN KEY (image_id) REFERENCES tbl_image (image_id)
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS tbl_post_list
     post_date VARCHAR(20) NOT NULL COMMENT '작성일자',
     user_open BOOLEAN NOT NULL DEFAULT TRUE COMMENT '비회원열람',
     region_code INT NOT NULL COMMENT '지역아이디',
-    image_id INT COMMENT '이미지번호',
+    image_id INT NULL COMMENT '이미지번호',
     keyword_id INT NOT NULL COMMENT '취미',
     user_id INT NOT NULL COMMENT '사용자번호',
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS tbl_store
     description VARCHAR(500) COMMENT '사업장설명',
     busy_no VARCHAR(10) COMMENT '사업자등록번호',
     id INT NOT NULL COMMENT '사용자번호',
-    image_id_store INT COMMENT '이미지번호',
+    image_id_store INT NULL COMMENT '이미지번호',
 
     CONSTRAINT pk_store_id PRIMARY KEY (store_id),
     CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES tbl_user (id),
@@ -168,8 +168,7 @@ INSERT INTO tbl_region (city, district) VALUES ('서울', '강남구'),
 INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id) VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', 'USER', 1),
 																							           ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', 'BUSINESS', NULL),
 																						  	           ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', 'USER', NULL),
-																							           ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL),
-																							           ('admin', 'admin', 'admin', 'admin', 'admin@example.com', '010-5678-9012', 'ADMIN', NULL);
+																							           ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL);
 
  INSERT INTO tbl_post_list (title, context, nickname, post_date, user_open, region_code, image_id, keyword_id, user_id) VALUES ('첫 번째 게시물', '이것은 첫 번째 게시물의 내용입니다. 서울의 멋진 장소에 대해 이야기합니다.', 'nick1', '2024-09-01', TRUE, 1, NULL, 5, 1),
 																														       ('두 번째 게시물', '두 번째 게시물의 내용입니다. 여행에 대한 경험을 나눕니다.', 'nick3', '2024-09-02', TRUE, 2, NULL, 5, 3),

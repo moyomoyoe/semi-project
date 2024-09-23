@@ -1,7 +1,6 @@
 server:
   port: 8080
 
-## driver config
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,6 +8,5 @@ spring:
     username: moyomoyoe
     password: moyomoyoe
 
-## mybatis config
 mybatis:
-  mapper-locations: mappers/**/*.xml
+  mapper-locations: mapper/**/*.xml
