@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="moyomoyoe.member.user.model.dao.UserMapper">
+
+    <resultMap id="authenticatedUser" type="moyomoyoe.member.auth.model.dto.UserDTO">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="userRole" column="user_role"/>
+        <result property="imageId" column="image_id"/>
+    </resultMap>
+
+    <resultMap id="regionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
+        <id property="regionCode" column="region_code"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+    </resultMap>
+
+    <select id="findByAccount" resultMap="authenticatedUser">
+        SELECT
+            id,
+            username,
+            account,
+            password,
+            nickname,
+            email,
+            phone,
+            user_role,
+            image_id
+        FROM
+            tbl_user
+        WHERE
+            account = #{ account }
+    </select>
+
+    <select id="findAllRegion" resultMap="regionResultMap">
+        SELECT
+            region_code,
+            city,
+            district
+        FROM
+            tbl_region
+    </select>
+
+    <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
+        INSERT INTO
+            tbl_user
+        (
+            username,
+            account,
+            password,
+            nickname,
+            email,
+            phone,
+            user_role
+        )
+        VALUES
+        (
+            #{ username },
+            #{ account },
+            #{ password },
+            #{ nickname },
+            #{ email },
+            #{ phone },
+            #{ userRole }
+        )
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FAIL</title>
+</head>
+<body>
+    <script th:inline="javascript">
+        alert([[${ message }]]);
+
+        window.location.replace("member/auth/login");
+    </script>
+</body>
+</html>

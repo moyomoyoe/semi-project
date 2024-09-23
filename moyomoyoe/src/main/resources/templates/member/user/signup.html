@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIGNUP</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+
+    <form th:action="@{/member/user/signup}" method="post" id="signupForm">
+        회원 구분 :
+        <input type="radio" id="user" name="userRole" value="USER"> 일반 회원
+        <input type="radio" id="business" name="userRole" value="BUSINESS"> 사업자 회원<br>
+        아이디 : <input type="text" id="account" name="account" required><button type="button" id="checkAcct">중복확인</button><br>
+        <span id="errorMsg1" style="color: forestgreen; display: none"><small>사용 가능한 아이디 입니다.</small></span>
+        비밀번호 : <input type="password" id="password" name="password" required><br>
+        비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
+        <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
+        이름 : <input type="text" id="username" name="username" required><br>
+        닉네임 : <input type="text" id="nickname" name="nickname" required><br>
+        연락처 : <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
+        -
+        <input type="text" id="signUpPhoneNum2" name="phone" size="4" required>
+        -
+        <input type="text" id="signUpPhoneNum3" name="phone" size="4" required><br>
+        지역 :
+        <select name="region" id="region" required>
+            <option value="" disabled selected>선택</option>
+        </select><br>
+        이메일 : <input type="text" id="signupEmailLocal" name="email" required>
+        @
+        <select id="signupEmailDomain" name="email" required>
+            <option value="naver.com">naver.com</option>
+            <option value="gmail.com">gmail.com</option>
+            <option value="daum.net">daum.net</option>
+        </select><br>
+        사업자 등록 번호 : <input type="text" name="busyNo"><br>
+        이용약관 : 집에 보내줄 것을 동의합니까
+        <br>
+        <input type="checkbox" id="agree" name="privacy" value="agree" required>
+        <label for="agree">동의합니다.</label>
+        <span id="errorMsg3" style="color: tomato; display: none"><small>약관에 동의해주세요.</small></span>
+        <br>
+        <br>
+        <button>회원가입</button>
+    </form>
+
+    <script th:inline="javascript">
+        const message = [[${ message }]];
+        if(message) {
+            alert(message)
+        }
+    </script>
+    <script>
+        fetch("/member/user/region")
+            .then(res => res.json())
+            .then(data => {
+                const $region = document.getElementById('region');
+
+                for(let index in data) {
+                    const $option = document.createElement('option');
+
+                    $option.value = data[index].regionCode;
+                    $option.textContent = data[index].district;
+
+                    $region.appendChild($option);
+                }
+            });
+
+        const password = document.getElementById('password');
+        const checkPwd = document.getElementById('checkPwd');
+        const errorMsg2 = document.getElementById('errorMsg2');
+
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+
+            console.log('폼제출');
+
+            // const user = document.getElementById('user');
+            // const business = document.getElementById('business');
+            // const errorMsg1 = document.getElementById('errorMsg1');
+            //
+            // if(!user.checked && !business.checked) {
+            //     event.preventDefault();
+            //     errorMsg1.style.display = 'block';
+            //     console.log('체크안함');
+            // } else {
+            //     console.log('체크함');
+            // }
+
+            if(checkPwd.value !== password.value) {
+                event.preventDefault();
+                alert('비밀번호가 일치하지 않습니다.');
+                console.log('비밀번호 불일치');
+                return;
+            } else {
+                // this.submit();
+                console.log('비밀번호 일치 제출 완');
+            }
+
+            const agree = document.getElementById('agree');
+            const errorMsg3 = document.getElementById('errorMsg3');
+
+
+            if(!agree.checked) {
+                // alert("약관에 동의해야 회원가입 진행이 가능합니다.");
+                event.preventDefault();
+                errorMsg3.style.display = 'block';
+                console.log('체크안함');
+            } else {
+                console.log('체크함');
+            }
+
+            alert('회원 가입이 완료 되었습니다.');
+        });
+
+        document.getElementById('checkAcct').addEventListener('click', function() {
+            const account = document.getElementById('account').value;
+
+            fetch(`/api/check-account?account=${account}`)
+                .then(res => res.json())
+                .then(data => {
+                    const errorMsg1 = document.getElementById('errorMsg1');
+
+                    if(data.exists) {
+                        errorMsg1.style.display = 'block';
+                    } else {
+                        alert('이미 사용중인 아이디 입니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('error : ', error);
+                    const errorMsg1 = document.getElementById('errorMsg1');
+                    errorMsg1.textContent = '오류 발생';
+                    errorMsg1.style.display = 'block';
+                });
+        });
+
+        document.getElementById('checkPwd').addEventListener('input', function(event) {
+
+            if(checkPwd.value !== password.value) {
+                event.preventDefault();
+                errorMsg2.style.display = 'block';
+                console.log('다름');
+            } else {
+                errorMsg2.style.display = 'none';
+                console.log('일치');
+            }
+
+        });
+
+        // 이메일 유효성 검사 및 @ 추가 확인?? (정규표현식 너무 어려움..)
+        // id로 signupEmailLocal 요소 끄집어 와서 에드리스너 멕여주기(받을 이벤트 종류를 문자열로, 이벤트 발생했을 때 호출 될 콜백함수)
+        document.getElementById('signupEmailLocal').addEventListener('input', function () {
+            const local = document.getElementById('signupEmailLocal').value;
+            const domain = document.getElementById('signupEmailDomain').value;
+            const email = `${local}@${domain}`;	// 합쳐서 이메일 완성 챠란~!
+
+            // 이메일 형식 검사?? (로컬 + @ + 도메인)
+            // {2,} 도메인 확장자가 최소 두 문자 이상이어야 함 : example.c 불가능한 example.com 가능한
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            if (emailRegex.test(email)) {
+                console.log(`Valid Email : ${email}`);
+            } else {
+                console.log(`Invalid Email Format`)
+            }
+        });
+
+        // 회원가입 시 아이디와 비밀번호 유효성 검사
+        // preventDefault 브라우저가 수행하는 동작을 방지
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            // e.preventDefault();
+
+            const id = document.getElementById('account').value;
+            const password = document.getElementById('password').value;
+
+            // 한글 포함 여부 검사
+            const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            if (KoreanRegex.test(id) || KoreanRegex.test(password)) {
+                alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
+                e.preventDefault();
+                return;
+            } else {
+                // this.submit();
+            }
+
+            // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
+            // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
+            // .* 조건이 문자열 어디에나 위치할 수 있음
+            const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
+            if (!pwdRegex.test(password)) {
+                alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 최소 8자리 이상으로 입력해주세요.');
+                e.preventDefault();
+                return;
+            } else {
+                // this.submit();
+            }
+
+            // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
+            const firstNum = document.getElementById('signUpPhoneNum1').value;
+            const midNum = document.getElementById('signUpPhoneNum2').value;
+            const lastNum = document.getElementById('signUpPhoneNum3').value;
+            const phoneNum = `${firstNum}-${midNum}-${lastNum}`;
+
+            const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+            if (!phoneNumRegex.test(phoneNum)) {
+                alert('올바른 휴대전화번호를 입력해주세요.');
+                e.preventDefault();
+                return;
+            } else {
+                // this.submit();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
