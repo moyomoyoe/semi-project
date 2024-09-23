@@ -35,7 +35,39 @@
             <option value="daum.net">daum.net</option>
         </select><br>
         사업자 등록 번호 : <input type="text" name="busyNo"><br>
-        이용약관 : 집에 보내줄 것을 동의합니까
+        <br>
+        이용약관 : <button type="button" id="toggle" style="border: none; text-decoration: none;">더보기</button>
+        <div id="content" style="display: none;">
+            <pre>
+<b>[개인정보 수집과 이용에 대한 동의]</b>
+사이트 이용과 관련하여 개인정보 수집과 이용에 관한 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
+수집하는 자: 모요모여(moyomoyoe)
+개인정보 수집 및 이용 목적: 사이트 이용
+수집하는 개인정보 항목: 이름, 연락처, 지역, 이메일
+개인정보 보유 및 이용 기간: 수집 일로부터 365일
+※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 사이트 이용에 제약이 있음을 알려드립니다.
+개인정보 수집과 이용에 동의하시나요?</pre>
+
+            <pre>
+<b>[개인정보 취급 위탁에 대한 동의]</b>
+본인 확인 서비스 제공을 위해 개인정보 취급 위탁 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
+수탁자: 모요모여(moyomoyoe)
+개인정보 수집 및 이용 목적: 회원가입 등에 필요한 본인확인 서비스 제공
+수집하는 개인정보 항목: 이름, 연락처, 지역, 이메일
+개인정보 보유 및 이용 기간: 수집 일로부터 3년
+※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 서비스를 이용할 수 없음을 알려드립니다.
+개인정보 취급 위탁에 대해 동의하시나요?</pre>
+
+            <pre>
+<b>[개인정보 제 3자 제공에 대한 동의]</b>
+여행 상품 할인 프로모션 안내를 위해 개인정보 제3자 제공 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
+제공 받는 자: 모요모여(moyomoyoe)
+개인정보 제공 및 이용 목적: 예약에 관한 서비스 제공
+제공하는 개인정보 항목: 이름, 연락처, 지역, 이메일
+개인정보 보유 및 이용 기간: 수집 일로부터 365일
+※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 예약 서비스를 제공 받을 수 없음을 알려드립니다.
+개인정보 제 3자 제공에 동의하시나요?</pre>
+        </div>
         <br>
         <input type="checkbox" id="agree" name="privacy" value="agree" required>
         <label for="agree">동의합니다.</label>
@@ -75,18 +107,6 @@
 
             console.log('폼제출');
 
-            // const user = document.getElementById('user');
-            // const business = document.getElementById('business');
-            // const errorMsg1 = document.getElementById('errorMsg1');
-            //
-            // if(!user.checked && !business.checked) {
-            //     event.preventDefault();
-            //     errorMsg1.style.display = 'block';
-            //     console.log('체크안함');
-            // } else {
-            //     console.log('체크함');
-            // }
-
             if(checkPwd.value !== password.value) {
                 event.preventDefault();
                 alert('비밀번호가 일치하지 않습니다.');
@@ -111,21 +131,24 @@
             }
 
             alert('회원 가입이 완료 되었습니다.');
+
         });
 
         document.getElementById('checkAcct').addEventListener('click', function() {
             const account = document.getElementById('account').value;
 
-            fetch(`/api/check-account?account=${account}`)
+            fetch(`/member/user/checkAccount?account=${account}`)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     const errorMsg1 = document.getElementById('errorMsg1');
 
                     if(data.exists) {
-                        errorMsg1.style.display = 'block';
-                    } else {
                         alert('이미 사용중인 아이디 입니다.');
+                    } else {
+                        errorMsg1.style.display = 'block';
                     }
+
                 })
                 .catch(error => {
                     console.error('error : ', error);
@@ -199,17 +222,29 @@
             const firstNum = document.getElementById('signUpPhoneNum1').value;
             const midNum = document.getElementById('signUpPhoneNum2').value;
             const lastNum = document.getElementById('signUpPhoneNum3').value;
-            const phoneNum = `${firstNum}-${midNum}-${lastNum}`;
+            const phone = `${firstNum}-${midNum}-${lastNum}`;
 
             const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-            if (!phoneNumRegex.test(phoneNum)) {
+            if (!phoneNumRegex.test(phone)) {
                 alert('올바른 휴대전화번호를 입력해주세요.');
                 e.preventDefault();
                 return;
             } else {
+                console.log('phone');
                 // this.submit();
             }
 
+        });
+
+        const button = document.getElementById('toggle');
+        const content = document.getElementById('content');
+
+        button.addEventListener('click', () => {
+            if(content.style.display === 'none') {
+                content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
+            }
         });
 
     </script>

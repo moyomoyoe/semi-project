@@ -44,7 +44,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChainConfigure(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/member/auth/login", "/member/user/signup", "/member/auth/fail", "member/user/region", "/").permitAll();
+            auth.requestMatchers("/member/auth/login", "/member/user/signup", "/member/auth/fail", "member/user/region", "member/user/checkAccount", "/").permitAll();
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/business/*").hasAnyAuthority(UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());

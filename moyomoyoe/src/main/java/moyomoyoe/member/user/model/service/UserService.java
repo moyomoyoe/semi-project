@@ -7,12 +7,10 @@ import moyomoyoe.member.user.model.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,31 +62,9 @@ public class UserService {
         }
 
     }
-//
-//    private Connection connection;
-//
-//    public UserService(Connection connection) {
-//        this.connection = connection;
-//    }
-//
-//    public String getNickname(String account, String password) {
-//        String sql = "SELECT nickname FROM tbl_user WHERE account = ? AND password = ?";
-//
-//        try ( PreparedStatement statement = connection.prepareStatement(sql)) {
-//            statement.setString(1, account);
-//            statement.setString(2, password);
-//
-//            ResultSet resultSet = statement.executeQuery();
-//            if(resultSet.next()) {
-//                return resultSet.getString("nickname");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
     public List<RegionDTO> findAllRegion() {
         return userMapper.findAllRegion();
     }
+
 }

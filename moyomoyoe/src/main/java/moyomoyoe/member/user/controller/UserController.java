@@ -4,6 +4,7 @@ import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
 import moyomoyoe.member.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +13,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +33,19 @@ public class UserController {
 
     @PostMapping("/signup")
     public ModelAndView signup(ModelAndView mv,
-                               @ModelAttribute SignupDTO newUserInfo) {
+                               @ModelAttribute SignupDTO newUserInfo,
+                               @RequestParam String phone,
+                               @RequestParam String email) {
+
+        String phoneNum = phone.replaceAll(",", "-");
+        System.out.println(phoneNum);
+
+        newUserInfo.setPhone(phoneNum);
+
+        String fullEmail = email.replaceAll(",", "@");
+        System.out.println(fullEmail);
+
+        newUserInfo.setEmail(fullEmail);
 
         Integer result = userService.regist(newUserInfo);
 
@@ -74,7 +86,11 @@ public class UserController {
     @Autowired
     private DataSource dataSource;
 
+    @GetMapping(value = "checkAccount", produces = "application/json; charset=UTF-8")
+    @ResponseBody
     public Map<String, Object> checkAccount(@RequestParam String account) {
+
+        System.out.println("아이디 중복 확인 fetch");
 
         Map<String, Object> resp = new HashMap<>();
 
@@ -86,16 +102,15 @@ public class UserController {
             ResultSet resultSet = stmt.executeQuery();
             if(resultSet.next()) {
                 resp.put("exists", resultSet.getInt(1) > 0);
+//                resp.put("empty", resultSet.getInt(1) == 0);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            resp.put("error", "오류 발생");
+            resp.put("error", "오류 발생 쉬먀");
         }
+
         return resp;
     }
-
-
-
 
 }

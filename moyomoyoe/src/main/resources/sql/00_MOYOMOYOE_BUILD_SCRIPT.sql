@@ -168,8 +168,7 @@ INSERT INTO tbl_region (city, district) VALUES ('서울', '강남구'),
 INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id) VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', 'USER', 1),
 																							           ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', 'BUSINESS', NULL),
 																						  	           ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', 'USER', NULL),
-																							           ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL),
-																							           ('admin', 'admin', 'admin', 'admin', 'admin@example.com', '010-5678-9012', 'ADMIN', NULL);
+																							           ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL);
 
  INSERT INTO tbl_post_list (title, context, nickname, post_date, user_open, region_code, image_id, keyword_id, user_id) VALUES ('첫 번째 게시물', '이것은 첫 번째 게시물의 내용입니다. 서울의 멋진 장소에 대해 이야기합니다.', 'nick1', '2024-09-01', TRUE, 1, NULL, 5, 1),
 																														       ('두 번째 게시물', '두 번째 게시물의 내용입니다. 여행에 대한 경험을 나눕니다.', 'nick3', '2024-09-02', TRUE, 2, NULL, 5, 3),
