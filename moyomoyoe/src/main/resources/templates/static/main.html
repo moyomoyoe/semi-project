@@ -5,7 +5,21 @@
     <title>SEMI-PROJECT</title>
 </head>
 <body>
+<h1>메인</h1>
+<hr>
+<h3>은지님 파트</h3>
+<a href="/member/auth/login">로그인</a>
+<br>
+<a href="/member/user/signup">회원가입</a>
+
+<h2 th:text="${ session.nickname }">님, 안녕하세요.</h2>
 메인페이지
-<a href="reservation/schedule/storeInfo/1">링크</a>
+
+<a href="reservation/schedule/storeInfo/2">사업장 상세조회(2번)</a>
+<br>
+<a href="reservation/schedule/regist/store/2">사업장 등록(기존 정보 O)</a>
+<br>
+<a href="reservation/schedule/regist/store">사업장 등록(기존정보 X)</a>
+<br>
 </body>
 </html>
