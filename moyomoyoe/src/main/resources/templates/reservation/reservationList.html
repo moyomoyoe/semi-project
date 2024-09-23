@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약 일정 리스트</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header>
+    <h1 class="text-center mt-5">예약 일정 리스트</h1>
+</header>
+
+<main class="container mt-4">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>가게명</th>
+            <th>예약 날짜</th>
+            <th>예약 시간</th>
+            <th>인원수</th>
+        </tr>
+        </thead>
+        <tbody id="reservation-list">
+        <!-- 예약 리스트가 여기에 추가됩니다 -->
+        </tbody>
+    </table>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/reservation/getAllReservations",
+            method: "GET",
+            success: function (data) {
+                let reservationList = $('#reservation-list');
+                reservationList.empty();
+
+                data.forEach(function (reservation) {
+                    let row = `
+                        <tr>
+                            <td>${reservation.storeName}</td>
+                            <td>${reservation.resDate}</td>
+                            <td>${reservation.startTime} - ${reservation.endTime}</td>
+                            <td>${reservation.capacity}명</td>
+                        </tr>`;
+                    reservationList.append(row);
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
