@@ -10,6 +10,7 @@
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
         <result property="capacity" column="capacity"/>
+        <result property="bookedPeople" column="booked"/>
     </resultMap>
     <resultMap id="storeMap" type="moyomoyoe.reservation.DTO.StoreDTO">
         <id property="storeId" column="store_id"/>
@@ -23,6 +24,7 @@
 </resultMap>
     <select id="getStoreAllInfo" resultMap="storeMap">
         SELECT
+            store_Id,
             store_name,
             description,
             store_address,
@@ -35,14 +37,49 @@
     </select>
     <select id="getSchedule" resultMap="scheduleMap">
         SELECT
-        schedule_id, store_id, start_time, end_time, capacity
-        FROM tbl_schedule
-        WHERE store_id = #{code}
+        a.schedule_id,
+        a.store_id,
+        a.start_time,
+        a.end_time,
+        a.capacity,
+        SUM(b.customer_num) AS booked
+        FROM
+        tbl_schedule a
+        LEFT JOIN
+        tbl_reservation b
+        ON
+        a.schedule_id = b.schedule_id
+        WHERE
+        a.store_id = #{code}
+        GROUP BY
+        a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity;
     </select>
+
     <insert id="registSchedule" parameterType="moyomoyoe.reservation.DTO.ScheduleDTO">
+
 
     </insert>
     <insert id="registStore" parameterType="moyomoyoe.reservation.DTO.StoreDTO">
-
+        INSERT INTO tbl_store(store_name,store_address, description,store_sort,busy_no ,id,image_id_store)
+        VALUES ( #{storeName}, #{storeAddress},#{description},#{storeSort},#{businessNo},#{userId},#{imageId});
     </insert>
+    <update id="updateStore"  parameterType="moyomoyoe.reservation.DTO.StoreDTO">
+        UPDATE tbl_store
+        SET
+        store_name= #{storeName},
+        store_address = #{storeAddress},
+        description= #{description},
+        store_sort = #{storeSort},
+        image_id_store = #{imageId},
+        busy_no = #{businessNo}
+        WHERE tbl_store.store_id= #{storeId}
+        ;
+
+    </update>
+
+    <delete id="deleteScheduleId">
+        DELETE FROM tbl_schedule
+        WHERE schedule_id = #{id} AND store_id = #{code}
+    </delete>
+
 </mapper>

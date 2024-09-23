@@ -10,6 +10,10 @@ import java.util.List;
 public interface ReservationMapper {
     StoreDTO getStoreAllInfo(int code);
     List<ScheduleDTO> getSchedule(int code);
-    int registSchedule(List<ScheduleDTO> scheduleDTOS);
-    int registStore(StoreDTO info);
+    void registSchedule(List<ScheduleDTO> scheduleDTOS);
+    void registStore(StoreDTO info);
+    void deleteScheduleId(int code, List<Integer> deletedSchedules);
+    void curBookedPeople(int code);
+
+    void updateStore(StoreDTO info);
 }

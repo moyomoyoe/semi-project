@@ -4,16 +4,16 @@ public class StoreDTO {
     private int storeId;
     private String storeName;
     private String storeAddress;
-    private String storeSort;
-    private int businessNo;
     private String description;
+    private String storeSort;
+    private String businessNo;
     private int userId;
-    private int imageId;
+    private Integer imageId;
 
     public StoreDTO() {
     }
 
-    public StoreDTO(int storeId, String storeName, String storeAddress, String storeSort, int businessNo, String description, int userId, int imageId) {
+    public StoreDTO(int storeId, String storeName, String storeAddress, String storeSort, String businessNo, String description, int userId, Integer imageId) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.storeAddress = storeAddress;
@@ -56,11 +56,11 @@ public class StoreDTO {
         this.storeSort = storeSort;
     }
 
-    public int getBusinessNo() {
+    public String getBusinessNo() {
         return businessNo;
     }
 
-    public void setBusinessNo(int businessNo) {
+    public void setBusinessNo(String businessNo) {
         this.businessNo = businessNo;
     }
 
@@ -72,11 +72,11 @@ public class StoreDTO {
         this.userId = userId;
     }
 
-    public int getImageId() {
+    public Integer getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(Integer imageId) {
         this.imageId = imageId;
     }
 

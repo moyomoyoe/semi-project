@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+registstore
+<form th:action="@{/reservation/schedule/regist/store}" th:object="${store}" method="post">
+    <div>
+        <label for="name">상호명 :</label>
+        <input type="text" id="name" th:field="*{storeName}" required />
+        <br>
+        <label for="name">주소 :</label>
+        <input type="text" id="address" th:field="*{storeAddress}">
+        <br>
+        <label for="name">설명 :</label>
+        <input type="text" id="description" th:field="*{description}">
+        <select type="text" id="storeSort" th:field="*{storeSort}">
+            <option value="기타" >기타</option>
+            <option value="음식" >음식</option>
+        </select>
+        <label for="businessNo"> 등록번호</label>
+        <input type="text" id="businessNo" th:field="*{businessNo}">
+        <label for="businessNo"> 임의 유저 아이디</label>
+        <input type="text" id="userId" th:field="*{userId}">
+
+    </div>
+    <div>
+        <label></label>
+    </div>
+
+    <button id="submit"> 등록</button>
+</form>
+</body>
+<script>
+    const subBtn = document.querySelector("#submit")
+    subBtn.addEventListener(()=>{})
+
+    //성공시 redirecting,
+    //실패시 alert
+</script>
+</html>
