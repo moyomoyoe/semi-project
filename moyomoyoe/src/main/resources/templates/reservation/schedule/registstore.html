@@ -8,6 +8,8 @@
 registstore
 <form th:action="@{/reservation/schedule/regist/store}" th:object="${store}" method="post">
     <div>
+        <label for="storeId" > 상가 번호 </label>
+        <input type="hidden" id="storeId" th:field="*{storeId}">
         <label for="name">상호명 :</label>
         <input type="text" id="name" th:field="*{storeName}" required />
         <br>

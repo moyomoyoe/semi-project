@@ -30,6 +30,7 @@
             store_address,
             store_sort,
             description,
+            busy_no,
             id,
             image_id_store
         FROM tbl_store
@@ -74,7 +75,6 @@
         busy_no = #{businessNo}
         WHERE tbl_store.store_id= #{storeId}
         ;
-
     </update>
 
     <delete id="deleteScheduleId">
