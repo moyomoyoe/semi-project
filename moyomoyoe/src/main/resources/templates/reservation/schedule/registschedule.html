@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+    <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
+</head>
+<body>
+
+</body>
+<script>
+    var tpSelectbox = new tui.TimePicker('#timepicker-selectbox', {
+        initialHour: 15,
+        initialMinute: 13,
+        inputType: 'selectbox',
+        showMeridiem: false
+    });
+
+    var tpSpinboxWithStep = new tui.TimePicker('#timepicker-spinbox-step', {
+        initialHour: 14,
+        initialMinute: 20,
+        inputType: 'spinbox',
+        showMeridiem: false,
+        hourStep: 2,
+        minuteStep: 10
+    });
+
+</script>
+</html>
