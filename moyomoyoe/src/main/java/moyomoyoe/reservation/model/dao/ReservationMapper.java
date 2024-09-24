@@ -4,7 +4,6 @@ import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
