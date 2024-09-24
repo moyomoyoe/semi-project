@@ -1,4 +1,4 @@
-package moyomoyoe.main;
+package moyomoyoe;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +10,7 @@ public class MainController {
     @GetMapping(value = {"/", "/main"})
     public ModelAndView main(ModelAndView mv) {
 
-        mv.setViewName("main/main");
+        mv.setViewName("static/main");
 
         return mv;
     }

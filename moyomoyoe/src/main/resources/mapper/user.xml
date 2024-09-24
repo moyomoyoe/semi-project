@@ -17,8 +17,6 @@
     </resultMap>
 
     <resultMap id="regionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
-        <id property="regionCode" column="region_code"/>
-        <result property="city" column="city"/>
         <result property="district" column="district"/>
     </resultMap>
 
@@ -32,14 +30,15 @@
             email,
             phone,
             user_role,
-            image_id
+            image_id,
+            user_region
         FROM
             tbl_user
         WHERE
             account = #{ account }
     </select>
 
-    <select id="findAllRegion" resultMap="regionResultMap">
+    <select id="findAllRegion" parameterType="moyomoyoe.member.user.model.dto.RegionDTO">
         SELECT
             region_code,
             city,
@@ -47,6 +46,19 @@
         FROM
             tbl_region
     </select>
+
+    <select id="getRegionByUserId" resultMap="regionResultMap">
+        SELECT
+            a.district
+        FROM
+            tbl_region a
+        JOIN
+            tbl_user b ON b.user_region = a.region_code
+        WHERE
+            b.id = #{ id }
+    </select>
+
+
 
     <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
         INSERT INTO
@@ -58,7 +70,8 @@
             nickname,
             email,
             phone,
-            user_role
+            user_role,
+            user_region
         )
         VALUES
         (
@@ -69,6 +82,7 @@
             #{ email },
             #{ phone },
             #{ userRole }
+            #{ userRegion }
         )
     </insert>
 

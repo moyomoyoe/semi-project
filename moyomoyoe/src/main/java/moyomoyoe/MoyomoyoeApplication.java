@@ -1,4 +1,4 @@
-package moyomoyoe.config;
+package moyomoyoe;
 
 import moyomoyoe.member.user.model.service.DummyDataGenerator;
 import org.apache.ibatis.annotations.Mapper;
