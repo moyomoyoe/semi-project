@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 보기</title>
+</head>
+<body>
+    <h3>게시글 상세 보기</h3>
+
+    <div>
+        <label>제목:</label>
+        <span th:text="${detailPost.title}"></span>
+    </div>
+    <div>
+        <label>내용:</label>
+        <p th:text="${detailPost.context}"></p>
+    </div>
+    <div>
+        <label>작성자:</label>
+        <span th:text="${detailPost.nickname}"></span>
+    </div>
+    <div>
+        <label>작성일자:</label>
+        <span th:text="${detailPost.postDate}"></span>
+    </div>
+
+    <button onclick="location.href='/'">메인으로</button>
+
+    <!-- 삭제 버튼 -->
+    <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
+        <button type="submit" onclick="deletePost()">삭제</button>
+    </form>
+    <script>
+        function deletePost() {
+            // 폼을 직접 제출하는 대신 JavaScript로 Ajax 요청을 처리
+            if (confirm('삭제하시겠습니까?')) {
+                var form = document.getElementById('deleteForm');
+                var action = form.getAttribute('action');
+
+                // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
+                fetch(action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(new FormData(form))
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('게시글이 삭제되었습니다.');
+                            window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
+                        } else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('서버에 문제가 발생했습니다.');
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
+
+</body>
+</html>

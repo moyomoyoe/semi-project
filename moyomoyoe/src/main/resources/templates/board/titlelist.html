@@ -74,6 +74,21 @@
 
     // 기본적으로 작성일자 기준 내림차순 정렬
     grid.sort('postDate', false);
+
+    // 행(row)을 클릭했을 때 상세 페이지로 이동하는 이벤트 등록
+    grid.on('click', (ev) => {
+        // 클릭한 행의 데이터가 있는지 확인
+        const postId = ev.instance.getValue(ev.rowKey, 'postId');  // 클릭한 행의 postId 가져오기
+
+        console.log(`Selected postId: ${postId}`);
+
+        if (postId) {
+            // postId를 이용해 detailpost 페이지로 이동
+            window.location.href = `/board/detailpost/${postId}`;
+        } else {
+            console.log('postId not found');
+        }
+    });
 </script>
 
 <!-- 메인 페이지로 이동하는 버튼 -->

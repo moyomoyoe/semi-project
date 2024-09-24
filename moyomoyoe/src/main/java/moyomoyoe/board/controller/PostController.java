@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -56,30 +57,6 @@ public class PostController {
         return "board/keywordlist";
     }
 
-//    // 시와 구 목록을 JSON으로 반환하는 메서드 (API)
-//    @GetMapping("/regionlistdata")
-//    @ResponseBody  // 이 부분은 API에서 JSON을 반환하기 때문에 반드시 필요합니다.
-//    public List<RegionDTO> getRegionData(@RequestParam(required = false) String city) {
-//        if (city == null || city.isEmpty()) {
-//            return postService.findRegionCityList();
-//        } else {
-//            return postService.findRegionDistrictList(city);
-//        }
-//    }
-//
-//    // 페이지를 렌더링하는 메서드
-//    @GetMapping("/regionlist")
-//    public String districtList(@RequestParam(required = false) String city, Model model) {
-//        if (city != null && !city.isEmpty()) {
-//            List<RegionDTO> districtList = postService.findRegionDistrictList(city);
-//            model.addAttribute("districtList", districtList);
-//            model.addAttribute("city", city);  // 선택된 시도 모델에 추가
-//        }
-//        // 템플릿 페이지로 이동 (regionlist.html로 이동)
-//        return "board/regionlist";
-//    }
-
-
     // 시 목록을 JSON으로 반환하는 API
     @GetMapping("/api/regionlist/cities")
     @ResponseBody
@@ -111,9 +88,6 @@ public class PostController {
         return "board/regionlist";
     }
 
-
-
-
         @GetMapping("/titlelist")
     public String titleList(@RequestParam("title") String title, Model model){
         List<PostDTO> titleList = postService.findTitleList(title);
@@ -125,6 +99,31 @@ public class PostController {
         return "board/titlelist";
     }
 
+    @GetMapping("/detailpost/{postId}")
+    public String detailPost(@PathVariable("postId") int postId, Model model){
+        // postId에 맞는 게시글 상세 정보를 조회
+        PostDTO detailPost = postService.findDetailPostById(postId);
+
+        System.out.println("detailPost = " + detailPost);
+
+        if (detailPost == null) {
+            // postId에 맞는 게시글이 없으면 에러 페이지로 이동
+            return "error/404";
+        }
+
+        // 조회된 게시글 상세 정보를 모델에 추가
+        model.addAttribute("detailPost", detailPost);
+
+        // detailpost.html로 데이터 전달 및 렌더링
+        return "board/detailpost";  // board/detailpost.html 파일로 이동
+    }
+
+    @PostMapping("/detailpost/delete/{postId}")
+    public String deletePost(@PathVariable("postId") int postId, RedirectAttributes rAttr) {
+        postService.deletePost(postId);
+        rAttr.addFlashAttribute("successMessage", "삭제 되었습니다");
+        return "redirect:/index.html";
+    }
 
 
 

@@ -5,6 +5,7 @@ import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,9 +44,15 @@ public class PostService {
 
     public List<PostDTO> findTitleList(String title) {
         List<PostDTO> titleList = postMapper.findTitleList(title);
-
         return titleList;
     }
 
+    public PostDTO findDetailPostById(int postId) {
+        return postMapper.findDetailPostById(postId);
+    }
 
+    @Transactional
+    public void deletePost(int postId) {
+        postMapper.deletePost(postId);
+    }
 }

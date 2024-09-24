@@ -16,12 +16,12 @@ public class PostDTO {
     public PostDTO() {
     }
 
-    public int getPostlistId() {
+    public int getPostId() {
         return postId;
     }
 
-    public void setPostlistId(int postlistId) {
-        this.postId = postlistId;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public String getTitle() {

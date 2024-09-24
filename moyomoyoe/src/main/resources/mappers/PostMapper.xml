@@ -5,7 +5,7 @@
 <mapper namespace="moyomoyoe.board.model.dao.PostMapper">
 
     <resultMap id="postResultMap" type="moyomoyoe.board.model.dto.PostDTO">
-        <id property="postId" column="post_id"/>
+        <id column="post_id" property="postId"/>
         <result property="title" column="title"/>
         <result property="context" column="context"/>
         <result property="nickname" column="nickname"/>
@@ -110,5 +110,29 @@
     WHERE
         title LIKE CONCAT('%', #{title}, '%')
     </select>
+
+    <select id="findDetailPostById" resultMap="postResultMap">
+        SELECT
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            image_id,
+            keyword_id
+        FROM
+            tbl_post_list
+        WHERE
+            post_id = #{postId}
+    </select>
+
+    <delete id="deletePost" parameterType="int">
+        DELETE
+        FROM
+            tbl_post_list
+        WHERE
+            post_id = #{postId}
+    </delete>
 
 </mapper>
