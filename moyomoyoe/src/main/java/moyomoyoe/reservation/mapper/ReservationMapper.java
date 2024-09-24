@@ -12,8 +12,9 @@ public interface ReservationMapper {
     List<ScheduleDTO> getSchedule(int code);
     void registSchedule(List<ScheduleDTO> scheduleDTOS);
     void registStore(StoreDTO info);
-    void deleteScheduleId(int code, List<Integer> deletedSchedules);
+    void deleteScheduleId(int code, int id);
     void curBookedPeople(int code);
 
     void updateStore(StoreDTO info);
+    void registSchedule(ScheduleDTO s);
 }

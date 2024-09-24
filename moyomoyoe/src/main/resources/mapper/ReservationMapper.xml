@@ -56,10 +56,7 @@
         a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity;
     </select>
 
-    <insert id="registSchedule" parameterType="moyomoyoe.reservation.DTO.ScheduleDTO">
 
-
-    </insert>
     <insert id="registStore" parameterType="moyomoyoe.reservation.DTO.StoreDTO">
         INSERT INTO tbl_store(store_name,store_address, description,store_sort,busy_no ,id,image_id_store)
         VALUES ( #{storeName}, #{storeAddress},#{description},#{storeSort},#{businessNo},#{userId},#{imageId});
@@ -76,7 +73,11 @@
         WHERE tbl_store.store_id= #{storeId}
         ;
     </update>
+    <insert id="registSchedule" parameterType="moyomoyoe.reservation.DTO.ScheduleDTO">
+        INSERT INTO tbl_schedule (store_id, start_time, end_time,capacity)
+        VALUES(#{storeId}, #{startTime}, #{endTime}, #{capacity})
 
+    </insert>
     <delete id="deleteScheduleId">
         DELETE FROM tbl_schedule
         WHERE schedule_id = #{id} AND store_id = #{code}

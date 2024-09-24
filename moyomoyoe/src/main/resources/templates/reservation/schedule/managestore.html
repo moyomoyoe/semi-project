@@ -9,7 +9,7 @@
 <button> 추가</button>
 
 <div id="scheduleList">
-    <div class="scheduleItem" th:each="list: ${schedule }" > <button th:text="|${list.startTime}  ${list.endTime}|"></button> </div>
+    <div class="scheduleItem" th:each="list: ${schedule}" > <button th:text="|${list.startTime}  ${list.endTime}|"></button> </div>
 <!--  이후동작 (생김/ 사라짐  js로 처리?-->
 </div>
 <button onclick=""> 등록하기</button> <button onclick="">등록 취소</button>
