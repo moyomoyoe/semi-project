@@ -20,6 +20,12 @@
         <result property="district" column="district"/>
     </resultMap>
 
+    <resultMap id="allRegionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
+        <id property="regionCode" column="region_code"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+    </resultMap>
+
     <select id="findByAccount" resultMap="authenticatedUser">
         SELECT
             id,
@@ -38,7 +44,7 @@
             account = #{ account }
     </select>
 
-    <select id="findAllRegion" parameterType="moyomoyoe.member.user.model.dto.RegionDTO">
+    <select id="findAllRegion" resultMap="allRegionResultMap">
         SELECT
             region_code,
             city,
@@ -81,7 +87,7 @@
             #{ nickname },
             #{ email },
             #{ phone },
-            #{ userRole }
+            #{ userRole },
             #{ userRegion }
         )
     </insert>

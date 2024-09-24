@@ -33,11 +33,15 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         UserDTO user = (UserDTO) authentication.getPrincipal();
         RegionDTO region = userService.getRegionByUserId(user.getId());
 
+        System.out.println("usernames 값 확인 : " + user.getUsername());
+
         Map<String, Object> userSession = new HashMap<>();
         userSession.put("id", user.getId());
-        userSession.put("username", user.getUsername());
+        userSession.put("username", user.getName());
         userSession.put("account", user.getAccount());
         userSession.put("nickname", user.getNickname());
+        userSession.put("phone", user.getPhone());
+        userSession.put("email", user.getEmail());
         if(region != null) {
             userSession.put("region", region.getDistrict());
         }

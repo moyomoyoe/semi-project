@@ -10,11 +10,12 @@ public class SignupDTO {
     private String phone;
     private String userRole;
     private int imageId;
+    private int userRegion;
 
     public SignupDTO() {
     }
 
-    public SignupDTO(String username, String account, String password, String nickname, String email, String phone, String userRole, int imageId) {
+    public SignupDTO(String username, String account, String password, String nickname, String email, String phone, String userRole, int imageId, int userRegion) {
         this.username = username;
         this.account = account;
         this.password = password;
@@ -23,6 +24,7 @@ public class SignupDTO {
         this.phone = phone;
         this.userRole = userRole;
         this.imageId = imageId;
+        this.userRegion = userRegion;
     }
 
     public String getUsername() {
@@ -89,6 +91,14 @@ public class SignupDTO {
         this.imageId = imageId;
     }
 
+    public int getUserRegion() {
+        return userRegion;
+    }
+
+    public void setUserRegion(int userRegion) {
+        this.userRegion = userRegion;
+    }
+
     @Override
     public String toString() {
         return "SignupDTO{" +
@@ -100,6 +110,7 @@ public class SignupDTO {
                 ", phone='" + phone + '\'' +
                 ", userRole='" + userRole + '\'' +
                 ", imageId=" + imageId +
+                ", userRegion=" + userRegion +
                 '}';
     }
 }

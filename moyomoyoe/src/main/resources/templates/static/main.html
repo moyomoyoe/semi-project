@@ -9,10 +9,15 @@
     <div sec:authorize="!isAuthenticated()">
         <a href="/member/auth/login">로그인</a>
     </div>
-    <div sec:authorize="isAuthenticated()">
+    <div sec:authorize="hasAnyAuthority('USER')">
         <a href="/member/user/myPage">마이페이지</a>
     </div>
-    <a href="/member/user/signup">회원가입</a>
+    <div sec:authorize="hasAnyAuthority('BUSINESS')">
+        <a href="/member/business/myPage">마이페이지</a>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        <a href="/member/user/signup">회원가입</a>
+    </div>
 
 
 </body>
