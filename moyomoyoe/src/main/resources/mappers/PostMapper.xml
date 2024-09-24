@@ -5,7 +5,7 @@
 <mapper namespace="moyomoyoe.board.model.dao.PostMapper">
 
     <resultMap id="postResultMap" type="moyomoyoe.board.model.dto.PostDTO">
-        <id column="post_id" property="postId"/>
+        <id property="postId" column="post_id"/>
         <result property="title" column="title"/>
         <result property="context" column="context"/>
         <result property="nickname" column="nickname"/>
@@ -20,6 +20,14 @@
         <id property="regionCode" column="region_code"/>
         <result property="city" column="city"/>
         <result property="district" column="district"/>
+    </resultMap>
+
+    <resultMap id="commentResultMap" type="moyomoyoe.board.model.dto.CommentDTO">
+        <id property="commentId" column="comment_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="comment" column="comment"/>
+        <result property="commentPostDate" column="comment_post_date"/>
+        <result property="postId" column="post_id"/>
     </resultMap>
 
     <!-- 전체메뉴 쿼리 -->
@@ -111,6 +119,7 @@
         title LIKE CONCAT('%', #{title}, '%')
     </select>
 
+    <!--세부게시글페이지-->
     <select id="findDetailPostById" resultMap="postResultMap">
         SELECT
             post_id,
@@ -127,6 +136,22 @@
             post_id = #{postId}
     </select>
 
+    <!--세부게시글댓글-->
+    <select id="detailPostComment" parameterType="int" resultMap="commentResultMap">
+        SELECT
+            comment_id,
+            nickname,
+            comment,
+            comment_post_date
+        FROM
+            tbl_comment
+        WHERE
+            post_id = #{postId}
+        ORDER BY
+            comment_id DESC
+    </select>
+
+    <!--세부게시글삭제-->
     <delete id="deletePost" parameterType="int">
         DELETE
         FROM
@@ -134,5 +159,24 @@
         WHERE
             post_id = #{postId}
     </delete>
+
+    <!--세부게시글댓글등록-->
+    <insert id="comment" parameterType="moyomoyoe.board.model.dto.CommentDTO"
+            useGeneratedKeys="true" keyProperty="commentId">
+        INSERT INTO
+            tbl_comment
+        (
+            post_id,
+            comment,
+            comment_post_date
+        )
+        VALUES
+        (
+            #{postId},
+            #{comment},
+            NOW()
+        )
+    <!-- nickname, userid 부분 유저별로 자동으로 인식해서 가져올수 있게 해야함 지금은 제외했음 -->
+    </insert>
 
 </mapper>

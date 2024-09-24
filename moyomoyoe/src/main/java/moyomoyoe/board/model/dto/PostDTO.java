@@ -1,12 +1,14 @@
 package moyomoyoe.board.model.dto;
 
+import java.time.LocalDate;
+
 public class PostDTO {
 
     private int postId;
     private String title;
     private String context;
     private String nickname;
-    private String postDate;
+    private LocalDate postDate;
     private Boolean userOpen;
     private int regionCode;
     private int imageId;
@@ -48,11 +50,11 @@ public class PostDTO {
         this.nickname = nickname;
     }
 
-    public String getPostDate() {
+    public LocalDate getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(String postDate) {this.postDate = postDate;}
+    public void setPostDate(LocalDate postDate) {this.postDate = postDate;}
 
     public Boolean getUserOpen() {
         return userOpen;

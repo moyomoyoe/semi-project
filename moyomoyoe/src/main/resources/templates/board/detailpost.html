@@ -24,12 +24,19 @@
         <span th:text="${detailPost.postDate}"></span>
     </div>
 
+    <br>
+
     <button onclick="location.href='/'">메인으로</button>
+
+    <br>
 
     <!-- 삭제 버튼 -->
     <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
         <button type="submit" onclick="deletePost()">삭제</button>
     </form>
+
+    <br>
+
     <script>
         function deletePost() {
             // 폼을 직접 제출하는 대신 JavaScript로 Ajax 요청을 처리
@@ -60,6 +67,27 @@
             }
         }
     </script>
+
+    <br>
+
+    <!-- 댓글 작성 폼 -->
+    <h3>댓글 작성</h3>
+    <form th:action="@{/board/detailpost/{postId}(postId=${detailPost.postId})}" method="post">
+        <textarea name="comment" rows="2" cols="50" placeholder="댓글을 입력하세요"></textarea>
+        <br>
+        <button type="submit">등록</button>
+    </form>
+    <!-- 댓글 목록 -->
+    <h3>댓글목록</h3>
+    <ul>
+        <li th:each="comment : ${detailPostComment}">
+            <strong th:text="${comment.nickname}">닉네임</strong>:
+            <span th:text="${comment.comment}">댓글 내용</span>
+            <br>
+            <em th:text="${comment.commentPostDate}">작성일: </em>
+        </li>
+    </ul>
+
 
 </body>
 </html>

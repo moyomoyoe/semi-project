@@ -1,5 +1,6 @@
 package moyomoyoe.board.controller;
 
+import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
@@ -11,22 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 public class PostController {
 
-    /* 게시판 전체 조회
-    *  게시판 지역 별 조회
-    *  게시판 키워드 별 조회
-    *  게시판 제목 검색 별 조회 */
-
     private static final Logger logger = LogManager.getLogger(PostController.class);
-
     private final PostService postService;
     private final MessageSource messageSource;
 
@@ -36,16 +28,15 @@ public class PostController {
         this.messageSource = messageSource;
     }
 
+    // 날짜별 전체게시글 목록
     @GetMapping("/postlist")
     public String PostList(Model model){
-
         List<PostDTO> postList = postService.findAllPost();
-
         model.addAttribute("postList", postList);
-
         return "board/postlist";
     }
 
+    // 키워드별 게시글 목록
     @GetMapping("/keywordlist")
     public String KeywordList(@RequestParam("keywordId") int keywordId, Model model){
 
@@ -74,6 +65,7 @@ public class PostController {
         return postService.findRegionDistrictList(city);
     }
 
+    // 불러온 시/구 에 맞는 지역 별 게시글 목록
     @GetMapping("/regionlist")
     public String getPostsByRegion(@RequestParam String city, @RequestParam int regionCode, Model model) {
         // 시와 구에 따른 게시글 목록을 조회
@@ -88,7 +80,8 @@ public class PostController {
         return "board/regionlist";
     }
 
-        @GetMapping("/titlelist")
+    // 제목검색 게시글 목록
+    @GetMapping("/titlelist")
     public String titleList(@RequestParam("title") String title, Model model){
         List<PostDTO> titleList = postService.findTitleList(title);
 
@@ -99,25 +92,21 @@ public class PostController {
         return "board/titlelist";
     }
 
+    // postId 별 세부 게시글 내용, 댓글
     @GetMapping("/detailpost/{postId}")
-    public String detailPost(@PathVariable("postId") int postId, Model model){
+    public String getDetailPost(@PathVariable("postId") int postId, Model model){
         // postId에 맞는 게시글 상세 정보를 조회
-        PostDTO detailPost = postService.findDetailPostById(postId);
+        PostDTO getDetailPost = postService.findDetailPostById(postId);
+        List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
-        System.out.println("detailPost = " + detailPost);
-
-        if (detailPost == null) {
-            // postId에 맞는 게시글이 없으면 에러 페이지로 이동
-            return "error/404";
-        }
-
-        // 조회된 게시글 상세 정보를 모델에 추가
-        model.addAttribute("detailPost", detailPost);
+        model.addAttribute("detailPost", getDetailPost);
+        model.addAttribute("detailPostComment", detailPostComment);
 
         // detailpost.html로 데이터 전달 및 렌더링
         return "board/detailpost";  // board/detailpost.html 파일로 이동
     }
 
+    // postId 별 세부 게시글 삭제
     @PostMapping("/detailpost/delete/{postId}")
     public String deletePost(@PathVariable("postId") int postId, RedirectAttributes rAttr) {
         postService.deletePost(postId);
@@ -125,17 +114,18 @@ public class PostController {
         return "redirect:/index.html";
     }
 
+    // postId 별 세부게시글 댓글등록
+    @PostMapping("/detailpost/{postId}")
+    public String insertPostComment(@PathVariable("postId") int postId,
+                                    @RequestParam("comment") String comment,
+                                    RedirectAttributes rAttr){
+        CommentDTO commentDTO = new CommentDTO(postId, comment);
 
+        postService.comment(commentDTO);
 
-
-
-
-
-
-
-
-
-
+        rAttr.addFlashAttribute("successMessage", "댓글이 등록되었습니다");
+        return "redirect:/board/detailpost/" + postId;
+    }
 
 
 }

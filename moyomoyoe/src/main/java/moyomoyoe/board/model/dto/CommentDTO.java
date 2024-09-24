@@ -1,6 +1,6 @@
 package moyomoyoe.board.model.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class CommentDTO {
 
@@ -8,10 +8,15 @@ public class CommentDTO {
     private int postId;
     private String nickname;
     private String comment;
-    private Date commentPostDate;
+    private LocalDate commentPostDate;
     private int userId;
 
     public CommentDTO() {
+    }
+
+    public CommentDTO(int postId, String comment) {
+        this.postId = postId;
+        this.comment = comment;
     }
 
     public int getCommentId() {
@@ -46,11 +51,11 @@ public class CommentDTO {
         this.comment = comment;
     }
 
-    public Date getCommentPostDate() {
+    public LocalDate getCommentPostDate() {
         return commentPostDate;
     }
 
-    public void setCommentPostDate(Date commentPostDate) {
+    public void setCommentPostDate(LocalDate commentPostDate) {
         this.commentPostDate = commentPostDate;
     }
 
