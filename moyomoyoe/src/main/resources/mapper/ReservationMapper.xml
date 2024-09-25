@@ -1,86 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="moyomoyoe.reservation.model.dao.ReservationMapper">
 
-<mapper namespace="moyomoyoe.reservation.mapper.ReservationMapper">
-    <resultMap id="scheduleMap" type="moyomoyoe.reservation.DTO.ScheduleDTO">
+    <!-- Schedule 테이블에 대한 결과 매핑 -->
+    <resultMap id="scheduleMap" type="moyomoyoe.reservation.model.dto.ScheduleDTO">
         <id property="scheduleId" column="schedule_id"/>
-        <id property="storeId" column="store_id"/>
+        <result property="storeId" column="store_id"/>
+        <result property="storeName" column="store_name"/>
+        <result property="resDate" column="res_date"/>
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
         <result property="capacity" column="capacity"/>
-        <result property="bookedPeople" column="booked"/>
     </resultMap>
-    <resultMap id="storeMap" type="moyomoyoe.reservation.DTO.StoreDTO">
-        <id property="storeId" column="store_id"/>
-        <result property="storeName" column="store_name"/>
-        <result property="storeAddress" column="store_address"/>
-        <result property="storeSort" column="store_sort"/>
-        <result property="businessNo" column="busy_no"/>
-        <result property="description" column="description"/>
-        <result property="userId" column="id"/>
-        <result property="imageId" column="image_id_store"/>
-</resultMap>
-    <select id="getStoreAllInfo" resultMap="storeMap">
-        SELECT
-            store_Id,
-            store_name,
-            description,
-            store_address,
-            store_sort,
-            description,
-            busy_no,
-            id,
-            image_id_store
-        FROM tbl_store
-        WHERE store_id = #{code}
-    </select>
-    <select id="getSchedule" resultMap="scheduleMap">
-        SELECT
-        a.schedule_id,
-        a.store_id,
-        a.start_time,
-        a.end_time,
-        a.capacity,
-        SUM(b.customer_num) AS booked
-        FROM
-        tbl_schedule a
-        LEFT JOIN
-        tbl_reservation b
-        ON
-        a.schedule_id = b.schedule_id
-        WHERE
-        a.store_id = #{code}
-        GROUP BY
-        a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity;
+
+    <!-- Reservation 테이블에 대한 결과 매핑 -->
+    <resultMap id="reservationMap" type="moyomoyoe.reservation.model.dto.ReservationDTO">
+        <id property="resId" column="res_id"/>
+        <result property="userIdRes" column="user_id_res"/>
+        <result property="resDate" column="res_date"/>
+        <result property="capacity" column="capacity"/>
+        <result property="scheduleId" column="schedule_id"/>
+    </resultMap>
+
+    <!-- Insert into tbl_schedule (일정 테이블) -->
+    <insert id="insertSchedule" parameterType="moyomoyoe.reservation.model.dto.ScheduleDTO" useGeneratedKeys="true"
+            keyProperty="scheduleId">
+        INSERT INTO tbl_schedule (store_id, store_name, res_date, start_time, end_time, capacity)
+        VALUES (#{storeId}, #{storeName}, #{resDate,jdbcType=DATE}, #{startTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, #{capacity});
+    </insert>
+
+    <!-- Insert into tbl_reservation (예약 테이블) -->
+    <insert id="insertReservation" parameterType="moyomoyoe.reservation.model.dto.ReservationDTO">
+        INSERT INTO tbl_reservation (user_id_res, res_date, capacity, schedule_id)
+        VALUES (#{userIdRes}, #{resDate,jdbcType=DATE}, #{capacity}, #{scheduleId});
+    </insert>
+
+    <!-- 예약된 시간 조회 -->
+    <select id="getReservedTimes" resultType="string">
+        SELECT CONCAT(start_time, ' - ', end_time)
+        FROM tbl_schedule
+        WHERE store_id = #{storeId}
+          AND res_date = #{date}
     </select>
 
-
-    <insert id="registStore" parameterType="moyomoyoe.reservation.DTO.StoreDTO">
-        INSERT INTO tbl_store(store_name,store_address, description,store_sort,busy_no ,id,image_id_store)
-        VALUES ( #{storeName}, #{storeAddress},#{description},#{storeSort},#{businessNo},#{userId},#{imageId});
-    </insert>
-    <update id="updateStore"  parameterType="moyomoyoe.reservation.DTO.StoreDTO">
-        UPDATE tbl_store
-        SET
-        store_name= #{storeName},
-        store_address = #{storeAddress},
-        description= #{description},
-        store_sort = #{storeSort},
-        image_id_store = #{imageId},
-        busy_no = #{businessNo}
-        WHERE tbl_store.store_id= #{storeId}
-        ;
-    </update>
-    <insert id="registSchedule" parameterType="moyomoyoe.reservation.DTO.ScheduleDTO">
-        INSERT INTO tbl_schedule (store_id, start_time, end_time,capacity)
-        VALUES(#{storeId}, #{startTime}, #{endTime}, #{capacity})
-
-    </insert>
-    <delete id="deleteScheduleId">
-        DELETE FROM tbl_schedule
-        WHERE schedule_id = #{id} AND store_id = #{code}
-    </delete>
+    <!-- 예약된 모든 일정 가져오기 -->
+    <select id="getAllReservations" resultMap="scheduleMap">
+        SELECT store_name, res_date, start_time, end_time, capacity
+        FROM tbl_schedule
+    </select>
 
 </mapper>
