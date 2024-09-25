@@ -24,7 +24,7 @@
         -
         <input type="text" id="signUpPhoneNum3" name="phone" size="4" required><br>
         지역 :
-        <select name="region" id="region" required>
+        <select name="userRegion" id="region" required>
             <option value="" disabled selected>선택</option>
         </select><br>
         이메일 : <input type="text" id="signupEmailLocal" name="email" required>
@@ -74,7 +74,7 @@
         <span id="errorMsg3" style="color: tomato; display: none"><small>약관에 동의해주세요.</small></span>
         <br>
         <br>
-        <button>회원가입</button>
+        <button id="signupButton">회원가입</button>
     </form>
 
     <script th:inline="javascript">
@@ -92,12 +92,40 @@
                 for(let index in data) {
                     const $option = document.createElement('option');
 
+                    console.log("지역코드 = ", data[index].regionCode);
                     $option.value = data[index].regionCode;
                     $option.textContent = data[index].district;
+
+                    console.log($option);
 
                     $region.appendChild($option);
                 }
             });
+
+        document.getElementById('signupButton').addEventListener('click', () => {
+            const regionCode = document.getElementById('region').value;
+            const userRole = document.getElementById('userRole');
+            const account = document.getElementById('account');
+            const nickname = document.getElementById('nickname');
+            const username = document.getElementById('username');
+            const phone = document.getElementById('phone');
+            const email = document.getElementById('email');
+
+            const userData = {
+                userRole,
+                account,
+                password,
+                username,
+                nickname,
+                phone,
+                email,
+                regionCode
+            };
+
+            console.log('회원가입 데이터 확인 : ', userData);
+
+            // document.getElementById('signupForm').submit();
+        })
 
         const password = document.getElementById('password');
         const checkPwd = document.getElementById('checkPwd');

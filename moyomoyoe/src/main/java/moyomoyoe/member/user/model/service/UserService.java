@@ -68,6 +68,9 @@ public class UserService {
     }
 
     public List<RegionDTO> findAllRegion() {
+
+        System.out.println(userMapper.findAllRegion());
+
         return userMapper.findAllRegion();
     }
 

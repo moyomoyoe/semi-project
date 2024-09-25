@@ -16,7 +16,6 @@ public interface UserMapper {
 
     List<RegionDTO> findAllRegion();
 
-
     RegionDTO getRegionByUserId(int id);
 }
 

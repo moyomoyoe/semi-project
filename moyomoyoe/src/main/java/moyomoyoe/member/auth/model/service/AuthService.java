@@ -27,6 +27,8 @@ public class AuthService implements UserDetailsService {
             throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
 
+        System.out.println("회원 정보 foundUser = " + foundUser);
+
         return foundUser;
     }
 }
