@@ -2,161 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Keyword 게시글 목록</title>
+    <title>keywordlist</title>
+    <script>
+        const successMessage = `[[${ successMessage}]]`;
+        if(successMessage) alert(successMessage);
+    </script>
+    <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 </head>
 <body>
+    <div th:replace="common/header.html"></div>
+    <div id="grid"></div>
 
-    <h3 th:text="'키워드 ' + ${keywordId} + '에 대한 게시글 목록'"></h3>
+    <script th:inline="javascript">
 
-    <!-- keywordId가 1일 경우 -->
-    <div th:if="${keywordId == 1}">
-        <h2>영화에 대한 게시글 목록</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>닉네임</th>
-                <th>작성자</th>
-                <th>이미지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${keywordList}">
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.context}"></td>
-                <td th:text="${post.nickname}"></td>
-                <td th:text="${post.imageId}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        let keywordList = /*[[${keywordList}]]*/ [];
 
-    <!-- keywordId가 2일 경우 -->
-    <div th:if="${keywordId == 2}">
-        <h2>독서에 대한 게시글 목록</h2>
-        <!-- 독서 관련 게시글 목록 -->
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>닉네임</th>
-                <th>작성자</th>
-                <th>이미지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${keywordList}">
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.context}"></td>
-                <td th:text="${post.nickname}"></td>
-                <td th:text="${post.imageId}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        console.log("keywordList 데이터: ", keywordList);
 
-    <!-- keywordId가 3일 경우 -->
-    <div th:if="${keywordId == 3}">
-        <h2>스터디에 대한 게시글 목록</h2>
-        <!-- 스터디 관련 게시글 목록 -->
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>닉네임</th>
-                <th>작성자</th>
-                <th>이미지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${keywordList}">
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.context}"></td>
-                <td th:text="${post.nickname}"></td>
-                <td th:text="${post.imageId}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        const grid = new tui.Grid({
+            el: document.getElementById('grid'),
+            data: keywordList,
+            scrollX: false,
+            scrollY: true,
+            columns: [
+                {
+                    header: '게시글번호',
+                    name: 'postId'
+                },
+                {
+                    header: '제목',
+                    name: 'title'
+                },
+                {
+                    header: '내용',
+                    name: 'context'
+                },
+                {
+                    header: '닉네임',
+                    name: 'nickname'
+                },
+                {
+                    header: '작성일자',
+                    name: 'postDate',
+                    sortable: true,
+                    sortingType: 'desc'
+                },
+                {
+                    header: '이미지',
+                    name: 'imageId'
+                },
+                {
+                    header: '키워드',
+                    name: 'keywordId'
+                }
+            ]
+        });
 
-    <!-- keywordId가 4일 경우 -->
-    <div th:if="${keywordId == 4}">
-        <h2>스포츠에 대한 게시글 목록</h2>
-        <!-- 스포츠 관련 게시글 목록 -->
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>닉네임</th>
-                <th>작성자</th>
-                <th>이미지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${keywordList}">
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.context}"></td>
-                <td th:text="${post.nickname}"></td>
-                <td th:text="${post.imageId}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        // 기본적으로 작성일자 기준 내림차순 정렬
+        grid.sort('postDate', false);
 
-    <!-- keywordId가 5일 경우 -->
-    <div th:if="${keywordId == 5}">
-        <h2>여행에 대한 게시글 목록</h2>
-        <!-- 여행 관련 게시글 목록 -->
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>닉네임</th>
-                <th>작성자</th>
-                <th>이미지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${keywordList}">
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.context}"></td>
-                <td th:text="${post.nickname}"></td>
-                <td th:text="${post.imageId}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- keywordId가 6일 경우 -->
-    <div th:if="${keywordId == 6}">
-        <h2>기타에 대한 게시글 목록</h2>
-        <!-- 기타 관련 게시글 목록 -->
-        <table>
-            <thead>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>닉네임</th>
-                <th>작성자</th>
-                <th>이미지</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${keywordList}">
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.context}"></td>
-                <td th:text="${post.nickname}"></td>
-                <td th:text="${post.imageId}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <script>
         // 행(row)을 클릭했을 때 상세 페이지로 이동하는 이벤트 등록
         grid.on('click', (ev) => {
             // 클릭한 행의 데이터가 있는지 확인
@@ -172,5 +77,6 @@
             }
         });
     </script>
+    <button onclick="location.href='/'">메인으로</button>
 </body>
 </html>

@@ -49,9 +49,11 @@ CREATE TABLE IF NOT EXISTS tbl_user
     phone VARCHAR(20) NOT NULL COMMENT '핸드폰',
     user_role VARCHAR(10) NOT NULL COMMENT '사용자권한',
     image_id INT NULL COMMENT '이미지번호',
+    user_region INT NULL COMMENT '사용자지역',
 
     CONSTRAINT pk_id PRIMARY KEY (id),
-    CONSTRAINT img_id FOREIGN KEY (image_id) REFERENCES tbl_image (image_id)
+    CONSTRAINT img_id FOREIGN KEY (image_id) REFERENCES tbl_image (image_id),
+    CONSTRAINT user_region FOREIGN KEY (user_region) REFERENCES tbl_region (region_code)
 
 ) ENGINE=INNODB COMMENT '유저';
 
@@ -165,10 +167,10 @@ INSERT INTO tbl_region (city, district) VALUES ('서울', '강남구'),
 										       ('서울', '중구'),
 										       ('서울', '중랑구');
 
-INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id) VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', 'USER', 1),
-																							           ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', 'BUSINESS', NULL),
-																						  	           ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', 'USER', NULL),
-																							           ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL);
+INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id, user_region) VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', 'USER', 1, 1),
+																							                        ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', 'BUSINESS', NULL, 2),
+																						  	                        ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', 'USER', NULL, 3),
+																							                        ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL, 4);
 
  INSERT INTO tbl_post_list (title, context, nickname, post_date, user_open, region_code, image_id, keyword_id, user_id) VALUES ('첫 번째 게시물', '이것은 첫 번째 게시물의 내용입니다. 서울의 멋진 장소에 대해 이야기합니다.', 'nick1', '2024-09-01', TRUE, 1, NULL, 5, 1),
 																														       ('두 번째 게시물', '두 번째 게시물의 내용입니다. 여행에 대한 경험을 나눕니다.', 'nick3', '2024-09-02', TRUE, 2, NULL, 5, 3),

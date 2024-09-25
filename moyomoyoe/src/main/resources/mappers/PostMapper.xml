@@ -15,6 +15,11 @@
         <result property="imageId" column="image_id"/>
         <result property="keywordId" column="keyword_id"/>
     </resultMap>
+
+    <resultMap id="keywordResultMap" type="moyomoyoe.board.model.dto.KeywordDTO">
+        <id property="keywordId" column="keyword_id"/>
+        <result property="keywordName" column="keyword_name"/>
+    </resultMap>
     
     <resultMap id="regionResultMap" type="moyomoyoe.board.model.dto.RegionDTO">
         <id property="regionCode" column="region_code"/>
@@ -47,6 +52,14 @@
     </select>
 
     <!-- 키워드 쿼리 -->
+    <select id="findKeywordName" resultMap="keywordResultMap">
+        SELECT
+            keyword_id,
+            keyword_name
+        FROM
+            tbl_keyword_id
+    </select>
+
     <select id="findKeywordList" parameterType="int" resultMap="postResultMap">
         SELECT
             post_id,
