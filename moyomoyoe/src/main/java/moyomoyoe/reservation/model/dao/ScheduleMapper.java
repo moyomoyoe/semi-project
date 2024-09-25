@@ -1,9 +1,7 @@
 package moyomoyoe.reservation.model.dao;
 
 import moyomoyoe.reservation.DTO.StoreDTO;
-import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Insert;
 
 import java.util.List;
 
@@ -18,4 +16,6 @@ import java.util.List;
 
         void updateStore(StoreDTO info);
         void registSchedule(moyomoyoe.reservation.DTO.ScheduleDTO s);
+
+        Integer findUserStore(int code);
     }

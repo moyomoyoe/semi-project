@@ -48,13 +48,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChainConfigure(HttpSecurity http) throws Exception {
-        http
+        /*http
                 .authorizeRequests()
                 .requestMatchers("/*").permitAll()  // 모든 경로 접근 허용
                 .anyRequest().permitAll()           // 추가적으로 모든 요청에 대한 접근 허용
                 .and();
-
-        /*http.authorizeHttpRequests(auth -> {
+*/
+        http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/member/auth/login", "/member/user/signup", "/member/auth/fail", "member/user/region", "member/user/checkAccount", "/").permitAll();
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
@@ -78,7 +78,7 @@ public class SecurityConfig {
         }).csrf(csrf ->
                 csrf.disable()
         );
-*/
+
         return http.build();
     }
 

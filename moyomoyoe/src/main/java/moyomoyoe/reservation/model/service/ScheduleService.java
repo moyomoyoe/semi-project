@@ -18,6 +18,10 @@ public class ScheduleService {
         this.dao = dao;
     }
 
+    public Integer FindUserStore(int code){
+        return dao.findUserStore(code);
+    }
+
     public StoreDTO getStoreAllInfo(int code) {
         return dao.getStoreAllInfo(code);
     }

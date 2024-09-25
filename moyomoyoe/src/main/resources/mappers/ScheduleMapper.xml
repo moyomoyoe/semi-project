@@ -56,6 +56,15 @@
         a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity;
     </select>
 
+    <select id="findUserStore">
+        SELECT
+            store_id
+        FROM
+            tbl_store
+        WHERE id = #{code}
+        ;
+    </select>
+
 
     <insert id="registStore" parameterType="moyomoyoe.reservation.DTO.StoreDTO">
         INSERT INTO tbl_store(store_name,store_address, description,store_sort,busy_no ,id,image_id_store)

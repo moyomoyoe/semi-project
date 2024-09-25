@@ -2,6 +2,7 @@ package moyomoyoe.reservation.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import moyomoyoe.reservation.DTO.ScheduleDTO;
 import moyomoyoe.reservation.DTO.StoreDTO;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +68,16 @@ public class ScheduleController {
     //등록페이지로 이동
     @GetMapping("/regist/store/{code}")
     public String RegistStore(@PathVariable("code") int code, RedirectAttributes redirectAttributes) {
-        StoreDTO store = reserService.getStoreAllInfo(code);
-        //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
+        //등록된 가게가 있는 사업자라면 "수정" 할 수 있도록 , 없다면 등록하도록 함
+        StoreDTO store;
+        Integer storeId = reserService.FindUserStore(code);
+        if (storeId!=null)
+            store = reserService.getStoreAllInfo(storeId);
+        else{
+            store=new StoreDTO();
+            store.setUserId(code);
+        }
+
         redirectAttributes.addFlashAttribute("store", store);
         return "redirect:" + defaultUrl + "regist/store";
     }
@@ -111,7 +121,6 @@ public class ScheduleController {
         //성공/ 실패문구 출력, 성공시 마이페이지로,
         System.out.println("출력");
         System.out.println("schedules: " + schedules);
-        System.out.println(schedules);
         Map<String, String> response = new HashMap<>();
 
         try {
@@ -132,13 +141,25 @@ public class ScheduleController {
 
     @GetMapping("/regist/schedule/{code}")
     public String schedule(@PathVariable("code") int code, HttpSession session) {
-        List<ScheduleDTO> schedule = reserService.getSchedule(code);
+        System.out.println("닿는 중");
+        Integer storeId = reserService.FindUserStore(code);
+        List<ScheduleDTO> schedule;
+        if (storeId!=null)
+            schedule =reserService.getSchedule(storeId);
+       else {
+           schedule = new ArrayList<>();
+        }
+        System.out.println("스케쥴 출력"+schedule);
         //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
         session.setAttribute("schedule", schedule);
+        session.setAttribute("storeId",storeId);
         return "redirect:" + defaultUrl + "regist/schedule";
     }
     @GetMapping("/regist/schedule")
-    public String registSchedule(HttpSession session, Model model) {
+    public String registSchedule(HttpSession session, HttpServletRequest req,  Model model) {
+        System.out.println("session ID : " + session.getId());
+        Map<String, Object> userSession = (Map<String, Object>) req.getSession().getAttribute("user");
+
         List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
         ObjectMapper objectMapper = new ObjectMapper();
         String scheduleJson = "[]";  // 기본값으로 빈 배열 설정
@@ -154,7 +175,8 @@ public class ScheduleController {
 
         // schedule이 null이면 빈 리스트로 대체
         model.addAttribute("schedule", scheduleJson);
-
+        model.addAttribute("userSession", userSession);
+        model.addAttribute("storeId", session.getAttribute("storeId"));
         return defaultUrl + "registschedule";
     }
 }
