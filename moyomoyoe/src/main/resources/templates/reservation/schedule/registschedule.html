@@ -147,7 +147,6 @@
                 [csrfHeader]: csrfToken
             },
             body: JSON.stringify(schedules),
-
         }).then(response => {
             console.log(response)
             return response.json()
@@ -161,7 +160,6 @@
                 alert("일정 등록에 실패했습니다. 다시 시도해주세요.")
             }
         });
-
     }
 
     /*
