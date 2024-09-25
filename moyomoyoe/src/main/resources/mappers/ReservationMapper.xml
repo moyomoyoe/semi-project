@@ -22,14 +22,13 @@
         <result property="scheduleId" column="schedule_id"/>
     </resultMap>
 
-    <!-- Insert into tbl_schedule (일정 테이블) -->
-    <insert id="insertSchedule" parameterType="moyomoyoe.reservation.model.dto.ScheduleDTO" useGeneratedKeys="true"
-            keyProperty="scheduleId">
+    <!-- tbl_schedule 테이블에 데이터 삽입 -->
+    <insert id="insertSchedule" parameterType="moyomoyoe.reservation.model.dto.ScheduleDTO" useGeneratedKeys="true" keyProperty="scheduleId">
         INSERT INTO tbl_schedule (store_id, store_name, res_date, start_time, end_time, capacity)
         VALUES (#{storeId}, #{storeName}, #{resDate,jdbcType=DATE}, #{startTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, #{capacity});
     </insert>
 
-    <!-- Insert into tbl_reservation (예약 테이블) -->
+    <!-- tbl_reservation 테이블에 데이터 삽입 -->
     <insert id="insertReservation" parameterType="moyomoyoe.reservation.model.dto.ReservationDTO">
         INSERT INTO tbl_reservation (user_id_res, res_date, capacity, schedule_id)
         VALUES (#{userIdRes}, #{resDate,jdbcType=DATE}, #{capacity}, #{scheduleId});
@@ -40,13 +39,21 @@
         SELECT CONCAT(start_time, ' - ', end_time)
         FROM tbl_schedule
         WHERE store_id = #{storeId}
-          AND res_date = #{date}
+          AND res_date = #{date};
     </select>
 
-    <!-- 예약된 모든 일정 가져오기 -->
+    <!-- 모든 예약된 일정 가져오기 -->
     <select id="getAllReservations" resultMap="scheduleMap">
-        SELECT store_name, res_date, start_time, end_time, capacity
-        FROM tbl_schedule
+        SELECT * FROM tbl_schedule;
     </select>
 
+    <!-- 특정 예약 목록 조회 -->
+    <select id="getReservationList" resultMap="scheduleMap">
+        SELECT * FROM tbl_schedule ORDER BY res_date DESC;
+    </select>
+
+    <!-- 특정 스케줄 ID로 예약 조회 -->
+    <select id="getScheduleById" parameterType="int" resultMap="scheduleMap">
+        SELECT * FROM tbl_schedule WHERE schedule_id = #{scheduleId};
+    </select>
 </mapper>

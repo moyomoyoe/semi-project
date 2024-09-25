@@ -20,6 +20,9 @@ public class ReservationDTO {
         this.scheduleId = scheduleId;
     }
 
+    public ReservationDTO(int i, java.sql.Date date, String capacity) {
+    }
+
     public int getResId() {
         return resId;
     }

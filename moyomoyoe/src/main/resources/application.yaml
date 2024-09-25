@@ -13,3 +13,4 @@ mybatis:
   mapper-locations: classpath:mappers/*.xml  # MyBatis 매퍼 XML 파일 경로
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

@@ -50,7 +50,6 @@
     <h2>Store List</h2>
 
     <div th:each="store : ${stores}" class="store">
-        <!-- 이미지가 없을 때 기본 이미지를 표시 -->
         <img th:src="${store.imageUrl != null ? store.imageUrl : '/images/default-store.png'}" alt="Store Image">
         <h2><a th:href="@{/reservation/storeDetail/{id}(id=${store.id})}">[[${store.name}]] ([[${store.type}]])</a></h2>
         <p>주소: [[${store.address}]]</p>

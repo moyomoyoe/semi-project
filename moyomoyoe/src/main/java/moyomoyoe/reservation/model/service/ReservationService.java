@@ -21,24 +21,24 @@ public class ReservationService {
 
     @Transactional
     public void saveReservation(ReservationDTO reservationDTO, ScheduleDTO scheduleDTO) {
-        // 1. tbl_schedule에 데이터 삽입 (Schedule 먼저 삽입)
         reservationMapper.insertSchedule(scheduleDTO);
-
-        // 2. Schedule의 ID를 Reservation에 설정
         reservationDTO.setScheduleId(scheduleDTO.getScheduleId());
-
-        // 3. tbl_reservation에 데이터 삽입 (Reservation 삽입)
         reservationMapper.insertReservation(reservationDTO);
     }
 
-    // 예약된 시간 반환 메서드 추가
     public List<String> getReservedTimes(int storeId, String date) {
         return reservationMapper.getReservedTimes(storeId, date);
     }
 
-    // 예약 리스트 조회 서비스
-    // ScheduleDTO 리스트를 반환하도록 수정
     public List<ScheduleDTO> getAllReservations() {
         return reservationMapper.getAllReservations();
+    }
+
+    public List<ScheduleDTO> getReservationList() {
+        return reservationMapper.getReservationList();
+    }
+
+    public ScheduleDTO getScheduleById(int scheduleId) {
+        return reservationMapper.getScheduleById(scheduleId);
     }
 }

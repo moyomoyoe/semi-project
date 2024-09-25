@@ -22,6 +22,9 @@ public class ScheduleDTO {
         this.capacity = capacity;
     }
 
+    public ScheduleDTO(int storeId, String storeName, String date, String startTime, String endTime, String capacity) {
+    }
+
     public int getScheduleId() {
         return scheduleId;
     }

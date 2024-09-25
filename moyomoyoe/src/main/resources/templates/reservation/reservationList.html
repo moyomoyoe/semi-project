@@ -20,19 +20,23 @@
             <th>예약 시작 시간</th>
             <th>예약 종료 시간</th>
             <th>인원수</th>
+            <th>상세보기</th> <!-- 새롭게 추가된 열 -->
         </tr>
         </thead>
         <tbody>
         <tr th:each="schedule : ${reservationList}">
-            <td th:text="${schedule.storeName}"></td> <!-- 가게 이름 -->
-            <td th:text="${schedule.resDate}"></td>   <!-- 예약 날짜 -->
-            <td th:text="${schedule.startTime}"></td> <!-- 예약 시작 시간 -->
-            <td th:text="${schedule.endTime}"></td>   <!-- 예약 종료 시간 -->
-            <td th:text="${schedule.capacity} + '명'"></td> <!-- 인원수 -->
+            <td th:text="${schedule.storeName}"></td>
+            <td th:text="${schedule.resDate}"></td>
+            <td th:text="${schedule.startTime}"></td>
+            <td th:text="${schedule.endTime}"></td>
+            <td th:text="${schedule.capacity} + '명'"></td>
+            <td th:text="${schedule.scheduleId}"></td>  <!-- scheduleId 값을 출력 -->
+            <a th:href="@{/reservation/scheduleDetail/{scheduleId}(scheduleId=${schedule.scheduleId})}">
+                Details
+            </a>
         </tr>
         </tbody>
     </table>
 </main>
-
 </body>
 </html>
