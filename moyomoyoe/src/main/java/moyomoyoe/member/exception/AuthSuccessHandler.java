@@ -28,12 +28,12 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
 
-        System.out.println("왓냐?");
+        System.out.println("[성공 핸들러] 왓냐?");
 
         UserDTO user = (UserDTO) authentication.getPrincipal();
         RegionDTO region = userService.getRegionByUserId(user.getId());
 
-        System.out.println("usernames 값 확인 : " + user.getUsername());
+        System.out.println("usernames 값 확인 : " + user.getName());
 
         Map<String, Object> userSession = new HashMap<>();
         userSession.put("id", user.getId());
