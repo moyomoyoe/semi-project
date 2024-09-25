@@ -1,8 +1,8 @@
-package moyomoyoe.reservation.Service;
+package moyomoyoe.reservation.model.service;
 
 import moyomoyoe.reservation.DTO.ScheduleDTO;
 import moyomoyoe.reservation.DTO.StoreDTO;
-import moyomoyoe.reservation.mapper.ReservationMapper;
+import moyomoyoe.reservation.model.dao.ScheduleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @Service
 public class ScheduleService {
-    ReservationMapper dao;
+    moyomoyoe.reservation.model.dao.ScheduleMapper dao;
     @Autowired
-    public ScheduleService(ReservationMapper dao) {
+    public ScheduleService(ScheduleMapper dao) {
         this.dao = dao;
     }
 

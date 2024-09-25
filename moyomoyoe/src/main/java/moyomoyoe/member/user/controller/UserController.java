@@ -1,11 +1,13 @@
 package moyomoyoe.member.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
 import moyomoyoe.member.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -80,6 +82,8 @@ public class UserController {
     @ResponseBody
     public List<RegionDTO> findRegionList() {
         System.out.println("JS 내장 함수 fetch");
+        List<RegionDTO> region = userService.findAllRegion();
+        System.out.println("컨트롤러에서 확인해용 region = " + region);
         return userService.findAllRegion();
     }
 
@@ -111,6 +115,43 @@ public class UserController {
         }
 
         return resp;
+    }
+
+    public void getSession(HttpServletRequest req, Model model) {
+
+        Map<String, Object> userSession = (Map<String, Object>) req.getSession().getAttribute("user");
+
+        model.addAttribute("userSession", userSession);
+
+        System.out.println("userSession = " + userSession);
+    }
+
+    @GetMapping("/myPage")
+    public String myPage(HttpSession session, HttpServletRequest req, Model model) {
+
+        System.out.println("session ID : " + session.getId());
+
+        Map<String, Object> userSession = (Map<String, Object>) req.getSession().getAttribute("user");
+
+        model.addAttribute("userSession", userSession);
+
+        System.out.println("userSession = " + userSession);
+
+        return "/member/user/myPage";
+    }
+
+    @GetMapping("/userInfo")
+    public String userInfo(HttpServletRequest req, Model model) {
+
+        getSession(req, model);
+
+        return "/member/user/userInfo";
+    }
+
+    @GetMapping("/editInfo")
+    public String editInfo(HttpServletRequest req, Model model) {
+
+        return "member/user/editInfo";
     }
 
 }

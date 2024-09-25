@@ -2,6 +2,7 @@ package moyomoyoe.config;
 
 import moyomoyoe.member.auth.model.UserRole;
 import moyomoyoe.member.exception.AuthFailHandler;
+import moyomoyoe.member.exception.AuthSuccessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class SecurityConfig {
     private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
     private AuthFailHandler authFailHandler;
+
+    @Bean
+    public AuthSuccessHandler authSuccessHandler() {
+        return new AuthSuccessHandler();
+    }
 
     @Autowired
     public SecurityConfig(AuthFailHandler authFailHandler) {
@@ -60,6 +66,7 @@ public class SecurityConfig {
             login.passwordParameter("password");
             login.defaultSuccessUrl("/", true);
             login.failureHandler(authFailHandler);
+            login.successHandler(authSuccessHandler()).permitAll();
         }).logout(logout -> {
             logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/auth/logout"));
             logout.deleteCookies("JSESSIONID");

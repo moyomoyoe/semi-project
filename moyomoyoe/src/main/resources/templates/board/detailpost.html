@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 보기</title>
+</head>
+<body>
+    <h3>게시글 상세 보기</h3>
+
+    <div>
+        <label>제목:</label>
+        <span th:text="${detailPost.title}"></span>
+    </div>
+    <div>
+        <label>내용:</label>
+        <p th:text="${detailPost.context}"></p>
+    </div>
+    <div>
+        <label>작성자:</label>
+        <span th:text="${detailPost.nickname}"></span>
+    </div>
+    <div>
+        <label>작성일자:</label>
+        <span th:text="${detailPost.postDate}"></span>
+    </div>
+
+    <br>
+
+    <button onclick="location.href='/'">메인으로</button>
+
+    <br>
+
+    <!-- 삭제 버튼 -->
+    <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
+        <button type="submit" onclick="deletePost()">삭제</button>
+    </form>
+
+    <br>
+
+    <script>
+        function deletePost() {
+            // 폼을 직접 제출하는 대신 JavaScript로 Ajax 요청을 처리
+            if (confirm('삭제하시겠습니까?')) {
+                var form = document.getElementById('deleteForm');
+                var action = form.getAttribute('action');
+
+                // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
+                fetch(action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(new FormData(form))
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('게시글이 삭제되었습니다.');
+                            window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
+                        } else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('서버에 문제가 발생했습니다.');
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
+
+    <br>
+
+    <!-- 댓글 작성 폼 -->
+    <h3>댓글 작성</h3>
+    <form th:action="@{/board/detailpost/{postId}(postId=${detailPost.postId})}" method="post">
+        <textarea name="comment" rows="2" cols="50" placeholder="댓글을 입력하세요"></textarea>
+        <br>
+        <button type="submit">등록</button>
+    </form>
+    <!-- 댓글 목록 -->
+    <h3>댓글목록</h3>
+    <ul>
+        <li th:each="comment : ${detailPostComment}">
+            <strong th:text="${comment.nickname}">닉네임</strong>:
+            <span th:text="${comment.comment}">댓글 내용</span>
+            <br>
+            <em th:text="${comment.commentPostDate}">작성일: </em>
+        </li>
+    </ul>
+
+
+</body>
+</html>
