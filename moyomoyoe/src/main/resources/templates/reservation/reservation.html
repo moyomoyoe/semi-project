@@ -1,10 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약 시스템</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.0.2/index.global.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        main {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .time-slots button {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #343a40;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .time-slots button.active {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .disabled {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
+
 <body>
- reservation 페이지
+<header>
+    <h1>예약 시스템</h1>
+</header>
+
+<main>
+    <!-- 날짜 및 시간 선택 화면 -->
+    <section id="step1">
+        <h2>예약 날짜와 시간 선택</h2>
+        <div class="form-group">
+            <label>예약 날짜</label>
+            <div id="calendar"></div>
+        </div>
+        <div class="form-group">
+            <label>예약 시작 시간</label>
+            <div class="time-slots" id="start-time-slots"></div>
+        </div>
+        <div class="form-group">
+            <label>예약 종료 시간</label>
+            <div class="time-slots" id="end-time-slots"></div>
+        </div>
+        <button type="button" id="next-button" class="btn btn-primary">다음 단계</button>
+    </section>
+
+    <!-- 예약 정보 입력 화면 -->
+    <section id="step2" class="hidden">
+        <h2>예약 정보 입력</h2>
+        <form id="reservation-form" method="post" action="/reservation/submit">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">전화번호</label>
+                <input type="tel" id="phone" class="form-control" name="phone" placeholder="전화번호를 입력하세요" required>
+            </div>
+            <div class="form-group">
+                <label for="peopleCount">인원수</label>
+                <select id="peopleCount" name="capacity" class="form-control" required>
+                    <option value="">인원수를 선택하세요</option>
+                    <option value="1">1명</option>
+                    <option value="2">2명</option>
+                    <option value="3">3명</option>
+                    <option value="4">4명</option>
+                    <option value="5">5명</option>
+                    <option value="6">6명</option>
+                </select>
+            </div>
+            <!-- 숨겨진 필드 추가 -->
+            <input type="hidden" id="date" name="date">
+            <input type="hidden" id="startTime" name="startTime">
+            <input type="hidden" id="endTime" name="endTime">
+            <input type="hidden" id="storeId" name="storeId" value="1"> <!-- 선택된 가게 ID -->
+            <input type="hidden" id="storeName" name="storeName" value="업체명 1"> <!-- 선택된 가게명 -->
+
+            <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
+        </form>
+    </section>
+
+    <!-- 예약 완료 화면 -->
+    <section id="step3" class="hidden">
+        <h2>예약이 완료되었습니다.</h2>
+        <p>예약 정보:</p>
+        <p>가게명: <span id="confirm-store">[[${store.name}]]</span></p>
+        <p>예약자명: <span id="confirm-name"></span></p>
+        <p>날짜: <span id="confirm-date"></span></p>
+        <p>시작 시간: <span id="confirm-start-time"></span></p>
+        <p>종료 시간: <span id="confirm-end-time"></span></p>
+        <p>인원수: <span id="confirm-people"></span></p>
+        <button type="button" id="finish-button" class="btn btn-secondary">처음으로</button>
+    </section>
+</main>
+
+<script>
+    let selectedDate;
+    let selectedStartTime;
+    let selectedEndTime;
+    let reservedTimes = [];  // 이미 예약된 시간 목록
+
+    const main = () => {
+        const fetchReservedTimes = (date, storeId) => {
+            // AJAX 호출로 예약된 시간을 가져옴
+            return $.ajax({
+                url: '/reservation/getReservedTimes',
+                type: 'GET',
+                data: { date: date, storeId: storeId },
+                success: function (data) {
+                    reservedTimes = data.map(time => time.slice(0, 5));  // 시간 포맷을 00:00 형식으로 변경
+                    console.log(reservedTimes); // 가져온 예약된 시간 목록 확인
+                }
+            });
+        };
+
+        const renderCalendar = () => {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek'
+                },
+                initialView: 'dayGridMonth',
+                selectable: true,
+                validRange: {
+                    start: moment().format('YYYY-MM-DD') // 현재 날짜 이전은 선택 불가
+                },
+                dateClick: function (info) {
+                    selectedDate = info.dateStr;
+                    $('#date').val(selectedDate);
+
+                    // 예약된 시간을 가져온 후 타임슬롯을 렌더링
+                    fetchReservedTimes(selectedDate, 1).then(() => {
+                        const startTime = 11;
+                        const endTime = 20;
+                        $('#start-time-slots').empty();
+                        $('#end-time-slots').empty();
+
+                        // 시작 시간 슬롯 생성
+                        for (let hour = startTime; hour < endTime; hour++) {
+                            const timeSlot = `${hour}:00`;
+                            const isDisabled = reservedTimes.includes(timeSlot); // 예약된 시간 확인
+
+                            const timeButton = $('<button></button>')
+                                .text(timeSlot)
+                                .addClass('btn btn-outline-primary')
+                                .toggleClass('disabled', isDisabled)  // 예약된 시간은 비활성화
+                                .prop('disabled', isDisabled)  // 버튼 자체 비활성화
+                                .click(function () {
+                                    if (!$(this).hasClass('disabled')) {
+                                        $('#start-time-slots button').removeClass('active');
+                                        $(this).addClass('active');
+                                        selectedStartTime = timeSlot;
+                                        $('#startTime').val(selectedStartTime);
+                                    }
+                                });
+                            $('#start-time-slots').append(timeButton);
+                        }
+
+                        // 종료 시간 슬롯 생성
+                        for (let hour = startTime + 1; hour <= endTime; hour++) {
+                            const timeSlot = `${hour}:00`;
+                            const isDisabled = reservedTimes.includes(timeSlot); // 예약된 시간 확인
+
+                            const timeButton = $('<button></button>')
+                                .text(timeSlot)
+                                .addClass('btn btn-outline-primary')
+                                .toggleClass('disabled', isDisabled)  // 예약된 시간은 비활성화
+                                .prop('disabled', isDisabled)  // 버튼 자체 비활성화
+                                .click(function () {
+                                    if (!$(this).hasClass('disabled')) {
+                                        $('#end-time-slots button').removeClass('active');
+                                        $(this).addClass('active');
+                                        selectedEndTime = timeSlot;
+                                        $('#endTime').val(selectedEndTime);
+                                    }
+                                });
+                            $('#end-time-slots').append(timeButton);
+                        }
+                    });
+                }
+            });
+            calendar.render();
+        };
+
+        renderCalendar();
+
+        $('#next-button').click(function () {
+            if (!selectedDate || !selectedStartTime || !selectedEndTime) {
+                alert('날짜와 시간을 선택하세요.');
+                return;
+            }
+            $('#step1').addClass('hidden');
+            $('#step2').removeClass('hidden');
+        });
+    };
+
+    $(document).ready(function () {
+        main();
+    });
+</script>
+
 </body>
 </html>

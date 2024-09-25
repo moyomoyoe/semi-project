@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = "moyomoyoe")
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class scanBasePackages="moyomoyeo")
 @MapperScan(basePackages = "moyomoyoe", annotationClass = Mapper.class)
 public class MoyomoyoeApplication implements CommandLineRunner {
 

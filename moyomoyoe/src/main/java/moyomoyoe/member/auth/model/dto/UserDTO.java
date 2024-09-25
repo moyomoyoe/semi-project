@@ -4,10 +4,11 @@ import moyomoyoe.member.auth.model.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserDTO implements UserDetails {
+public class UserDTO implements UserDetails, Serializable {
 
     private int id;
     private String username;
@@ -18,6 +19,7 @@ public class UserDTO implements UserDetails {
     private String phone;
     private UserRole userRole;
     private int imageId;
+    private int userRegion;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -70,7 +72,7 @@ public class UserDTO implements UserDetails {
     public UserDTO() {
     }
 
-    public UserDTO(int id, String username, String account, String password, String nickname, String email, String phone, UserRole userRole, int imageId) {
+    public UserDTO(int id, String username, String account, String password, String nickname, String email, String phone, UserRole userRole, int imageId, int userRegion) {
         this.id = id;
         this.username = username;
         this.account = account;
@@ -80,6 +82,7 @@ public class UserDTO implements UserDetails {
         this.phone = phone;
         this.userRole = userRole;
         this.imageId = imageId;
+        this.userRegion = userRegion;
     }
 
     public int getId() {
@@ -146,6 +149,14 @@ public class UserDTO implements UserDetails {
         this.imageId = imageId;
     }
 
+    public int getUserRegion() {
+        return userRegion;
+    }
+
+    public void setUserRegion(int userRegion) {
+        this.userRegion = userRegion;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -158,6 +169,7 @@ public class UserDTO implements UserDetails {
                 ", phone='" + phone + '\'' +
                 ", userRole=" + userRole +
                 ", imageId=" + imageId +
+                ", userRegion=" + userRegion +
                 '}';
     }
 }

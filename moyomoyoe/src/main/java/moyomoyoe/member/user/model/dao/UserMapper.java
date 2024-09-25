@@ -15,4 +15,8 @@ public interface UserMapper {
     UserDTO findByAccount(String account);
 
     List<RegionDTO> findAllRegion();
+
+
+    RegionDTO getRegionByUserId(int id);
 }
+

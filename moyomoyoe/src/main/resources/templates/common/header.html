@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>HEADER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <style>
+        /* 상단 네비게이션 바 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right span {
+            margin-right: 15px;
+        }
+
+        .header-right img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
-
+<!-- 상단 네비게이션 -->
+<div class="header">
+    <div class="header-left">
+        <h1>모여모여</h1>
+        <span>📍 in ○○구</span>
+    </div>
+    <div class="header-right">
+        <span>nickname (로그인시 전환)</span>
+        <img src="https://via.placeholder.com/30" alt="User Icon">
+    </div>
+</div>
 </body>
 </html>
