@@ -81,10 +81,10 @@ CREATE TABLE IF NOT EXISTS tbl_comment
 (
     comment_id INT AUTO_INCREMENT NOT NULL COMMENT '댓글번호',
     post_id INT NOT NULL COMMENT '게시글번호',
-    nickname VARCHAR(20) NOT NULL COMMENT '댓글작성자닉네임',
+    nickname VARCHAR(20) NULL COMMENT '댓글작성자닉네임',
     comment VARCHAR(100) NOT NULL COMMENT '댓글내용',
     comment_post_date VARCHAR(20) NOT NULL COMMENT '댓글작성일자',
-    user_id INT NOT NULL COMMENT '사용자번호',
+    user_id INT NULL COMMENT '사용자번호',
 
     CONSTRAINT pk_comment_id PRIMARY KEY (comment_id),
     CONSTRAINT fk_post_id FOREIGN KEY (post_id) REFERENCES tbl_post_list (post_id),
