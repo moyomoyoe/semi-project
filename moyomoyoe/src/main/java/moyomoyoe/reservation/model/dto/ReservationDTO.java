@@ -6,21 +6,18 @@ public class ReservationDTO {
     private int resId;
     private int userIdRes;
     private Date resDate;
-    private String capacity;
+    private String customerNum; // 수정된 필드명
     private int scheduleId;
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(int resId, int userIdRes, Date resDate, String capacity, int scheduleId) {
+    public ReservationDTO(int resId, int userIdRes, Date resDate, String customerNum, int scheduleId) {
         this.resId = resId;
         this.userIdRes = userIdRes;
         this.resDate = resDate;
-        this.capacity = capacity;
+        this.customerNum = customerNum;
         this.scheduleId = scheduleId;
-    }
-
-    public ReservationDTO(int i, java.sql.Date date, String capacity) {
     }
 
     public int getResId() {
@@ -47,12 +44,12 @@ public class ReservationDTO {
         this.resDate = resDate;
     }
 
-    public String getCapacity() {
-        return capacity;
+    public String getCustomerNum() {
+        return customerNum; // 수정된 Getter
     }
 
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
+    public void setCustomerNum(String customerNum) {
+        this.customerNum = customerNum; // 수정된 Setter
     }
 
     public int getScheduleId() {
@@ -69,7 +66,7 @@ public class ReservationDTO {
                 "resId=" + resId +
                 ", userIdRes=" + userIdRes +
                 ", resDate=" + resDate +
-                ", capacity='" + capacity + '\'' +
+                ", customerNum='" + customerNum + '\'' + // 수정된 필드명 반영
                 ", scheduleId=" + scheduleId +
                 '}';
     }

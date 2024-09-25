@@ -47,11 +47,11 @@
     <h1>예약이 완료되었습니다!</h1>
 
     <p th:if="${store != null}">
-        고객님의 예약이 성공적으로 완료되었습니다. <strong th:text="${store.name}">업체명</strong>에서의 예약이 확인되었습니다.
+        고객님의 예약이 성공적으로 완료되었습니다. <strong th:text="${store.storeName}">업체명</strong>에서의 예약이 확인되었습니다.
     </p>
 
     <p>추가적으로 궁금한 사항이 있으시면 언제든지 연락주세요.</p>
-    <a href="/static/index">홈으로 돌아가기</a>
+    <a href="/main">홈으로 돌아가기</a>
 </div>
 
 </body>

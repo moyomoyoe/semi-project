@@ -14,7 +14,6 @@
             background-color: #f8f9fa;
             color: #343a40;
         }
-
         main {
             margin: 20px auto;
             max-width: 800px;
@@ -23,11 +22,9 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         h1 {
             margin-bottom: 20px;
         }
-
         .time-slots button {
             margin: 5px;
             padding: 10px;
@@ -36,49 +33,37 @@
             background-color: white;
             cursor: pointer;
         }
-
         .time-slots button.active {
             background-color: #343a40;
             color: white;
         }
-
         .hidden {
             display: none;
         }
-
         .disabled {
             background-color: #e9ecef;
             color: #adb5bd;
             cursor: not-allowed;
         }
-
-        /* 과거 날짜를 흐릿하게 표시 */
         .fc-day.fc-past {
             opacity: 0.5;
             pointer-events: none;
         }
-
         .fc-day.fc-past:hover {
             cursor: not-allowed;
         }
-
-        /* 공휴일 및 일요일은 빨간색 표시 */
         .fc-day.fc-sun, .holiday {
             color: red;
         }
-
-        /* 선택 가능한 미래 날짜는 까만색으로 */
         .fc-day.fc-future {
             color: black;
         }
     </style>
 </head>
-
 <body>
 <header>
     <h1>예약 시스템</h1>
 </header>
-
 <main>
     <section id="step1">
         <h2>예약 날짜와 시간 선택</h2>
@@ -92,10 +77,10 @@
         </div>
         <button type="button" id="next-button" class="btn btn-primary">다음 단계</button>
     </section>
-
     <section id="step2" class="hidden">
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/submit">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
@@ -116,17 +101,14 @@
                     <option value="6">6명</option>
                 </select>
             </div>
-
-            <!-- 숨겨진 필드 추가 -->
             <input type="hidden" id="date" name="date">
             <input type="hidden" id="startTime" name="startTime">
             <input type="hidden" id="endTime" name="endTime">
             <input type="hidden" id="storeId" name="storeId" value="1">
-
+            <input type="hidden" id="selectedTimes" name="selectedTimes">
             <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
         </form>
     </section>
-
     <section id="step3" class="hidden">
         <h2>예약이 완료되었습니다.</h2>
         <p>예약 정보:</p>
@@ -141,6 +123,7 @@
 <script>
     let selectedDate;
     let selectedTimes = [];
+    let reservedTimes = [];
 
     const fetchReservedTimes = (date) => {
         let storeId = $('#storeId').val();
@@ -167,7 +150,10 @@
             validRange: {
                 start: moment().format('YYYY-MM-DD')
             },
-            locale: 'ko', // Use Korean locale
+            locale: 'ko',
+            dayCellContent: function(arg) {
+                return { html: arg.dayNumberText.replace('일', '') };
+            },
             dateClick: function (info) {
                 selectedDate = info.dateStr;
                 $('#date').val(selectedDate);
@@ -200,12 +186,6 @@
                         $('#time-slots').append(timeButton);
                     }
                 });
-            },
-            eventDidMount: function(info) {
-                // Apply red color for Sundays
-                if (info.view.type === 'dayGridMonth' && info.el.classList.contains('fc-day-sun')) {
-                    info.el.style.color = 'red';
-                }
             }
         });
         calendar.render();
@@ -244,7 +224,7 @@
         });
 
         $('#finish-button').click(function () {
-            window.location.href = "/index.html"; // '처음으로'를 눌렀을 때 index.html로 이동
+            window.location.href = "/main.html";
         });
     });
 </script>

@@ -1,12 +1,21 @@
 package moyomoyoe.reservation.model.dao;
 
+import moyomoyoe.reservation.DTO.StoreDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Insert;
 
-@Mapper
-public interface ScheduleMapper {
+import java.util.List;
 
-    @Insert("INSERT INTO tbl_schedule (store_id, reservation_id, res_date, res_time) VALUES (#{storeId}, #{reservationId}, #{resDate}, #{resTime})")
-    void insertSchedule(ScheduleDTO scheduleDTO);
-}
+    @Mapper
+    public interface ScheduleMapper {
+        StoreDTO getStoreAllInfo(int code);
+        List<moyomoyoe.reservation.DTO.ScheduleDTO> getSchedule(int code);
+        void registSchedule(List<moyomoyoe.reservation.DTO.ScheduleDTO> scheduleDTOS);
+        void registStore(StoreDTO info);
+        void deleteScheduleId(int code, int id);
+        void curBookedPeople(int code);
+
+        void updateStore(StoreDTO info);
+        void registSchedule(moyomoyoe.reservation.DTO.ScheduleDTO s);
+    }

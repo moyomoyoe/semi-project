@@ -15,8 +15,6 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>가게명</th>
-            <th>예약 날짜</th>
             <th>예약 시작 시간</th>
             <th>예약 종료 시간</th>
             <th>인원수</th>
@@ -25,15 +23,14 @@
         </thead>
         <tbody>
         <tr th:each="schedule : ${reservationList}">
-            <td th:text="${schedule.storeName}"></td>
-            <td th:text="${schedule.resDate}"></td>
             <td th:text="${schedule.startTime}"></td>
             <td th:text="${schedule.endTime}"></td>
             <td th:text="${schedule.capacity} + '명'"></td>
-            <td th:text="${schedule.scheduleId}"></td>  <!-- scheduleId 값을 출력 -->
-            <a th:href="@{/reservation/scheduleDetail/{scheduleId}(scheduleId=${schedule.scheduleId})}">
-                Details
-            </a>
+            <td>
+                <a th:href="@{/reservation/scheduleDetail/{scheduleId}(scheduleId=${schedule.scheduleId})}">
+                    Details
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

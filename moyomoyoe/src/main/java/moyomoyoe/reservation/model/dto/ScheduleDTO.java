@@ -1,28 +1,23 @@
 package moyomoyoe.reservation.model.dto;
 
+import java.sql.Time;
+
 public class ScheduleDTO {
     private int scheduleId;
     private int storeId;
-    private String storeName;
-    private String resDate;
-    private String startTime;  // Time으로 사용하지 않고 String으로 처리
-    private String endTime;
-    private String capacity;
+    private Time startTime;  // Time으로 사용하지 않고 String으로 처리
+    private Time endTime;
+    private int capacity;
 
     public ScheduleDTO() {
     }
 
-    public ScheduleDTO(int scheduleId, int storeId, String storeName, String resDate, String startTime, String endTime, String capacity) {
+    public ScheduleDTO(int scheduleId, int storeId, Time startTime, Time endTime, int capacity) {
         this.scheduleId = scheduleId;
         this.storeId = storeId;
-        this.storeName = storeName;
-        this.resDate = resDate;
         this.startTime = startTime;
         this.endTime = endTime;
         this.capacity = capacity;
-    }
-
-    public ScheduleDTO(int storeId, String storeName, String date, String startTime, String endTime, String capacity) {
     }
 
     public int getScheduleId() {
@@ -41,43 +36,27 @@ public class ScheduleDTO {
         this.storeId = storeId;
     }
 
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
-
-    public String getResDate() {
-        return resDate;
-    }
-
-    public void setResDate(String resDate) {
-        this.resDate = resDate;
-    }
-
-    public String getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
@@ -86,11 +65,9 @@ public class ScheduleDTO {
         return "ScheduleDTO{" +
                 "scheduleId=" + scheduleId +
                 ", storeId=" + storeId +
-                ", storeName='" + storeName + '\'' +
-                ", resDate='" + resDate + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", capacity='" + capacity + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", capacity=" + capacity +
                 '}';
     }
 }

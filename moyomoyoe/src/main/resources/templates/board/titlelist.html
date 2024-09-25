@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>postList</title>
+
+    <!-- 성공 메시지 처리 -->
+    <script>
+        const successMessage = `[[${successMessage}]]`;
+        if (successMessage) alert(successMessage);
+    </script>
+
+    <!-- TOAST UI Grid 스타일 및 스크립트 -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+</head>
+<body>
+
+<h3>게시판 제목검색 페이지</h3>
+
+<!-- 공통 헤더 파일 포함 -->
+<div th:replace="common/header.html"></div>
+
+<div id="grid"></div>
+
+<script th:inline="javascript">
+    // 서버에서 전달된 postList 데이터를 JavaScript로 주입
+    let titleList = /*[[${titleList}]]*/ [];
+
+    console.log("titleList 데이터: ", titleList);
+
+    const grid = new tui.Grid({
+        el: document.getElementById('grid'),
+        data: titleList,
+        scrollX: false,
+        scrollY: true,
+        columns: [
+            {
+                header: '게시글번호',
+                name: 'postId'
+            },
+            {
+                header: '제목',
+                name: 'title'
+            },
+            {
+                header: '내용',
+                name: 'context'
+            },
+            {
+                header: '닉네임',
+                name: 'nickname'
+            },
+            {
+                header: '작성일자',
+                name: 'postDate',
+                sortable: true,
+                sortingType: 'desc'
+            },
+            {
+                header: '비회원 열람 여부',
+                name: 'userOpen'
+            },
+            {
+                header: '이미지',
+                name: 'imageId'
+            },
+            {
+                header: '키워드',
+                name: 'keywordId'
+            }
+        ]
+    });
+
+    // 기본적으로 작성일자 기준 내림차순 정렬
+    grid.sort('postDate', false);
+
+    // 행(row)을 클릭했을 때 상세 페이지로 이동하는 이벤트 등록
+    grid.on('click', (ev) => {
+        // 클릭한 행의 데이터가 있는지 확인
+        const postId = ev.instance.getValue(ev.rowKey, 'postId');  // 클릭한 행의 postId 가져오기
+
+        console.log(`Selected postId: ${postId}`);
+
+        if (postId) {
+            // postId를 이용해 detailpost 페이지로 이동
+            window.location.href = `/board/detailpost/${postId}`;
+        } else {
+            console.log('postId not found');
+        }
+    });
+</script>
+
+<!-- 메인 페이지로 이동하는 버튼 -->
+<button onclick="location.href='/'">메인으로</button>
+
+</body>
+</html>

@@ -38,7 +38,7 @@
 <body>
 
 <header>
-    <h1>Welcome to Our Store List</h1>
+    <h1>Available Stores</h1>
     <nav>
         <a href="/" th:href="@{/}">Home</a> |
         <a href="/about" th:href="@{/about}">About Us</a> |
@@ -47,13 +47,24 @@
 </header>
 
 <main>
-    <h2>Store List</h2>
+    <h2>리스트</h2>
 
+    <!-- Loop through each store -->
     <div th:each="store : ${stores}" class="store">
-        <img th:src="${store.imageUrl != null ? store.imageUrl : '/images/default-store.png'}" alt="Store Image">
-        <h2><a th:href="@{/reservation/storeDetail/{id}(id=${store.id})}">[[${store.name}]] ([[${store.type}]])</a></h2>
-        <p>주소: [[${store.address}]]</p>
-        <p>영업시간: [[${store.hours}]]</p>
+        <!-- Dynamically generate image URL based on store id -->
+        <img th:src="@{'/images/store/' + ${store.storeId} + '.png'}" alt="Store Image">
+
+        <!-- Display store name, type and link to reservation details -->
+        <h2>
+            <a th:href="@{/reservation/storeDetail/{id}(id=${store.storeId})}">
+                [[${store.storeName}]] ([[${store.storeSort}]])
+            </a>
+        </h2>
+        <p>[[${store.storeAddress}]]</p>
+        <p>[[${store.description}]]</p>
+
+        <!-- Button to make a reservation -->
+        <a th:href="@{/reservation/makeReservation/{id}(id=${store.storeId})}">예약하기</a>
     </div>
 </main>
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>USERINFO</title>
+</head>
+<body>
+    <h1>회원 정보 조회</h1>
+
+    <div id="profileImg">
+        <img src="" alt="프로필사진">
+    </div>
+    <br>
+    <div id="userInfo">
+        이름 : <span th:text="${ userSession.username }"></span><br>
+        아이디 : <span th:text="${ userSession.account }"></span><br>
+        닉네임 : <span th:text="${ userSession.nickname }"></span><br>
+        지역 : <span th:text="${ userSession.region }"></span><br>
+        연락처 : <span th:text="${ userSession.phone }"></span><br>
+        이메일 : <span th:text="${ userSession.email }"></span><br>
+    </div>
+    <br>
+    <form action="/member/user/editInfo">
+        <button>회원 정보 수정</button>
+    </form>
+
+</body>
+</html>

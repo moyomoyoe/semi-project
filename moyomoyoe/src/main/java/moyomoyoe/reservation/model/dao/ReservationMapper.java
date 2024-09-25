@@ -2,6 +2,7 @@ package moyomoyoe.reservation.model.dao;
 
 import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
+import moyomoyoe.reservation.model.dto.StoreDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,11 +14,15 @@ public interface ReservationMapper {
 
     List<String> getReservedTimes(@Param("storeId") int storeId, @Param("date") String date);
 
-    List<ScheduleDTO> getAllReservations();
+    List<StoreDTO> getAllStores();
 
-    List<ScheduleDTO> getReservationList();
-
-    ScheduleDTO getScheduleById(int scheduleId);
+    StoreDTO getStoreById(int storeId);
 
     void insertSchedule(ScheduleDTO scheduleDTO);
+
+    List<ScheduleDTO> getAllReservations();
+
+    ScheduleDTO getScheduleById(int scheduleId); // 스케줄 상세 조회 추가
+
+    void deleteReservation(int resId);
 }
