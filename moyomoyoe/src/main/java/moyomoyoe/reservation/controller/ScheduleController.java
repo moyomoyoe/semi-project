@@ -1,5 +1,7 @@
 package moyomoyoe.reservation.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import moyomoyoe.reservation.DTO.ScheduleDTO;
 import moyomoyoe.reservation.DTO.StoreDTO;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +67,7 @@ public class ScheduleController {
 
     //등록페이지로 이동
     @GetMapping("/regist/store/{code}")
-    public String RegistStore(Model model, @PathVariable("code") int code, RedirectAttributes redirectAttributes) {
+    public String RegistStore(@PathVariable("code") int code, RedirectAttributes redirectAttributes) {
         StoreDTO store = reserService.getStoreAllInfo(code);
         //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
         redirectAttributes.addFlashAttribute("store", store);
@@ -86,7 +89,6 @@ public class ScheduleController {
         Map<String, String> response = new HashMap<>();
         //StoreDTO temp = new StoreDTO(0,"더미 데이터", "종각", "기타","123456","어떤 가게입니다.",1, null);
         System.out.println(store);
-
         try {
             // Store 등록 서비스 호출
             reserService.registStore(store);
@@ -99,43 +101,62 @@ public class ScheduleController {
             response.put("status", "failure");
             response.put("message", "Failed to register store.");
         }
+
         return response;
     }
 
     //일정 관리 (등록/ 수정/ 삭제)
-    @PostMapping("/regist/schedule")
+    @PostMapping("/regist/schedule/{code}")
     @ResponseBody
-    public Map<String, String> RegistSchedule(
-                                       @ModelAttribute int code,
-                                       @ModelAttribute List <ScheduleDTO> newScheduleDTOS) {
-        // 새로운 일정 사라진 일정 반영,
-        //1. 해당 일정에 예약이 있는 지 확인함
-        // <쉬운방식 아무튼 예약 다 취소함.
-
-        //어려운 방식 기존의 일정테이블을 가져온 뒤,
-        // 삭제된 일정의 예약만 취소
-        //2. 남아있는지 확인을 어떻게 하는가? equals 오버라이딩
-        //그러면 필요한 것. 기존의 스케쥴과 보내준 스케쥴 리스트...
+    public Map<String, String> RegistSchedule(@RequestBody List<ScheduleDTO> schedules, @PathVariable("code") int code) {
 
         //성공/ 실패문구 출력, 성공시 마이페이지로,
+        System.out.println("출력");
+        System.out.println("schedules: " + schedules);
+        System.out.println(schedules);
         Map<String, String> response = new HashMap<>();
+
         try {
             // Store 등록 서비스 호출
-            reserService.registSchedule(code, newScheduleDTOS);
+            reserService.registSchedule(code, schedules);
             // 성공 시 응답 설정
             response.put("status", "success");
             response.put("message", "Store registered successfully!");
         } catch (Exception e) {
             // 실패 시 응답 설정
+            e.printStackTrace();
             response.put("status", "failure");
             response.put("message", "Failed to register store.");
         }
+
         return response;
     }
 
-    @GetMapping("/regist/schedule")
-    public String schedule() {
-        return defaultUrl+"storeInfo";
+    @GetMapping("/regist/schedule/{code}")
+    public String schedule(@PathVariable("code") int code, HttpSession session) {
+        List<ScheduleDTO> schedule = reserService.getSchedule(code);
+        //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
+        session.setAttribute("schedule", schedule);
+        return "redirect:" + defaultUrl + "regist/schedule";
     }
+    @GetMapping("/regist/schedule")
+    public String registSchedule(HttpSession session, Model model) {
+        List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String scheduleJson = "[]";  // 기본값으로 빈 배열 설정
 
+        // schedule이 null이 아닌 경우 JSON 문자열로 변환
+        if (schedule != null) {
+            try {
+                scheduleJson = objectMapper.writeValueAsString(schedule);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();  // JSON 변환 예외 처리
+            }
+        }
+
+        // schedule이 null이면 빈 리스트로 대체
+        model.addAttribute("schedule", scheduleJson);
+
+        return defaultUrl + "registschedule";
+    }
 }
