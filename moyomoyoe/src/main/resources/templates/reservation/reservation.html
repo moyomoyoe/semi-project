@@ -52,13 +52,25 @@
             cursor: not-allowed;
         }
 
-        /* 비활성화된 날짜 스타일 */
-        .fc-day-disabled {
-            background-color: #f0f0f0;
-            color: #c0c0c0;
+        /* 과거 날짜를 흐릿하게 표시 */
+        .fc-day.fc-past {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .fc-day.fc-past:hover {
             cursor: not-allowed;
         }
 
+        /* 공휴일 및 일요일은 빨간색 표시 */
+        .fc-day.fc-sun, .holiday {
+            color: red;
+        }
+
+        /* 선택 가능한 미래 날짜는 까만색으로 */
+        .fc-day.fc-future {
+            color: black;
+        }
     </style>
 </head>
 
@@ -76,7 +88,7 @@
         </div>
         <div class="form-group">
             <label>예약 시간 선택</label>
-            <div class="time-slots" id="time-slots"></div> <!-- 시작/종료 시간 합침 -->
+            <div class="time-slots" id="time-slots"></div>
         </div>
         <button type="button" id="next-button" class="btn btn-primary">다음 단계</button>
     </section>
@@ -107,9 +119,9 @@
 
             <!-- 숨겨진 필드 추가 -->
             <input type="hidden" id="date" name="date">
-            <input type="hidden" id="startTime" name="startTime"> <!-- startTime을 저장할 필드 -->
-            <input type="hidden" id="endTime" name="endTime"> <!-- endTime 저장할 필드 -->
-            <input type="hidden" id="storeId" name="storeId" value="1"> <!-- 선택된 가게 ID -->
+            <input type="hidden" id="startTime" name="startTime">
+            <input type="hidden" id="endTime" name="endTime">
+            <input type="hidden" id="storeId" name="storeId" value="1">
 
             <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
         </form>
@@ -128,7 +140,7 @@
 
 <script>
     let selectedDate;
-    let selectedTimes = [];  // 여러 시간 저장
+    let selectedTimes = [];
 
     const fetchReservedTimes = (date) => {
         let storeId = $('#storeId').val();
@@ -153,15 +165,16 @@
             initialView: 'dayGridMonth',
             selectable: true,
             validRange: {
-                start: moment().format('YYYY-MM-DD') // 현재 날짜 이전 선택 불가
+                start: moment().format('YYYY-MM-DD')
             },
+            locale: 'ko', // Use Korean locale
             dateClick: function (info) {
                 selectedDate = info.dateStr;
                 $('#date').val(selectedDate);
 
                 fetchReservedTimes(selectedDate).then(() => {
-                    const startTime = 9;  // 9시부터 예약 가능
-                    const endTime = 18;  // 18시까지 예약 가능
+                    const startTime = 9;
+                    const endTime = 18;
                     $('#time-slots').empty();
 
                     for (let hour = startTime; hour <= endTime; hour++) {
@@ -177,21 +190,21 @@
                                 if (!$(this).hasClass('disabled')) {
                                     $(this).toggleClass('active');
                                     if ($(this).hasClass('active')) {
-                                        selectedTimes.push(timeSlot);  // 시간 추가
+                                        selectedTimes.push(timeSlot);
                                     } else {
-                                        selectedTimes = selectedTimes.filter(t => t !== timeSlot);  // 선택 취소
+                                        selectedTimes = selectedTimes.filter(t => t !== timeSlot);
                                     }
-                                    $('#selectedTimes').val(selectedTimes.join(','));  // 선택된 시간들 저장
+                                    $('#selectedTimes').val(selectedTimes.join(','));
                                 }
                             });
                         $('#time-slots').append(timeButton);
                     }
                 });
             },
-            dayRender: function (info) {
-                const currentDate = moment().format('YYYY-MM-DD');
-                if (info.dateStr < currentDate) {
-                    $(info.el).addClass('fc-day-disabled'); // 현재 날짜 이전 날짜 비활성화
+            eventDidMount: function(info) {
+                // Apply red color for Sundays
+                if (info.view.type === 'dayGridMonth' && info.el.classList.contains('fc-day-sun')) {
+                    info.el.style.color = 'red';
                 }
             }
         });
@@ -205,29 +218,24 @@
             event.preventDefault();
 
             const selectedTimes = $('#selectedTimes').val();
-
-            // 선택된 시간이 없는 경우 오류 처리
             if (!selectedTimes) {
                 alert('예약할 시간을 선택하세요.');
                 return;
             }
 
-            // 시작 시간과 종료 시간을 분리
             const timesArray = selectedTimes.split(',');
-            const startTime = timesArray[0];  // 첫 번째 시간
-            const endTime = timesArray[timesArray.length - 1];  // 마지막 시간
+            const startTime = timesArray[0];
+            const endTime = timesArray[timesArray.length - 1];
 
-            // hidden 필드에 시작 시간과 종료 시간을 설정
             $('#startTime').val(startTime);
             $('#endTime').val(endTime);
 
-            // 정상적으로 폼 제출
             this.submit();
         });
 
         $('#next-button').click(function () {
             if (!selectedDate || selectedTimes.length === 0) {
-                alert('날짜와 시간을 선택하세요.');
+                alert('예약할 시간을 선택하세요.');
                 return;
             }
 
@@ -236,8 +244,7 @@
         });
 
         $('#finish-button').click(function () {
-            $('#step3').addClass('hidden');
-            $('#step1').removeClass('hidden');
+            window.location.href = "/index.html"; // '처음으로'를 눌렀을 때 index.html로 이동
         });
     });
 </script>
