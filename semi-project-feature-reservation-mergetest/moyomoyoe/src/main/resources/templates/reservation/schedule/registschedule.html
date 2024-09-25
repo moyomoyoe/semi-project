@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <title>Title</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+    <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
+</head>
+<body>
+<h1>확인용</h1>
+
+<h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
+    <div id="startTime"></div>
+    <div id="endTime"></div>
+    <input min="1" id="capacity" type="number" value="5"> <label>명</label>
+    <button id ="makeSchedule"> 새 일정 생성</button>
+<div id="container"></div>
+<button id="save" onclick="saveSchedule()"> 일정 저장</button>
+
+<script>
+    // console.log("확인"+document.querySelector("#data").innerHTML);
+    const container = document.querySelector("#container");
+    const capacityInput = document.querySelector("#capacity")
+    const schedules = JSON.parse(document.querySelector("#data").innerHTML);
+    const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    const storeId = 2;
+
+    console.log(schedules);
+
+    schedules.forEach(s =>{
+        makeNode(s)
+        console.log(s.storeId + s.startTime)
+    })
+
+    function makeNode(s){
+        let newSchedule = document.createElement("div");
+        newSchedule.innerHTML = ` ${s.startTime} ~ ${s.endTime}
+        <button id="delete-btn">X</button>
+       <br>
+       ${s.capacity}명 예약
+       </div>
+        </div>
+      `;
+        newSchedule
+            .querySelector("#delete-btn")
+            .addEventListener("click", () => {
+                if (confirm("삭제하시겠습니까?")) {
+                    const index = schedules.indexOf(s);
+                    if (index > -1) {
+                        schedules.splice(index, 1);
+                    }
+                    container.removeChild(newSchedule);
+                    console.log(schedules)
+                }
+            });
+
+        container.appendChild(newSchedule);
+    }
+    /*
+    * schedule 구성요소
+    bookedPeople
+        :4
+    capacity
+        :30
+    endTime
+        :"16:00:00"
+    scheduleId
+        :1
+    startTime
+        :"15:00:00"
+    storeId:2
+    */
+
+    function schedule(start, end, no, id){
+        return{
+            storeId: id,
+            startTime: start,
+            endTime:end,
+            capacity : no,
+            scheduleId: null,
+            bookedPeople:0
+        }
+    }
+
+    var startTime = new tui.TimePicker('#startTime', {
+        initialHour: 13,
+        initialMinute: 30,
+        inputType: 'selectbox',
+        minuteStep: 30,
+        showMeridiem: false,
+        getTime() {
+            return {
+                h: this.hour,
+                m: this.minute
+            }
+        }
+    });
+    var endTime = new tui.TimePicker('#endTime', {
+        initialHour: 14,
+        initialMinute: 30,
+        inputType: 'selectbox',
+        minuteStep: 30,
+        showMeridiem: false,
+        getTime() {
+            return {
+                h: this.hour,
+                m: this.minute
+            }
+        }
+    });
+    function time(h, m){
+        return{
+            h : h,
+            m : m,
+            t : `${h}:${m}:00`
+        }
+    }
+    document.querySelector("#makeSchedule").addEventListener("click",function (){
+        const sTime = time(startTime.getHour(), startTime.getMinute());
+        const eTime = time(endTime.getHour(), endTime.getMinute());
+        const capacity = capacityInput.value;
+
+       if (sTime.h >eTime.h ||
+            (sTime.h === eTime.h)&& (sTime.m>= eTime.m)){
+            alert("적절한 시간 범위가 아닙니다.")
+        }
+        else {
+            let s = new schedule(sTime.t, eTime.t, capacity, 2)
+            makeNode(s)
+           schedules.push(s);
+        }
+    })
+    function saveSchedule(){
+        console.log("saveSchedule 호출")
+        /*let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/reservation/schedule/regist/schedule", true);
+        xhr.send(JSON.stringify(schedules));*/
+
+        fetch(`schedule/${storeId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify(schedules),
+        }).then(response => {
+            console.log(response)
+            return response.json()
+        }).then(data=>{
+            console.log(data.status)
+            console.log(data.message)
+            if(data.status== "success"){
+                alert("일정 수정 성공")
+                location.href="/reservation/schedule/storeInfo/2"
+            }else{
+                alert("일정 등록에 실패했습니다. 다시 시도해주세요.")
+            }
+        });
+    }
+
+    /*
+       */
+
+
+</script>
+</body>
+
+</html>

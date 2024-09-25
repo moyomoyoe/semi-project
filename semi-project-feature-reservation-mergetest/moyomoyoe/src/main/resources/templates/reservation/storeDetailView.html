@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Store Detail View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .store-detail {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .store-detail img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .reservation-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .reservation-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>매장 상세 정보</h1>
+    <nav>
+        <a href="/" th:href="@{/}">Home</a> |
+        <a href="/about" th:href="@{/about}">About Us</a> |
+        <a href="/contact" th:href="@{/contact}">Contact</a>
+    </nav>
+</header>
+
+<main>
+    <div class="store-detail">
+        <img th:src="${store.imageUrl}" alt="Store Image">
+        <h2 th:text="${store.name} + ' (' + ${store.type} + ')'">매장 이름 (매장 타입)</h2>
+        <p>주소: <span th:text="${store.address}">주소</span></p>
+        <p>영업시간: <span th:text="${store.hours}">영업시간</span></p>
+        <p>상세 설명: <span th:text="${store.description}">상세 설명</span></p>
+
+        <!-- 예약하기 버튼 수정 -->
+        <button class="reservation-button"
+                th:onclick="'location.href=\'/reservation?storeId=' + ${store.id} + '\''">예약하기
+        </button>
+    </div>
+
+    <button onclick="location.href='/reservation/storeList'">목록</button>
+</main>
+
+<footer>
+    <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
