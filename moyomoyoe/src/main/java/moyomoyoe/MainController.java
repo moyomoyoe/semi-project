@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Controller
 public class MainController {
-    @GetMapping("/main")
+    @GetMapping({"/","/main"})
     public String main(HttpSession session, HttpServletRequest req, Model model) {
 
 
