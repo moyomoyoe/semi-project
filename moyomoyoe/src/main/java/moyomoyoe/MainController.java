@@ -23,23 +23,35 @@ public class MainController {
     }
 
     @RequestMapping({"/", "/main"})
-    @GetMapping("/main")
-    public ModelAndView main(ModelAndView mv, Principal principal) {
+//    @GetMapping("/main")
+//    public ModelAndView main(ModelAndView mv, Principal principal) {
+//
+//        if(principal != null) {
+//
+//            String account = principal.getName();
+//
+//            UserDTO user = userService.getDistrictByAccount(account);
+//
+//            mv.addObject("user", user);
+//        } else {
+//            mv.addObject("user", null);
+//        }
+//
+//        mv.setViewName("static/main");
+//
+//        return mv;
+//    }
 
-        if(principal != null) {
+    @GetMapping({"/","/main"})
+    public String main(HttpSession session, HttpServletRequest req, Model model) {
 
-            String account = principal.getName();
 
-            UserDTO user = userService.getDistrictByAccount(account);
+        Map<String, Object> userSession = (Map<String, Object>) req.getSession().getAttribute("user");
 
-            mv.addObject("user", user);
-        } else {
-            mv.addObject("user", null);
-        }
+        model.addAttribute("userSession", userSession);
+        System.out.println("[메인]userSession = " + userSession);
 
-        mv.setViewName("static/main");
-
-        return mv;
+        return "/static/main";
     }
 
     @GetMapping("/admin/page")

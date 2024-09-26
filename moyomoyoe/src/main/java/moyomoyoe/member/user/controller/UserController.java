@@ -166,6 +166,7 @@ public class UserController {
                                    @ModelAttribute UserDTO newUserInfo,
                                    @RequestParam String phone,
                                    @RequestParam String email,
+                                   HttpServletRequest req,
                                    Principal principal) {
 
         System.out.println("회원 수정 되고 있니?");
@@ -204,6 +205,27 @@ public class UserController {
             System.out.println(message);
 
             mv.setViewName("redirect:/member/user/userInfo");
+
+            UserDTO updatedUser = userService.findByAccount(account);
+
+            req.getSession().removeAttribute("user");
+            Map<String, Object> userSession = new HashMap<>();
+            userSession.put("id", updatedUser.getId());
+            userSession.put("username", updatedUser.getName());
+            userSession.put("account", updatedUser.getAccount());
+            userSession.put("nickname", updatedUser.getNickname());
+            userSession.put("phone", updatedUser.getPhone());
+            userSession.put("email", updatedUser.getEmail());
+
+            RegionDTO region = userService.getRegionByUserId(updatedUser.getId());
+            if(region != null) {
+                userSession.put("region", region.getDistrict());
+            }
+
+            req.getSession().setAttribute("user", userSession);
+
+            System.out.println("[회원 정보 수정 후] 세션 저장 확인 = " + userSession);
+
         } else {
             message = "알 수 없는 오류가 발생하였습니다. 다시 시도 해주세요.";
             System.out.println(message);
