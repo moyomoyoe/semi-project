@@ -43,7 +43,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
@@ -78,6 +78,7 @@ public class SecurityConfig {
 //        }).csrf(csrf ->
 //                csrf.disable()
 //        );
+
         return http.build();
     }
 

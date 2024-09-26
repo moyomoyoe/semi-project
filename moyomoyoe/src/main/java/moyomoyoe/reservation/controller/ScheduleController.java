@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/reservation/schedule")
-//리팩토링 , 첨삭 생각 나중에 하기
+// 리팩토링 , 첨삭 생각 나중에 하기
 public class ScheduleController {
     //세션에서 role 확인후, 조회등의 페이지를 구분 해야함
     ScheduleService reserService;

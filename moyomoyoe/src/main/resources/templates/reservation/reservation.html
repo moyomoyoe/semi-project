@@ -14,6 +14,7 @@
             background-color: #f8f9fa;
             color: #343a40;
         }
+
         main {
             margin: 20px auto;
             max-width: 800px;
@@ -22,9 +23,11 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             margin-bottom: 20px;
         }
+
         .time-slots button {
             margin: 5px;
             padding: 10px;
@@ -33,28 +36,35 @@
             background-color: white;
             cursor: pointer;
         }
+
         .time-slots button.active {
             background-color: #343a40;
             color: white;
         }
+
         .hidden {
             display: none;
         }
+
         .disabled {
             background-color: #e9ecef;
             color: #adb5bd;
             cursor: not-allowed;
         }
+
         .fc-day.fc-past {
             opacity: 0.5;
             pointer-events: none;
         }
+
         .fc-day.fc-past:hover {
             cursor: not-allowed;
         }
+
         .fc-day.fc-sun, .holiday {
             color: red;
         }
+
         .fc-day.fc-future {
             color: black;
         }
@@ -80,7 +90,7 @@
     <section id="step2" class="hidden">
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/submit">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
@@ -124,15 +134,20 @@
     let selectedDate;
     let selectedTimes = [];
     let reservedTimes = [];
+    let selectedStoreId = $('#storeId').val(); // HTML에서 storeId 값을 가져옴
 
     const fetchReservedTimes = (date) => {
-        let storeId = $('#storeId').val();
+        console.log(`예약된 시간을 가져오는 중: 날짜 = ${date}, storeId = ${selectedStoreId}`);
         return $.ajax({
             url: '/reservation/getReservedTimes',
             type: 'GET',
-            data: {date: date, storeId: storeId},
+            data: {date: date, storeId: selectedStoreId},
             success: function (data) {
+                console.log("예약된 시간:", data);
                 reservedTimes = data.map(time => time.slice(0, 5));
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX 오류:", error);
             }
         });
     };
@@ -151,12 +166,13 @@
                 start: moment().format('YYYY-MM-DD')
             },
             locale: 'ko',
-            dayCellContent: function(arg) {
-                return { html: arg.dayNumberText.replace('일', '') };
+            dayCellContent: function (arg) {
+                return {html: arg.dayNumberText.replace('일', '')};
             },
             dateClick: function (info) {
                 selectedDate = info.dateStr;
                 $('#date').val(selectedDate);
+                console.log(`선택한 날짜: ${selectedDate}`);
 
                 fetchReservedTimes(selectedDate).then(() => {
                     const startTime = 9;
@@ -181,6 +197,7 @@
                                         selectedTimes = selectedTimes.filter(t => t !== timeSlot);
                                     }
                                     $('#selectedTimes').val(selectedTimes.join(','));
+                                    console.log(`선택한 시간: ${$('#selectedTimes').val()}`);
                                 }
                             });
                         $('#time-slots').append(timeButton);
@@ -194,7 +211,7 @@
     $(document).ready(function () {
         renderCalendar();
 
-        $('#reservation-form').submit(function(event) {
+        $('#reservation-form').submit(function (event) {
             event.preventDefault();
 
             const selectedTimes = $('#selectedTimes').val();
@@ -209,7 +226,9 @@
 
             $('#startTime').val(startTime);
             $('#endTime').val(endTime);
+            $('#storeId').val(selectedStoreId); // storeId 설정
 
+            console.log(`예약 제출: 이름 = ${$('#name').val()}, 전화번호 = ${$('#phone').val()}, 인원수 = ${$('#peopleCount').val()}, 예약 날짜 = ${$('#date').val()}, 시작 시간 = ${startTime}, 종료 시간 = ${endTime}, storeId = ${selectedStoreId}`);
             this.submit();
         });
 
@@ -221,9 +240,11 @@
 
             $('#step1').addClass('hidden');
             $('#step2').removeClass('hidden');
+            console.log(`다음 단계로 이동: 날짜 = ${selectedDate}, 선택한 시간 = ${selectedTimes.join(', ')}`);
         });
 
         $('#finish-button').click(function () {
+            console.log('예약이 완료되었습니다. 처음으로 돌아갑니다.');
             window.location.href = "/main.html";
         });
     });
