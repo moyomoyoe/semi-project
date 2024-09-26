@@ -1,31 +1,41 @@
 
 package moyomoyoe;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
 public class MainController {
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
+    public MainController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping({"/", "/main"})
     @GetMapping("/main")
     public ModelAndView main(ModelAndView mv, Principal principal) {
 
-        String account = principal.getName();
+        if(principal != null) {
 
-        UserDTO user = userService.getDistrictByAccount(account);
+            String account = principal.getName();
 
-        mv.addObject("user", user);
+            UserDTO user = userService.getDistrictByAccount(account);
+
+            mv.addObject("user", user);
+        } else {
+            mv.addObject("user", null);
+        }
 
         mv.setViewName("static/main");
 
