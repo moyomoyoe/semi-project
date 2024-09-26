@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="75812603-aa55-4fd8-8c75-c58da1e4eec7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/member/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/member/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/controller/ReservationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/model/dto/ScheduleDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/model/dto/ScheduleDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/model/dto/StoreDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/java/moyomoyoe/reservation/model/dto/StoreDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/resources/sql/00_MOYOMOYOE_BUILD_SCRIPT.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/resources/sql/00_MOYOMOYOE_BUILD_SCRIPT.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/resources/templates/reservation/reservation.html" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/resources/templates/reservation/reservation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../moyomoyoe/src/main/resources/templates/static/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/../moyomoyoe/src/main/resources/templates/static/main.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="moyomoyoe" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;97jay181&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/moyomoyoe/semi-project.git&quot;,
+    &quot;accountId&quot;: &quot;4645e7a6-fb77-4ef5-ac7b-26b49db900fb&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2mGulfiJlEhUshQATtfPTGL4zQd" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Gradle.Build moyomoyoe 20.36.30.executor": "Run",
+    "Gradle.Build moyomoyoe.executor": "Run",
+    "Gradle.moyomoyoe [clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.MoyoApplication.executor": "Run",
+    "Spring Boot.MoyomoyoeApplication (1).executor": "Run",
+    "Spring Boot.MoyomoyoeApplication.executor": "Run",
+    "git-widget-placeholder": "Merging reservation/reservation",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/byeonjunsig/Desktop/semiWs/moyomoyoe 20.36.30",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "configurable.group.language",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/reservation" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/error" />
+      <recent name="$PROJECT_DIR$/src/main/resources/sql" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/reservation" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.MoyomoyoeApplication">
+    <configuration name="moyomoyoe [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MoyoTestApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="moyomoyoe.test" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="moyomoyoe.MoyoTestApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="moyomoyoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoyomoyoeApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="moyomoyoe.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="moyomoyoe.config.MoyomoyoeApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="moyomoyoe.config.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoyomoyoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="moyomoyoe.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="moyomoyoe.MoyomoyoeApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.MoyomoyoeApplication (1)" />
+        <item itemvalue="Spring Boot.MoyoTestApplication" />
+        <item itemvalue="Gradle.moyomoyoe [clean]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="75812603-aa55-4fd8-8c75-c58da1e4eec7" name="Changes" comment="" />
+      <created>1718670003594</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718670003594</updated>
+      <workItem from="1718670004621" duration="572000" />
+      <workItem from="1726715387783" duration="38235000" />
+      <workItem from="1727053741670" duration="44651000" />
+      <workItem from="1727156547523" duration="59218000" />
+      <workItem from="1727317858094" duration="2913000" />
+      <workItem from="1727323121002" duration="20000" />
+      <workItem from="1727323159275" duration="172000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

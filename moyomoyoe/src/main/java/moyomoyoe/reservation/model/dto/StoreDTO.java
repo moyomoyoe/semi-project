@@ -4,22 +4,24 @@ public class StoreDTO {
     private int storeId;
     private String storeName;
     private String storeAddress;
-    private String storeSort;
     private String description;
-    private int busyNo;
-    private String imageIdStore;
+    private String storeSort;
+    private String businessNo;
+    private int userId;
+    private Integer imageId;
 
     public StoreDTO() {
     }
 
-    public StoreDTO(int storeId, String storeName, String storeAddress, String storeSort, String description, int busyNo, String imageIdStore) {
+    public StoreDTO(int storeId, String storeName, String storeAddress, String storeSort, String businessNo, String description, int userId, Integer imageId) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.storeAddress = storeAddress;
         this.storeSort = storeSort;
+        this.businessNo = businessNo;
         this.description = description;
-        this.busyNo = busyNo;
-        this.imageIdStore = imageIdStore;
+        this.userId = userId;
+        this.imageId = imageId;
     }
 
     public int getStoreId() {
@@ -54,28 +56,36 @@ public class StoreDTO {
         this.storeSort = storeSort;
     }
 
+    public String getBusinessNo() {
+        return businessNo;
+    }
+
+    public void setBusinessNo(String businessNo) {
+        this.businessNo = businessNo;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public Integer getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getBusyNo() {
-        return busyNo;
-    }
-
-    public void setBusyNo(int busyNo) {
-        this.busyNo = busyNo;
-    }
-
-    public String getImageIdStore() {
-        return imageIdStore;
-    }
-
-    public void setImageIdStore(String imageIdStore) {
-        this.imageIdStore = imageIdStore;
     }
 
     @Override
@@ -85,9 +95,10 @@ public class StoreDTO {
                 ", storeName='" + storeName + '\'' +
                 ", storeAddress='" + storeAddress + '\'' +
                 ", storeSort='" + storeSort + '\'' +
+                ", businessNo=" + businessNo +
                 ", description='" + description + '\'' +
-                ", busyNo=" + busyNo +
-                ", imageIdStore='" + imageIdStore + '\'' +
+                ", userId=" + userId +
+                ", imageId=" + imageId +
                 '}';
     }
 }

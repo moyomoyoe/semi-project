@@ -53,7 +53,6 @@ public class ReservationController {
         return "reservation/reservation";
     }
 
-    // 예약 완료 처리
     @PostMapping("/submit")
     public String submitReservation(
             @RequestParam("storeId") int storeId,
@@ -79,19 +78,18 @@ public class ReservationController {
             java.sql.Time sqlStartTime = java.sql.Time.valueOf(startTime);
             java.sql.Time sqlEndTime = java.sql.Time.valueOf(endTime);
 
-            // ScheduleDTO 생성 (초기 ID 0)
-            ScheduleDTO scheduleDTO = new ScheduleDTO(0, storeId, sqlStartTime, sqlEndTime, capacity);
+            // ScheduleDTO 생성 (초기 ID 0) 및 bookedPeople을 포함
+            ScheduleDTO scheduleDTO = new ScheduleDTO(0, storeId, sqlStartTime, sqlEndTime, capacity, 0);
 
             // 스케줄 저장 후 생성된 ID를 가져옴
             reservationService.saveSchedule(scheduleDTO);
 
-            // ReservationDTO 생성 및 저장
+            // 예약DTO 생성 및 저장
             ReservationDTO reservationDTO = new ReservationDTO(0, storeId, sqlDate, String.valueOf(capacity), scheduleDTO.getScheduleId());
             reservationService.saveReservation(reservationDTO, scheduleDTO);
 
             // 성공 메시지 설정 및 페이지 리다이렉트
             redirectAttributes.addFlashAttribute("message", "예약이 성공적으로 처리되었습니다.");
-            System.out.println("Redirecting to completion with storeId: " + storeId);
             return "redirect:/reservation/completion?storeId=" + storeId;
 
         } catch (ParseException e) {
@@ -120,15 +118,15 @@ public class ReservationController {
     public List<String> getReservedTimes(@RequestParam("storeId") int storeId, @RequestParam("date") String date) {
         return reservationService.getReservedTimes(storeId, date);
     }
-    // MainController 클래스 존재하여 중복으로 주석처리 추후 제거 예졍
-//    @Controller
-//    public class MainController {
-//
-//        @GetMapping("/main")
-//        public String mainPage() {
-//            return "/static/main"; // main.html 파일을 반환
-//        }
-//    }
+
+    @Controller
+    public class MainController {
+
+        @GetMapping("/main")
+        public String mainPage() {
+            return "/static/main"; // main.html 파일을 반환
+        }
+    }
 
     // 예약 일정 리스트 조회
     @GetMapping("/reservationList")
