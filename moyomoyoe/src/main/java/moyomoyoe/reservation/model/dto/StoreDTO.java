@@ -1,83 +1,61 @@
 package moyomoyoe.reservation.model.dto;
 
 public class StoreDTO {
-    private int storeId;
-    private String storeName;
-    private String storeAddress;
+    private int id;
+    private String name;
+    private String address;
+    private String sort;
+    private int businessUserId;
     private String description;
-    private String storeSort;
-    private String businessNo;
-    private int userId;
-    private Integer imageId;
 
     public StoreDTO() {
     }
 
-    public StoreDTO(int storeId, String storeName, String storeAddress, String storeSort, String businessNo, String description, int userId, Integer imageId) {
-        this.storeId = storeId;
-        this.storeName = storeName;
-        this.storeAddress = storeAddress;
-        this.storeSort = storeSort;
-        this.businessNo = businessNo;
+    public StoreDTO(String name, String address, String sort, String description) {
+        this.name = name;
+        this.address = address;
+        this.sort = sort;
         this.description = description;
-        this.userId = userId;
-        this.imageId = imageId;
     }
 
-    public int getStoreId() {
-        return storeId;
+    public int getId() {
+        return id;
     }
 
-    public void setStoreId(int storeId) {
-        this.storeId = storeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getStoreName() {
-        return storeName;
+    public String getName() {
+        return name;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getStoreAddress() {
-        return storeAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStoreAddress(String storeAddress) {
-        this.storeAddress = storeAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getStoreSort() {
-        return storeSort;
+    public String getSort() {
+        return sort;
     }
 
-    public void setStoreSort(String storeSort) {
-        this.storeSort = storeSort;
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
-    public String getBusinessNo() {
-        return businessNo;
+    public int getBusinessUserId() {
+        return businessUserId;
     }
 
-    public void setBusinessNo(String businessNo) {
-        this.businessNo = businessNo;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public Integer getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(Integer imageId) {
-        this.imageId = imageId;
+    public void setBusinessUserId(int businessUserId) {
+        this.businessUserId = businessUserId;
     }
 
     public String getDescription() {
@@ -90,15 +68,13 @@ public class StoreDTO {
 
     @Override
     public String toString() {
-        return "StoreDTO{" +
-                "storeId=" + storeId +
-                ", storeName='" + storeName + '\'' +
-                ", storeAddress='" + storeAddress + '\'' +
-                ", storeSort='" + storeSort + '\'' +
-                ", businessNo=" + businessNo +
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", sort='" + sort + '\'' +
+                ", businessUserId=" + businessUserId +
                 ", description='" + description + '\'' +
-                ", userId=" + userId +
-                ", imageId=" + imageId +
                 '}';
     }
 }

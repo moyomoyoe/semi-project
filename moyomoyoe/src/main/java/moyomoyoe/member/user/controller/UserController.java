@@ -2,7 +2,6 @@ package moyomoyoe.member.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
 import moyomoyoe.member.user.model.service.UserService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.sql.DataSource;
-import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -119,123 +117,41 @@ public class UserController {
         return resp;
     }
 
+    public void getSession(HttpServletRequest req, Model model) {
+
+        Map<String, Object> userSession = (Map<String, Object>) req.getSession().getAttribute("user");
+
+        model.addAttribute("userSession", userSession);
+
+        System.out.println("userSession = " + userSession);
+    }
+
     @GetMapping("/myPage")
-    public ModelAndView myPage(ModelAndView mv, Principal principal) {
+    public String myPage(HttpSession session, HttpServletRequest req, Model model) {
 
-        String account = principal.getName();
+        System.out.println("session ID : " + session.getId());
 
-        UserDTO user = userService.getDistrictByAccount(account);
+        Map<String, Object> userSession = (Map<String, Object>) req.getSession().getAttribute("user");
 
-        mv.addObject("user", user);
+        model.addAttribute("userSession", userSession);
 
-        mv.setViewName("member/user/myPage");
+        System.out.println("userSession = " + userSession);
 
-        return mv;
+        return "/member/user/myPage";
     }
 
     @GetMapping("/userInfo")
-    public ModelAndView userInfo(ModelAndView mv, Principal principal) {
+    public String userInfo(HttpServletRequest req, Model model) {
 
-        String account = principal.getName();
+        getSession(req, model);
 
-        UserDTO user = userService.getDistrictByAccount(account);
-
-        mv.addObject("user", user);
-
-        mv.setViewName("member/user/userInfo");
-
-        return mv;
+        return "/member/user/userInfo";
     }
 
     @GetMapping("/editInfo")
-    public ModelAndView editInfo(ModelAndView mv, Principal principal) {
+    public String editInfo(HttpServletRequest req, Model model) {
 
-        String account = principal.getName();
-
-        UserDTO user = userService.getDistrictByAccount(account);
-
-        mv.addObject("user", user);
-
-        mv.setViewName("member/user/editInfo");
-
-        return mv;
-    }
-
-    @PostMapping("/updateInfo")
-    public ModelAndView updateInfo(ModelAndView mv,
-                                   @ModelAttribute UserDTO newUserInfo,
-                                   @RequestParam String phone,
-                                   @RequestParam String email,
-                                   HttpServletRequest req,
-                                   Principal principal) {
-
-        System.out.println("회원 수정 되고 있니?");
-
-        String account = principal.getName();
-        newUserInfo.setAccount(account);
-
-        UserDTO user = userService.getDistrictByAccount(account);
-
-        String phoneNum = phone.replaceAll(",", "-");
-        System.out.println(phoneNum);
-
-        newUserInfo.setPhone(phoneNum);
-
-        String fullEmail = email.replaceAll(",", "@");
-        System.out.println(fullEmail);
-
-        newUserInfo.setEmail(fullEmail);
-
-        Integer result = userService.update(newUserInfo);
-
-        String message = null;
-
-        if(result == null) {
-            message = "변경 사항이 없는건가?";
-            System.out.println(message);
-
-            mv.setViewName("member/user/editInfo");
-        } else if(result == 0) {
-            message = "회원 정보 수정에 실패 하였습니다. 다시 시도해주세요.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/editInfo");
-        } else if(result >= 1) {
-            message = "회원 정보 수정 성공하였습니다.";
-            System.out.println(message);
-
-            mv.setViewName("redirect:/member/user/userInfo");
-
-            UserDTO updatedUser = userService.findByAccount(account);
-
-            req.getSession().removeAttribute("user");
-            Map<String, Object> userSession = new HashMap<>();
-            userSession.put("id", updatedUser.getId());
-            userSession.put("username", updatedUser.getName());
-            userSession.put("account", updatedUser.getAccount());
-            userSession.put("nickname", updatedUser.getNickname());
-            userSession.put("phone", updatedUser.getPhone());
-            userSession.put("email", updatedUser.getEmail());
-
-            RegionDTO region = userService.getRegionByUserId(updatedUser.getId());
-            if(region != null) {
-                userSession.put("region", region.getDistrict());
-            }
-
-            req.getSession().setAttribute("user", userSession);
-
-            System.out.println("[회원 정보 수정 후] 세션 저장 확인 = " + userSession);
-
-        } else {
-            message = "알 수 없는 오류가 발생하였습니다. 다시 시도 해주세요.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/editInfo");
-        }
-
-        mv.addObject("user", user);
-
-        return mv;
+        return "member/user/editInfo";
     }
 
 }

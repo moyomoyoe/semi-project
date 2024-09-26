@@ -51,6 +51,11 @@ public class PostController {
 
         List<KeywordDTO> keywordNameList = postService.findKeywordName();
 
+    /*    // 디버깅을 위한 출력: 서버에서 keywordId와 keywordName이 올바르게 반환되는지 확인
+        keywordNameList.forEach(keyword -> {
+            System.out.println("keywordId: " + keyword.getKeywordId() + ", keywordName: " + keyword.getKeywordName());
+        }); */
+
         return keywordNameList;
     }
 

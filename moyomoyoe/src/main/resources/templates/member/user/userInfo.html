@@ -12,12 +12,12 @@
     </div>
     <br>
     <div id="userInfo">
-        이름 : <span th:text="${ user.name }"></span><br>
-        아이디 : <span th:text="${ user.account }"></span><br>
-        닉네임 : <span th:text="${ user.nickname }"></span><br>
-        지역 : <span th:text="${ user.region }"></span><br>
-        연락처 : <span th:text="${ user.phone }"></span><br>
-        이메일 : <span th:text="${ user.email }"></span><br>
+        이름 : <span th:text="${ userSession.username }"></span><br>
+        아이디 : <span th:text="${ userSession.account }"></span><br>
+        닉네임 : <span th:text="${ userSession.nickname }"></span><br>
+        지역 : <span th:text="${ userSession.region }"></span><br>
+        연락처 : <span th:text="${ userSession.phone }"></span><br>
+        이메일 : <span th:text="${ userSession.email }"></span><br>
     </div>
     <br>
     <form action="/member/user/editInfo">

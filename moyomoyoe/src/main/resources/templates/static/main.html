@@ -7,27 +7,24 @@
 <body>
 <h1>메인</h1>
 <hr>
-<h3>로그인구역이에용~</h3>
-    <div sec:authorize="!isAuthenticated()">
-        <a href="/member/auth/login">로그인</a>
-    </div>
-    <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
-        <a href="/member/user/myPage">마이페이지</a>
-    </div>
-    <div sec:authorize="hasAnyAuthority('BUSINESS')">
-        <a href="/member/business/myPage">마이페이지</a>
-    </div>
-    <div  > <!-- sec:authorize="!isAuthenticated()"-->
-        <a href="/member/user/signup">회원가입</a>
-    </div>
-
-<div sec:authorize="hasAnyAuthority('ADMIN', 'USER', 'BUSINESS')">
-    <h2 th:text="|${ userSession.nickname } 님, 안녕하세요.|"></h2>
+<h3>은지님 파트</h3>
+<div sec:authorize="!isAuthenticated()">
+    <a href="/member/auth/login">로그인</a>
+</div>
+<div sec:authorize="hasAnyAuthority('USER')">
+    <a href="/member/user/myPage">마이페이지</a>
+</div>
+<div sec:authorize="hasAnyAuthority('BUSINESS')">
+    <a href="/member/business/myPage">마이페이지</a>
+</div>
+<div  > <!-- sec:authorize="!isAuthenticated()"-->
+    <a href="/member/user/signup">회원가입</a>
 </div>
 
-<br>
-<hr>
-<br>
+<h2 th:text="|${ userSession.nickname }님, 안녕하세요.|"></h2>
+메인페이지
+
+
 
 <a href="reservation/schedule/storeInfo/2">사업장 상세조회(2번)</a>
 <br>
@@ -37,7 +34,7 @@
 <a th:href="@{'reservation/schedule/regist/store/' + ${userSession.id}}">사업장 등록(유동적)</a>
 <a th:href="@{'/reservation/schedule/regist/schedule/' + ${userSession.id}}">일정등록</a>
 <br>
-<br>
+
 <hr>
 
 <!-- 예약 관련 버튼 -->
@@ -54,4 +51,3 @@
 
 </body>
 </html>
-   

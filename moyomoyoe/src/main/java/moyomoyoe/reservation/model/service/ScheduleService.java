@@ -1,7 +1,7 @@
 package moyomoyoe.reservation.model.service;
 
-import moyomoyoe.reservation.model.dto.ScheduleDTO;
-import moyomoyoe.reservation.model.dto.StoreDTO;
+import moyomoyoe.reservation.DTO.ScheduleDTO;
+import moyomoyoe.reservation.DTO.StoreDTO;
 import moyomoyoe.reservation.model.dao.ScheduleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,6 @@ public class ScheduleService {
     @Autowired
     public ScheduleService(ScheduleMapper dao) {
         this.dao = dao;
-    }
-
-    public Integer FindUserStore(int code){
-        return dao.findUserStore(code);
     }
 
     public StoreDTO getStoreAllInfo(int code) {
@@ -65,13 +61,18 @@ public class ScheduleService {
         //삭제할 일정의 예약도 삭제해야함 -> 예약 취소랑 통합 후 재 테스트 필요
         for(int id : deletedSchedules){
             System.out.println(id+ "삭제로직 구비중");
-            dao.deleteScheduleId(id);
+            //dao.deleteScheduleId(code,id);
         }
         for(ScheduleDTO s:insertSchedules){
             System.out.println(s+"삽입로직 쿼리 준비중");
             dao.registSchedule(s);
         }
 
+    }
+
+    //예약 가능한 일정인지 확인(현재 예약의 예약인 수 )
+    public void curBookedPeople(int code) {
+         dao.curBookedPeople(code);
     }
 
     @Transactional
