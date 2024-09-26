@@ -32,14 +32,17 @@
 
     <!-- 삭제 버튼 -->
     <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
-        <button type="submit" onclick="deletePost()">삭제</button>
+        <button type="submit" onclick="return deletePost(event)">삭제</button>
     </form>
 
     <br>
 
     <script>
-        function deletePost() {
-            // 폼을 직접 제출하는 대신 JavaScript로 Ajax 요청을 처리
+        function deletePost(event) {
+            // 기본 폼 제출 동작을 막음
+            event.preventDefault();
+
+            // 삭제 확인창
             if (confirm('삭제하시겠습니까?')) {
                 var form = document.getElementById('deleteForm');
                 var action = form.getAttribute('action');

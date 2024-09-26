@@ -1,6 +1,7 @@
 package moyomoyoe.board.controller;
 
 import moyomoyoe.board.model.dto.CommentDTO;
+import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
@@ -42,13 +43,23 @@ public class PostController {
         return "board/postlist";
     }
 
+    // index에 키워드 이름 호출
+    @GetMapping(value = "/keywordName", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<KeywordDTO>findKeywordName(){
+        System.out.println("JavaScript 내장 함수인 fetch");
+
+        List<KeywordDTO> keywordNameList = postService.findKeywordName();
+
+        return keywordNameList;
+    }
+
     // 키워드별 게시글 목록
     @GetMapping("/keywordlist")
-    public String KeywordList(@RequestParam("keywordId") int keywordId, Model model){
+    public String keywordList(@RequestParam("keywordId") int keywordId, Model model){
 
         List<PostDTO> keywordList = postService.findKeywordList(keywordId);
 
-        model.addAttribute("keywordId", keywordId);
         model.addAttribute("keywordList", keywordList);
 
         return "board/keywordlist";
