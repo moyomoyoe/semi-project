@@ -109,10 +109,6 @@ public class PostController {
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
 
-        System.out.println("========================================");
-        System.out.println("상세페이지 : " + getDetailPost);
-        System.out.println("========================================");
-
         // detailpost.html로 데이터 전달 및 렌더링
         return "board/detailpost";  // board/detailpost.html 파일로 이동
     }
