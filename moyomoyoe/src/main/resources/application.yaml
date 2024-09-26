@@ -10,9 +10,22 @@ spring:
     username: moyomoyoe
     password: moyomoyoe
   mvc:
-    static-path-pattern=/static/**:
+    static-path-pattern: /static/**
   thymeleaf:
     enabled: true
+    cache: false
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  web:
+    resources:
+      static-locations: classpath:/static/
 
 ## mybatis config
 mybatis:
@@ -21,4 +34,3 @@ mybatis:
 
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
