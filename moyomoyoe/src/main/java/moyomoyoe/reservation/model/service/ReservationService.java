@@ -3,6 +3,7 @@ package moyomoyoe.reservation.model.service;
 import moyomoyoe.reservation.model.dao.ReservationMapper;
 import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
+import moyomoyoe.reservation.model.dto.StoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,26 +20,50 @@ public class ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
+    // 스케줄 저장
+    @Transactional
+    public void saveSchedule(ScheduleDTO scheduleDTO) {
+        reservationMapper.insertSchedule(scheduleDTO);
+    }
+
+    // 스케줄과 예약을 트랜잭션으로 저장
     @Transactional
     public void saveReservation(ReservationDTO reservationDTO, ScheduleDTO scheduleDTO) {
-        // 1. tbl_schedule에 데이터 삽입 (Schedule 먼저 삽입)
+        // 스케줄 저장
         reservationMapper.insertSchedule(scheduleDTO);
-
-        // 2. Schedule의 ID를 Reservation에 설정
+        // 스케줄 ID를 예약 DTO에 설정
         reservationDTO.setScheduleId(scheduleDTO.getScheduleId());
-
-        // 3. tbl_reservation에 데이터 삽입 (Reservation 삽입)
+        // 예약 저장
         reservationMapper.insertReservation(reservationDTO);
     }
 
-    // 예약된 시간 반환 메서드 추가
+    // 예약된 시간 조회
     public List<String> getReservedTimes(int storeId, String date) {
         return reservationMapper.getReservedTimes(storeId, date);
     }
 
-    // 예약 리스트 조회 서비스
-    // ScheduleDTO 리스트를 반환하도록 수정
+    // 모든 매장 정보 조회
+    public List<StoreDTO> getAllStores() {
+        return reservationMapper.getAllStores();
+    }
+
+    // 특정 매장 정보 조회
+    public StoreDTO getStoreById(int storeId) {
+        return reservationMapper.getStoreById(storeId);
+    }
+
+    // 모든 예약 일정 조회
     public List<ScheduleDTO> getAllReservations() {
         return reservationMapper.getAllReservations();
+    }
+
+    // 특정 스케줄 상세 조회
+    public ScheduleDTO getScheduleById(int scheduleId) {
+        return reservationMapper.getScheduleById(scheduleId);
+    }
+
+    // 예약취소 화면
+    public void cancelReservation(int resId) {
+        reservationMapper.deleteReservation(resId);
     }
 }

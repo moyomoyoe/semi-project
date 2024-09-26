@@ -37,7 +37,7 @@ public class ScheduleController {
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
         if (code == 0)
             return "redirect:" + defaultUrl+"regist/store";
-        
+
         // 해당 사업체의 세부정보와 일정정보를 세션에 저장
         StoreDTO store = reserService.getStoreAllInfo(code);
         List<ScheduleDTO> schedule = reserService.getSchedule(code);
@@ -146,8 +146,8 @@ public class ScheduleController {
         List<ScheduleDTO> schedule;
         if (storeId!=null)
             schedule =reserService.getSchedule(storeId);
-       else {
-           schedule = new ArrayList<>();
+        else {
+            schedule = new ArrayList<>();
         }
         System.out.println("스케쥴 출력"+schedule);
         //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음

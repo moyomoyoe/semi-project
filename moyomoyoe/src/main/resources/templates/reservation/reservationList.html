@@ -15,24 +15,25 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>가게명</th>
-            <th>예약 날짜</th>
             <th>예약 시작 시간</th>
             <th>예약 종료 시간</th>
             <th>인원수</th>
+            <th>상세보기</th> <!-- 새롭게 추가된 열 -->
         </tr>
         </thead>
         <tbody>
         <tr th:each="schedule : ${reservationList}">
-            <td th:text="${schedule.storeName}"></td> <!-- 가게 이름 -->
-            <td th:text="${schedule.resDate}"></td>   <!-- 예약 날짜 -->
-            <td th:text="${schedule.startTime}"></td> <!-- 예약 시작 시간 -->
-            <td th:text="${schedule.endTime}"></td>   <!-- 예약 종료 시간 -->
-            <td th:text="${schedule.capacity} + '명'"></td> <!-- 인원수 -->
+            <td th:text="${schedule.startTime}"></td>
+            <td th:text="${schedule.endTime}"></td>
+            <td th:text="${schedule.capacity} + '명'"></td>
+            <td>
+                <a th:href="@{/reservation/scheduleDetail/{scheduleId}(scheduleId=${schedule.scheduleId})}">
+                    Details
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
 </main>
-
 </body>
 </html>
