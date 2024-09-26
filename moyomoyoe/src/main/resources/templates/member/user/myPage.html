@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>MYPAGE</title>
+</head>
+<body>
+<h1>마이페이지</h1>
+
+<div id="profileImg">
+    <img src="" alt="기본프로필사진">
+</div>
+<br>
+<h2><span th:text="${ user.nickname }"></span></h2>
+<h3><span th:text="${ user.region }"></span></h3>
+<br>
+<br>
+<br>
+<form th:action="@{/member/auth/logout}" th:method="post" id="logout">
+    <button>로그아웃</button>
+</form>
+<form action="/member/user/userInfo">
+    <button>회원 정보 조회</button>
+</form>
+
+<script>
+
+    document.getElementById('logout').addEventListener('submit', function(event) {
+
+        if(!confirm('로그아웃 하시겠습니까?')) {
+            event.preventDefault();
+        } else {
+            alert('로그아웃 완료 되었습니다.')
+        }
+
+    })
+
+</script>
+
+</body>
+</html>
