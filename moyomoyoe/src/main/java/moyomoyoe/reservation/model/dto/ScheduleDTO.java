@@ -24,6 +24,9 @@ public class ScheduleDTO {
         this.bookedPeople = bookedPeople;
     }
 
+    public ScheduleDTO(int i, int storeId, Time sqlStartTime, Time sqlEndTime, int capacity) {
+    }
+
     public int getScheduleId() {
         return scheduleId;
     }

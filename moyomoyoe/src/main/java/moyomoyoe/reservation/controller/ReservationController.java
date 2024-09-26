@@ -78,7 +78,7 @@ public class ReservationController {
             java.sql.Time sqlStartTime = java.sql.Time.valueOf(startTime);
             java.sql.Time sqlEndTime = java.sql.Time.valueOf(endTime);
 
-            // ScheduleDTO 생성 (초기 ID 0) 및 bookedPeople을 포함
+            // ScheduleDTO 생성 (초기 ID 0)
             ScheduleDTO scheduleDTO = new ScheduleDTO(0, storeId, sqlStartTime, sqlEndTime, capacity, 0);
 
             // 스케줄 저장 후 생성된 ID를 가져옴
@@ -113,12 +113,14 @@ public class ReservationController {
         return "completion";
     }
 
+    // 예약된 시간 조회
     @GetMapping("/getReservedTimes")
     @ResponseBody
     public List<String> getReservedTimes(@RequestParam("storeId") int storeId, @RequestParam("date") String date) {
         return reservationService.getReservedTimes(storeId, date);
     }
 
+    // 메인 컨트롤러 (예시)
     @Controller
     public class MainController {
 
@@ -146,9 +148,9 @@ public class ReservationController {
 
     // 예약 취소
     @PostMapping("/cancelReservation")
-    public String cancelReservation(@RequestParam("resId") int resId, Model model) {
+    public String cancelReservation(@RequestParam("resId") int resId, @RequestParam("scheduleId") int scheduleId, RedirectAttributes redirectAttributes) {
         reservationService.cancelReservation(resId);
-        model.addAttribute("message", "예약이 취소되었습니다.");
-        return "redirect:/scheduleDetail";
+        redirectAttributes.addFlashAttribute("message", "예약이 취소되었습니다.");
+        return "redirect:/reservation/scheduleDetail/" + scheduleId;
     }
 }

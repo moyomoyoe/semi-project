@@ -80,7 +80,7 @@
     <section id="step2" class="hidden">
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/submit">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <!-- CSRF Token 제거 -->
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
@@ -107,6 +107,7 @@
             <input type="hidden" id="storeId" name="storeId" value="1">
             <input type="hidden" id="selectedTimes" name="selectedTimes">
             <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
+        </form>
         </form>
     </section>
     <section id="step3" class="hidden">
