@@ -84,5 +84,9 @@
     </script>
     <button onclick="location.href='/'">메인으로</button>
 
+    <script th:if="${userOpenError}">
+        alert([[${userOpenError}]]);
+    </script>
+
 </body>
 </html>

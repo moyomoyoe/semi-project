@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6299cd8a-07a1-492f-ad1e-a70974247d33" name="Changes" comment="" />
+    <list default="true" id="944ec79c-f6fa-470a-8348-0342f21aa41c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,32 +15,7 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <task path="$PROJECT_DIR$/moyomoyoe">
-          <activation />
-        </task>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="moyomoyoe" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="test" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -56,9 +31,9 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
+  &quot;associatedIndex&quot;: 6
 }</component>
-  <component name="ProjectId" id="2mXrU2TwZFzr91SEX5ofLcrWAEg" />
+  <component name="ProjectId" id="2mbRNrWVPnRFUEC7dX3KWmYeEMU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -66,13 +41,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.Build moyomoyoe.executor": "Run",
-    "Gradle.moyomoyoe [bootJar].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.MoyomoyoeApplication.executor": "Run",
     "git-widget-placeholder": "board",
     "kotlin-language-version-configured": "true",
@@ -82,44 +55,11 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project-feature-reservation-mergetest\moyomoyoe\src\main\resources\sql" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Spring Boot.MoyomoyoeApplication">
-    <configuration name="moyomoyoe [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/moyomoyoe" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="bootJar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="MoyomoyoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="com.moyomoyoe.moyomoyoe.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="moyomoyoe.MoyomoyoeApplication" />
@@ -127,10 +67,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Gradle.moyomoyoe [bootJar]" />
-      <item itemvalue="Spring Boot.MoyomoyoeApplication" />
-    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -143,45 +79,19 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6299cd8a-07a1-492f-ad1e-a70974247d33" name="Changes" comment="" />
-      <created>1727233776410</created>
+      <changelist id="944ec79c-f6fa-470a-8348-0342f21aa41c" name="Changes" comment="" />
+      <created>1727343251965</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1727233776410</updated>
-      <workItem from="1727233777678" duration="769000" />
-      <workItem from="1727235823091" duration="861000" />
-      <workItem from="1727243683955" duration="943000" />
-      <workItem from="1727245118471" duration="1863000" />
-      <workItem from="1727251706879" duration="717000" />
-      <workItem from="1727252435477" duration="97000" />
-      <workItem from="1727252547329" duration="3401000" />
+      <updated>1727343251965</updated>
+      <workItem from="1727343253052" duration="62000" />
+      <workItem from="1727343413651" duration="21000" />
+      <workItem from="1727348509714" duration="80000" />
+      <workItem from="1727348607754" duration="4549000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="test" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>

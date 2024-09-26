@@ -2,7 +2,6 @@ package moyomoyoe.member.auth.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,10 +21,18 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public void login() {}
+    public void login() {
+
+        System.out.println("[로그인 페이지] 왓니?");
+
+    }
 
     @GetMapping("/success")
     public ModelAndView loginSuccess(ModelAndView mv) {
+
+        System.out.println("[로그인 성공] 됏니?");
+
+
         return mv;
     }
 

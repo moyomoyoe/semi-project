@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Time;
 import java.util.*;
 
 @Controller
@@ -76,12 +77,12 @@ public class ReservationController {
 
         // ScheduleDTO 생성 및 설정
         ScheduleDTO scheduleDTO = new ScheduleDTO();
-        scheduleDTO.setStoreId(storeId);
-        scheduleDTO.setStoreName(storeName);
-        scheduleDTO.setResDate(date);
-        scheduleDTO.setStartTime(startTime);
-        scheduleDTO.setEndTime(endTime);
-        scheduleDTO.setCapacity(capacity);
+        scheduleDTO.setStoreId(storeId);/*
+//        scheduleDTO.setStoreName(storeName);
+//        scheduleDTO.setResDate(date);*/
+        scheduleDTO.setStartTime(Time.valueOf(startTime));
+        scheduleDTO.setEndTime(Time.valueOf(endTime));
+        scheduleDTO.setCapacity(Integer.parseInt(capacity));
 
         // ReservationDTO 생성 및 설정
         ReservationDTO reservationDTO = new ReservationDTO();

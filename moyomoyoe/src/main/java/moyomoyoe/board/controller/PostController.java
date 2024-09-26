@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +52,6 @@ public class PostController {
         System.out.println("JavaScript 내장 함수인 fetch");
 
         List<KeywordDTO> keywordNameList = postService.findKeywordName();
-
-    /*    // 디버깅을 위한 출력: 서버에서 keywordId와 keywordName이 올바르게 반환되는지 확인
-        keywordNameList.forEach(keyword -> {
-            System.out.println("keywordId: " + keyword.getKeywordId() + ", keywordName: " + keyword.getKeywordName());
-        }); */
 
         return keywordNameList;
     }
@@ -116,10 +113,29 @@ public class PostController {
 
     // postId 별 세부 게시글 내용, 댓글
     @GetMapping("/detailpost/{postId}")
-    public String getDetailPost(@PathVariable("postId") int postId, Model model){
+    public String getDetailPost(@PathVariable("postId") int postId,
+                                Model model,
+                                RedirectAttributes rAttr){
+
+        // 현재 로그인한 사용자 정보 가져오기 (SecurityContextHolder 사용)
+        Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println("authPost = " + authPost);
+
         // postId에 맞는 게시글 상세 정보를 조회
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
+
+        System.out.println("authPost = " + authPost);
+
+        if (authPost ==  null&& !getDetailPost.getUserOpen()){
+
+            System.out.println("로그인 후 접근 가능합니다.");
+
+            model.addAttribute("userOpenError", "로그인 후 접근 가능합니다.");
+
+            return "redirect:/board/postlist";
+        }
 
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
@@ -148,6 +164,5 @@ public class PostController {
         rAttr.addFlashAttribute("successMessage", "댓글이 등록되었습니다");
         return "redirect:/board/detailpost/" + postId;
     }
-
 
 }
