@@ -111,11 +111,9 @@ CREATE TABLE IF NOT EXISTS tbl_schedule
 (
     schedule_id INT AUTO_INCREMENT NOT NULL COMMENT '일정번호',
     store_id INT NOT NULL COMMENT '사업장아이디',
-    store_name VARCHAR(100) NOT NULL COMMENT '사업장명',  -- 추가된 사업장명 컬럼
-    res_date DATE NOT NULL COMMENT '날짜',               -- 추가된 예약 날짜 컬럼
     start_time TIME NOT NULL COMMENT '일정시작시간',
     end_time TIME NOT NULL COMMENT '일정종료시간',
-    capacity VARCHAR(10) NOT NULL COMMENT '수용인원',
+    capacity INT NOT NULL COMMENT '수용인원',
 
     CONSTRAINT pk_schedule_id PRIMARY KEY (schedule_id),
     CONSTRAINT fk_store_id FOREIGN KEY (store_id) REFERENCES tbl_store (store_id)
@@ -126,7 +124,7 @@ CREATE TABLE IF NOT EXISTS tbl_reservation
     res_id INT AUTO_INCREMENT COMMENT '예약번호',
     user_id_res INT NOT NULL COMMENT '사용자번호',
     res_date DATE NOT NULL COMMENT '날짜',
-    capacity VARCHAR(10) NOT NULL COMMENT '인원',
+    customer_num INT NOT NULL COMMENT '인원',
     schedule_id INT NOT NULL COMMENT '일정번호',
 
 
