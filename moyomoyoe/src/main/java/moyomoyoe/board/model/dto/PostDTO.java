@@ -18,6 +18,19 @@ public class PostDTO {
     public PostDTO() {
     }
 
+    public PostDTO(int postId, String title, String context, String nickname, LocalDate postDate, Boolean userOpen, int regionCode, int imageId, int keywordId, int userId) {
+        this.postId = postId;
+        this.title = title;
+        this.context = context;
+        this.nickname = nickname;
+        this.postDate = postDate;
+        this.userOpen = userOpen;
+        this.regionCode = regionCode;
+        this.imageId = imageId;
+        this.keywordId = keywordId;
+        this.userId = userId;
+    }
+
     public int getPostId() {
         return postId;
     }

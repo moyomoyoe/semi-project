@@ -19,9 +19,76 @@
         <label>작성자:</label>
         <span th:text="${detailPost.nickname}"></span>
     </div>
+
+    <div>
+        <label>작성자 ID:</label>
+        <span th:text="${detailPost.userId}"></span>
+    </div>
+
     <div>
         <label>작성일자:</label>
         <span th:text="${detailPost.postDate}"></span>
+    </div>
+
+<!--    <div>-->
+<!--        <label>지역:</label>-->
+<!--        <span th:text="${detailPost.regionCode}"></span>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--        <label>키워드:</label>-->
+<!--        <span th:text="${detailPost.keywordId}"></span>-->
+<!--    </div>-->
+
+    <!-- 지역 코드 표시 -->
+    <div>
+        <label>지역:</label>
+        <span th:switch="${detailPost.regionCode}">
+        <span th:case="1">강남구</span>
+        <span th:case="2">강동구</span>
+        <span th:case="3">강북구</span>
+        <span th:case="4">강서구</span>
+        <span th:case="5">관악구</span>
+        <span th:case="6">광진구</span>
+        <span th:case="7">구로구</span>
+        <span th:case="8">금천구</span>
+        <span th:case="9">노원구</span>
+        <span th:case="10">도봉구</span>
+        <span th:case="11">동대문구</span>
+        <span th:case="12">동작구</span>
+        <span th:case="13">마포구</span>
+        <span th:case="14">서대문구</span>
+        <span th:case="15">서초구</span>
+        <span th:case="16">성동구</span>
+        <span th:case="17">성북구</span>
+        <span th:case="18">송파구</span>
+        <span th:case="19">양천구</span>
+        <span th:case="20">영등포구</span>
+        <span th:case="21">용산구</span>
+        <span th:case="22">은평구</span>
+        <span th:case="23">종로구</span>
+        <span th:case="24">중구</span>
+        <span th:case="25">중랑구</span>
+    </span>
+    </div>
+
+    <!-- 키워드 표시 -->
+    <div>
+        <label>키워드:</label>
+        <span th:switch="${detailPost.keywordId}">
+        <span th:case="1">영화</span>
+        <span th:case="2">독서</span>
+        <span th:case="3">스터디</span>
+        <span th:case="4">스포츠</span>
+        <span th:case="5">여행</span>
+        <span th:case="6">기타</span>
+    </span>
+    </div>
+
+
+    <div>
+        <label>공개 여부:</label>
+        <span th:text="${detailPost.userOpen} ? '공개' : '비공개'"></span>
     </div>
 
     <br>
@@ -34,6 +101,11 @@
     <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
         <button type="submit" onclick="deletePost()">삭제</button>
     </form>
+
+    <!-- 수정 -->
+    <a th:href="@{/board/editpost/{postId}(postId=${detailPost.postId})}">수정</a>
+
+
 
     <br>
 

@@ -9,6 +9,7 @@
         <result property="title" column="title"/>
         <result property="context" column="context"/>
         <result property="nickname" column="nickname"/>
+        <result property="userId" column="user_id"/>
         <result property="postDate" column="post_date"/>
         <result property="userOpen" column="user_open"/>
         <result property="regionCode" column="region_code"/>
@@ -28,6 +29,7 @@
         <result property="comment" column="comment"/>
         <result property="commentPostDate" column="comment_post_date"/>
         <result property="postId" column="post_id"/>
+        <result property="userId" column="user_id"/>
     </resultMap>
 
     <!-- 전체메뉴 쿼리 -->
@@ -126,6 +128,8 @@
             title,
             context,
             nickname,
+            user_id,
+            region_code,
             post_date,
             user_open,
             image_id,
@@ -178,5 +182,50 @@
         )
     <!-- nickname, userid 부분 유저별로 자동으로 인식해서 가져올수 있게 해야함 지금은 제외했음 -->
     </insert>
+
+    <!-- 게시글 등록 -->
+    <insert id="insertPost" parameterType="moyomoyoe.board.model.dto.PostDTO" useGeneratedKeys="true" keyProperty="postId">
+        INSERT INTO tbl_post_list
+        (
+        title,
+        context,
+        nickname,
+        user_id,
+        post_date,
+        user_open,
+        region_code,
+        image_id,
+        keyword_id
+        )
+        VALUES
+        (
+        #{title},
+        #{context},
+        #{nickname},
+        #{userId},
+        NOW(),
+        #{userOpen},
+        #{regionCode},
+        #{imageId},
+        #{keywordId}
+        )
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updatePost" parameterType="moyomoyoe.board.model.dto.PostDTO">
+        UPDATE tbl_post_list
+        SET
+        title = #{title},
+        context = #{context},
+        nickname = #{nickname},
+        user_id = #{userId},
+        user_open = #{userOpen},
+        region_code = #{regionCode},
+        image_id = #{imageId},
+        keyword_id = #{keywordId}
+        WHERE
+        post_id = #{postId}
+    </update>
+
 
 </mapper>
