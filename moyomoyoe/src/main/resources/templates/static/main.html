@@ -7,22 +7,23 @@
 <body>
 <h1>메인</h1>
 <hr>
-<h3>로그인구역이에용~</h3>
-    <div sec:authorize="!isAuthenticated()">
-        <a href="/member/auth/login">로그인</a>
-    </div>
-    <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
-        <a href="/member/user/myPage">마이페이지</a>
-    </div>
-    <div sec:authorize="hasAnyAuthority('BUSINESS')">
-        <a href="/member/business/myPage">마이페이지</a>
-    </div>
-    <div  > <!-- sec:authorize="!isAuthenticated()"-->
-        <a href="/member/user/signup">회원가입</a>
-    </div>
+<h3>로그인 구역</h3>
+
+<div sec:authorize="!isAuthenticated()">
+    <a href="/member/auth/login">로그인</a>
+</div>
+<div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
+    <a href="/member/user/myPage">마이페이지</a>
+</div>
+<div sec:authorize="hasAnyAuthority('BUSINESS')">
+    <a href="/member/business/myPage">마이페이지</a>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <a href="/member/user/signup">회원가입</a>
+</div>
 
 <div sec:authorize="hasAnyAuthority('ADMIN', 'USER', 'BUSINESS')">
-    <h2 th:text="|${ userSession.nickname } 님, 안녕하세요.|"></h2>
+    <h2 th:if="${userSession != null}" th:text="|${ userSession.nickname } 님, 안녕하세요.|"></h2>
 </div>
 
 <br>
@@ -45,12 +46,13 @@
 <div class="action-buttons">
     <button onclick="location.href='/reservation'">예약하기</button>
     <button onclick="location.href='/reservation/storeList'">예약 가능한 업체 리스트 조회하기</button>
+    <button onclick="location.href='/reservation/reservationList'">예약 일정 리스트 보기</button> <!-- 추가된 버튼 -->
 </div>
 
 
 <hr>
 <br>
-<h3>게시판조회 및 세부조회</h3>
+<h3>게시판 조회 및 세부 조회</h3>
 <button onclick="location.href='/board/main'">게시글 조회 부분</button>
 
 </body>

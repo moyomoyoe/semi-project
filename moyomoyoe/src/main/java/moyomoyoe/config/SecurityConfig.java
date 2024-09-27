@@ -48,6 +48,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChainConfigure(HttpSecurity http) throws Exception {
+
 //        http
 //                .authorizeRequests()
 //                .requestMatchers("/*").permitAll()  // 모든 경로 접근 허용

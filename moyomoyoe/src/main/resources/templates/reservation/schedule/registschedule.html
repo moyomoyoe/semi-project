@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
     <title>Title</title>
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
@@ -21,18 +23,14 @@
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
 <button id="cancel" onclick="saveSchedule()"> 취소/돌아가기</button>
 
-</body>
-
-<script th:inline="javascript">
+<script>
     // console.log("확인"+document.querySelector("#data").innerHTML);
     const container = document.querySelector("#container");
     const capacityInput = document.querySelector("#capacity")
     const schedules = JSON.parse(document.querySelector("#data").innerHTML);
-    const storeId = /*[[${storeId}]]*/ 0;
-    console.log(storeId)
-    if(storeId==null){
-        alert("오류 발생 이전페이지로 돌아갑니다")
-    }
+    const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    const storeId = 2;
 
     console.log(schedules);
 
@@ -62,8 +60,23 @@
                     console.log(schedules)
                 }
             });
+
         container.appendChild(newSchedule);
     }
+    /*
+    * schedule 구성요소
+    bookedPeople
+        :4
+    capacity
+        :30
+    endTime
+        :"16:00:00"
+    scheduleId
+        :1
+    startTime
+        :"15:00:00"
+    storeId:2
+    */
 
     function schedule(start, end, no, id){
         return{
@@ -114,23 +127,27 @@
         const eTime = time(endTime.getHour(), endTime.getMinute());
         const capacity = capacityInput.value;
 
-        if (sTime.h >eTime.h ||
+       if (sTime.h >eTime.h ||
             (sTime.h === eTime.h)&& (sTime.m>= eTime.m)){
             alert("적절한 시간 범위가 아닙니다.")
         }
         else {
-            let s = new schedule(sTime.t, eTime.t, capacity, storeId)
+            let s = new schedule(sTime.t, eTime.t, capacity, 2)
             makeNode(s)
-            schedules.push(s);
+           schedules.push(s);
         }
     })
     function saveSchedule(){
         console.log("saveSchedule 호출")
+        /*let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/reservation/schedule/regist/schedule", true);
+        xhr.send(JSON.stringify(schedules));*/
 
         fetch(`schedule/${storeId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                [csrfHeader]: csrfToken
             },
             body: JSON.stringify(schedules),
         }).then(response => {
@@ -141,12 +158,18 @@
             console.log(data.message)
             if(data.status== "success"){
                 alert("일정 수정 성공")
-                location.href=`/reservation/schedule/storeInfo/${storeId}`
+                location.href="/reservation/schedule/storeInfo/2"
             }else{
                 alert("일정 수정에 실패했습니다. 다시 시도해주세요.")
             }
         });
     }
 
+    /*
+       */
+
+
 </script>
+</body>
+
 </html>

@@ -21,18 +21,18 @@
         <result property="description" column="description"/>
         <result property="userId" column="id"/>
         <result property="imageId" column="image_id_store"/>
-</resultMap>
+    </resultMap>
     <select id="getStoreAllInfo" resultMap="storeMap">
         SELECT
-            store_Id,
-            store_name,
-            description,
-            store_address,
-            store_sort,
-            description,
-            busy_no,
-            id,
-            image_id_store
+        store_Id,
+        store_name,
+        description,
+        store_address,
+        store_sort,
+        description,
+        busy_no,
+        id,
+        image_id_store
         FROM tbl_store
         WHERE store_id = #{code}
     </select>
@@ -58,9 +58,9 @@
 
     <select id="findUserStore">
         SELECT
-            store_id
+        store_id
         FROM
-            tbl_store
+        tbl_store
         WHERE id = #{code}
         ;
     </select>
