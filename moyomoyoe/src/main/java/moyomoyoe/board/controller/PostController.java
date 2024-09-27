@@ -121,8 +121,8 @@ public class PostController {
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
         // 현재 로그인한 사용자 Id랑 nickname 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO userDTO = (UserDTO) authentication.getPrincipal();
+        Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
         int loggedInUserId = userDTO.getId();
         String loggedInNickname = userDTO.getNickname();
 
