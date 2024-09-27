@@ -90,4 +90,10 @@ public class PostService {
 
         postMapper.updatePost(postDTO);
     }
+
+    @Transactional
+    public void deleteComment(int commentId) {
+
+        postMapper.deleteComment(commentId);
+    }
 }

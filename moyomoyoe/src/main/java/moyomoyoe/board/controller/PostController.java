@@ -34,6 +34,7 @@ public class PostController {
         return "static/index";
     }
 
+
     // 날짜별 전체게시글 목록
     @GetMapping("/postlist")
     public String PostList(Model model){
@@ -127,7 +128,7 @@ public class PostController {
     public String deletePost(@PathVariable("postId") int postId, RedirectAttributes rAttr) {
         postService.deletePost(postId);
         rAttr.addFlashAttribute("successMessage", "삭제 되었습니다");
-        return "redirect:/index.html";
+        return "redirect:/index";
     }
 
     // postId 별 세부게시글 댓글등록
@@ -196,5 +197,14 @@ public class PostController {
         return "redirect:/board/detailpost/" + postId;
     }
 
+    // 게시글 댓글 삭제
+    @PostMapping("/detailpost/delete/comment/{commentId}")
+    public String deleteComment(@PathVariable("commentId") int commentId, @RequestParam("postId") int postId, RedirectAttributes rAttr) {
+
+        postService.deleteComment(commentId);
+        rAttr.addFlashAttribute("successMessage", "댓글이 삭제되었습니다.");
+
+        return "redirect:/board/detailpost/" + postId;
+    }
 
 }

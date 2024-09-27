@@ -34,6 +34,7 @@
         <result property="comment" column="comment"/>
         <result property="commentPostDate" column="comment_post_date"/>
         <result property="postId" column="post_id"/>
+        <result property="userId" column="user_id"/>
     </resultMap>
 
     <!-- 전체메뉴 쿼리 -->
@@ -238,5 +239,10 @@
         WHERE
         post_id = #{postId}
     </update>
+
+    <!-- 게시글 댓글 삭제 -->
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM tbl_comment WHERE comment_id = #{commentId}
+    </delete>
 
 </mapper>
