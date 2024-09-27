@@ -67,6 +67,22 @@ public class UserService {
 
     }
 
+    public UserDTO getDistrictByAccount(String account) {
+
+        UserDTO user = userMapper.findByAccount(account);
+        RegionDTO region = userMapper.getRegionByUserId(user.getId());
+
+        System.out.println("[서비스] 왓니? ");
+
+        if(region != null) {
+            user.setRegion(region.getDistrict());
+        }
+
+        System.out.println("[서비스] region = " + region);
+
+        return user;
+    }
+
     public List<RegionDTO> findAllRegion() {
 
         System.out.println(userMapper.findAllRegion());
@@ -84,4 +100,26 @@ public class UserService {
 
     }
 
+    public Integer update(UserDTO newUserInfo) {
+
+        System.out.println("암호화 전 = " + newUserInfo.getPassword());
+        newUserInfo.setPassword(encoder.encode(newUserInfo.getPassword()));
+        System.out.println("암호화 뾰로롱 = " + newUserInfo.getPassword());
+
+        Integer result = null;
+
+        try{
+            result = userMapper.update(newUserInfo);
+        } catch(DuplicateKeyException e) {
+            result = 0;
+            e.printStackTrace();
+        } catch(BadSqlGrammarException e) {
+            result = 0;
+            e.printStackTrace();
+        }
+
+        System.out.println("회원 정보 수정 처리 결과 = " + result);
+
+        return result;
+    }
 }
