@@ -2,6 +2,7 @@ package moyomoyoe.board.model.service;
 
 import moyomoyoe.board.model.dao.PostMapper;
 import moyomoyoe.board.model.dto.CommentDTO;
+import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,14 @@ public class PostService {
     public List<PostDTO> findAllPost() {
         return postMapper.findAllPost();
     }
+
+    // 키워드 이름 목록
+    public List<KeywordDTO> findKeywordName() {return postMapper.findKeywordName();}
     // 키워드별 게시글 목록
     public List<PostDTO> findKeywordList(int keywordId) {
         return postMapper.findKeywordList(keywordId);
     }
+
     // 시 선택 목록
     public List<RegionDTO> findRegionCityList() {
         List<RegionDTO> cityList= postMapper.findRegionCityList();
@@ -42,6 +47,7 @@ public class PostService {
     public List<PostDTO> findPostsByRegion(String city, int regionCode) {
         return postMapper.findPostsByRegion(city, regionCode);
     }
+
     // 제목검색 게시글 목록
     public List<PostDTO> findTitleList(String title) {
         List<PostDTO> titleList = postMapper.findTitleList(title);
@@ -69,4 +75,19 @@ public class PostService {
         postMapper.comment(commentDTO);
     }
 
+
+    // 게시글 등록
+    @Transactional
+    public int createPost(PostDTO postDTO) {
+
+        postMapper.insertPost(postDTO);
+        return postDTO.getPostId();
+    }
+
+    // 게시글 수정
+    @Transactional
+    public void updatePost(PostDTO postDTO) {
+
+        postMapper.updatePost(postDTO);
+    }
 }

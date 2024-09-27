@@ -1,6 +1,7 @@
 package moyomoyoe.board.controller;
 
 import moyomoyoe.board.model.dto.CommentDTO;
+import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
@@ -27,6 +28,11 @@ public class PostController {
         this.postService = postService;
         this.messageSource = messageSource;
     }
+    //index.html 연결 Controller
+    @GetMapping("/main")
+    public String mainPostList(Model model) {
+        return "static/index";
+    }
 
     // 날짜별 전체게시글 목록
     @GetMapping("/postlist")
@@ -36,13 +42,23 @@ public class PostController {
         return "board/postlist";
     }
 
+    // index에 키워드 이름 호출
+    @GetMapping(value = "/keywordName", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<KeywordDTO>findKeywordName(){
+        System.out.println("JavaScript 내장 함수인 fetch");
+
+        List<KeywordDTO> keywordNameList = postService.findKeywordName();
+
+        return keywordNameList;
+    }
+
     // 키워드별 게시글 목록
     @GetMapping("/keywordlist")
-    public String KeywordList(@RequestParam("keywordId") int keywordId, Model model){
+    public String keywordList(@RequestParam("keywordId") int keywordId, Model model){
 
         List<PostDTO> keywordList = postService.findKeywordList(keywordId);
 
-        model.addAttribute("keywordId", keywordId);
         model.addAttribute("keywordList", keywordList);
 
         return "board/keywordlist";
@@ -124,6 +140,59 @@ public class PostController {
         postService.comment(commentDTO);
 
         rAttr.addFlashAttribute("successMessage", "댓글이 등록되었습니다");
+        return "redirect:/board/detailpost/" + postId;
+    }
+
+    // 게시글 등록 페이지 이동
+    @GetMapping("/createpost")
+    public String showCreatePost(Model model){
+
+        model.addAttribute("postDTO", new PostDTO());
+        return "board/createpost";
+    }
+
+    // 게시글 등록 후 상세페이지로 이동
+    @PostMapping("/createpost")
+    public String createPost(@ModelAttribute PostDTO postDTO, RedirectAttributes rAttr){
+
+        int postId = postService.createPost(postDTO);
+
+        rAttr.addFlashAttribute("successmessage", "게시글이 등록되었습니다.");
+
+        System.out.println("========================================");
+        System.out.println("게시글 등록 : " + postDTO);
+        System.out.println("========================================");
+
+        return "redirect:/board/detailpost/" + postId;
+    }
+
+    // 게시글 수정 페이지 이동
+    @GetMapping("/editpost/{postId}")
+    public String editPostForm(@PathVariable("postId") int postId, Model model){
+
+        PostDTO postDTO = postService.findDetailPostById(postId);
+        model.addAttribute("postDTO", postDTO);
+
+        System.out.println("========================================");
+        System.out.println("게시글 수정으로 : " + postDTO);
+        System.out.println("========================================");
+
+        return "/board/editpost";
+    }
+
+    // 게시글 수정 후 상세페이지로 이동
+    @PostMapping("/editpost/{postId}")
+    public String updatePost(@PathVariable("postId") int postId, @ModelAttribute PostDTO postDTO, RedirectAttributes rAttr){
+
+        postDTO.setPostId(postId);
+        postService.updatePost(postDTO);
+
+        rAttr.addFlashAttribute("successmessage", "게시글이 수정되었습니다.");
+
+        System.out.println("========================================");
+        System.out.println("게시글 수정 : " + postDTO);
+        System.out.println("========================================");
+
         return "redirect:/board/detailpost/" + postId;
     }
 
