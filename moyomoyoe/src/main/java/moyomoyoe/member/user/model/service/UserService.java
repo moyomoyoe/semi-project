@@ -3,6 +3,7 @@ package moyomoyoe.member.user.model.service;
 import jakarta.annotation.PostConstruct;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dao.UserMapper;
+import moyomoyoe.member.user.model.dto.ImageDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,11 +72,16 @@ public class UserService {
 
         UserDTO user = userMapper.findByAccount(account);
         RegionDTO region = userMapper.getRegionByUserId(user.getId());
+        ImageDTO image = userMapper.getImageById(user.getId());
 
         System.out.println("[서비스] 왓니? ");
 
         if(region != null) {
             user.setRegion(region.getDistrict());
+        }
+
+        if(image != null) {
+            user.setImage(image.getImageName());
         }
 
         System.out.println("[서비스] region = " + region);
@@ -97,7 +103,6 @@ public class UserService {
 
     public RegionDTO getRegionByUserId(int id) {
         return userMapper.getRegionByUserId(id);
-
     }
 
     public Integer update(UserDTO newUserInfo) {
@@ -121,5 +126,14 @@ public class UserService {
         System.out.println("회원 정보 수정 처리 결과 = " + result);
 
         return result;
+    }
+
+    public void registImage(ImageDTO newImage) {
+        userMapper.registImage(newImage);
+    }
+
+    public ImageDTO getImageById(int id) {
+        System.out.println("[작동하니?]");
+         return userMapper.getImageById(id);
     }
 }

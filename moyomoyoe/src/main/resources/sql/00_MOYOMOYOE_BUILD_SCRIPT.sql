@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS tbl_image CASCADE;
 CREATE TABLE IF NOT EXISTS tbl_image
 (
     image_id INT AUTO_INCREMENT COMMENT '이미지번호',
-    image_name VARCHAR(20) NULL COMMENT '이미지이름',
+    image_name VARCHAR(255) NULL COMMENT '이미지이름',
 
     CONSTRAINT pk_image_id PRIMARY KEY (image_id)
 ) ENGINE=INNODB COMMENT '이미지';
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS tbl_reservation
     CONSTRAINT fk_schedule_id FOREIGN KEY (schedule_id) REFERENCES tbl_schedule (schedule_id)
 ) ENGINE=INNODB COMMENT '예약';
 
-INSERT INTO tbl_image (image_name) VALUES ('image1.jpg');
+INSERT INTO tbl_image (image_name) VALUES ('/static/image/image1.png');
 
 INSERT INTO tbl_keyword_id (keyword_name) VALUES ('영화'),
                                                  ('독서'),

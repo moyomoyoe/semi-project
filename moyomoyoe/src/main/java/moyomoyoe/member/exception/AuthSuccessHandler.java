@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.user.model.dto.ImageDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.service.UserService;
 import org.slf4j.Logger;
@@ -32,6 +33,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
         UserDTO user = (UserDTO) authentication.getPrincipal();
         RegionDTO region = userService.getRegionByUserId(user.getId());
+        ImageDTO image = userService.getImageById(user.getId());
+
+        System.out.println("[지역은 오니????????] = " + region);
+        System.out.println("[이미지 왔니???????] = " + image);
 
         System.out.println("usernames 값 확인 : " + user.getName());
 
@@ -44,6 +49,11 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         userSession.put("email", user.getEmail());
         if(region != null) {
             userSession.put("region", region.getDistrict());
+        }
+        if(image != null) {
+            userSession.put("image", image.getImageName());
+        } else {
+            System.out.println("[이미지 널???] = " + image);
         }
 
         System.out.println("지역은??" + region);

@@ -22,6 +22,11 @@
         <result property="district" column="district"/>
     </resultMap>
 
+    <resultMap id="imageResultMap" type="moyomoyoe.member.user.model.dto.ImageDTO">
+        <id property="imageId" column="image_id"/>
+        <result property="imageName" column="image_name"/>
+    </resultMap>
+
     <resultMap id="allRegionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
         <id property="regionCode" column="region_code"/>
         <result property="city" column="city"/>
@@ -77,6 +82,18 @@
             id = #{ id }
     </select>
 
+    <select id="getImageById" resultMap="imageResultMap">
+        SELECT
+            a.image_id,
+            a.image_name
+        FROM
+            tbl_image a
+        JOIN
+            tbl_user b ON b.image_id = a.image_id
+        WHERE
+            b.id = #{ id }
+    </select>
+
     <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
         INSERT INTO
             tbl_user
@@ -88,7 +105,8 @@
             email,
             phone,
             user_role,
-            user_region
+            user_region,
+            image_id
         )
         VALUES
         (
@@ -99,8 +117,22 @@
             #{ email },
             #{ phone },
             #{ userRole },
-            #{ userRegion }
+            #{ userRegion },
+            1
         )
+    </insert>
+
+    <insert id="registImage" parameterType="moyomoyoe.member.user.model.dto.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+        INSERT INTO
+            tbl_image
+        (
+            image_name
+        )
+        VALUES
+        (
+            #{ imageName }
+        )
+
     </insert>
 
     <update id="update" parameterType="moyomoyoe.member.auth.model.dto.UserDTO">
@@ -110,7 +142,8 @@
             password = #{ password },
             nickname = #{ nickname },
             phone = #{ phone },
-            email = #{ email }
+            email = #{ email },
+            image_id = #{ imageId }
         WHERE
             account = #{ account }
     </update>
