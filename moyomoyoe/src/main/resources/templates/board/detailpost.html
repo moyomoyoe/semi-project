@@ -30,16 +30,6 @@
     <span th:text="${detailPost.postDate}"></span>
 </div>
 
-<!--    <div>-->
-<!--        <label>지역:</label>-->
-<!--        <span th:text="${detailPost.regionCode}"></span>-->
-<!--    </div>-->
-
-<!--    <div>-->
-<!--        <label>키워드:</label>-->
-<!--        <span th:text="${detailPost.keywordId}"></span>-->
-<!--    </div>-->
-
 <!-- 지역 코드 표시 -->
 <div>
     <label>지역:</label>
@@ -85,7 +75,6 @@
     </span>
 </div>
 
-
 <div>
     <label>공개 여부:</label>
     <span th:text="${detailPost.userOpen} ? '공개' : '비공개'"></span>
@@ -109,39 +98,40 @@
 
 <br>
 
-<script>
-    function deletePost(event) {
+    <script>
+        function deletePost(event) {
         // 기본 폼 제출 동작을 막음
         event.preventDefault();
 
         // 삭제 확인창
         if (confirm('삭제하시겠습니까?')) {
-            var form = document.getElementById('deleteForm');
-            var action = form.getAttribute('action');
+        var form = document.getElementById('deleteForm');
+        var action = form.getAttribute('action');
 
-            // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
-            fetch(action, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams(new FormData(form))
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('게시글이 삭제되었습니다.');
-                        window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
-                    } else {
-                        alert('삭제에 실패했습니다.');
-                    }
-                })
+        // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
+        fetch(action, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+        body: new URLSearchParams(new FormData(form))
+    })
+        .then(response => {
+        if (response.ok) {
+        alert('게시글이 삭제되었습니다.');
+        window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
+    } else {
+        alert('삭제에 실패했습니다.');
+    }
+    })
                 .catch(error => {
-                    alert('서버에 문제가 발생했습니다.');
-                    console.error('Error:', error);
-                });
+                alert('서버에 문제가 발생했습니다.');
+                console.error('Error:', error);
+            });
         }
     }
-</script>
+    </script>
+
 
 <br>
 
@@ -160,6 +150,11 @@
         <span th:text="${comment.comment}">댓글 내용</span>
         <br>
         <em th:text="${comment.commentPostDate}">작성일: </em>
+
+        <form th:action="@{/board/detailpost/delete/comment/{commentId}(commentId=${comment.commentId})}" method="post">
+            <input type="hidden" name="postId" th:value="${detailPost.postId}"/>
+            <button type="submit" onclick="return confirm('이 댓글을 삭제하시겠습니까?')">삭제</button>
+        </form>
     </li>
 </ul>
 
