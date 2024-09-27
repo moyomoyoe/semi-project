@@ -19,4 +19,6 @@ public interface ScheduleMapper {
     void registSchedule(ScheduleDTO s);
 
     Integer findUserStore(int code);
+
+    void deleteStore(int code);
 }

@@ -30,20 +30,8 @@
 <hr>
 <br>
 
-<!-- 사업장 관련 링크 -->
-<a href="reservation/schedule/storeInfo/2">사업장 상세조회(2번)</a>
-<br>
-<a href="reservation/schedule/regist/store/2">사업장 등록(기존 정보 O)</a>
-<br>
-<a href="reservation/schedule/regist/store">사업장 등록(기존정보 X)</a>
-<br>
-
-<!-- 유동적인 사업장 등록 및 일정 등록 -->
-<a th:if="${userSession != null}" th:href="@{'/reservation/schedule/regist/store/' + ${userSession.id}}">사업장 등록(유동적)</a>
-<br>
-<a th:if="${userSession != null}" th:href="@{'/reservation/schedule/regist/schedule/' + ${userSession.id}}">일정 등록</a>
-
-<br><br>
+<h3> 상세조회(사업자 마이페이지) userid로 조회, userid로 등록된 사업장이 없다면 등록페이지로 리다이렉팅 </h3>
+<a th:href="@{'reservation/schedule/storeInfo/' + ${userSession.id}}">사업장 </a>
 <hr>
 
 <!-- 예약 관련 버튼 -->
@@ -51,6 +39,7 @@
     <button onclick="location.href='/reservation/storeList'">예약 가능한 업체 리스트 조회하기</button>
     <button onclick="location.href='/reservation/reservationList'">예약 일정 리스트 보기</button> <!-- 추가된 버튼 -->
 </div>
+
 
 <hr>
 <br>
@@ -64,3 +53,4 @@
 
 </body>
 </html>
+   

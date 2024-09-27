@@ -41,7 +41,6 @@ public class ScheduleService {
         //2. 남아있는지 확인을 어떻게 하는가? equals 오버라이딩
         //그러면 필요한 것. 기존의 스케쥴과 보내준 스케쥴 리스트...
 
-
         //기존의 일정
         List<ScheduleDTO> resent = dao.getSchedule(code);
         //전달받은 매개변수에, 기존의 일정과 "같은" 일정이 있는지 확인, 없는 애들은 삭제조치,
@@ -82,5 +81,11 @@ public class ScheduleService {
             dao.registStore(info);
         else
             dao.updateStore(info);
+    }
+
+    @Transactional
+    public void deleteStore(int code) {
+        registSchedule(code, new ArrayList<>());
+        dao.deleteStore(code);
     }
 }
