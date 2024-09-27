@@ -45,4 +45,6 @@ public interface PostMapper {
     // 게시글 수정
     void updatePost(PostDTO postDTO);
 
+    // 게시글 댓글 삭제
+    void deleteComment(int commentId);
 }
