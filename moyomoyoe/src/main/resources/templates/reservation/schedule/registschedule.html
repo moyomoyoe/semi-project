@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
+=======
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
     <title>Title</title>
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
@@ -18,18 +23,28 @@
 <div id="container"></div>
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
 
+<<<<<<< HEAD
 </body>
 
 <script th:inline="javascript">
+=======
+<script>
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
     // console.log("확인"+document.querySelector("#data").innerHTML);
     const container = document.querySelector("#container");
     const capacityInput = document.querySelector("#capacity")
     const schedules = JSON.parse(document.querySelector("#data").innerHTML);
+<<<<<<< HEAD
     const storeId = /*[[${storeId}]]*/ 0;
     console.log(storeId)
     if(storeId==null){
         alert("오류 발생 이전페이지로 돌아갑니다")
     }
+=======
+    const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    const storeId = 2;
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
     console.log(schedules);
 
@@ -59,8 +74,28 @@
                     console.log(schedules)
                 }
             });
+<<<<<<< HEAD
         container.appendChild(newSchedule);
     }
+=======
+
+        container.appendChild(newSchedule);
+    }
+    /*
+    * schedule 구성요소
+    bookedPeople
+        :4
+    capacity
+        :30
+    endTime
+        :"16:00:00"
+    scheduleId
+        :1
+    startTime
+        :"15:00:00"
+    storeId:2
+    */
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
     function schedule(start, end, no, id){
         return{
@@ -111,23 +146,43 @@
         const eTime = time(endTime.getHour(), endTime.getMinute());
         const capacity = capacityInput.value;
 
+<<<<<<< HEAD
         if (sTime.h >eTime.h ||
+=======
+       if (sTime.h >eTime.h ||
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
             (sTime.h === eTime.h)&& (sTime.m>= eTime.m)){
             alert("적절한 시간 범위가 아닙니다.")
         }
         else {
+<<<<<<< HEAD
             let s = new schedule(sTime.t, eTime.t, capacity, storeId)
             makeNode(s)
             schedules.push(s);
+=======
+            let s = new schedule(sTime.t, eTime.t, capacity, 2)
+            makeNode(s)
+           schedules.push(s);
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
         }
     })
     function saveSchedule(){
         console.log("saveSchedule 호출")
+<<<<<<< HEAD
+=======
+        /*let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/reservation/schedule/regist/schedule", true);
+        xhr.send(JSON.stringify(schedules));*/
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
         fetch(`schedule/${storeId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+<<<<<<< HEAD
+=======
+                [csrfHeader]: csrfToken
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
             },
             body: JSON.stringify(schedules),
         }).then(response => {
@@ -138,12 +193,26 @@
             console.log(data.message)
             if(data.status== "success"){
                 alert("일정 수정 성공")
+<<<<<<< HEAD
                 location.href=`/reservation/schedule/storeInfo/${storeId}`
+=======
+                location.href="/reservation/schedule/storeInfo/2"
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
             }else{
                 alert("일정 등록에 실패했습니다. 다시 시도해주세요.")
             }
         });
     }
 
+<<<<<<< HEAD
 </script>
+=======
+    /*
+       */
+
+
+</script>
+</body>
+
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 </html>

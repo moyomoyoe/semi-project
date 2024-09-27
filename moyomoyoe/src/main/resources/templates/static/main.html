@@ -7,6 +7,7 @@
 <body>
 <h1>메인</h1>
 <hr>
+<<<<<<< HEAD
 <h3>로그인구역이에용~</h3>
     <div sec:authorize="!isAuthenticated()">
         <a href="/member/auth/login">로그인</a>
@@ -20,37 +21,69 @@
     <div  > <!-- sec:authorize="!isAuthenticated()"-->
         <a href="/member/user/signup">회원가입</a>
     </div>
+=======
+<h3>로그인 구역</h3>
+
+<div sec:authorize="!isAuthenticated()">
+    <a href="/member/auth/login">로그인</a>
+</div>
+<div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
+    <a href="/member/user/myPage">마이페이지</a>
+</div>
+<div sec:authorize="hasAnyAuthority('BUSINESS')">
+    <a href="/member/business/myPage">마이페이지</a>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <a href="/member/user/signup">회원가입</a>
+</div>
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
 <div sec:authorize="hasAnyAuthority('ADMIN', 'USER', 'BUSINESS')">
-    <h2 th:text="|${ userSession.nickname } 님, 안녕하세요.|"></h2>
+    <h2 th:if="${userSession != null}" th:text="|${ userSession.nickname } 님, 안녕하세요.|"></h2>
 </div>
 
 <br>
 <hr>
 <br>
 
+<!-- 사업장 관련 링크 -->
 <a href="reservation/schedule/storeInfo/2">사업장 상세조회(2번)</a>
 <br>
 <a href="reservation/schedule/regist/store/2">사업장 등록(기존 정보 O)</a>
 <br>
 <a href="reservation/schedule/regist/store">사업장 등록(기존정보 X)</a>
+<<<<<<< HEAD
 <a th:href="@{'reservation/schedule/regist/store/' + ${userSession.id}}">사업장 등록(유동적)</a>
 <a th:href="@{'/reservation/schedule/regist/schedule/' + ${userSession.id}}">일정등록</a>
 <br>
+=======
 <br>
+
+<!-- 유동적인 사업장 등록 및 일정 등록 -->
+<a th:if="${userSession != null}" th:href="@{'/reservation/schedule/regist/store/' + ${userSession.id}}">사업장 등록(유동적)</a>
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
+<br>
+<a th:if="${userSession != null}" th:href="@{'/reservation/schedule/regist/schedule/' + ${userSession.id}}">일정 등록</a>
+
+<br><br>
 <hr>
 
 <!-- 예약 관련 버튼 -->
 <div class="action-buttons">
     <button onclick="location.href='/reservation'">예약하기</button>
     <button onclick="location.href='/reservation/storeList'">예약 가능한 업체 리스트 조회하기</button>
+    <button onclick="location.href='/reservation/reservationList'">예약 일정 리스트 보기</button> <!-- 추가된 버튼 -->
 </div>
-
 
 <hr>
 <br>
-<h3>게시판조회 및 세부조회</h3>
+<h3>게시판 조회 및 세부 조회</h3>
 <button onclick="location.href='/board/main'">게시글 조회 부분</button>
+
+
+<h3>게시글 쓰기</h3>
+<button onclick="location.href='/board/createpost'">게시글 쓰기</button>
+
 
 </body>
 </html>

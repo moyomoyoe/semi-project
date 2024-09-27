@@ -10,6 +10,7 @@
         <result property="userId" column="user_id"/>
         <result property="context" column="context"/>
         <result property="nickname" column="nickname"/>
+        <result property="userId" column="user_id"/>
         <result property="postDate" column="post_date"/>
         <result property="userOpen" column="user_open"/>
         <result property="regionCode" column="region_code"/>
@@ -34,12 +35,17 @@
         <result property="nickname" column="nickname"/>
         <result property="comment" column="comment"/>
         <result property="commentPostDate" column="comment_post_date"/>
+<<<<<<< HEAD
+=======
+        <result property="postId" column="post_id"/>
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
         <result property="userId" column="user_id"/>
     </resultMap>
 
     <!-- 전체메뉴 쿼리 -->
     <select id="findAllPost" resultMap="postResultMap">
         SELECT
+<<<<<<< HEAD
             post_id,
             title,
             context,
@@ -51,10 +57,24 @@
             keyword_id
         FROM
             tbl_post_list
+=======
+        post_id,
+        title,
+        context,
+        nickname,
+        post_date,
+        user_open,
+        region_code,
+        image_id,
+        keyword_id
+        FROM
+        tbl_post_list
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
     </select>
 
     <!-- 키워드 쿼리 -->
     <select id="findKeywordName" resultMap="keywordResultMap">
+<<<<<<< HEAD
         SELECT
             keyword_id,
             keyword_name
@@ -118,6 +138,8 @@
 
     <!--제목검색 쿼리-->
     <select id="findTitleList" resultMap="postResultMap">
+=======
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
         SELECT
             post_id,
             title,
@@ -137,6 +159,7 @@
     <!--세부게시글페이지-->
     <select id="findDetailPostById" resultMap="postResultMap">
         SELECT
+<<<<<<< HEAD
             post_id,
             title,
             context,
@@ -146,6 +169,18 @@
             image_id,
             user_id,
             keyword_id
+=======
+        post_id,
+        title,
+        context,
+        nickname,
+        user_id,
+        region_code,
+        post_date,
+        user_open,
+        image_id,
+        keyword_id
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
         FROM
             tbl_post_list
         WHERE
@@ -197,5 +232,54 @@
             #{userId}
             )
     </insert>
+
+    <!-- 게시글 등록 -->
+    <insert id="insertPost" parameterType="moyomoyoe.board.model.dto.PostDTO" useGeneratedKeys="true" keyProperty="postId">
+        INSERT INTO tbl_post_list
+        (
+        title,
+        context,
+        nickname,
+        user_id,
+        post_date,
+        user_open,
+        region_code,
+        image_id,
+        keyword_id
+        )
+        VALUES
+        (
+        #{title},
+        #{context},
+        #{nickname},
+        #{userId},
+        NOW(),
+        #{userOpen},
+        #{regionCode},
+        #{imageId},
+        #{keywordId}
+        )
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updatePost" parameterType="moyomoyoe.board.model.dto.PostDTO">
+        UPDATE tbl_post_list
+        SET
+        title = #{title},
+        context = #{context},
+        nickname = #{nickname},
+        user_id = #{userId},
+        user_open = #{userOpen},
+        region_code = #{regionCode},
+        image_id = #{imageId},
+        keyword_id = #{keywordId}
+        WHERE
+        post_id = #{postId}
+    </update>
+
+    <!-- 게시글 댓글 삭제 -->
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM tbl_comment WHERE comment_id = #{commentId}
+    </delete>
 
 </mapper>

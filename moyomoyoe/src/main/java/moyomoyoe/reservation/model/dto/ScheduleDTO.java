@@ -22,6 +22,12 @@ public class ScheduleDTO {
         this.endTime = endTime;
         this.capacity = capacity;
         this.bookedPeople = bookedPeople;
+<<<<<<< HEAD
+=======
+    }
+
+    public ScheduleDTO(int i, int storeId, Time sqlStartTime, Time sqlEndTime, int capacity) {
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
     }
 
     public int getScheduleId() {
@@ -96,4 +102,8 @@ public class ScheduleDTO {
     public int hashCode() {
         return Objects.hash(storeId, startTime, endTime, capacity);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338

@@ -5,91 +5,159 @@
     <title>게시글 상세 보기</title>
 </head>
 <body>
-    <h3>게시글 상세 보기</h3>
+<h3>게시글 상세 보기</h3>
 
-    <div>
-        <label>제목:</label>
-        <span th:text="${detailPost.title}"></span>
-    </div>
-    <div>
-        <label>내용:</label>
-        <p th:text="${detailPost.context}"></p>
-    </div>
-    <div>
-        <label>작성자:</label>
-        <span th:text="${detailPost.nickname}"></span>
-    </div>
-    <div>
-        <label>작성일자:</label>
-        <span th:text="${detailPost.postDate}"></span>
-    </div>
+<div>
+    <label>제목:</label>
+    <span th:text="${detailPost.title}"></span>
+</div>
+<div>
+    <label>내용:</label>
+    <p th:text="${detailPost.context}"></p>
+</div>
+<div>
+    <label>작성자:</label>
+    <span th:text="${detailPost.nickname}"></span>
+</div>
 
-    <br>
+<div>
+    <label>작성자 ID:</label>
+    <span th:text="${detailPost.userId}"></span>
+</div>
 
-    <button onclick="location.href='/'">메인으로</button>
+<div>
+    <label>작성일자:</label>
+    <span th:text="${detailPost.postDate}"></span>
+</div>
 
-    <br>
+<!-- 지역 코드 표시 -->
+<div>
+    <label>지역:</label>
+    <span th:switch="${detailPost.regionCode}">
+        <span th:case="1">강남구</span>
+        <span th:case="2">강동구</span>
+        <span th:case="3">강북구</span>
+        <span th:case="4">강서구</span>
+        <span th:case="5">관악구</span>
+        <span th:case="6">광진구</span>
+        <span th:case="7">구로구</span>
+        <span th:case="8">금천구</span>
+        <span th:case="9">노원구</span>
+        <span th:case="10">도봉구</span>
+        <span th:case="11">동대문구</span>
+        <span th:case="12">동작구</span>
+        <span th:case="13">마포구</span>
+        <span th:case="14">서대문구</span>
+        <span th:case="15">서초구</span>
+        <span th:case="16">성동구</span>
+        <span th:case="17">성북구</span>
+        <span th:case="18">송파구</span>
+        <span th:case="19">양천구</span>
+        <span th:case="20">영등포구</span>
+        <span th:case="21">용산구</span>
+        <span th:case="22">은평구</span>
+        <span th:case="23">종로구</span>
+        <span th:case="24">중구</span>
+        <span th:case="25">중랑구</span>
+    </span>
+</div>
 
-    <!-- 삭제 버튼 -->
-    <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
-        <button type="submit" onclick="return deletePost(event)">삭제</button>
-    </form>
+<!-- 키워드 표시 -->
+<div>
+    <label>키워드:</label>
+    <span th:switch="${detailPost.keywordId}">
+        <span th:case="1">영화</span>
+        <span th:case="2">독서</span>
+        <span th:case="3">스터디</span>
+        <span th:case="4">스포츠</span>
+        <span th:case="5">여행</span>
+        <span th:case="6">기타</span>
+    </span>
+</div>
 
-    <br>
+<div>
+    <label>공개 여부:</label>
+    <span th:text="${detailPost.userOpen} ? '공개' : '비공개'"></span>
+</div>
+
+<br>
+
+<button onclick="location.href='/'">메인으로</button>
+
+<br>
+
+<!-- 삭제 버튼 -->
+<form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
+    <button type="submit" onclick="return deletePost(event)">삭제</button>
+</form>
+
+<div th:if="${loggedInUserId == detailPost.userId}">
+    <a th:href="@{/board/editpost/{postId}(postId=${detailPost.postId})}">수정</a>
+</div>
+
+
+
+<br>
 
     <script>
         function deletePost(event) {
-            // 기본 폼 제출 동작을 막음
-            event.preventDefault();
+        // 기본 폼 제출 동작을 막음
+        event.preventDefault();
 
-            // 삭제 확인창
-            if (confirm('삭제하시겠습니까?')) {
-                var form = document.getElementById('deleteForm');
-                var action = form.getAttribute('action');
+        // 삭제 확인창
+        if (confirm('삭제하시겠습니까?')) {
+        var form = document.getElementById('deleteForm');
+        var action = form.getAttribute('action');
 
-                // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
-                fetch(action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(new FormData(form))
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            alert('게시글이 삭제되었습니다.');
-                            window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
-                        } else {
-                            alert('삭제에 실패했습니다.');
-                        }
-                    })
-                    .catch(error => {
-                        alert('서버에 문제가 발생했습니다.');
-                        console.error('Error:', error);
-                    });
-            }
+        // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
+        fetch(action, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+        body: new URLSearchParams(new FormData(form))
+    })
+        .then(response => {
+        if (response.ok) {
+        alert('게시글이 삭제되었습니다.');
+        window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
+    } else {
+        alert('삭제에 실패했습니다.');
+    }
+    })
+                .catch(error => {
+                alert('서버에 문제가 발생했습니다.');
+                console.error('Error:', error);
+            });
         }
+    }
     </script>
 
-    <br>
 
-    <!-- 댓글 작성 폼 -->
-    <h3>댓글 작성</h3>
-    <form th:action="@{/board/detailpost/{postId}(postId=${detailPost.postId})}" method="post">
-        <textarea name="comment" rows="2" cols="50" placeholder="댓글을 입력하세요"></textarea>
+<br>
+
+<!-- 댓글 작성 폼 -->
+<h3>댓글 작성</h3>
+<form th:action="@{/board/detailpost/{postId}(postId=${detailPost.postId})}" method="post">
+    <textarea name="comment" rows="2" cols="50" placeholder="댓글을 입력하세요"></textarea>
+    <br>
+    <button type="submit">등록</button>
+</form>
+<!-- 댓글 목록 -->
+<h3>댓글목록</h3>
+<ul>
+    <li th:each="comment : ${detailPostComment}">
+        <strong th:text="${comment.nickname}">닉네임</strong>:
+        <span th:text="${comment.comment}">댓글 내용</span>
         <br>
-        <button type="submit">등록</button>
-    </form>
-    <!-- 댓글 목록 -->
-    <h3>댓글목록</h3>
-    <ul>
-        <li th:each="comment : ${detailPostComment}">
-            <strong th:text="${comment.nickname}">닉네임</strong>:
-            <span th:text="${comment.comment}">댓글 내용</span>
-            <br>
-            <em th:text="${comment.commentPostDate}">작성일: </em>
-        </li>
-    </ul>
+        <em th:text="${comment.commentPostDate}">작성일: </em>
+
+        <form th:action="@{/board/detailpost/delete/comment/{commentId}(commentId=${comment.commentId})}" method="post">
+            <input type="hidden" name="postId" th:value="${detailPost.postId}"/>
+            <button type="submit" onclick="return confirm('이 댓글을 삭제하시겠습니까?')">삭제</button>
+        </form>
+    </li>
+</ul>
 
 
 </body>
