@@ -38,4 +38,13 @@ public interface PostMapper {
     // postId 별 댓글 삽입
     void comment(CommentDTO commentDTO);
 
+
+    // 게시글 등록
+    void insertPost(PostDTO postDTO);
+
+    // 게시글 수정
+    void updatePost(PostDTO postDTO);
+
+    // 게시글 댓글 삭제
+    void deleteComment(int commentId);
 }

@@ -75,4 +75,25 @@ public class PostService {
         postMapper.comment(commentDTO);
     }
 
+
+    // 게시글 등록
+    @Transactional
+    public int createPost(PostDTO postDTO) {
+
+        postMapper.insertPost(postDTO);
+        return postDTO.getPostId();
+    }
+
+    // 게시글 수정
+    @Transactional
+    public void updatePost(PostDTO postDTO) {
+
+        postMapper.updatePost(postDTO);
+    }
+
+    @Transactional
+    public void deleteComment(int commentId) {
+
+        postMapper.deleteComment(commentId);
+    }
 }
