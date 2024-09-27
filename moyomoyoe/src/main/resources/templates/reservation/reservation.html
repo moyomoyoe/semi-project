@@ -90,7 +90,7 @@
     <section id="step2" class="hidden">
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/submit">
-            <!-- CSRF Token 제거 -->
+            <input type="hidden" name="storeId" value="${store.id}"> <!-- storeId 값을 히든 필드로 전달 -->
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
@@ -124,7 +124,7 @@
     <section id="step3" class="hidden">
         <h2>예약이 완료되었습니다.</h2>
         <p>예약 정보:</p>
-        <p>가게명: <span id="confirm-store">업체명 1</span></p>
+        <p>가게명: <span id="confirm-store">${storeName}</span></p>
         <p>예약자명: <span id="confirm-name"></span></p>
         <p>예약 날짜: <span id="confirm-date"></span></p>
         <p>예약 시간: <span id="confirm-time"></span></p>
