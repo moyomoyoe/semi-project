@@ -28,6 +28,7 @@
     <a th:href="@{'/reservation/schedule/regist/store/' + ${store.userId}}" class="button-style">사업장정보 수정</a>
 <!--    아래는 fetch로 보낼거임 th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}"-->
     <button onclick="deleteFetch()">사업장 삭제</button>
+    <a href="/"> 메인으로</a>
 </body>
 <script th:inline="javascript">
     let userId= /*[[${store.userId}]]*/ 0;
