@@ -1,7 +1,6 @@
 package moyomoyoe.member.auth.model.dto;
 
 import moyomoyoe.member.auth.model.UserRole;
-import moyomoyoe.member.user.model.dto.RegionDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +21,7 @@ public class UserDTO implements UserDetails, Serializable {
     private int imageId;
     private int userRegion;
     private String region;
+    private String image;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -171,6 +171,14 @@ public class UserDTO implements UserDetails, Serializable {
         this.region = region;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -184,6 +192,8 @@ public class UserDTO implements UserDetails, Serializable {
                 ", userRole=" + userRole +
                 ", imageId=" + imageId +
                 ", userRegion=" + userRegion +
+                ", region=" + region +
+                ", imageName=" + image +
                 '}';
     }
 }

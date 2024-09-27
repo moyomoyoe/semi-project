@@ -51,7 +51,7 @@ public class MainController {
         model.addAttribute("userSession", userSession);
         System.out.println("[메인]userSession = " + userSession);
 
-        return "/static/main";
+        return "static/main";
     }
 
     @GetMapping("/admin/page")

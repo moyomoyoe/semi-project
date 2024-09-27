@@ -26,6 +26,8 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
+  freemarker:
+    cache: false
 
 ## mybatis config
 mybatis:
