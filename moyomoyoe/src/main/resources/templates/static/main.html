@@ -32,14 +32,6 @@
 
 <h3> 상세조회(사업자 마이페이지) userid로 조회, userid로 등록된 사업장이 없다면 등록페이지로 리다이렉팅 </h3>
 <a th:href="@{'reservation/schedule/storeInfo/' + ${userSession.id}}">사업장 </a>
-<br>
-<a href="reservation/schedule/regist/store/2">사업장 등록(기존 정보 O)</a>
-<br>
-<a href="reservation/schedule/regist/store">사업장 등록(기존정보 X)</a>
-<a th:href="@{'reservation/schedule/regist/store/' + ${userSession.id}}">사업장 등록(유동적)</a>
-<br>
-<a th:href="@{'reservation/schedule/regist/schedule/' + ${userSession.id}}">일정등록</a>
-<br>
 <hr>
 
 <!-- 예약 관련 버튼 -->

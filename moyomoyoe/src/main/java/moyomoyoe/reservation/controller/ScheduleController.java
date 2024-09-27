@@ -37,7 +37,7 @@ public class ScheduleController {
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
         Integer storeId = reserService.FindUserStore(code);
         if (code <= 0 || storeId==null){
-            return "redirect:" + defaultUrl+"regist/store";
+            return "redirect:" + defaultUrl+"regist/store/"+code;
         }
         else {
         // 해당 사업체의 세부정보와 일정정보를 세션에 저장
@@ -74,11 +74,15 @@ public class ScheduleController {
     @GetMapping("/regist/store/{code}")
     public String RegistStore(@PathVariable("code") int code, RedirectAttributes redirectAttributes) {
         //등록된 가게가 있는 사업자라면 "수정" 할 수 있도록 , 없다면 등록하도록 함
+        System.out.println("사업자 아이디" +code);
         StoreDTO store;
         Integer storeId = reserService.FindUserStore(code);
-        if (storeId!=null)
+        if (storeId!=null){
+            System.out.println("정보있음");
             store = reserService.getStoreAllInfo(storeId);
+        }
         else{
+            System.out.println("정보없음");
             store=new StoreDTO();
             store.setUserId(code);
         }
@@ -98,8 +102,9 @@ public class ScheduleController {
     //일정 등록
     @PostMapping("/regist/store")
     @ResponseBody
-    public Map<String, String> RegistStore(@ModelAttribute StoreDTO store) {
+    public Map<String, String> RegistStore(@RequestBody StoreDTO store) {
         Map<String, String> response = new HashMap<>();
+        System.out.println(store+"확인된 데이터");
         //StoreDTO temp = new StoreDTO(0,"더미 데이터", "종각", "기타","123456","어떤 가게입니다.",1, null);
         System.out.println(store);
         try {
@@ -108,6 +113,7 @@ public class ScheduleController {
             // 성공 시 응답 설정
             response.put("status", "success");
             response.put("message", "Store registered successfully!");
+            response.put("확인", "이게맞나?");
         } catch (Exception e) {
             // 실패 시 응답 설정
             e.printStackTrace();
@@ -158,6 +164,7 @@ public class ScheduleController {
         //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
         session.setAttribute("schedule", schedule);
         session.setAttribute("storeId",storeId);
+        session.setAttribute("userId",code);
         return "redirect:" + defaultUrl + "regist/schedule";
     }
     @GetMapping("/regist/schedule")
@@ -176,18 +183,30 @@ public class ScheduleController {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();  // JSON 변환 예외 처리
             }
-        }
-
-        // schedule이 null이면 빈 리스트로 대체
+        };
         model.addAttribute("schedule", scheduleJson);
         model.addAttribute("userSession", userSession);
         model.addAttribute("storeId", session.getAttribute("storeId"));
         return defaultUrl + "registschedule";
     }
-    @GetMapping("/delete/store")
+    @GetMapping("/delete/store/{code}")
     @ResponseBody
-    public String deleteStore(){
-        return "";
+    public  Map<String, String> deleteStore(@PathVariable("code") int code){
+        System.out.println("delete요청이 왔습니다");        
+        Integer storeId = reserService.FindUserStore(code);
+        Map<String, String> response = new HashMap<>();
+        try {
+            reserService.deleteStore(storeId);
+            response.put("status", "success");
+            response.put("message", "Store delete successfully!");
+        } catch (Exception e) {
+            // 실패 시 응답 설정
+            e.printStackTrace();
+            response.put("status", "failure");
+            response.put("message", "Failed to delete store.");
+        }
+
+        return response;
     }
 
 }

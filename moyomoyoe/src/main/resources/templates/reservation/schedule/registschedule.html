@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
     <title>Title</title>
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
@@ -12,25 +10,30 @@
 <body>
 <h1>확인용</h1>
 
+<h3 th:text="${userSession.id}"></h3>
 <h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
-    <div id="startTime"></div>
-    <div id="endTime"></div>
-    <input min="1" id="capacity" type="number" value="5"> <label>명</label>
-    <button id ="makeSchedule"> 새 일정 생성</button>
+<div id="startTime"></div>
+<div id="endTime"></div>
+<input min="1" id="capacity" type="number" value="5"> <label>명</label>
+<button id ="makeSchedule"> 새 일정 생성</button>
 <hr>
 <h2>현 일정</h2>
 <div id="container"></div>
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
 <button id="cancel" onclick="saveSchedule()"> 취소/돌아가기</button>
 
-<script>
+<script th:inline="javascript">
+
     // console.log("확인"+document.querySelector("#data").innerHTML);
     const container = document.querySelector("#container");
     const capacityInput = document.querySelector("#capacity")
     const schedules = JSON.parse(document.querySelector("#data").innerHTML);
-    const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
-    const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-    const storeId = 2;
+    const storeId = /*[[${storeId}]]*/ 0;
+    const userId = /*[[${userSession.id}]]*/ 0;
+    console.log(storeId)
+    if(storeId==null){
+        alert("오류 발생 이전페이지로 돌아갑니다")
+    }
 
     console.log(schedules);
 
@@ -60,23 +63,8 @@
                     console.log(schedules)
                 }
             });
-
         container.appendChild(newSchedule);
     }
-    /*
-    * schedule 구성요소
-    bookedPeople
-        :4
-    capacity
-        :30
-    endTime
-        :"16:00:00"
-    scheduleId
-        :1
-    startTime
-        :"15:00:00"
-    storeId:2
-    */
 
     function schedule(start, end, no, id){
         return{
@@ -127,27 +115,23 @@
         const eTime = time(endTime.getHour(), endTime.getMinute());
         const capacity = capacityInput.value;
 
-       if (sTime.h >eTime.h ||
+        if (sTime.h >eTime.h ||
             (sTime.h === eTime.h)&& (sTime.m>= eTime.m)){
             alert("적절한 시간 범위가 아닙니다.")
         }
         else {
-            let s = new schedule(sTime.t, eTime.t, capacity, 2)
+            let s = new schedule(sTime.t, eTime.t, capacity, storeId)
             makeNode(s)
-           schedules.push(s);
+            schedules.push(s);
         }
     })
     function saveSchedule(){
         console.log("saveSchedule 호출")
-        /*let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/reservation/schedule/regist/schedule", true);
-        xhr.send(JSON.stringify(schedules));*/
 
         fetch(`schedule/${storeId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                [csrfHeader]: csrfToken
             },
             body: JSON.stringify(schedules),
         }).then(response => {
@@ -157,19 +141,15 @@
             console.log(data.status)
             console.log(data.message)
             if(data.status== "success"){
+                console.log(userId)
                 alert("일정 수정 성공")
-                location.href="/reservation/schedule/storeInfo/2"
+                location.href=`/reservation/schedule/storeInfo/${userId}`
             }else{
                 alert("일정 수정에 실패했습니다. 다시 시도해주세요.")
             }
         });
     }
 
-    /*
-       */
-
-
 </script>
 </body>
-
 </html>
