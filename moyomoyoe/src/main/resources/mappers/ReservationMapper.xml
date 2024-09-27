@@ -7,6 +7,8 @@
         <id property="storeId" column="store_id"/>
         <result property="storeName" column="store_name"/>
         <result property="storeAddress" column="store_address"/>
+        <result column="store_sort" property="storeSort"/>  <!-- 여기 매핑 중요 -->
+        <result column="description" property="description"/>
     </resultMap>
 
     <!-- Schedule 테이블에 대한 결과 매핑 -->

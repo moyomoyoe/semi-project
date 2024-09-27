@@ -34,11 +34,6 @@ public class PostController {
         return "static/index";
     }
 
-    //index.html 연결 Controller
-    @GetMapping("/main")
-    public String mainPostList(Model model) {
-        return "static/index";
-    }
 
     // 날짜별 전체게시글 목록
     @GetMapping("/postlist")

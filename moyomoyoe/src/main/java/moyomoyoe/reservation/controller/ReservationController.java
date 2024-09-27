@@ -48,15 +48,15 @@ public class ReservationController {
     // 매장상세에서 예약 페이지로 이동
     @GetMapping("/submit")
     public String submitReservationPage(@RequestParam("storeId") int storeId, Model model) {
-        System.out.println("GET 요청 storeId: " + storeId); // storeId 값을 콘솔에 출력
         StoreDTO store = reservationService.getStoreById(storeId);
         model.addAttribute("store", store);
-        return "reservation/reservation";
+        System.out.println("GET /submit - storeId: " + storeId);  // storeId 값을 콘솔에 출력
+        return "reservation/reservation";  // 예약 페이지로 이동
     }
 
-    @PostMapping("/submit")
+    // 예약 처리 (POST 요청)
+    @PostMapping("/reservation/submit")
     public String submitReservation(
-
             @RequestParam("storeId") int storeId,
             @RequestParam("name") String name,
             @RequestParam("phone") String phone,
@@ -66,7 +66,7 @@ public class ReservationController {
             @RequestParam("endTime") String endTimeStr,
             RedirectAttributes redirectAttributes) {
 
-        System.out.println("POST 요청 storeId: " + storeId); // storeId 값을 콘솔에 출력
+        System.out.println("POST /submit - storeId: " + storeId);  // storeId 값을 콘솔에 출력
 
         try {
             // 날짜 형식 파싱
@@ -106,15 +106,16 @@ public class ReservationController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "예약 처리 중 오류가 발생했습니다.");
         }
-        return "redirect:/reservation/";
+        return "redirect:/reservation/completion?storeId=" + storeId;
     }
 
     // 예약 완료 페이지
     @GetMapping("/completion")
     public String reservationCompletion(@RequestParam("storeId") int storeId, Model model) {
-        System.out.println("Completion 요청 storeId: " + storeId); // storeId 값을 콘솔에 출력
+        System.out.println("GET /completion - storeId: " + storeId);  // storeId 값을 콘솔에 출력
+
         StoreDTO store = reservationService.getStoreById(storeId);
-        model.addAttribute("store", store);
+        model.addAttribute("store", store);  // store 객체를 Model에 추가
         return "completion";
     }
 
@@ -125,7 +126,7 @@ public class ReservationController {
         return reservationService.getReservedTimes(storeId, date);
     }
 
-    // 메인 컨트롤러
+    // 메인 컨트롤러 (예시)
     @Controller
     public class MainController {
 
