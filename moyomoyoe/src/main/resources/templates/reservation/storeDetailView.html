@@ -35,6 +35,20 @@
         .reservation-button:hover {
             background-color: #218838;
         }
+
+        .back-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -50,19 +64,19 @@
 
 <main>
     <div class="store-detail">
-        <img th:src="${store.imageUrl}" alt="Store Image">
-        <h2 th:text="${store.name} + ' (' + ${store.type} + ')'">매장 이름 (매장 타입)</h2>
-        <p>주소: <span th:text="${store.address}">주소</span></p>
-        <p>영업시간: <span th:text="${store.hours}">영업시간</span></p>
+        <img th:src="@{'/images/store/' + ${store.storeId} + '.png'}" alt="Store Image">
+        <h2 th:text="${store.storeName} + ' (' + ${store.storeSort} + ')'">매장 이름 (업종)</h2>
+        <p>주소: <span th:text="${store.storeAddress}">주소</span></p>
         <p>상세 설명: <span th:text="${store.description}">상세 설명</span></p>
 
-        <!-- 예약하기 버튼 수정 -->
+        <!-- 예약하기 버튼 -->
         <button class="reservation-button"
-                th:onclick="'location.href=\'/reservation?storeId=' + ${store.id} + '\''">예약하기
+                th:onclick="|location.href='/reservation/submit?storeId=' + ${store.storeId}|">예약하기
         </button>
     </div>
 
-    <button onclick="location.href='/reservation/storeList'">목록</button>
+    <!-- 목록으로 돌아가기 버튼 -->
+    <button class="back-button" th:onclick="|location.href='/reservation/storeList'|">목록</button>
 </main>
 
 <footer>

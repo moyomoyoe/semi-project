@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="moyomoyoe.reservation.model.dao.ScheduleMapper">
-    <resultMap id="scheduleMap" type="moyomoyoe.reservation.DTO.ScheduleDTO">
+    <resultMap id="scheduleMap" type="moyomoyoe.reservation.model.dto.ScheduleDTO">
         <id property="scheduleId" column="schedule_id"/>
         <id property="storeId" column="store_id"/>
         <result property="startTime" column="start_time"/>
@@ -12,7 +12,7 @@
         <result property="capacity" column="capacity"/>
         <result property="bookedPeople" column="booked"/>
     </resultMap>
-    <resultMap id="storeMap" type="moyomoyoe.reservation.DTO.StoreDTO">
+    <resultMap id="storeMap" type="moyomoyoe.reservation.model.dto.StoreDTO">
         <id property="storeId" column="store_id"/>
         <result property="storeName" column="store_name"/>
         <result property="storeAddress" column="store_address"/>
@@ -21,18 +21,18 @@
         <result property="description" column="description"/>
         <result property="userId" column="id"/>
         <result property="imageId" column="image_id_store"/>
-</resultMap>
+    </resultMap>
     <select id="getStoreAllInfo" resultMap="storeMap">
         SELECT
-            store_Id,
-            store_name,
-            description,
-            store_address,
-            store_sort,
-            description,
-            busy_no,
-            id,
-            image_id_store
+        store_Id,
+        store_name,
+        description,
+        store_address,
+        store_sort,
+        description,
+        busy_no,
+        id,
+        image_id_store
         FROM tbl_store
         WHERE store_id = #{code}
     </select>
@@ -56,12 +56,21 @@
         a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity;
     </select>
 
+    <select id="findUserStore">
+        SELECT
+        store_id
+        FROM
+        tbl_store
+        WHERE id = #{code}
+        ;
+    </select>
 
-    <insert id="registStore" parameterType="moyomoyoe.reservation.DTO.StoreDTO">
+
+    <insert id="registStore" parameterType="moyomoyoe.reservation.model.dto.StoreDTO">
         INSERT INTO tbl_store(store_name,store_address, description,store_sort,busy_no ,id,image_id_store)
         VALUES ( #{storeName}, #{storeAddress},#{description},#{storeSort},#{businessNo},#{userId},#{imageId});
     </insert>
-    <update id="updateStore"  parameterType="moyomoyoe.reservation.DTO.StoreDTO">
+    <update id="updateStore"  parameterType="moyomoyoe.reservation.model.dto.StoreDTO">
         UPDATE tbl_store
         SET
         store_name= #{storeName},
@@ -73,14 +82,20 @@
         WHERE tbl_store.store_id= #{storeId}
         ;
     </update>
-    <insert id="registSchedule" parameterType="moyomoyoe.reservation.DTO.ScheduleDTO">
+    <insert id="registSchedule" parameterType="moyomoyoe.reservation.model.dto.ScheduleDTO">
         INSERT INTO tbl_schedule (store_id, start_time, end_time,capacity)
         VALUES(#{storeId}, #{startTime}, #{endTime}, #{capacity})
 
     </insert>
     <delete id="deleteScheduleId">
         DELETE FROM tbl_schedule
-        WHERE schedule_id = #{id} AND store_id = #{code}
+        WHERE schedule_id = #{id}
+        ;
     </delete>
 
+    <delete id="deleteStore">
+        DELETE FROM tbl_store
+        WHERE store_id = #{code}
+        ;
+    </delete>
 </mapper>
