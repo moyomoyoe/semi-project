@@ -19,13 +19,24 @@
     <textarea id="context" name="context" required th:text="${postDTO.context}"></textarea>
     <br>
 
-    <label for="nickname">작성자 닉네임:</label>
-    <input type="text" id="nickname" name="nickname" th:value="${postDTO.nickname}" required>
-    <br>
+<!--    <label for="nickname">작성자 닉네임:</label>-->
+<!--    <input type="text" id="nickname" name="nickname" th:value="${postDTO.nickname}" required>-->
+<!--    <br>-->
 
-    <label for="userId">작성자 ID:</label>
-    <input type="number" id="userId" name="userId" th:value="${postDTO.userId}">
-    <br>
+<!--    <label for="userId">작성자 ID:</label>-->
+<!--    <input type="number" id="userId" name="userId" th:value="${postDTO.userId}">-->
+<!--    <br>-->
+
+<!--    <div>-->
+<!--        <label>작성자:</label>-->
+<!--        <span th:text="${detailPost.nickname}"></span>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--        <label>작성자 ID:</label>-->
+<!--        <span th:text="${detailPost.userId}"></span>-->
+<!--    </div>-->
+
 
     <label for="userOpen">공개 여부:</label>
     <select id="userOpen" name="userOpen">
@@ -33,15 +44,6 @@
         <option value="false" th:selected="${postDTO.userOpen} == false">비공개</option>
     </select>
     <br>
-
-<!--    <label for="regionCode">지역 코드:</label>-->
-<!--    <input type="number" id="regionCode" name="regionCode" th:value="${postDTO.regionCode}">-->
-<!--    <br>-->
-
-<!--    <label for="keywordId">키워드 ID:</label>-->
-<!--    <input type="number" id="keywordId" name="keywordId" th:value="${postDTO.keywordId}">-->
-<!--    <br>-->
-
 
     <label for="regionCode">지역 :</label>
     <select id="regionCode" name="regionCode">

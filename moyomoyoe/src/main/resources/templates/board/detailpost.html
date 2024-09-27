@@ -91,8 +91,12 @@
     <button type="submit" onclick="return deletePost(event)">삭제</button>
 </form>
 
-<!-- 수정 -->
-<a th:href="@{/board/editpost/{postId}(postId=${detailPost.postId})}">수정</a>
+<!--&lt;!&ndash; 수정 &ndash;&gt;-->
+<!--<a th:href="@{/board/editpost/{postId}(postId=${detailPost.postId})}">수정</a>-->
+
+<div th:if="${loggedInUserId == detailPost.userId}">
+    <a th:href="@{/board/editpost/{postId}(postId=${detailPost.postId})}">수정</a>
+</div>
 
 
 

@@ -5,14 +5,19 @@ import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
+import moyomoyoe.member.auth.model.dto.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -110,13 +115,22 @@ public class PostController {
 
     // postId 별 세부 게시글 내용, 댓글
     @GetMapping("/detailpost/{postId}")
-    public String getDetailPost(@PathVariable("postId") int postId, Model model){
+    public String getDetailPost(@PathVariable("postId") int postId, Model model) {
         // postId에 맞는 게시글 상세 정보를 조회
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
+        // 현재 로그인한 사용자 Id랑 nickname 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO userDTO = (UserDTO) authentication.getPrincipal();
+        int loggedInUserId = userDTO.getId();
+        String loggedInNickname = userDTO.getNickname();
+
+
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
+        model.addAttribute("loggedInUserId", loggedInUserId);
+        model.addAttribute("loggedInNickname", loggedInNickname);
 
         // detailpost.html로 데이터 전달 및 렌더링
         return "board/detailpost";  // board/detailpost.html 파일로 이동
@@ -145,7 +159,12 @@ public class PostController {
 
     // 게시글 등록 페이지 이동
     @GetMapping("/createpost")
-    public String showCreatePost(Model model){
+    public String showCreatePost(Model model, Principal principal, RedirectAttributes rAttr){
+
+        if (principal == null) {
+            rAttr.addFlashAttribute("errormessage", "로그인 후 게시글을 작성할 수 있습니다.");
+            return "redirect:/member/auth/login";
+        }
 
         model.addAttribute("postDTO", new PostDTO());
         return "board/createpost";
@@ -154,6 +173,16 @@ public class PostController {
     // 게시글 등록 후 상세페이지로 이동
     @PostMapping("/createpost")
     public String createPost(@ModelAttribute PostDTO postDTO, RedirectAttributes rAttr){
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO userDTO = (UserDTO) authentication.getPrincipal();
+
+        String nickname = userDTO.getNickname();
+        int userId = userDTO.getId();
+
+        postDTO.setUserId(userId);
+        postDTO.setNickname(nickname);
 
         int postId = postService.createPost(postDTO);
 
@@ -170,28 +199,34 @@ public class PostController {
     @GetMapping("/editpost/{postId}")
     public String editPostForm(@PathVariable("postId") int postId, Model model){
 
-        PostDTO postDTO = postService.findDetailPostById(postId);
-        model.addAttribute("postDTO", postDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO userDTO = (UserDTO) authentication.getPrincipal();
 
-        System.out.println("========================================");
-        System.out.println("게시글 수정으로 : " + postDTO);
-        System.out.println("========================================");
+        String nickname = userDTO.getNickname();
+        int userId = userDTO.getId();
+
+        PostDTO postDTO = postService.findDetailPostById(postId);
+
+        model.addAttribute("postDTO", postDTO);
+        model.addAttribute("nickname", nickname);
+        model.addAttribute("userId", userId);
 
         return "/board/editpost";
     }
 
     // 게시글 수정 후 상세페이지로 이동
     @PostMapping("/editpost/{postId}")
-    public String updatePost(@PathVariable("postId") int postId, @ModelAttribute PostDTO postDTO, RedirectAttributes rAttr){
+    public String updatePost(@PathVariable("postId") int postId, @ModelAttribute PostDTO postDTO, Authentication authentication, RedirectAttributes rAttr){
+
+        UserDTO userDTO = (UserDTO) authentication.getPrincipal();
+
+        postDTO.setUserId(userDTO.getId());
+        postDTO.setNickname(userDTO.getNickname());
 
         postDTO.setPostId(postId);
         postService.updatePost(postDTO);
 
         rAttr.addFlashAttribute("successmessage", "게시글이 수정되었습니다.");
-
-        System.out.println("========================================");
-        System.out.println("게시글 수정 : " + postDTO);
-        System.out.println("========================================");
 
         return "redirect:/board/detailpost/" + postId;
     }
