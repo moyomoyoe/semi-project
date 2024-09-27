@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 수정</title>
+</head>
+<body>
+<h1>게시글 수정</h1>
+
+<form th:action="@{/board/editpost/{postId}(postId=${postDTO.postId})}" method="post">
+    <input type="hidden" th:value="${postDTO.postId}" name="postId"/>
+
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" th:value="${postDTO.title}" required>
+    <br>
+
+    <label for="context">내용:</label>
+    <textarea id="context" name="context" required th:text="${postDTO.context}"></textarea>
+    <br>
+
+    <label for="nickname">작성자 닉네임:</label>
+    <input type="text" id="nickname" name="nickname" th:value="${postDTO.nickname}" required>
+    <br>
+
+    <label for="userId">작성자 ID:</label>
+    <input type="number" id="userId" name="userId" th:value="${postDTO.userId}">
+    <br>
+
+    <label for="userOpen">공개 여부:</label>
+    <select id="userOpen" name="userOpen">
+        <option value="true" th:selected="${postDTO.userOpen} == true">공개</option>
+        <option value="false" th:selected="${postDTO.userOpen} == false">비공개</option>
+    </select>
+    <br>
+
+<!--    <label for="regionCode">지역 코드:</label>-->
+<!--    <input type="number" id="regionCode" name="regionCode" th:value="${postDTO.regionCode}">-->
+<!--    <br>-->
+
+<!--    <label for="keywordId">키워드 ID:</label>-->
+<!--    <input type="number" id="keywordId" name="keywordId" th:value="${postDTO.keywordId}">-->
+<!--    <br>-->
+
+
+    <label for="regionCode">지역 :</label>
+    <select id="regionCode" name="regionCode">
+        <option value="1" th:selected="${postDTO.regionCode} == 1">강남구</option>
+        <option value="2" th:selected="${postDTO.regionCode} == 2">강동구</option>
+        <option value="3" th:selected="${postDTO.regionCode} == 3">강북구</option>
+        <option value="4" th:selected="${postDTO.regionCode} == 4">강서구</option>
+        <option value="5" th:selected="${postDTO.regionCode} == 5">관악구</option>
+        <option value="6" th:selected="${postDTO.regionCode} == 6">광진구</option>
+        <option value="7" th:selected="${postDTO.regionCode} == 7">구로구</option>
+        <option value="8" th:selected="${postDTO.regionCode} == 8">금천구</option>
+        <option value="9" th:selected="${postDTO.regionCode} == 9">노원구</option>
+        <option value="10" th:selected="${postDTO.regionCode} == 10">도봉구</option>
+        <option value="11" th:selected="${postDTO.regionCode} == 11">동대문구</option>
+        <option value="12" th:selected="${postDTO.regionCode} == 12">동작구</option>
+        <option value="13" th:selected="${postDTO.regionCode} == 13">마포구</option>
+        <option value="14" th:selected="${postDTO.regionCode} == 14">서대문구</option>
+        <option value="15" th:selected="${postDTO.regionCode} == 15">서초구</option>
+        <option value="16" th:selected="${postDTO.regionCode} == 16">성동구</option>
+        <option value="17" th:selected="${postDTO.regionCode} == 17">성북구</option>
+        <option value="18" th:selected="${postDTO.regionCode} == 18">송파구</option>
+        <option value="19" th:selected="${postDTO.regionCode} == 19">양천구</option>
+        <option value="20" th:selected="${postDTO.regionCode} == 20">영등포구</option>
+        <option value="21" th:selected="${postDTO.regionCode} == 21">용산구</option>
+        <option value="22" th:selected="${postDTO.regionCode} == 22">은평구</option>
+        <option value="23" th:selected="${postDTO.regionCode} == 23">종로구</option>
+        <option value="24" th:selected="${postDTO.regionCode} == 24">중구</option>
+        <option value="25" th:selected="${postDTO.regionCode} == 25">중랑구</option>
+    </select>
+
+
+
+
+    <label for="keywordId">키워드 :</label>
+    <select id="keywordId" name="keywordId">
+        <option value="1" th:selected="${postDTO.keywordId} == 1">영화</option>
+        <option value="2" th:selected="${postDTO.keywordId} == 2">독서</option>
+        <option value="3" th:selected="${postDTO.keywordId} == 3">스터디</option>
+        <option value="4" th:selected="${postDTO.keywordId} == 4">스포츠</option>
+        <option value="5" th:selected="${postDTO.keywordId} == 5">여행</option>
+        <option value="6" th:selected="${postDTO.keywordId} == 6">기타</option>
+    </select>
+    <br>
+
+    <label for="imageId">이미지:</label>
+    <input type="number" id="imageId" name="imageId" th:value="${postDTO.imageId}">
+    <br>
+
+    <button type="submit">수정</button>
+</form>
+</body>
+</html>
