@@ -1,5 +1,6 @@
 package moyomoyoe.board.controller;
 
+import jakarta.servlet.http.HttpSession;
 import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
@@ -11,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -119,7 +123,6 @@ public class PostController {
 
         // 현재 로그인한 사용자 정보 가져오기 (SecurityContextHolder 사용)
         Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
-
         System.out.println("authPost = " + authPost);
 
         // postId에 맞는 게시글 상세 정보를 조회
@@ -156,8 +159,25 @@ public class PostController {
     @PostMapping("/detailpost/{postId}")
     public String insertPostComment(@PathVariable("postId") int postId,
                                     @RequestParam("comment") String comment,
+                                    HttpSession session,
                                     RedirectAttributes rAttr){
-        CommentDTO commentDTO = new CommentDTO(postId, comment);
+        // 세션에서 사용자 정보 가져오기
+        Map<String, Object> userSession = (Map<String, Object>) session.getAttribute("user");
+
+        // 사용자가 로그인되지 않았다면 처리 (로그인하지 않은 사용자 접근 방지)
+        if (userSession == null) {
+            rAttr.addFlashAttribute("errorMessage", "로그인이 필요합니다.");
+            return "redirect:/member/auth/login";
+        }
+
+        Integer userId = (Integer) userSession.get("id");
+        String nickname = (String) userSession.get("nickname");
+
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setPostId(postId);
+        commentDTO.setComment(comment);
+        commentDTO.setNickname(nickname);
+        commentDTO.setUserId(userId);
 
         postService.comment(commentDTO);
 

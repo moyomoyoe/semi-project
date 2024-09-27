@@ -7,6 +7,7 @@
     <resultMap id="postResultMap" type="moyomoyoe.board.model.dto.PostDTO">
         <id property="postId" column="post_id"/>
         <result property="title" column="title"/>
+        <result property="userId" column="user_id"/>
         <result property="context" column="context"/>
         <result property="nickname" column="nickname"/>
         <result property="postDate" column="post_date"/>
@@ -29,139 +30,126 @@
 
     <resultMap id="commentResultMap" type="moyomoyoe.board.model.dto.CommentDTO">
         <id property="commentId" column="comment_id"/>
+        <result property="postId" column="post_id"/>
         <result property="nickname" column="nickname"/>
         <result property="comment" column="comment"/>
         <result property="commentPostDate" column="comment_post_date"/>
-        <result property="postId" column="post_id"/>
+        <result property="userId" column="user_id"/>
     </resultMap>
 
     <!-- 전체메뉴 쿼리 -->
     <select id="findAllPost" resultMap="postResultMap">
         SELECT
-        post_id,
-        title,
-        context,
-        nickname,
-        post_date,
-        user_open,
-        region_code,
-        image_id,
-        keyword_id
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            region_code,
+            image_id,
+            keyword_id
         FROM
-        tbl_post_list
+            tbl_post_list
     </select>
 
     <!-- 키워드 쿼리 -->
     <select id="findKeywordName" resultMap="keywordResultMap">
         SELECT
-        keyword_id,
-        keyword_name
+            keyword_id,
+            keyword_name
         FROM
-        tbl_keyword_id
+            tbl_keyword_id
     </select>
 
     <select id="findKeywordList" parameterType="int" resultMap="postResultMap">
         SELECT
-        post_id,
-        title,
-        context,
-        nickname,
-        post_date,
-        user_open,
-        region_code,
-        image_id,
-        keyword_id
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            region_code,
+            image_id,
+            keyword_id
         FROM
-        tbl_post_list
+            tbl_post_list
         WHERE
-        keyword_id = #{keywordId}
+            keyword_id = #{keywordId}
     </select>
 
     <!-- 지역 시 쿼리-->
     <select id="findRegionCityList" resultMap="regionResultMap">
         SELECT
-        distinct city
+            distinct city
         FROM
-        tbl_region
+            tbl_region
     </select>
 
     <select id="findRegionDistrictList" resultMap="regionResultMap">
         SELECT
-        district,
-        region_code
-        FROM
-        tbl_region
+            district,
+            region_code
+            FROM
+            tbl_region
         WHERE
-        city = #{city}
-        ORDER BY
-        district
+            city = #{city}
+            ORDER BY
+            district
     </select>
 
     <!-- 지역선택에 따른 게시글 목록 -->
     <select id="findPostsByRegion" resultMap="postResultMap">
         SELECT
-        post_id,
-        title,
-        context,
-        nickname,
-        post_date,
-        user_open,
-        image_id,
-        keyword_id
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            image_id,
+            keyword_id
         FROM
-        tbl_post_list
+            tbl_post_list
         WHERE
-        region_code = #{regionCode}
+            region_code = #{regionCode}
     </select>
 
     <!--제목검색 쿼리-->
     <select id="findTitleList" resultMap="postResultMap">
         SELECT
-        post_id,
-        title,
-        context,
-        nickname,
-        post_date,
-        user_open,
-        region_code,
-        image_id,
-        keyword_id
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            region_code,
+            image_id,
+            keyword_id
         FROM
-        tbl_post_list
+            tbl_post_list
         WHERE
-        title LIKE CONCAT('%', #{title}, '%')
+            title LIKE CONCAT('%', #{title}, '%')
     </select>
 
     <!--세부게시글페이지-->
     <select id="findDetailPostById" resultMap="postResultMap">
         SELECT
-        post_id,
-        title,
-        context,
-        nickname,
-        post_date,
-        user_open,
-        image_id,
-        keyword_id
+            post_id,
+            title,
+            context,
+            nickname,
+            post_date,
+            user_open,
+            image_id,
+            user_id,
+            keyword_id
         FROM
-        tbl_post_list
+            tbl_post_list
         WHERE
-        post_id = #{postId}
-    </select>
-
-    <!--세부게시글댓글-->
-    <select id="detailPostComment" parameterType="int" resultMap="commentResultMap">
-        SELECT
-        comment_id,
-        nickname,
-        comment,
-        comment_post_date
-        FROM
-        tbl_comment
-        WHERE
-        post_id = #{postId}
-        ORDER BY
-        comment_id DESC
+            post_id = #{postId}
     </select>
 
     <!--세부게시글삭제-->
@@ -173,23 +161,41 @@
         post_id = #{postId}
     </delete>
 
+    <!--세부게시글댓글-->
+    <select id="detailPostComment" parameterType="int" resultMap="commentResultMap">
+        SELECT
+            comment_id,
+            nickname,
+            comment,
+            comment_post_date
+        FROM
+            tbl_comment
+        WHERE
+            post_id = #{postId}
+        ORDER BY
+            comment_id DESC
+    </select>
+
     <!--세부게시글댓글등록-->
     <insert id="comment" parameterType="moyomoyoe.board.model.dto.CommentDTO"
             useGeneratedKeys="true" keyProperty="commentId">
         INSERT INTO
-        tbl_comment
-        (
-        post_id,
-        comment,
-        comment_post_date
-        )
+            tbl_comment
+            (
+            post_id,
+            nickname,
+            comment,
+            comment_post_date,
+            user_id
+            )
         VALUES
-        (
-        #{postId},
-        #{comment},
-        NOW()
-        )
-        <!-- nickname, userid 부분 유저별로 자동으로 인식해서 가져올수 있게 해야함 지금은 제외했음 -->
+            (
+            #{postId},
+            #{nickname},
+            #{comment},
+            NOW(),
+            #{userId}
+            )
     </insert>
 
 </mapper>

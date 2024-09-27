@@ -38,26 +38,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build moyomoyoe.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.MoyomoyoeApplication.executor": "Run",
-    "git-widget-placeholder": "board",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/myWs/semiProject/Project/semi-project/semi-project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build moyomoyoe.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.MoyomoyoeApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;board&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/myWs/semiProject/Project/semi-project/semi-project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="MoyomoyoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -88,6 +88,19 @@
       <workItem from="1727343413651" duration="21000" />
       <workItem from="1727348509714" duration="80000" />
       <workItem from="1727348607754" duration="4549000" />
+      <workItem from="1727353406813" duration="7000" />
+      <workItem from="1727353473950" duration="1278000" />
+      <workItem from="1727396945018" duration="2728000" />
+      <workItem from="1727400433491" duration="1291000" />
+      <workItem from="1727402837178" duration="12000" />
+      <workItem from="1727403740111" duration="619000" />
+      <workItem from="1727406422981" duration="69000" />
+      <workItem from="1727406534978" duration="1341000" />
+      <workItem from="1727408864867" duration="1166000" />
+      <workItem from="1727415192792" duration="597000" />
+      <workItem from="1727415980783" duration="361000" />
+      <workItem from="1727416443520" duration="663000" />
+      <workItem from="1727418210778" duration="40000" />
     </task>
     <servers />
   </component>
