@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+<<<<<<< HEAD
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/moyomoyoe" />
   </component>
+=======
+>>>>>>> 981910b13dd43a3098a8c14b5953f3232ab811fb
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

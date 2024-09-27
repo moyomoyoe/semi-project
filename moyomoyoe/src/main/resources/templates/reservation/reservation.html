@@ -51,16 +51,30 @@
             color: #adb5bd;
             cursor: not-allowed;
         }
+
+        .fc-day.fc-past {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .fc-day.fc-past:hover {
+            cursor: not-allowed;
+        }
+
+        .fc-day.fc-sun, .holiday {
+            color: red;
+        }
+
+        .fc-day.fc-future {
+            color: black;
+        }
     </style>
 </head>
-
 <body>
 <header>
     <h1>예약 시스템</h1>
 </header>
-
 <main>
-    <!-- 날짜 및 시간 선택 화면 -->
     <section id="step1">
         <h2>예약 날짜와 시간 선택</h2>
         <div class="form-group">
@@ -68,20 +82,15 @@
             <div id="calendar"></div>
         </div>
         <div class="form-group">
-            <label>예약 시작 시간</label>
-            <div class="time-slots" id="start-time-slots"></div>
-        </div>
-        <div class="form-group">
-            <label>예약 종료 시간</label>
-            <div class="time-slots" id="end-time-slots"></div>
+            <label>예약 시간 선택</label>
+            <div class="time-slots" id="time-slots"></div>
         </div>
         <button type="button" id="next-button" class="btn btn-primary">다음 단계</button>
     </section>
-
-    <!-- 예약 정보 입력 화면 -->
     <section id="step2" class="hidden">
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/submit">
+            <!-- CSRF Token 제거 -->
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
@@ -102,138 +111,134 @@
                     <option value="6">6명</option>
                 </select>
             </div>
-            <!-- 숨겨진 필드 추가 -->
             <input type="hidden" id="date" name="date">
             <input type="hidden" id="startTime" name="startTime">
             <input type="hidden" id="endTime" name="endTime">
-            <input type="hidden" id="storeId" name="storeId" value="1"> <!-- 선택된 가게 ID -->
-            <input type="hidden" id="storeName" name="storeName" value="업체명 1"> <!-- 선택된 가게명 -->
-
+            <input type="hidden" id="storeId" name="storeId" value="1">
+            <input type="hidden" id="selectedTimes" name="selectedTimes">
             <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
         </form>
-    </section>
 
-    <!-- 예약 완료 화면 -->
+        </form>
+    </section>
     <section id="step3" class="hidden">
         <h2>예약이 완료되었습니다.</h2>
         <p>예약 정보:</p>
-        <p>가게명: <span id="confirm-store">[[${store.name}]]</span></p>
+        <p>가게명: <span id="confirm-store">업체명 1</span></p>
         <p>예약자명: <span id="confirm-name"></span></p>
-        <p>날짜: <span id="confirm-date"></span></p>
-        <p>시작 시간: <span id="confirm-start-time"></span></p>
-        <p>종료 시간: <span id="confirm-end-time"></span></p>
-        <p>인원수: <span id="confirm-people"></span></p>
+        <p>예약 날짜: <span id="confirm-date"></span></p>
+        <p>예약 시간: <span id="confirm-time"></span></p>
         <button type="button" id="finish-button" class="btn btn-secondary">처음으로</button>
     </section>
 </main>
 
 <script>
     let selectedDate;
-    let selectedStartTime;
-    let selectedEndTime;
-    let reservedTimes = [];  // 이미 예약된 시간 목록
+    let selectedTimes = [];
+    let reservedTimes = [];
 
-    const main = () => {
-        const fetchReservedTimes = (date, storeId) => {
-            // AJAX 호출로 예약된 시간을 가져옴
-            return $.ajax({
-                url: '/reservation/getReservedTimes',
-                type: 'GET',
-                data: { date: date, storeId: storeId },
-                success: function (data) {
-                    reservedTimes = data.map(time => time.slice(0, 5));  // 시간 포맷을 00:00 형식으로 변경
-                    console.log(reservedTimes); // 가져온 예약된 시간 목록 확인
-                }
-            });
-        };
-
-        const renderCalendar = () => {
-            const calendarEl = document.getElementById('calendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek'
-                },
-                initialView: 'dayGridMonth',
-                selectable: true,
-                validRange: {
-                    start: moment().format('YYYY-MM-DD') // 현재 날짜 이전은 선택 불가
-                },
-                dateClick: function (info) {
-                    selectedDate = info.dateStr;
-                    $('#date').val(selectedDate);
-
-                    // 예약된 시간을 가져온 후 타임슬롯을 렌더링
-                    fetchReservedTimes(selectedDate, 1).then(() => {
-                        const startTime = 11;
-                        const endTime = 20;
-                        $('#start-time-slots').empty();
-                        $('#end-time-slots').empty();
-
-                        // 시작 시간 슬롯 생성
-                        for (let hour = startTime; hour < endTime; hour++) {
-                            const timeSlot = `${hour}:00`;
-                            const isDisabled = reservedTimes.includes(timeSlot); // 예약된 시간 확인
-
-                            const timeButton = $('<button></button>')
-                                .text(timeSlot)
-                                .addClass('btn btn-outline-primary')
-                                .toggleClass('disabled', isDisabled)  // 예약된 시간은 비활성화
-                                .prop('disabled', isDisabled)  // 버튼 자체 비활성화
-                                .click(function () {
-                                    if (!$(this).hasClass('disabled')) {
-                                        $('#start-time-slots button').removeClass('active');
-                                        $(this).addClass('active');
-                                        selectedStartTime = timeSlot;
-                                        $('#startTime').val(selectedStartTime);
-                                    }
-                                });
-                            $('#start-time-slots').append(timeButton);
-                        }
-
-                        // 종료 시간 슬롯 생성
-                        for (let hour = startTime + 1; hour <= endTime; hour++) {
-                            const timeSlot = `${hour}:00`;
-                            const isDisabled = reservedTimes.includes(timeSlot); // 예약된 시간 확인
-
-                            const timeButton = $('<button></button>')
-                                .text(timeSlot)
-                                .addClass('btn btn-outline-primary')
-                                .toggleClass('disabled', isDisabled)  // 예약된 시간은 비활성화
-                                .prop('disabled', isDisabled)  // 버튼 자체 비활성화
-                                .click(function () {
-                                    if (!$(this).hasClass('disabled')) {
-                                        $('#end-time-slots button').removeClass('active');
-                                        $(this).addClass('active');
-                                        selectedEndTime = timeSlot;
-                                        $('#endTime').val(selectedEndTime);
-                                    }
-                                });
-                            $('#end-time-slots').append(timeButton);
-                        }
-                    });
-                }
-            });
-            calendar.render();
-        };
-
-        renderCalendar();
-
-        $('#next-button').click(function () {
-            if (!selectedDate || !selectedStartTime || !selectedEndTime) {
-                alert('날짜와 시간을 선택하세요.');
-                return;
+    const fetchReservedTimes = (date) => {
+        let storeId = $('#storeId').val();
+        return $.ajax({
+            url: '/reservation/getReservedTimes',
+            type: 'GET',
+            data: {date: date, storeId: storeId},
+            success: function (data) {
+                reservedTimes = data.map(time => time.slice(0, 5));
             }
-            $('#step1').addClass('hidden');
-            $('#step2').removeClass('hidden');
         });
     };
 
+    const renderCalendar = () => {
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth'
+            },
+            initialView: 'dayGridMonth',
+            selectable: true,
+            validRange: {
+                start: moment().format('YYYY-MM-DD')
+            },
+            locale: 'ko',
+            dayCellContent: function (arg) {
+                return {html: arg.dayNumberText.replace('일', '')};
+            },
+            dateClick: function (info) {
+                selectedDate = info.dateStr;
+                $('#date').val(selectedDate);
+
+                fetchReservedTimes(selectedDate).then(() => {
+                    const startTime = 9;
+                    const endTime = 18;
+                    $('#time-slots').empty();
+
+                    for (let hour = startTime; hour <= endTime; hour++) {
+                        const timeSlot = `${hour}:00`;
+                        const isDisabled = reservedTimes.includes(timeSlot);
+
+                        const timeButton = $('<button></button>')
+                            .text(timeSlot)
+                            .addClass('btn btn-outline-primary')
+                            .toggleClass('disabled', isDisabled)
+                            .prop('disabled', isDisabled)
+                            .click(function () {
+                                if (!$(this).hasClass('disabled')) {
+                                    $(this).toggleClass('active');
+                                    if ($(this).hasClass('active')) {
+                                        selectedTimes.push(timeSlot);
+                                    } else {
+                                        selectedTimes = selectedTimes.filter(t => t !== timeSlot);
+                                    }
+                                    $('#selectedTimes').val(selectedTimes.join(','));
+                                }
+                            });
+                        $('#time-slots').append(timeButton);
+                    }
+                });
+            }
+        });
+        calendar.render();
+    };
+
     $(document).ready(function () {
-        main();
+        renderCalendar();
+
+        $('#reservation-form').submit(function (event) {
+            event.preventDefault();
+
+            const selectedTimes = $('#selectedTimes').val();
+            if (!selectedTimes) {
+                alert('예약할 시간을 선택하세요.');
+                return;
+            }
+
+            const timesArray = selectedTimes.split(',');
+            const startTime = timesArray[0];
+            const endTime = timesArray[timesArray.length - 1];
+
+            $('#startTime').val(startTime);
+            $('#endTime').val(endTime);
+
+            this.submit();
+        });
+
+        $('#next-button').click(function () {
+            if (!selectedDate || selectedTimes.length === 0) {
+                alert('예약할 시간을 선택하세요.');
+                return;
+            }
+
+            $('#step1').addClass('hidden');
+            $('#step2').removeClass('hidden');
+        });
+
+        $('#finish-button').click(function () {
+            window.location.href = "/main.html";
+        });
     });
 </script>
-
 </body>
 </html>

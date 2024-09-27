@@ -1,6 +1,7 @@
 package moyomoyoe.board.controller;
 
 import moyomoyoe.board.model.dto.CommentDTO;
+import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
@@ -9,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,7 +28,6 @@ public class PostController {
         this.postService = postService;
         this.messageSource = messageSource;
     }
-
     //index.html 연결 Controller
     @GetMapping("/main")
     public String mainPostList(Model model) {
@@ -43,13 +42,23 @@ public class PostController {
         return "board/postlist";
     }
 
+    // index에 키워드 이름 호출
+    @GetMapping(value = "/keywordName", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<KeywordDTO>findKeywordName(){
+        System.out.println("JavaScript 내장 함수인 fetch");
+
+        List<KeywordDTO> keywordNameList = postService.findKeywordName();
+
+        return keywordNameList;
+    }
+
     // 키워드별 게시글 목록
     @GetMapping("/keywordlist")
-    public String KeywordList(@RequestParam("keywordId") int keywordId, Model model){
+    public String keywordList(@RequestParam("keywordId") int keywordId, Model model){
 
         List<PostDTO> keywordList = postService.findKeywordList(keywordId);
 
-        model.addAttribute("keywordId", keywordId);
         model.addAttribute("keywordList", keywordList);
 
         return "board/keywordlist";
@@ -134,11 +143,6 @@ public class PostController {
         return "redirect:/board/detailpost/" + postId;
     }
 
-
-
-
-
-
     // 게시글 등록 페이지 이동
     @GetMapping("/createpost")
     public String showCreatePost(Model model){
@@ -164,7 +168,6 @@ public class PostController {
 
     // 게시글 수정 페이지 이동
     @GetMapping("/editpost/{postId}")
-//    @GetMapping("/editpost/{postId}")
     public String editPostForm(@PathVariable("postId") int postId, Model model){
 
         PostDTO postDTO = postService.findDetailPostById(postId);
@@ -192,4 +195,6 @@ public class PostController {
 
         return "redirect:/board/detailpost/" + postId;
     }
+
+
 }
