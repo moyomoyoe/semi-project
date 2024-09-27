@@ -35,30 +35,35 @@ public class ScheduleController {
     @GetMapping("/storeInfo/{code}")
     public String storeInfo(@PathVariable("code") int code, HttpSession session) {
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
-        if (code == 0)
+        Integer storeId = reserService.FindUserStore(code);
+        if (code <= 0 || storeId==null){
             return "redirect:" + defaultUrl+"regist/store";
-        
+        }
+        else {
         // 해당 사업체의 세부정보와 일정정보를 세션에 저장
-        StoreDTO store = reserService.getStoreAllInfo(code);
-        List<ScheduleDTO> schedule = reserService.getSchedule(code);
+        StoreDTO store = reserService.getStoreAllInfo(storeId);
+        List<ScheduleDTO> schedule = reserService.getSchedule(storeId);
 
+        System.out.println("store = " + store);
+        System.out.println("schedule = " + schedule);
         if (store != null) {
-            session.setAttribute("storeInfo", store);
+            System.out.println("store!=null 조건 충족 닿았습니다");
+            session.setAttribute("store", store);
             session.setAttribute("schedule", schedule);
         }
+            return "redirect:" + defaultUrl + "storeInfo"; // 해당 페이지로 리턴
+        }
 
-        return "redirect:" +defaultUrl+"storeInfo"; // 해당 페이지로 리턴
     }
 
-    //일정 등록 페이지로 가기
     @GetMapping("/storeInfo")
     public String getStoreInfoFromSession(HttpSession session, Model model) {
         // 세션에 저장된 데이터를 가져옴
-        StoreDTO storeInfo = (StoreDTO) session.getAttribute("storeInfo");
+        StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
         List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
 
         // 모델에 추가해서 Thymeleaf로 전달
-        model.addAttribute("storeInfo", storeInfo);
+        model.addAttribute("store", storeInfo);
         model.addAttribute("schedule", schedule);
 
         return defaultUrl+"storeInfo";
@@ -179,4 +184,10 @@ public class ScheduleController {
         model.addAttribute("storeId", session.getAttribute("storeId"));
         return defaultUrl + "registschedule";
     }
+    @GetMapping("/delete/store")
+    @ResponseBody
+    public String deleteStore(){
+        return "";
+    }
+
 }

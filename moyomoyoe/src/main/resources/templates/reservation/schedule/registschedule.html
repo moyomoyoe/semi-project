@@ -15,8 +15,11 @@
     <div id="endTime"></div>
     <input min="1" id="capacity" type="number" value="5"> <label>명</label>
     <button id ="makeSchedule"> 새 일정 생성</button>
+<hr>
+<h2>현 일정</h2>
 <div id="container"></div>
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
+<button id="cancel" onclick="saveSchedule()"> 취소/돌아가기</button>
 
 </body>
 
@@ -140,7 +143,7 @@
                 alert("일정 수정 성공")
                 location.href=`/reservation/schedule/storeInfo/${storeId}`
             }else{
-                alert("일정 등록에 실패했습니다. 다시 시도해주세요.")
+                alert("일정 수정에 실패했습니다. 다시 시도해주세요.")
             }
         });
     }
