@@ -52,7 +52,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
         System.out.println("저장 됐냐고" + userSession);
 
-        resp.sendRedirect("/main");
+        resp.sendRedirect("/");
 
     }
 
