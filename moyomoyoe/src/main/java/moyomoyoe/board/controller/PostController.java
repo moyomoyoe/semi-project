@@ -13,11 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-<<<<<<< HEAD
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-=======
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +37,7 @@ public class PostController {
         this.postService = postService;
         this.messageSource = messageSource;
     }
+
     //index.html 연결 Controller
     @GetMapping("/main")
     public String mainPostList(Model model) {
@@ -122,7 +120,6 @@ public class PostController {
 
     // postId 별 세부 게시글 내용, 댓글
     @GetMapping("/detailpost/{postId}")
-<<<<<<< HEAD
     public String getDetailPost(@PathVariable("postId") int postId,
                                 Model model,
                                 RedirectAttributes rAttr){
@@ -131,14 +128,14 @@ public class PostController {
         Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("authPost = " + authPost);
 
-=======
-    public String getDetailPost(@PathVariable("postId") int postId, Model model) {
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
+        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
+        int loggedInUserId = userDTO.getId();
+        String loggedInNickname = userDTO.getNickname();
+
         // postId에 맞는 게시글 상세 정보를 조회
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
-<<<<<<< HEAD
         System.out.println("authPost = " + authPost);
 
         if (authPost ==  null&& !getDetailPost.getUserOpen()){
@@ -149,19 +146,11 @@ public class PostController {
 
             return "redirect:/board/postlist";
         }
-=======
-        // 현재 로그인한 사용자 Id랑 nickname 가져오기
-        Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
-        int loggedInUserId = userDTO.getId();
-        String loggedInNickname = userDTO.getNickname();
 
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
-
-        model.addAttribute("detailPost", getDetailPost);
-        model.addAttribute("detailPostComment", detailPostComment);
         model.addAttribute("loggedInUserId", loggedInUserId);
         model.addAttribute("loggedInNickname", loggedInNickname);
+        model.addAttribute("detailPost", getDetailPost);
+        model.addAttribute("detailPostComment", detailPostComment);
 
         // detailpost.html로 데이터 전달 및 렌더링
         return "board/detailpost";  // board/detailpost.html 파일로 이동
@@ -172,7 +161,7 @@ public class PostController {
     public String deletePost(@PathVariable("postId") int postId, RedirectAttributes rAttr) {
         postService.deletePost(postId);
         rAttr.addFlashAttribute("successMessage", "삭제 되었습니다");
-        return "redirect:/index";
+        return "redirect:/index.html";
     }
 
     // postId 별 세부게시글 댓글등록
@@ -205,8 +194,6 @@ public class PostController {
         return "redirect:/board/detailpost/" + postId;
     }
 
-<<<<<<< HEAD
-=======
     // 게시글 등록 페이지 이동
     @GetMapping("/createpost")
     public String showCreatePost(Model model, Principal principal, RedirectAttributes rAttr){
@@ -249,17 +236,12 @@ public class PostController {
     @GetMapping("/editpost/{postId}")
     public String editPostForm(@PathVariable("postId") int postId, Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO userDTO = (UserDTO) authentication.getPrincipal();
-
-        String nickname = userDTO.getNickname();
-        int userId = userDTO.getId();
-
         PostDTO postDTO = postService.findDetailPostById(postId);
-
         model.addAttribute("postDTO", postDTO);
-        model.addAttribute("nickname", nickname);
-        model.addAttribute("userId", userId);
+
+        System.out.println("========================================");
+        System.out.println("게시글 수정으로 : " + postDTO);
+        System.out.println("========================================");
 
         return "/board/editpost";
     }
@@ -291,5 +273,4 @@ public class PostController {
         return "redirect:/board/detailpost/" + postId;
     }
 
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 }

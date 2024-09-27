@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.moyomoyoe.moyomoyoe.iml" filepath="$PROJECT_DIR$/.idea/modules/com.moyomoyoe.moyomoyoe.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.moyomoyoe.moyomoyoe.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.moyomoyoe.moyomoyoe.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.moyomoyoe.moyomoyoe.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.moyomoyoe.moyomoyoe.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/moyomoyoe.iml" filepath="$PROJECT_DIR$/.idea/moyomoyoe.iml" />

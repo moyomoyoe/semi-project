@@ -10,18 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-<<<<<<< HEAD
-import java.sql.Time;
-import java.util.*;
-=======
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
 @Controller
 @RequestMapping("/reservation")
@@ -55,10 +49,12 @@ public class ReservationController {
     public String submitReservationPage(@RequestParam("storeId") int storeId, Model model) {
         StoreDTO store = reservationService.getStoreById(storeId);
         model.addAttribute("store", store);
-        return "reservation/reservation";
+        System.out.println("GET /submit - storeId: " + storeId);  // storeId 값을 콘솔에 출력
+        return "reservation/reservation";  // 예약 페이지로 이동
     }
 
-    @PostMapping("/submit")
+    // 예약 처리 (POST 요청)
+    @PostMapping("/reservation/submit")
     public String submitReservation(
             @RequestParam("storeId") int storeId,
             @RequestParam("name") String name,
@@ -69,26 +65,17 @@ public class ReservationController {
             @RequestParam("endTime") String endTimeStr,
             RedirectAttributes redirectAttributes) {
 
+        System.out.println("POST /submit - storeId: " + storeId);  // storeId 값을 콘솔에 출력
+
         try {
             // 날짜 형식 파싱
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date parsedDate = dateFormat.parse(date);
             Date sqlDate = new Date(parsedDate.getTime());
 
-<<<<<<< HEAD
-        // ScheduleDTO 생성 및 설정
-        ScheduleDTO scheduleDTO = new ScheduleDTO();
-        scheduleDTO.setStoreId(storeId);/*
-//        scheduleDTO.setStoreName(storeName);
-//        scheduleDTO.setResDate(date);*/
-        scheduleDTO.setStartTime(Time.valueOf(startTime));
-        scheduleDTO.setEndTime(Time.valueOf(endTime));
-        scheduleDTO.setCapacity(Integer.parseInt(capacity));
-=======
             // LocalTime 파싱
             LocalTime startTime = LocalTime.parse(startTimeStr, DateTimeFormatter.ofPattern("H:mm"));
             LocalTime endTime = LocalTime.parse(endTimeStr, DateTimeFormatter.ofPattern("H:mm"));
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
             // LocalTime을 java.sql.Time으로 변환
             java.sql.Time sqlStartTime = java.sql.Time.valueOf(startTime);
@@ -118,14 +105,16 @@ public class ReservationController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "예약 처리 중 오류가 발생했습니다.");
         }
-        return "redirect:/reservation/";
+        return "redirect:/reservation/completion?storeId=" + storeId;
     }
 
     // 예약 완료 페이지
     @GetMapping("/completion")
     public String reservationCompletion(@RequestParam("storeId") int storeId, Model model) {
+        System.out.println("GET /completion - storeId: " + storeId);  // storeId 값을 콘솔에 출력
+
         StoreDTO store = reservationService.getStoreById(storeId);
-        model.addAttribute("store", store);
+        model.addAttribute("store", store);  // store 객체를 Model에 추가
         return "completion";
     }
 

@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS tbl_reservation
 ) ENGINE = INNODB COMMENT '예약';
 
 INSERT INTO tbl_image (image_name)
-VALUES ('/static/image1.jpg');
+VALUES ('/static/image1.png');
 
 INSERT INTO tbl_keyword_id (keyword_name)
 VALUES ('영화'),
@@ -170,18 +170,11 @@ VALUES ('서울', '강남구'),
        ('서울', '중구'),
        ('서울', '중랑구');
 
-<<<<<<< HEAD
-INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id, user_region) VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', 'USER', 1, 1),
-                                                                                                                    ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', 'BUSINESS', NULL, 2),
-                                                                                                                    ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', 'USER', NULL, 3),
-                                                                                                                    ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL, 4);
-=======
 INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, image_id, user_region)
 VALUES ('user1', 'account1', 'password1', 'nick1', 'user1@example.com', '010-1234-5678', 'USER', 1, 1),
        ('user2', 'account2', 'password2', 'nick2', 'user2@example.com', '010-2345-6789', 'BUSINESS', NULL, 2),
        ('user3', 'account3', 'password3', 'nick3', 'user3@example.com', '010-3456-7890', 'USER', NULL, 3),
        ('user4', 'account4', 'password4', 'nick4', 'user4@example.com', '010-4567-8901', 'BUSINESS', NULL, 4);
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
 
 INSERT INTO tbl_post_list (title, context, nickname, post_date, user_open, region_code, image_id, keyword_id, user_id)
 VALUES ('첫 번째 게시물', '이것은 첫 번째 게시물의 내용입니다. 서울의 멋진 장소에 대해 이야기합니다.', 'nick1', '2024-09-01', TRUE, 1, NULL, 5, 1),
@@ -225,25 +218,3 @@ VALUES (1, '2024-09-20', 2, 1),
        (3, '2024-09-22', 4, 2),
        (1, '2024-09-24', 3, 2),
        (3, '2024-09-27', 2, 1);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -15,6 +15,23 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="moyomoyoe" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -38,7 +55,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.Build moyomoyoe.executor&quot;: &quot;Run&quot;,
@@ -50,57 +66,29 @@
     &quot;Spring Boot.MoyomoyoeApplication.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;board&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/myWs/semiProject/Project/semi-project/semi-project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/myWs/semiProject/Project/stash/0927(18.03)게시글수정+등록,메인에있는거까지머지완료&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-=======
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build moyomoyoe.executor": "Run",
-    "Gradle.moyomoyoe [bootJar].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.MoyomoyoeApplication.executor": "Run",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/myWs/semiProject/Project/semi-project/semi-project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-<<<<<<< HEAD
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
-    ]
-=======
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
->>>>>>> board
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\sql" />
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources" />
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\templates\board" />
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\templates\member\user" />
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\templates\reservation" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="moyomoyoe.member.user.model.dto" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="MoyomoyoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-<<<<<<< HEAD
-=======
-      <option name="ALTERNATIVE_JRE_PATH" value="temurin-17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
->>>>>>> a7c70ede3a188cc83720b365b25fe12cccd26338
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="com.moyomoyoe.moyomoyoe.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="moyomoyoe.MoyomoyoeApplication" />
@@ -142,6 +130,16 @@
       <workItem from="1727415980783" duration="361000" />
       <workItem from="1727416443520" duration="663000" />
       <workItem from="1727418210778" duration="40000" />
+      <workItem from="1727424067119" duration="3719000" />
+      <workItem from="1727429714204" duration="1022000" />
+      <workItem from="1727431088719" duration="404000" />
+      <workItem from="1727431557610" duration="120000" />
+      <workItem from="1727431802296" duration="13000" />
+      <workItem from="1727432032845" duration="36000" />
+      <workItem from="1727432091436" duration="14000" />
+      <workItem from="1727432395516" duration="205000" />
+      <workItem from="1727432686154" duration="32000" />
+      <workItem from="1727432832305" duration="176000" />
     </task>
     <servers />
   </component>

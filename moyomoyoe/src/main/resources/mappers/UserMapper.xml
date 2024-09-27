@@ -22,6 +22,11 @@
         <result property="district" column="district"/>
     </resultMap>
 
+    <resultMap id="imageResultMap" type="moyomoyoe.member.user.model.dto.ImageDTO">
+        <id property="imageId" column="image_id"/>
+        <result property="imageName" column="image_name"/>
+    </resultMap>
+
     <resultMap id="allRegionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
         <id property="regionCode" column="region_code"/>
         <result property="city" column="city"/>
@@ -30,89 +35,117 @@
 
     <select id="findByAccount" resultMap="authenticatedUser">
         SELECT
-            id,
-            username,
-            account,
-            password,
-            nickname,
-            email,
-            phone,
-            user_role,
-            image_id,
-            user_region
+        id,
+        username,
+        account,
+        password,
+        nickname,
+        email,
+        phone,
+        user_role,
+        image_id,
+        user_region
         FROM
-            tbl_user
+        tbl_user
         WHERE
-            account = #{ account }
+        account = #{ account }
     </select>
 
     <select id="findAllRegion" resultMap="allRegionResultMap">
         SELECT
-            region_code,
-            city,
-            district
+        region_code,
+        city,
+        district
         FROM
-            tbl_region
+        tbl_region
     </select>
 
     <select id="getRegionByUserId" resultMap="regionResultMap">
         SELECT
-            a.region_code,
-            a.city,
-            a.district
+        a.region_code,
+        a.city,
+        a.district
         FROM
-            tbl_region a
+        tbl_region a
         JOIN
-            tbl_user b ON b.user_region = a.region_code
+        tbl_user b ON b.user_region = a.region_code
         WHERE
-            b.id = #{ id }
+        b.id = #{ id }
     </select>
 
     <select id="findById" parameterType="moyomoyoe.member.auth.model.dto.UserDTO">
         SELECT
-            *
+        *
         FROM
-            tbl_region
+        tbl_region
         WHERE
-            id = #{ id }
+        id = #{ id }
+    </select>
+
+    <select id="getImageById" resultMap="imageResultMap">
+        SELECT
+        a.image_id,
+        a.image_name
+        FROM
+        tbl_image a
+        JOIN
+        tbl_user b ON b.image_id = a.image_id
+        WHERE
+        b.id = #{ id }
     </select>
 
     <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
         INSERT INTO
-            tbl_user
+        tbl_user
         (
-            username,
-            account,
-            password,
-            nickname,
-            email,
-            phone,
-            user_role,
-            user_region
+        username,
+        account,
+        password,
+        nickname,
+        email,
+        phone,
+        user_role,
+        user_region,
+        image_id
         )
         VALUES
         (
-            #{ username },
-            #{ account },
-            #{ password },
-            #{ nickname },
-            #{ email },
-            #{ phone },
-            #{ userRole },
-            #{ userRegion }
+        #{ username },
+        #{ account },
+        #{ password },
+        #{ nickname },
+        #{ email },
+        #{ phone },
+        #{ userRole },
+        #{ userRegion },
+        1
         )
+    </insert>
+
+    <insert id="registImage" parameterType="moyomoyoe.member.user.model.dto.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+        INSERT INTO
+        tbl_image
+        (
+        image_name
+        )
+        VALUES
+        (
+        #{ imageName }
+        )
+
     </insert>
 
     <update id="update" parameterType="moyomoyoe.member.auth.model.dto.UserDTO">
         UPDATE
-            tbl_user
+        tbl_user
         SET
-            password = #{ password },
-            nickname = #{ nickname },
-            phone = #{ phone },
-            email = #{ email }
+        password = #{ password },
+        nickname = #{ nickname },
+        phone = #{ phone },
+        email = #{ email },
+        image_id = #{ imageId }
         WHERE
-            account = #{ account }
+        account = #{ account }
     </update>
 
 

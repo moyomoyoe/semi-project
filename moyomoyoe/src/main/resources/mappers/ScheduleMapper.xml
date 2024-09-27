@@ -93,9 +93,9 @@
         ;
     </delete>
 
-    <delete id="deleteStoreId">
+    <delete id="deleteStore">
         DELETE FROM tbl_store
-        WHERE id = #{userId}
+        WHERE store_id = #{code}
         ;
     </delete>
 </mapper>

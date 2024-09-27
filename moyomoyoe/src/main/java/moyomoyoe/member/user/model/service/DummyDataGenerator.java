@@ -22,7 +22,7 @@ public class DummyDataGenerator {
         Integer count = jdbcTemplate.queryForObject(checkSql, new Object[]{"admin"}, Integer.class);
 
         if(count == 0) {
-            String sql = "INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, user_region) VALUES (?, ?,?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tbl_user (username, account, password, nickname, email, phone, user_role, user_region, image_id) VALUES (?, ?,?, ?, ?, ?, ?, ?, '1')";
 
             jdbcTemplate.update(sql, "관리자", "admin", hashedPassword, "관리자", "admin@moyomoyoe.com", "010-5656-5050", "ADMIN", "5");
 
