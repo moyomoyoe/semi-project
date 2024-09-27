@@ -11,6 +11,10 @@
     <content url="file://$MODULE_DIR$/../../moyomoyoe">
       <excludeFolder url="file://$MODULE_DIR$/../../moyomoyoe/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../moyomoyoe/build" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../moyomoyoe">
+      <excludeFolder url="file://$MODULE_DIR$/../../moyomoyoe/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../moyomoyoe/build" />
       <excludeFolder url="file://$MODULE_DIR$/../../moyomoyoe/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../moyomoyoe/build" />
 >>>>>>> board
