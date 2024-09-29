@@ -42,6 +42,7 @@ public class UserController {
     public void signup() {}
 
     @PostMapping("/signup")
+    @ResponseBody
     public ModelAndView signup(ModelAndView mv,
                                @ModelAttribute SignupDTO newUserInfo,
                                @RequestParam String phone,
@@ -59,28 +60,22 @@ public class UserController {
 
         Integer result = userService.regist(newUserInfo);
 
-        String message = null;
+        Map<String, String> response = new HashMap<>();
 
         if(result == null) {
-            message = "이미 가입 된 회원 정보 입니다.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/signup");
+            response.put("status", "fail");
+            response.put("message", "이미 가입 된 회원 정보입니다.");
         } else if(result == 0) {
-            message = "회원 가입 실패 하였습니다. 다시 시도해주세요.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/signup");
+            response.put("status", "fail");
+            response.put("message", "회원 가입에 실패했습니다. 다시 시도 해주세요.");
         } else if(result >= 1) {
-            message = "회원 가입 성공하였습니다.";
-            System.out.println(message);
-
-            mv.setViewName("member/auth/login");
+            response.put("status", "success");
+            response.put("message", "회원 가입에 성공 했습니다.");
+            System.out.println(response);
+            mv.setViewName("redirect:/member/auth/login");
         } else {
-            message = "알 수 없는 오류가 발생하였습니다. 다시 시도 해주세요.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/signup");
+            response.put("status", "error");
+            response.put("message", "알 수 없는 오류가 발생 했습니다. 다시 시도 해주세요.");
         }
         System.out.println(result);
         return mv;
@@ -201,7 +196,7 @@ public class UserController {
         if(singleFile.isEmpty()) {
             newUserInfo.setImageId(user.getImageId());
         } else {
-            System.out.println("파일 확인? = " + singleFile);
+            System.out.println("[[파일 확인?]] = " + singleFile);
 
             Resource resource = resourceLoader.getResource("/static/image/");
             System.out.println("경로 확인쓰 = " + resource);
@@ -236,22 +231,37 @@ public class UserController {
             String savedName = UUID.randomUUID().toString().replace("-", "") + extension;
             System.out.println("저장 될 파일 이름요 = " + savedName);
 
+            boolean isFileSave = false;
+
             try {
                 singleFile.transferTo(new File(filePath + "/" + savedName));
 
-                newImage.setImageName("/static/image/" + savedName);
-                newImage.setImageId(newUserInfo.getImageId());
+                File savedFile = new File(filePath + "/" + savedName);
 
-                userService.registImage(newImage);
+                if(savedFile.exists()) {
+                    // 파일 저장 완?
+                    isFileSave = true;
+                    newImage.setImageName("/static/image/" + savedName);
+                    newImage.setImageId(newUserInfo.getImageId());
+                } else {
+                    System.out.println("파일 저장 안 됨!");
+                }
 
-                newUserInfo.setImageId(newImage.getImageId());
+                if(isFileSave) {
 
-                System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
+                    userService.registImage(newImage);
+
+                    newUserInfo.setImageId(newImage.getImageId());
+
+                    System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
 
 //                rAttr.addFlashAttribute("message", "성공");
 //                rAttr.addFlashAttribute("img", "/static/image/" + savedName);
 
-                System.out.println("업로드 성공!");
+                    System.out.println("업로드 성공!");
+                } else {
+                    System.out.println("[DB 저장 안 됨!!] : 경로에 파일 없음");
+                }
 
             } catch (IOException e) {
                 new File(filePath + "/" + savedName).delete();
@@ -269,7 +279,7 @@ public class UserController {
         String message = null;
 
         if(result == null) {
-            message = "회원 가입 실패!";
+            message = "회원 정보 수정 실패??";
             System.out.println(message);
 
             mv.setViewName("member/user/editInfo");

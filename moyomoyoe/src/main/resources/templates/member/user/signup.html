@@ -9,13 +9,14 @@
 
     <form th:action="@{/member/user/signup}" method="post" id="signupForm">
         회원 구분 :
-        <input type="radio" id="user" name="userRole" value="USER"> 일반 회원
+        <input type="radio" id="user" name="userRole" value="USER" checked> 일반 회원
         <input type="radio" id="business" name="userRole" value="BUSINESS"> 사업자 회원<br>
         아이디 : <input type="text" id="account" name="account" required><button type="button" id="checkAcct">중복확인</button><br>
-        <span id="errorMsg1" style="color: forestgreen; display: none"><small>사용 가능한 아이디 입니다.</small></span>
+        <span id="errorMsg1" style="color: forestgreen; display: none"><small>사용 가능한 아이디</small></span>
         비밀번호 : <input type="password" id="password" name="password" required><br>
         비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
         <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
+        <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
         이름 : <input type="text" id="username" name="username" required><br>
         닉네임 : <input type="text" id="nickname" name="nickname" required><br>
         연락처 : <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
@@ -77,13 +78,14 @@
         <button id="signupButton">회원가입</button>
     </form>
 
+<!--    <script th:inline="javascript">-->
+<!--        const message = [[${ message }]];-->
+<!--        if(message) {-->
+<!--            alert(message)-->
+<!--        }-->
+<!--    </script>-->
+
     <script th:inline="javascript">
-        const message = [[${ message }]];
-        if(message) {
-            alert(message)
-        }
-    </script>
-    <script>
         fetch("/member/user/region")
             .then(res => res.json())
             .then(data => {
@@ -130,6 +132,7 @@
         const password = document.getElementById('password');
         const checkPwd = document.getElementById('checkPwd');
         const errorMsg2 = document.getElementById('errorMsg2');
+        const errorMsg4 = document.getElementById('errorMsg4');
 
         document.getElementById('signupForm').addEventListener('submit', function(event) {
 
@@ -142,7 +145,7 @@
                 return;
             } else {
                 // this.submit();
-                console.log('비밀번호 일치 제출 완');
+                console.log('비밀번호 일치');
             }
 
             const agree = document.getElementById('agree');
@@ -158,9 +161,122 @@
                 console.log('체크함');
             }
 
-            alert('회원 가입이 완료 되었습니다.');
+            const id = document.getElementById('account').value;
+            // const password = document.getElementById('password').value;
+
+            // 한글 포함 여부 검사
+            const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            if (KoreanRegex.test(id) || KoreanRegex.test(password.value)) {
+                alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
+                event.preventDefault();
+                return;
+            } else {
+                // this.submit();
+            }
+
+            // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
+            // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
+            // .* 조건이 문자열 어디에나 위치할 수 있음
+            const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
+            if (!pwdRegex.test(password.value)) {
+                alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 8 ~ 10자 내로 입력해주세요.');
+                event.preventDefault();
+                return;
+            } else {
+                // this.submit();
+            }
+
+            // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
+            const firstNum = document.getElementById('signUpPhoneNum1').value;
+            const midNum = document.getElementById('signUpPhoneNum2').value;
+            const lastNum = document.getElementById('signUpPhoneNum3').value;
+            const phone = `${firstNum}-${midNum}-${lastNum}`;
+
+            const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+            if (!phoneNumRegex.test(phone)) {
+                alert('올바른 휴대전화번호를 입력해주세요.');
+                event.preventDefault();
+                return;
+            } else {
+                console.log('phone');
+                // this.submit();
+            }
+
+            if(!isAcctChecked) {
+                event.preventDefault();
+                alert('아이디 중복 확인 해주세요.');
+            } else {
+                alert("회원 가입 완료 되었습니다");
+            }
+
 
         });
+
+        //     document.getElementById('signupForm').addEventListener('submit', function(event) {
+        //         event.preventDefault()
+        //
+        //         /* 입력 폼이 제출  */
+        //         const formData = new FormData(this);
+        //
+        //         // 전화번호를 하나의 필드로 결합
+        //         const phone = `${document.getElementById('signUpPhoneNum1').value}-${document.getElementById('signUpPhoneNum2').value}-${document.getElementById('signUpPhoneNum3').value}`;
+        //         formData.set('phone', phone);
+        //
+        //         // 이메일 필드 결합
+        //         const email = `${document.getElementById('signupEmailLocal').value}@${document.getElementById('signupEmailDomain').value}`;
+        //         formData.set('email', email);
+        //
+        //         console.log("User Role:", formData.get('userRole'));
+        //         console.log("Email:", formData.get('email'));
+        //         console.log("Phone:", formData.get('phone'));
+        //
+        //         // 회원 가입 완료 되면 로그인 페이지로 이동하게 만들어보자
+        //         // 코드 훔치삼~!!~!
+        //         const data = {};
+        //
+        //         formData.forEach((value, key) => {
+        //             // 값이 배열이면 조합해서 저장
+        //             if (data[key]) {
+        //                 if (!Array.isArray(data[key])) {
+        //                     data[key] = [data[key]];
+        //                 }
+        //                 data[key].push(value);
+        //             } else {
+        //                 data[key] = value;
+        //             }
+        //         });
+        //
+        //         fetch("/member/user/signup", {
+        //             method: "POST",
+        //             body: formData
+        //         })
+        //             .then(response => {
+        //                 return response.json()
+        //             }).then(data => {
+        //             console.log(data.status)
+        //             console.log(data.message)
+        //             console.log(data.status)
+        //             console.log(data.message)
+        //             if(data.status == "success") {
+        //                 alert("회원 가입 완료 되었습니다.")
+        //
+        //                 location.href='/member/auth/login'
+        //             } else {
+        //                 alert("[회원 가입 실패] 다시 시도해주세요.")
+        //             }
+        //         })
+        //             .catch(error => {
+        //                 console.log("[Error] " + error)
+        //                 alert("전송 중 오류가 발생했습니다.");
+        //             });
+        //
+        // });
+
+        let isAcctChecked = false;
+        //
+        // document.getElementById('checkAcct').addEventListener('click', function () {
+        //     isAcctChecked = true;
+        // });
 
         document.getElementById('checkAcct').addEventListener('click', function() {
             const account = document.getElementById('account').value;
@@ -184,6 +300,7 @@
                     errorMsg1.textContent = '오류 발생';
                     errorMsg1.style.display = 'block';
                 });
+            isAcctChecked = true;
         });
 
         document.getElementById('checkPwd').addEventListener('input', function(event) {
@@ -191,9 +308,11 @@
             if(checkPwd.value !== password.value) {
                 event.preventDefault();
                 errorMsg2.style.display = 'block';
+                errorMsg4.style.display = 'none';
                 console.log('다름');
             } else {
                 errorMsg2.style.display = 'none';
+                errorMsg4.style.display = 'block';
                 console.log('일치');
             }
 
@@ -221,46 +340,51 @@
         document.getElementById('signupForm').addEventListener('submit', function (e) {
             // e.preventDefault();
 
-            const id = document.getElementById('account').value;
-            const password = document.getElementById('password').value;
-
-            // 한글 포함 여부 검사
-            const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-            if (KoreanRegex.test(id) || KoreanRegex.test(password)) {
-                alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
-                e.preventDefault();
-                return;
-            } else {
-                // this.submit();
-            }
-
-            // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
-            // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
-            // .* 조건이 문자열 어디에나 위치할 수 있음
-            const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
-            if (!pwdRegex.test(password)) {
-                alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 최소 8자리 이상으로 입력해주세요.');
-                e.preventDefault();
-                return;
-            } else {
-                // this.submit();
-            }
-
-            // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
-            const firstNum = document.getElementById('signUpPhoneNum1').value;
-            const midNum = document.getElementById('signUpPhoneNum2').value;
-            const lastNum = document.getElementById('signUpPhoneNum3').value;
-            const phone = `${firstNum}-${midNum}-${lastNum}`;
-
-            const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-            if (!phoneNumRegex.test(phone)) {
-                alert('올바른 휴대전화번호를 입력해주세요.');
-                e.preventDefault();
-                return;
-            } else {
-                console.log('phone');
-                // this.submit();
-            }
+            // const id = document.getElementById('account').value;
+            // const password = document.getElementById('password').value;
+            //
+            // // 한글 포함 여부 검사
+            // const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            // if (KoreanRegex.test(id) || KoreanRegex.test(password)) {
+            //     alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
+            //     e.preventDefault();
+            //     return;
+            // } else {
+            //     // this.submit();
+            // }
+            //
+            // // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
+            // // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
+            // // .* 조건이 문자열 어디에나 위치할 수 있음
+            // const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
+            // if (!pwdRegex.test(password)) {
+            //     alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 8 ~ 10자 내로 입력해주세요.');
+            //     e.preventDefault();
+            //     return;
+            // } else {
+            //     // this.submit();
+            // }
+            //
+            // // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
+            // const firstNum = document.getElementById('signUpPhoneNum1').value;
+            // const midNum = document.getElementById('signUpPhoneNum2').value;
+            // const lastNum = document.getElementById('signUpPhoneNum3').value;
+            // const phone = `${firstNum}-${midNum}-${lastNum}`;
+            //
+            // const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+            // if (!phoneNumRegex.test(phone)) {
+            //     alert('올바른 휴대전화번호를 입력해주세요.');
+            //     e.preventDefault();
+            //     return;
+            // } else {
+            //     console.log('phone');
+            //     // this.submit();
+            // }
+            //
+            // if(!isAcctChecked) {
+            //     e.preventDefault();
+            //     alert('아이디 중복 확인 해주세요.');
+            // }
 
         });
 
