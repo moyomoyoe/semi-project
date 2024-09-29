@@ -3,6 +3,7 @@ package moyomoyoe.member.user.model.service;
 import jakarta.annotation.PostConstruct;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dao.UserMapper;
+import moyomoyoe.member.user.model.dto.FindIdDTO;
 import moyomoyoe.member.user.model.dto.ImageDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
@@ -135,5 +136,9 @@ public class UserService {
     public ImageDTO getImageById(int id) {
         System.out.println("[작동하니?]");
          return userMapper.getImageById(id);
+    }
+
+    public FindIdDTO findAccount(String username, String email) {
+        return userMapper.findAccount(username, email);
     }
 }

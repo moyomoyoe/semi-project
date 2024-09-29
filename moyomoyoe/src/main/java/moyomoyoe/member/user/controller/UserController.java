@@ -2,6 +2,7 @@ package moyomoyoe.member.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.user.model.dto.FindIdDTO;
 import moyomoyoe.member.user.model.dto.ImageDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
@@ -409,5 +410,48 @@ public class UserController {
 //
 //        return "redirect:/member/user/editInfo";
 //    }
+
+    @GetMapping("/findId")
+    public void findId() {
+        System.out.println("[아이디 찾기] 왓니?");
+    }
+
+    @PostMapping("/findId")
+    @ResponseBody
+    public ModelAndView findId(ModelAndView mv,
+                               @RequestParam String username,
+                               @RequestParam String email){
+
+        FindIdDTO findAccount = userService.findAccount(username, email);
+
+        System.out.println(username + email);
+
+        if(findAccount != null) {
+            mv.addObject("account", findAccount.getAccount());
+            mv.addObject("message", "아이디는 " + findAccount.getAccount() + "입니다.");
+            mv.addObject("redirect", true); // 로그인 페이지로
+        } else {
+            mv.addObject("message", "일치하는 정보가 없습니다.");
+            mv.addObject("redirect", false); // 로그인 페이지로 안 감
+        }
+        System.out.println("[아이디 잘 가져오니?] findAccount = " + findAccount);
+        mv.setViewName("member/user/findId");
+        return mv;
+    }
+
+
+    @GetMapping("/findPwd")
+    public void findPwd() {
+        System.out.println("[비밀번호 찾기] 왓니?");
+    }
+
+    @PostMapping("/findPwd")
+    public ModelAndView findPwd(ModelAndView mv,
+                                @RequestParam String account,
+                                @RequestParam String email) {
+
+
+        return mv;
+    }
 
 }

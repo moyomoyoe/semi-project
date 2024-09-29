@@ -5,6 +5,26 @@
     <title>FINDPWD</title>
 </head>
 <body>
+    <h1>비밀번호 찾기</h1>
 
+    <form th:action="@{/member/user/findPwd}" method="POST">
+        아이디 : <input type="text" id="account" name="account"><br>
+        이메일 : <input type="text" id="email" name="email"><br>
+        <br>
+        <button>비밀번호 찾기</button>
+    </form>
+
+    <div id="changePwd">
+        <div>
+            <span id="modalClose" style="cursor: pointer">ｘ</span>
+            <h3>비밀번호 초기화</h3>
+            비밀번호 : <input type="password" id="password" name="password" required><br>
+            비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
+            <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
+            <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
+            <br>
+            <button id="button">확인</button>
+        </div>
+    </div>
 </body>
 </html>
