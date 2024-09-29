@@ -2,10 +2,7 @@ package moyomoyoe.member.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import moyomoyoe.member.auth.model.dto.UserDTO;
-import moyomoyoe.member.user.model.dto.FindIdDTO;
-import moyomoyoe.member.user.model.dto.ImageDTO;
-import moyomoyoe.member.user.model.dto.RegionDTO;
-import moyomoyoe.member.user.model.dto.SignupDTO;
+import moyomoyoe.member.user.model.dto.*;
 import moyomoyoe.member.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -446,12 +443,71 @@ public class UserController {
     }
 
     @PostMapping("/findPwd")
+    @ResponseBody
     public ModelAndView findPwd(ModelAndView mv,
                                 @RequestParam String account,
                                 @RequestParam String email) {
 
+        System.out.println("[비밀번호 찾기 이메일 확인] 왓니?");
 
+        FindPwdDTO findPwd = userService.findPwd(account, email);
+
+        if(findPwd != null) {
+            mv.addObject("message", "이메일 확인 완료 되었습니다. 비밀번호를 변경해주세요.");
+            mv.addObject("account", account);
+            mv.addObject("redirect", true);
+        } else {
+            mv.addObject("message", "일치하는 정보가 없습니다.");
+            mv.addObject("redirect", false);
+        }
+
+        mv.setViewName("/member/user/findPwd");
         return mv;
     }
+
+    @PostMapping("/changePwd")
+    @ResponseBody
+    public ModelAndView changePwd(ModelAndView mv,
+                                  @ModelAttribute FindPwdDTO newPwd) {
+
+        System.out.println("[비밀번호 초기화] 왔니? ");
+
+        Integer result = userService.updatePwd(newPwd);
+        String message = null;
+
+        if(result == null) {
+            message = "비밀번호 초기화 실패??";
+            mv.addObject("done", message);
+            System.out.println(message);
+
+            mv.setViewName("member/user/findPwd");
+        } else if(result == 0) {
+            message = "비밀번호 초기화에 실패 하였습니다. 다시 시도해주세요.";
+            mv.addObject("done", message);
+
+            System.out.println(message);
+
+            mv.setViewName("member/user/findPwd");
+        } else if(result >= 1) {
+            message = "비밀번호 초기화 성공하였습니다.";
+            mv.addObject("done", message);
+
+            System.out.println(message);
+            mv.setViewName("redirect:/member/auth/login");
+
+        } else {
+            message = "알 수 없는 오류가 발생하였습니다. 다시 시도 해주세요.";
+            mv.addObject("done", message);
+
+            System.out.println(message);
+
+            mv.setViewName("member/user/findPwd");
+        }
+
+
+        mv.setViewName("/member/auth/login");
+        return mv;
+    }
+
 
 }

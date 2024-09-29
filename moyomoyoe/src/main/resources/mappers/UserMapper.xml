@@ -104,6 +104,16 @@
             email = #{ email }
     </select>
 
+    <select id="findPwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
+        SELECT
+            password
+        FROM
+            tbl_user
+        WHERE
+            account = #{ account } AND
+            email = #{ email }
+    </select>
+
     <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
         INSERT INTO
             tbl_user
@@ -153,6 +163,15 @@
             phone = #{ phone },
             email = #{ email },
             image_id = #{ imageId }
+        WHERE
+            account = #{ account }
+    </update>
+
+    <update id="updatePwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
+        UPDATE
+            tbl_user
+        SET
+            password = #{ password }
         WHERE
             account = #{ account }
     </update>

@@ -1,10 +1,7 @@
 package moyomoyoe.member.user.model.dao;
 
 import moyomoyoe.member.auth.model.dto.UserDTO;
-import moyomoyoe.member.user.model.dto.FindIdDTO;
-import moyomoyoe.member.user.model.dto.ImageDTO;
-import moyomoyoe.member.user.model.dto.RegionDTO;
-import moyomoyoe.member.user.model.dto.SignupDTO;
+import moyomoyoe.member.user.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -28,8 +25,11 @@ public interface UserMapper {
 
     ImageDTO getImageById(int id);
 
-
     FindIdDTO findAccount(String username, String email);
+
+    FindPwdDTO findPwd(String account, String email);
+
+    Integer updatePwd(FindPwdDTO newPwd);
 }
 
 

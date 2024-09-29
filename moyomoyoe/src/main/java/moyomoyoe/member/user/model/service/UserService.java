@@ -3,10 +3,7 @@ package moyomoyoe.member.user.model.service;
 import jakarta.annotation.PostConstruct;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dao.UserMapper;
-import moyomoyoe.member.user.model.dto.FindIdDTO;
-import moyomoyoe.member.user.model.dto.ImageDTO;
-import moyomoyoe.member.user.model.dto.RegionDTO;
-import moyomoyoe.member.user.model.dto.SignupDTO;
+import moyomoyoe.member.user.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -140,5 +137,35 @@ public class UserService {
 
     public FindIdDTO findAccount(String username, String email) {
         return userMapper.findAccount(username, email);
+    }
+
+    public FindPwdDTO findPwd(String account, String email) {
+        return userMapper.findPwd(account, email);
+    }
+
+    public Integer updatePwd(FindPwdDTO newPwd) {
+
+
+        System.out.println("암호화 전 = " + newPwd.getPassword());
+        newPwd.setPassword(encoder.encode(newPwd.getPassword()));
+        System.out.println("암호화 뾰로롱 = " + newPwd.getPassword());
+
+        Integer result = null;
+
+        try{
+            result = userMapper.updatePwd(newPwd);
+        } catch(DuplicateKeyException e) {
+            result = 0;
+            System.out.println("[DuplicateKeyException] 안된겨?");
+            e.printStackTrace();
+        } catch(BadSqlGrammarException e) {
+            result = 0;
+            System.out.println("[BadSqlGrammarException] 안된겨?");
+            e.printStackTrace();
+        }
+
+        System.out.println("[비밀번호 초기화] 결과? = " + result);
+
+        return result;
     }
 }
