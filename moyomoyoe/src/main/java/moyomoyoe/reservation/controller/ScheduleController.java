@@ -41,17 +41,17 @@ public class ScheduleController {
             return "redirect:" + defaultUrl+"regist/store/"+code;
         }
         else {
-        // 해당 사업체의 세부정보와 일정정보를 세션에 저장
-        StoreDTO store = reserService.getStoreAllInfo(storeId);
-        List<ScheduleDTO> schedule = reserService.getSchedule(storeId);
+            // 해당 사업체의 세부정보와 일정정보를 세션에 저장
+            StoreDTO store = reserService.getStoreAllInfo(storeId);
+            List<ScheduleDTO> schedule = reserService.getSchedule(storeId);
 
-        System.out.println("store = " + store);
-        System.out.println("schedule = " + schedule);
-        if (store != null) {
-            System.out.println("store!=null 조건 충족 닿았습니다");
-            session.setAttribute("store", store);
-            session.setAttribute("schedule", schedule);
-        }
+            System.out.println("store = " + store);
+            System.out.println("schedule = " + schedule);
+            if (store != null) {
+                System.out.println("store!=null 조건 충족 닿았습니다");
+                session.setAttribute("store", store);
+                session.setAttribute("schedule", schedule);
+            }
             return "redirect:" + defaultUrl + "storeInfo"; // 해당 페이지로 리턴
         }
 
@@ -158,8 +158,8 @@ public class ScheduleController {
         List<ScheduleDTO> schedule;
         if (storeId!=null)
             schedule =reserService.getSchedule(storeId);
-       else {
-           schedule = new ArrayList<>();
+        else {
+            schedule = new ArrayList<>();
         }
         System.out.println("스케쥴 출력"+schedule);
         //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
@@ -193,7 +193,7 @@ public class ScheduleController {
     @GetMapping("/delete/store/{code}")
     @ResponseBody
     public  Map<String, String> deleteStore(@PathVariable("code") int code){
-        System.out.println("delete요청이 왔습니다");        
+        System.out.println("delete요청이 왔습니다");
         Integer storeId = reserService.FindUserStore(code);
         Map<String, String> response = new HashMap<>();
         try {

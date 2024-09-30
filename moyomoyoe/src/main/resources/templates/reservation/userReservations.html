@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 예약 목록</title>
+</head>
+<body>
+<h1>내 예약 목록</h1>
+
+<!-- 사용자 프로필 정보 -->
+<div th:if="${user != null}">
+    <div id="profileImg">
+        <img th:src="${#strings.defaultString(user.image, '/static/default-profile.png')}" alt="프로필 사진" width="100" height="100">
+    </div>
+    <h2 th:text="${#strings.defaultString(user.nickname, '닉네임 없음')}"></h2>
+</div>
+
+<!-- 예약 목록 -->
+<div th:if="${userReservations != null and userReservations.size() > 0}">
+    <h3>예약된 일정</h3>
+    <ul>
+        <li th:each="reservation : ${userReservations}">
+            <h4 th:if="${reservation != null}">
+                예약 날짜: <span th:text="${#strings.defaultString(reservation.resDate, '날짜 없음')}"></span><br>
+                인원수: <span th:text="${#strings.defaultString(reservation.customerNum, '인원수 없음')}"></span><br>
+                닉네임: <span th:text="${#strings.defaultString(user.nickname, '유저 없음')}"></span><br>
+                <!-- 예약 상세 보기 링크 추가 -->
+                <a th:href="@{/reservation/reservationDetail/{resId}(resId=${reservation.resId})}">상세 보기</a>
+            </h4>
+            <hr>
+        </li>
+    </ul>
+</div>
+<div th:if="${userReservations == null or userReservations.size() == 0}">
+    <p>예약이 없습니다.</p>
+</div>
+
+<!-- 홈으로 가는 링크 -->
+<a href="/">메인으로</a>
+</body>
+</html>

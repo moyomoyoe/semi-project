@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>예약 상세 정보</title>
+</head>
+<body>
+<h1>예약 상세 정보</h1>
+
+<!-- 예약 정보 -->
+<div>
+    예약 ID: <span th:text="${reservation.res_id}"></span><br>
+    예약 날짜: <span th:text="${reservation.res_date}"></span><br>
+    인원수: <span th:text="${reservation.customer_num}"></span><br>
+    스케줄 ID: <span th:text="${reservation.schedule_id}"></span><br>
+</div>
+
+<!-- 상점 정보 -->
+<div>
+    상점 이름: <span th:text="${reservation.store_name}"></span><br>
+    상점 종류: <span th:text="${reservation.store_sort}"></span><br>
+</div>
+
+<!-- 예약 취소 버튼 -->
+<div>
+    <form th:action="@{/reservation/reservationCancel}" method="post">
+        <input type="hidden" th:value="${reservation.res_id}" name="resId">
+        <button type="submit" class="btn btn-danger">예약 취소</button>
+    </form>
+</div>
+
+<!-- 홈으로 돌아가기 링크 -->
+<a href="/">메인으로</a>
+</body>
+</html>

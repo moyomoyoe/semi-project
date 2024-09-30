@@ -6,9 +6,8 @@
     <resultMap id="storeMap" type="moyomoyoe.reservation.model.dto.StoreDTO">
         <id property="storeId" column="store_id"/>
         <result property="storeName" column="store_name"/>
-        <result property="storeAddress" column="store_address"/>
         <result property="storeSort" column="store_sort"/>
-        <result property="description" column="description"/>
+        <result property="storeAddress" column="store_address"/>
     </resultMap>
 
     <!-- Schedule 테이블에 대한 결과 매핑 -->
@@ -24,52 +23,54 @@
     <resultMap id="reservationMap" type="moyomoyoe.reservation.model.dto.ReservationDTO">
         <id property="resId" column="res_id"/>
         <result property="userIdRes" column="user_id_res"/>
-        <result property="resDate" column="res_date"/>
         <result property="customerNum" column="customer_num"/>
         <result property="scheduleId" column="schedule_id"/>
+        <result property="resDate" column="res_date"/>
     </resultMap>
 
     <!-- StoreList 조회 -->
     <select id="getAllStores" resultMap="storeMap">
-        SELECT * FROM tbl_store;
+        SELECT * FROM tbl_store
     </select>
 
     <!-- Store ID로 Store 조회 -->
     <select id="getStoreById" parameterType="int" resultMap="storeMap">
-        SELECT * FROM tbl_store WHERE store_id = #{storeId};
+        SELECT * FROM tbl_store WHERE store_id = #{storeId}
     </select>
 
     <!-- 예약된 시간 조회 -->
-    <select id="getReservedTimes" parameterType="int" resultType="string">
+    <select id="getReservedTimes" parameterType="map" resultType="string">
         SELECT CONCAT(start_time, ' - ', end_time)
         FROM tbl_schedule
-        WHERE store_id = #{storeId};
-    </select>
-
-    <!-- 특정 매장 일정 조회 -->
-    <select id="getSchedulesByStoreId" parameterType="int" resultMap="scheduleMap">
-        SELECT * FROM tbl_schedule
-        WHERE store_id = #{storeId};
+        WHERE store_id = #{storeId} AND DATE(start_time) = #{date}
     </select>
 
     <!-- 모든 예약된 일정 가져오기 -->
     <select id="getAllReservations" resultMap="scheduleMap">
         SELECT s.schedule_id, s.store_id, s.start_time, s.end_time, s.capacity
-        FROM tbl_schedule s;
+        FROM tbl_schedule s
     </select>
 
     <!-- 스케줄 ID로 스케줄 상세 조회 -->
     <select id="getScheduleById" parameterType="int" resultMap="scheduleMap">
         SELECT s.schedule_id, s.store_id, s.start_time, s.end_time, s.capacity
         FROM tbl_schedule s
-        WHERE s.schedule_id = #{scheduleId};
+        WHERE s.schedule_id = #{scheduleId}
     </select>
 
-    <!-- tbl_schedule 테이블에 데이터 삽입 -->
-    <insert id="insertSchedule" parameterType="moyomoyoe.reservation.model.dto.ScheduleDTO" useGeneratedKeys="true" keyProperty="scheduleId">
-        INSERT INTO tbl_schedule (store_id, start_time, end_time, capacity)
-        VALUES (#{storeId}, #{startTime, jdbcType=TIME}, #{endTime, jdbcType=TIME}, #{capacity});
-    </insert>
+    <!-- 특정 예약 상세 조회 -->
+    <select id="getReservationById" parameterType="int" resultMap="reservationMap">
+        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
+        FROM tbl_reservation r
+        WHERE r.res_id = #{resId};
+    </select>
+
+    <!-- 특정 매장의 일정 조회 -->
+    <select id="getSchedulesByStoreId" parameterType="int" resultMap="scheduleMap">
+        SELECT schedule_id, store_id, start_time, end_time, capacity
+        FROM tbl_schedule
+        WHERE store_id = #{storeId}
+    </select>
 
     <!-- tbl_reservation 테이블에 데이터 삽입 -->
     <insert id="insertReservation" parameterType="moyomoyoe.reservation.model.dto.ReservationDTO">
@@ -77,9 +78,58 @@
         VALUES (#{userIdRes}, #{customerNum}, #{scheduleId}, #{resDate});
     </insert>
 
+
+    <!-- 사용자 존재 여부 확인 -->
+    <select id="existsUserById" parameterType="int" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM tbl_user
+        WHERE id = #{userId}
+    </select>
+
+    <!-- 특정 스케줄 존재 여부 확인 -->
+    <select id="scheduleExists" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM tbl_schedule
+        WHERE schedule_id = #{scheduleId} AND store_id = #{storeId}
+    </select>
+
+    <!-- 사용자별 예약 정보 조회 -->
+    <select id="getUserReservations" parameterType="int" resultMap="reservationMap">
+        SELECT res_id, user_id_res, res_date, customer_num, schedule_id
+        FROM tbl_reservation
+        WHERE user_id_res = #{userId}
+    </select>
+
+    <!-- 예약 정보와 상점 정보를 조인해서 상세 조회 -->
+    <select id="getReservationDetailWithStore" parameterType="int" resultType="map">
+        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id,
+               s.store_name, s.store_sort
+        FROM tbl_reservation r
+                 JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
+                 JOIN tbl_store s ON sch.store_id = s.store_id
+        WHERE r.res_id = #{resId}
+    </select>
+
+    <!-- 사용자 ID를 이용해 사용자 이름 조회 -->
+<!--    <select id="getUserNameByUserId" parameterType="int" resultType="string">-->
+<!--        SELECT nickname FROM tbl_user WHERE id = #{userId}-->
+<!--    </select>-->
+
+    <!-- 사업장별 예약 현황 조회 -->
+    <select id="getReservationsByStoreId" parameterType="int" resultMap="reservationMap">
+        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id,
+               s.store_name, s.store_sort, u.nickname AS user_name
+        FROM tbl_reservation r
+                 JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
+                 JOIN tbl_store s ON sch.store_id = s.store_id
+                 JOIN tbl_user u ON r.user_id_res = u.id
+        WHERE s.store_id = #{storeId}
+        ORDER BY r.res_date DESC
+    </select>
+
     <!-- 예약 취소 쿼리 -->
-    <delete id="cancelReservation">
+    <delete id="deleteReservation" parameterType="int">
         DELETE FROM tbl_reservation
-        WHERE res_id = #{resId};
+        WHERE res_id = #{resId}
     </delete>
 </mapper>

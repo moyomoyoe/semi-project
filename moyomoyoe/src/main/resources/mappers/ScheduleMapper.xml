@@ -1,17 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="moyomoyoe.reservation.model.dao.ScheduleMapper">
+
+    <!-- 스케줄 결과 매핑 -->
     <resultMap id="scheduleMap" type="moyomoyoe.reservation.model.dto.ScheduleDTO">
         <id property="scheduleId" column="schedule_id"/>
-        <id property="storeId" column="store_id"/>
+        <result property="storeId" column="store_id"/>
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
         <result property="capacity" column="capacity"/>
         <result property="bookedPeople" column="booked"/>
     </resultMap>
+
+    <!-- 스토어 결과 매핑 -->
     <resultMap id="storeMap" type="moyomoyoe.reservation.model.dto.StoreDTO">
         <id property="storeId" column="store_id"/>
         <result property="storeName" column="store_name"/>
@@ -22,28 +26,33 @@
         <result property="userId" column="id"/>
         <result property="imageId" column="image_id_store"/>
     </resultMap>
-    <select id="getStoreAllInfo" resultMap="storeMap">
+
+    <!-- 스토어 전체 정보 가져오기 -->
+    <select id="getStoreAllInfo" parameterType="int" resultMap="storeMap">
         SELECT
-        store_Id,
+        store_id,
         store_name,
         description,
         store_address,
         store_sort,
-        description,
         busy_no,
         id,
         image_id_store
-        FROM tbl_store
-        WHERE store_id = #{code}
+        FROM
+        tbl_store
+        WHERE
+        store_id = #{code}
     </select>
-    <select id="getSchedule" resultMap="scheduleMap">
+
+    <!-- 스케줄 가져오기 -->
+    <select id="getSchedule" parameterType="int" resultMap="scheduleMap">
         SELECT
         a.schedule_id,
         a.store_id,
         a.start_time,
         a.end_time,
         a.capacity,
-        SUM(b.customer_num) AS booked
+        COALESCE(SUM(b.customer_num), 0) AS booked
         FROM
         tbl_schedule a
         LEFT JOIN
@@ -53,49 +62,65 @@
         WHERE
         a.store_id = #{code}
         GROUP BY
-        a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity;
+        a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity
     </select>
 
-    <select id="findUserStore">
+    <!-- 사용자 ID로 스토어 ID 가져오기 -->
+    <select id="findUserStore" parameterType="int" resultType="int">
         SELECT
         store_id
         FROM
         tbl_store
-        WHERE id = #{code}
-        ;
+        WHERE
+        id = #{code}
     </select>
 
-
+    <!-- 스토어 등록 -->
     <insert id="registStore" parameterType="moyomoyoe.reservation.model.dto.StoreDTO">
-        INSERT INTO tbl_store(store_name,store_address, description,store_sort,busy_no ,id,image_id_store)
-        VALUES ( #{storeName}, #{storeAddress},#{description},#{storeSort},#{businessNo},#{userId},#{imageId});
+        INSERT INTO tbl_store (
+        store_name, store_address, description, store_sort, busy_no, id, image_id_store
+        )
+        VALUES (
+        #{storeName}, #{storeAddress}, #{description}, #{storeSort}, #{businessNo}, #{userId}, #{imageId}
+        )
     </insert>
-    <update id="updateStore"  parameterType="moyomoyoe.reservation.model.dto.StoreDTO">
+
+    <!-- 스토어 업데이트 -->
+    <update id="updateStore" parameterType="moyomoyoe.reservation.model.dto.StoreDTO">
         UPDATE tbl_store
         SET
-        store_name= #{storeName},
+        store_name = #{storeName},
         store_address = #{storeAddress},
-        description= #{description},
+        description = #{description},
         store_sort = #{storeSort},
         image_id_store = #{imageId},
         busy_no = #{businessNo}
-        WHERE tbl_store.store_id= #{storeId}
-        ;
+        WHERE
+        store_id = #{storeId}
     </update>
+
+    <!-- 스케줄 등록 -->
     <insert id="registSchedule" parameterType="moyomoyoe.reservation.model.dto.ScheduleDTO">
-        INSERT INTO tbl_schedule (store_id, start_time, end_time,capacity)
-        VALUES(#{storeId}, #{startTime}, #{endTime}, #{capacity})
-
+        INSERT INTO tbl_schedule (
+        store_id, start_time, end_time, capacity
+        )
+        VALUES (
+        #{storeId}, #{startTime}, #{endTime}, #{capacity}
+        )
     </insert>
-    <delete id="deleteScheduleId">
+
+    <!-- 스케줄 ID로 삭제 -->
+    <delete id="deleteScheduleId" parameterType="int">
         DELETE FROM tbl_schedule
-        WHERE schedule_id = #{id}
-        ;
+        WHERE
+        schedule_id = #{id}
     </delete>
 
-    <delete id="deleteStore">
+    <!-- 스토어 삭제 -->
+    <delete id="deleteStore" parameterType="int">
         DELETE FROM tbl_store
-        WHERE store_id = #{code}
-        ;
+        WHERE
+        store_id = #{code}
     </delete>
+
 </mapper>
