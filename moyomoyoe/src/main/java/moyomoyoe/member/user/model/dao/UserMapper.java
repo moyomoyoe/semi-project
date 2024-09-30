@@ -1,5 +1,6 @@
 package moyomoyoe.member.user.model.dao;
 
+import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -30,6 +31,8 @@ public interface UserMapper {
     FindPwdDTO findPwd(String account, String email);
 
     Integer updatePwd(FindPwdDTO newPwd);
+
+    void deleteUser(String account);
 }
 
 

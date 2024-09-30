@@ -1,14 +1,13 @@
 package moyomoyoe.member.user.model.service;
 
 import jakarta.annotation.PostConstruct;
+import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dao.UserMapper;
 import moyomoyoe.member.user.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -167,5 +166,9 @@ public class UserService {
         System.out.println("[비밀번호 초기화] 결과? = " + result);
 
         return result;
+    }
+
+    public void deleteUser(String account) {
+        userMapper.deleteUser(account);
     }
 }

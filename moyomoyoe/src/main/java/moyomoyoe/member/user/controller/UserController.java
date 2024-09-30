@@ -1,6 +1,8 @@
 package moyomoyoe.member.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.user.model.dto.*;
 import moyomoyoe.member.user.model.service.UserService;
@@ -507,6 +509,37 @@ public class UserController {
 
         mv.setViewName("/member/auth/login");
         return mv;
+    }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(HttpSession session,
+                             RedirectAttributes rAttr,
+                             Principal principal) {
+
+        System.out.println("[회원 탈퇴] 왓니?");
+
+        String account = principal.getName();
+
+        System.out.println("account = " + account);
+
+        if(account != null) {
+
+            userService.deleteUser(account);
+
+            rAttr.addFlashAttribute("message", "회원 탈퇴가 완료 되었습니다.");
+            System.out.println("[회원 탈퇴] 성공~!~!");
+
+            // 세션 무효화
+            session.invalidate();
+
+            return "redirect:/main";
+        } else {
+
+            System.out.println("[회원 탈퇴] 실패~~~!");
+            rAttr.addFlashAttribute("message", "사용자 정보가 존재하지 않습니다. 다시 시도해주세요.");
+
+            return "redirect:/member/user/userInfo";
+        }
     }
 
 

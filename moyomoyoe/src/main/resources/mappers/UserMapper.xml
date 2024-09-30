@@ -14,6 +14,7 @@
         <result property="phone" column="phone"/>
         <result property="userRole" column="user_role"/>
         <result property="imageId" column="image_id"/>
+        <result property="isActive" column="is_active"/>
     </resultMap>
 
     <resultMap id="regionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
@@ -22,7 +23,7 @@
         <result property="district" column="district"/>
     </resultMap>
 
-    <resultMap id="imageResultMap" type="moyomoyoe.member.user.model.dto.ImageDTO">
+    <resultMap id="imageResultMap" type="moyomoyoe.image.ImageDTO">
         <id property="imageId" column="image_id"/>
         <result property="imageName" column="image_name"/>
     </resultMap>
@@ -44,7 +45,8 @@
             phone,
             user_role,
             image_id,
-            user_region
+            user_region,
+            is_active
         FROM
             tbl_user
         WHERE
@@ -101,7 +103,8 @@
             tbl_user
         WHERE
             username = #{ username } AND
-            email = #{ email }
+            email = #{ email } AND
+            is_active = 'Y'
     </select>
 
     <select id="findPwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
@@ -142,7 +145,7 @@
         )
     </insert>
 
-    <insert id="registImage" parameterType="moyomoyoe.member.user.model.dto.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+    <insert id="registImage" parameterType="moyomoyoe.image.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
         INSERT INTO
             tbl_image
         (
@@ -172,6 +175,15 @@
             tbl_user
         SET
             password = #{ password }
+        WHERE
+            account = #{ account }
+    </update>
+
+    <update id="deleteUser" parameterType="String">
+        UPDATE
+            tbl_user
+        SET
+            is_active = 'N'
         WHERE
             account = #{ account }
     </update>

@@ -22,6 +22,7 @@ public class UserDTO implements UserDetails, Serializable {
     private int userRegion;
     private String region;
     private String image;
+    private String isActive;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,7 +75,7 @@ public class UserDTO implements UserDetails, Serializable {
     public UserDTO() {
     }
 
-    public UserDTO(int id, String username, String account, String password, String nickname, String email, String phone, UserRole userRole, int imageId, int userRegion) {
+    public UserDTO(int id, String username, String account, String password, String nickname, String email, String phone, UserRole userRole, int imageId, int userRegion, String isActive) {
         this.id = id;
         this.username = username;
         this.account = account;
@@ -85,6 +86,7 @@ public class UserDTO implements UserDetails, Serializable {
         this.userRole = userRole;
         this.imageId = imageId;
         this.userRegion = userRegion;
+        this.isActive = isActive;
     }
 
     public int getId() {
@@ -179,6 +181,14 @@ public class UserDTO implements UserDetails, Serializable {
         this.image = image;
     }
 
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -194,6 +204,7 @@ public class UserDTO implements UserDetails, Serializable {
                 ", userRegion=" + userRegion +
                 ", region=" + region +
                 ", imageName=" + image +
+                ", isActive=" + isActive +
                 '}';
     }
 }
