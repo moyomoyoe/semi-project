@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/schedule.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
     <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
 </head>
@@ -11,16 +14,19 @@
 
 <h3 th:text="${userSession.id}"></h3>
 <h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
-<div id="startTime"></div>
-<div id="endTime"></div>
+<div class="container">
+<div style="display: flex">
+    <div id="startTime"></div>
+    <div id="endTime"></div>
+</div>
 <input min="1" id="capacity" type="number" value="5"> <label>명</label>
-<button id ="makeSchedule"> 새 일정 생성</button>
+<button id ="makeSchedule" > 새 일정 생성</button>
 <hr>
 <h2>현 일정</h2>
 <div id="container"></div>
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
 <a href="/"> 취소 메인으로</a>
-
+</div>
 <script th:inline="javascript">
 
     // console.log("확인"+document.querySelector("#data").innerHTML);
@@ -46,7 +52,7 @@
         newSchedule.innerHTML = ` ${s.startTime} ~ ${s.endTime}
         <button id="delete-btn">X</button>
        <br>
-       ${s.capacity}명 예약
+       ${s.capacity}명 까지 가능
        </div>
         </div>
       `;
@@ -102,6 +108,7 @@
             }
         }
     });
+
     function time(h, m){
         return{
             h : h,
@@ -117,6 +124,9 @@
         if (sTime.h >eTime.h ||
             (sTime.h === eTime.h)&& (sTime.m>= eTime.m)){
             alert("적절한 시간 범위가 아닙니다.")
+        }
+        else if( schedules.some(schedule => schedule.startTime ===`${sTime.h}:${sTime.m}:00` )){
+            alert("시작시간이 같은 일정은 등록할 수 없습니다.")
         }
         else {
             let s = new schedule(sTime.t, eTime.t, capacity, storeId)
