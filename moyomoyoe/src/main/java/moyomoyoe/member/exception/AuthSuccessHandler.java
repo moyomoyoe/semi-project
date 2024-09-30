@@ -4,7 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import moyomoyoe.member.auth.model.dto.UserDTO;
-import moyomoyoe.member.user.model.dto.ImageDTO;
+import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.service.UserService;
 import org.slf4j.Logger;
