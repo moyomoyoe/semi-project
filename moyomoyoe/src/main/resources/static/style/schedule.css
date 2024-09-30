@@ -1,10 +1,54 @@
 
+.container {
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    padding: 10px 50px;
+
+}
+
+
 .description{
     border: #6BAFA2 2px solid;
     border-radius: 10px;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .title{
     text-align: left;
     font-size: 24px;
+    margin-left: 50px;
+
+}
+h3{
+    text-align: left;
+    font-size: 20px;
+    margin-left: 50px   ;
+}
+
+.token-container{
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.token{
+    border: #6BAFA2 2px solid;
+    border-radius: 20px;
+    width: 200px;
+    }
+.texts{
+    margin-left: 100px;
+    font-size: 18px;
+    text-align: left;
+}
+
+img{
+    max-height: 300px;
+    max-width: 300px;
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/schedule.css" />
     <title>Title</title>
 </head>
 <body>
@@ -21,58 +22,53 @@
     최 하단 중앙 일정등록, 일정관리, 사업장 삭제
     <h1> 사업자 마이페이지로 쓸 상세화면입니다</h1>
     <div th:if="${store.storeId} != 0">
-           <p class="title" th:text="|${store.storeName}|"></p>
+           <h3 class="title" th:text="|${store.storeName}|"></h3>
         <div>
-            <img src="/image/f93315dc541f4120b656a8330f142118.jpg">
 
-
+            <div class="container" style="display: flex; justify-content: center;">
+                <div>
+                    <img th:src="${image}" alt="">
+                </div>
+                <div style="margin: 20px">
+                    <div>
+                    <h3>사업자 번호 </h3>
+                    <div class="texts" th:text="|${store.businessNo}|"></div>
+                    </div>
+                    <div>
+                    <h3 >주소</h3>
+                    <div class="texts" th:text="|${store.storeAddress}|"></div>
+                    </div>
+                </div>
+            </div>
         <h3>등록된 일정</h3>
         <div class="token-container">
-        <div class="token" th:each="list : ${ schedule }">
-            <p th:text="|시간 ${#dates.format(list.startTime, 'HH시:mm분')} ~ ${#dates.format(list.endTime, 'HH시:mm분')}|"></p>
-            <p th:text="|최대 ${list.capacity}명|"></p>
-            <p th:text="|현 예약인원 ${list.bookedPeople}|"></p>
-
+            <div class="token" th:each="list : ${schedule }">
+            <div th:text="|${#dates.format(list.startTime, 'HH:mm')} ~ ${#dates.format(list.endTime, 'HH:mm')}|"></div>
+            <div th:text="|최대 ${list.capacity}명|"></div>
+            </div>
+        </div>
+            <!--            현 예약 n팀 총${list.bookedPeople}명-->
             <!--
             <td th:if="${list.capacity} > ${list.bookedPeople}">예약 가능</td>
             <td th:unless="${list.capacity} > ${list.bookedPeople}">예약 불가능</td>-->
-            <br>
-        </div>
-        </div>
+            <hr>
 
         <h3>설명문</h3>
         <div class="description" th:text="|${store.description}|"></div>
 
-        <hr>
-
     </div>
-<!--    <a th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}" class="button-style">예약 관리</a>-->
-    <a class="a-button" th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}" >일정 등록</a>
+        <div style="margin: 20px;">
+    <a class="a-button" th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}" >일정 수정</a>
     <a class="a-button" th:href="@{'/reservation/schedule/regist/store/' + ${store.userId}}" >사업장정보 수정</a>
 <!--    아래는 fetch로 보낼거임 th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}"-->
-    <button onclick="deleteFetch()" class="a-button-warning right-align">사업장 삭제</button>
+    <button class="a-button-warning right-align">회원탈퇴</button>
     <a href="/"> 메인으로</a>
+        </div>
+    </div>
 </div>
 </body>
 <script th:inline="javascript">
-    let userId= /*[[${store.userId}]]*/ 0;
-    console.log(userId)
-    function deleteFetch(){
-        if (
-            confirm("사업장 정보를 삭제하시겠습니까? 현재 들어온 예약과 등록된 일정을 포함한 정보가 모두 삭제됩니다.")
-        ) {
-            fetch(`/reservation/schedule/delete/store/${userId}`).
-            then(response => response.json()).then(
-                data=>{
-                    if(data.status == "success"){
-                        location.href=`/reservation/schedule/regist/store/${userId}`
-                    }else {
-                        alert("사업장 삭제에 실패했습니다. 다시 시도해주세요.")
-                    }
-                }
-            );
-        }
-    }
+
 </script>
 
 </html>
