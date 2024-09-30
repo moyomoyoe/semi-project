@@ -29,11 +29,8 @@ public class ReservationService {
     // 스케줄과 예약을 트랜잭션으로 저장
     @Transactional
     public void saveReservation(ReservationDTO reservationDTO, ScheduleDTO scheduleDTO) {
-        // 스케줄 저장
         reservationMapper.insertSchedule(scheduleDTO);
-        // 스케줄 ID를 예약 DTO에 설정
         reservationDTO.setScheduleId(scheduleDTO.getScheduleId());
-        // 예약 저장
         reservationMapper.insertReservation(reservationDTO);
     }
 
@@ -62,7 +59,12 @@ public class ReservationService {
         return reservationMapper.getScheduleById(scheduleId);
     }
 
-    // 예약취소 화면
+    // 특정 매장의 일정 조회
+    public List<ScheduleDTO> getSchedulesByStoreId(int storeId) {
+        return reservationMapper.getSchedulesByStoreId(storeId);
+    }
+
+    // 예약 취소
     public void cancelReservation(int resId) {
         reservationMapper.deleteReservation(resId);
     }

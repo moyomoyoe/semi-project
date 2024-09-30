@@ -22,7 +22,7 @@ public class businessController {
     private UserService userService;
 
     @GetMapping("/myPage")
-    public ModelAndView myPage(ModelAndView mv, Principal principal) {
+    public String myPage(ModelAndView mv, Principal principal) {
 
         String account = principal.getName();
 
@@ -30,9 +30,7 @@ public class businessController {
 
         mv.addObject("user", user);
 
-        mv.setViewName("member/business/myPage");
-
-        return mv;
+        return "redirect:/reservation/schedule/storeInfo/"+user.getId();
     }
 
 }

@@ -60,6 +60,7 @@ public class SecurityConfig {
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/business/*").hasAnyAuthority(UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
+            auth.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll();
             auth.anyRequest().authenticated();
         }).formLogin(login -> {
             login.loginPage("/member/auth/login");

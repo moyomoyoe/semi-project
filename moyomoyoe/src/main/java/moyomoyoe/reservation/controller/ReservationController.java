@@ -89,7 +89,7 @@ public class ReservationController {
             reservationService.saveSchedule(scheduleDTO);
 
             // 예약DTO 생성 및 저장
-            ReservationDTO reservationDTO = new ReservationDTO(0, storeId, sqlDate, String.valueOf(capacity), scheduleDTO.getScheduleId());
+            ReservationDTO reservationDTO = new ReservationDTO(0, storeId, sqlDate, capacity, scheduleDTO.getScheduleId());
             reservationService.saveReservation(reservationDTO, scheduleDTO);
 
             // 성공 메시지 설정 및 페이지 리다이렉트
@@ -126,7 +126,14 @@ public class ReservationController {
         return reservationService.getReservedTimes(storeId, date);
     }
 
-    // 메인 컨트롤러 (예시)
+    // 특정 매장 일정 조회
+    @GetMapping("/schedules/{storeId}")
+    @ResponseBody
+    public List<ScheduleDTO> getSchedulesByStoreId(@PathVariable("storeId") int storeId) {
+        return reservationService.getSchedulesByStoreId(storeId);
+    }
+
+    // 메인 컨트롤러
     @Controller
     public class MainController {
 

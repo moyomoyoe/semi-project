@@ -7,8 +7,8 @@
         <id property="storeId" column="store_id"/>
         <result property="storeName" column="store_name"/>
         <result property="storeAddress" column="store_address"/>
-        <result column="store_sort" property="storeSort"/>  <!-- 여기 매핑 중요 -->
-        <result column="description" property="description"/>
+        <result property="storeSort" column="store_sort"/>
+        <result property="description" column="description"/>
     </resultMap>
 
     <!-- Schedule 테이블에 대한 결과 매핑 -->
@@ -24,6 +24,7 @@
     <resultMap id="reservationMap" type="moyomoyoe.reservation.model.dto.ReservationDTO">
         <id property="resId" column="res_id"/>
         <result property="userIdRes" column="user_id_res"/>
+        <result property="resDate" column="res_date"/>
         <result property="customerNum" column="customer_num"/>
         <result property="scheduleId" column="schedule_id"/>
     </resultMap>
@@ -45,11 +46,16 @@
         WHERE store_id = #{storeId};
     </select>
 
+    <!-- 특정 매장 일정 조회 -->
+    <select id="getSchedulesByStoreId" parameterType="int" resultMap="scheduleMap">
+        SELECT * FROM tbl_schedule
+        WHERE store_id = #{storeId};
+    </select>
+
     <!-- 모든 예약된 일정 가져오기 -->
     <select id="getAllReservations" resultMap="scheduleMap">
-        SELECT s.schedule_id, s.store_id, s.start_time, s.end_time, s.capacity, st.store_name
-        FROM tbl_schedule s
-                 JOIN tbl_store st ON s.store_id = st.store_id;
+        SELECT s.schedule_id, s.store_id, s.start_time, s.end_time, s.capacity
+        FROM tbl_schedule s;
     </select>
 
     <!-- 스케줄 ID로 스케줄 상세 조회 -->
@@ -76,5 +82,4 @@
         DELETE FROM tbl_reservation
         WHERE res_id = #{resId};
     </delete>
-
 </mapper>

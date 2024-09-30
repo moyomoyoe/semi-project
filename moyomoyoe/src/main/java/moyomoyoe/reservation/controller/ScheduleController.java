@@ -34,6 +34,7 @@ public class ScheduleController {
     //사업장 세부정보
     @GetMapping("/storeInfo/{code}")
     public String storeInfo(@PathVariable("code") int code, HttpSession session) {
+        System.out.println("[사업자 마이페이지]");
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
         Integer storeId = reserService.FindUserStore(code);
         if (code <= 0 || storeId==null){

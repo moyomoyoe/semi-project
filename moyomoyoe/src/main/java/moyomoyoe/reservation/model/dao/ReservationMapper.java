@@ -22,7 +22,9 @@ public interface ReservationMapper {
 
     List<ScheduleDTO> getAllReservations();
 
-    ScheduleDTO getScheduleById(int scheduleId); // 스케줄 상세 조회 추가
+    ScheduleDTO getScheduleById(int scheduleId);
+
+    List<ScheduleDTO> getSchedulesByStoreId(int storeId); // storeId로 일정 조회 메소드 추가
 
     void deleteReservation(int resId);
 }
