@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/userInfo.css" />
+    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/member.css" />
     <title>USERINFO</title>
     <style>
         #deleteModal {
@@ -33,10 +36,15 @@
     </style>
 </head>
 <body>
-    <h1>회원 정보 조회</h1>
+<div th:replace="common/header.html"></div>
+<div class="page-title">
+    <h2>&nbsp;&nbsp;회원 정보 조회</h2>
+    <hr>
+</div>
 
-    <div>
-        <img th:src="${ user.image }" alt="프로필 파일" width="100" height="100">
+<div class="container">
+    <div id="profileImg">
+        <img th:src="${ user.image }" alt="프로필 파일" class="profile-image" width="200" height="200">
     </div>
     <br>
     <div id="userInfo">
@@ -48,13 +56,17 @@
         이메일 : <span th:text="${ user.email }"></span><br>
     </div>
     <br>
-    <form action="/member/user/editInfo">
-        <button>회원 정보 수정</button>
-    </form>
-    <br>
-    <form action="/member/user/deleteUser" method="POST" id="deleteForm">
-        <button type="button" id="deleteUserBtn">회원 탈퇴</button>
-    </form>
+    <div class="editInfo">
+        <form action="/member/user/editInfo">
+            <button>회원 정보 수정</button>
+        </form>
+    </div>
+    <div class="deleteUser">
+        <form action="/member/user/deleteUser" method="POST" id="deleteForm">
+            <button type="button" id="deleteUserBtn">회원 탈퇴</button>
+        </form>
+    </div>
+</div>
 
     <div id="deleteModal">
         <div>
