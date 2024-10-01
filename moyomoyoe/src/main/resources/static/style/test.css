@@ -1,5 +1,10 @@
 /*  <link rel="stylesheet" href="/static/style/test.css" />*/
 
+/* html 전체 지정 폰트로 설정 */
+body {
+    font-family: '런드리고딕OTF', sans-serif;
+}
+
 /*본문 컨테이너 전체 중앙정렬*/
 .container {
     padding: 20px;
@@ -55,6 +60,7 @@
 
 
 button{
+    font-family: '런드리고딕OTF', sans-serif;
     background: #CAEEE7;
     border: #6BAFA2 2px solid;
     border-radius: 20px;

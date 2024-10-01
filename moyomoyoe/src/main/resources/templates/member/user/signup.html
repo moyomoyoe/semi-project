@@ -2,43 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/signup.css" />
+    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/member.css" />
     <title>SIGNUP</title>
 </head>
 <body>
-    <h1>회원가입</h1>
+<div th:replace="common/header.html"></div>
+<div class="page-title">
+    <h2>&nbsp;&nbsp;회원가입</h2>
+    <hr>
+</div>
 
+<div class="container">
     <form th:action="@{/member/user/signup}" method="post" id="signupForm">
-        회원 구분 :
-        <input type="radio" id="user" name="userRole" value="USER" checked> 일반 회원
-        <input type="radio" id="business" name="userRole" value="BUSINESS"> 사업자 회원<br>
-        아이디 : <input type="text" id="account" name="account" required><button type="button" id="checkAcct">중복확인</button><br>
-        <span id="errorMsg1" style="color: forestgreen; display: none"><small>사용 가능한 아이디</small></span>
-        비밀번호 : <input type="password" id="password" name="password" required><br>
-        비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
-        <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
-        <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
-        이름 : <input type="text" id="username" name="username" required><br>
-        닉네임 : <input type="text" id="nickname" name="nickname" required><br>
-        연락처 : <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
-        -
-        <input type="text" id="signUpPhoneNum2" name="phone" size="4" required>
-        -
-        <input type="text" id="signUpPhoneNum3" name="phone" size="4" required><br>
-        지역 :
-        <select name="userRegion" id="region" required>
-            <option value="" disabled selected>선택</option>
-        </select><br>
-        이메일 : <input type="text" id="signupEmailLocal" name="email" required>
-        @
-        <select id="signupEmailDomain" name="email" required>
-            <option value="naver.com">naver.com</option>
-            <option value="gmail.com">gmail.com</option>
-            <option value="daum.net">daum.net</option>
-        </select><br>
-<!--        사업자 등록 번호 : <input type="text" name="busyNo"><br>-->
+        <div class="form-group">
+            <label>회원 구분</label>
+                <input type="radio" id="user" name="userRole" value="USER" checked> 일반 회원
+                <input type="radio" id="business" name="userRole" value="BUSINESS"> 사업자 회원<br>
+        </div>
+        <div class="form-group">
+            <label>아이디</label>
+                <input type="text" id="account" name="account" required><button type="button" id="checkAcct">중복확인</button><br>
+            <span id="errorMsg1" style="color: forestgreen; display: none"><small>사용 가능한 아이디</small></span>
+        </div>
+        <div class="form-group">
+            <label>비밀번호</label>
+            <input type="password" id="password" name="password" required><br>
+        </div>
+        <div class="form-group">
+            <label>비밀번호 확인</label>
+            <input type="password" id="checkPwd" name="checkPwd" required><br>
+            <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
+            <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
+        </div>
+        <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="username" name="username" required><br>
+        </div>
+        <div class="form-group">
+            <label>닉네임</label>
+            <input type="text" id="nickname" name="nickname" required><br>
+        </div>
+        <div class="form-group">
+            <label>연락처</label>
+            <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
+            -
+            <input type="text" id="signUpPhoneNum2" name="phone" size="4" required>
+            -
+            <input type="text" id="signUpPhoneNum3" name="phone" size="4" required><br>
+        </div>
+        <div class="form-group">
+            <label>지역</label>
+            <select name="userRegion" id="region" required>
+                <option value="" disabled selected>선택</option>
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label>이메일</label>
+            <input type="text" id="signupEmailLocal" name="email" required>
+            @
+            <select id="signupEmailDomain" name="email" required>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="daum.net">daum.net</option>
+            </select><br>
+        </div>
+        <!--        사업자 등록 번호 : <input type="text" name="busyNo"><br>-->
         <br>
-        이용약관 : <button type="button" id="toggle" style="border: none; text-decoration: none;">더보기</button>
-        <div id="content" style="display: none;">
+        <div class="form-group">
+            <label>이용약관</label>
+                <button type="button" id="toggle" style="border: none; text-decoration: none;">더보기</button>
+            <div id="content" style="display: none;">
             <pre>
 <b>[개인정보 수집과 이용에 대한 동의]</b>
 사이트 이용과 관련하여 개인정보 수집과 이용에 관한 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
@@ -49,7 +84,7 @@
 ※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 사이트 이용에 제약이 있음을 알려드립니다.
 개인정보 수집과 이용에 동의하시나요?</pre>
 
-            <pre>
+                <pre>
 <b>[개인정보 취급 위탁에 대한 동의]</b>
 본인 확인 서비스 제공을 위해 개인정보 취급 위탁 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
 수탁자: 모요모여(moyomoyoe)
@@ -59,7 +94,7 @@
 ※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 서비스를 이용할 수 없음을 알려드립니다.
 개인정보 취급 위탁에 대해 동의하시나요?</pre>
 
-            <pre>
+                <pre>
 <b>[개인정보 제 3자 제공에 대한 동의]</b>
 여행 상품 할인 프로모션 안내를 위해 개인정보 제3자 제공 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
 제공 받는 자: 모요모여(moyomoyoe)
@@ -68,15 +103,21 @@
 개인정보 보유 및 이용 기간: 수집 일로부터 365일
 ※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 예약 서비스를 제공 받을 수 없음을 알려드립니다.
 개인정보 제 3자 제공에 동의하시나요?</pre>
+            </div>
         </div>
         <br>
-        <input type="checkbox" id="agree" name="privacy" value="agree" required>
-        <label for="agree">동의합니다.</label>
-        <span id="errorMsg3" style="color: tomato; display: none"><small>약관에 동의해주세요.</small></span>
+        <div class="form-group">
+            <input type="checkbox" id="agree" name="privacy" value="agree" required>
+            <label for="agree">동의합니다.</label>
+            <span id="errorMsg3" style="color: tomato; display: none"><small>약관에 동의해주세요.</small></span>
+        </div>
         <br>
         <br>
-        <button id="signupButton">회원가입</button>
+        <div class="button">
+            <button id="signupButton">회원가입</button>
+        </div>
     </form>
+</div>
 
 <!--    <script th:inline="javascript">-->
 <!--        const message = [[${ message }]];-->
@@ -85,321 +126,321 @@
 <!--        }-->
 <!--    </script>-->
 
-    <script th:inline="javascript">
-        fetch("/member/user/region")
+<script th:inline="javascript">
+    fetch("/member/user/region")
+        .then(res => res.json())
+        .then(data => {
+            const $region = document.getElementById('region');
+
+            for(let index in data) {
+                const $option = document.createElement('option');
+
+                console.log("지역코드 = ", data[index].regionCode);
+                $option.value = data[index].regionCode;
+                $option.textContent = data[index].district;
+
+                console.log($option);
+
+                $region.appendChild($option);
+            }
+        });
+
+    document.getElementById('signupButton').addEventListener('click', () => {
+        const regionCode = document.getElementById('region').value;
+        const userRole = document.getElementById('userRole');
+        const account = document.getElementById('account');
+        const nickname = document.getElementById('nickname');
+        const username = document.getElementById('username');
+        const phone = document.getElementById('phone');
+        const email = document.getElementById('email');
+
+        const userData = {
+            userRole,
+            account,
+            password,
+            username,
+            nickname,
+            phone,
+            email,
+            regionCode
+        };
+
+        console.log('회원가입 데이터 확인 : ', userData);
+
+        // document.getElementById('signupForm').submit();
+    })
+
+    const password = document.getElementById('password');
+    const checkPwd = document.getElementById('checkPwd');
+    const errorMsg2 = document.getElementById('errorMsg2');
+    const errorMsg4 = document.getElementById('errorMsg4');
+
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+
+        console.log('폼제출');
+
+        if(checkPwd.value !== password.value) {
+            event.preventDefault();
+            alert('비밀번호가 일치하지 않습니다.');
+            console.log('비밀번호 불일치');
+            return;
+        } else {
+            // this.submit();
+            console.log('비밀번호 일치');
+        }
+
+        const agree = document.getElementById('agree');
+        const errorMsg3 = document.getElementById('errorMsg3');
+
+
+        if(!agree.checked) {
+            // alert("약관에 동의해야 회원가입 진행이 가능합니다.");
+            event.preventDefault();
+            errorMsg3.style.display = 'block';
+            console.log('체크안함');
+        } else {
+            console.log('체크함');
+        }
+
+        const id = document.getElementById('account').value;
+        // const password = document.getElementById('password').value;
+
+        // 한글 포함 여부 검사
+        const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        if (KoreanRegex.test(id) || KoreanRegex.test(password.value)) {
+            alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
+            event.preventDefault();
+            return;
+        } else {
+            // this.submit();
+        }
+
+        // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
+        // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
+        // .* 조건이 문자열 어디에나 위치할 수 있음
+        const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
+        if (!pwdRegex.test(password.value)) {
+            alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 8 ~ 10자 내로 입력해주세요.');
+            event.preventDefault();
+            return;
+        } else {
+            // this.submit();
+        }
+
+        // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
+        const firstNum = document.getElementById('signUpPhoneNum1').value;
+        const midNum = document.getElementById('signUpPhoneNum2').value;
+        const lastNum = document.getElementById('signUpPhoneNum3').value;
+        const phone = `${firstNum}-${midNum}-${lastNum}`;
+
+        const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+        if (!phoneNumRegex.test(phone)) {
+            alert('올바른 휴대전화번호를 입력해주세요.');
+            event.preventDefault();
+            return;
+        } else {
+            console.log('phone');
+            // this.submit();
+        }
+
+        if(!isAcctChecked) {
+            event.preventDefault();
+            alert('아이디 중복 확인 해주세요.');
+        } else {
+            alert("회원 가입 완료 되었습니다");
+        }
+
+
+    });
+
+    //     document.getElementById('signupForm').addEventListener('submit', function(event) {
+    //         event.preventDefault()
+    //
+    //         /* 입력 폼이 제출  */
+    //         const formData = new FormData(this);
+    //
+    //         // 전화번호를 하나의 필드로 결합
+    //         const phone = `${document.getElementById('signUpPhoneNum1').value}-${document.getElementById('signUpPhoneNum2').value}-${document.getElementById('signUpPhoneNum3').value}`;
+    //         formData.set('phone', phone);
+    //
+    //         // 이메일 필드 결합
+    //         const email = `${document.getElementById('signupEmailLocal').value}@${document.getElementById('signupEmailDomain').value}`;
+    //         formData.set('email', email);
+    //
+    //         console.log("User Role:", formData.get('userRole'));
+    //         console.log("Email:", formData.get('email'));
+    //         console.log("Phone:", formData.get('phone'));
+    //
+    //         // 회원 가입 완료 되면 로그인 페이지로 이동하게 만들어보자
+    //         // 코드 훔치삼~!!~!
+    //         const data = {};
+    //
+    //         formData.forEach((value, key) => {
+    //             // 값이 배열이면 조합해서 저장
+    //             if (data[key]) {
+    //                 if (!Array.isArray(data[key])) {
+    //                     data[key] = [data[key]];
+    //                 }
+    //                 data[key].push(value);
+    //             } else {
+    //                 data[key] = value;
+    //             }
+    //         });
+    //
+    //         fetch("/member/user/signup", {
+    //             method: "POST",
+    //             body: formData
+    //         })
+    //             .then(response => {
+    //                 return response.json()
+    //             }).then(data => {
+    //             console.log(data.status)
+    //             console.log(data.message)
+    //             console.log(data.status)
+    //             console.log(data.message)
+    //             if(data.status == "success") {
+    //                 alert("회원 가입 완료 되었습니다.")
+    //
+    //                 location.href='/member/auth/login'
+    //             } else {
+    //                 alert("[회원 가입 실패] 다시 시도해주세요.")
+    //             }
+    //         })
+    //             .catch(error => {
+    //                 console.log("[Error] " + error)
+    //                 alert("전송 중 오류가 발생했습니다.");
+    //             });
+    //
+    // });
+
+    let isAcctChecked = false;
+    //
+    // document.getElementById('checkAcct').addEventListener('click', function () {
+    //     isAcctChecked = true;
+    // });
+
+    document.getElementById('checkAcct').addEventListener('click', function() {
+        const account = document.getElementById('account').value;
+
+        fetch(`/member/user/checkAccount?account=${account}`)
             .then(res => res.json())
             .then(data => {
-                const $region = document.getElementById('region');
+                console.log(data);
+                const errorMsg1 = document.getElementById('errorMsg1');
 
-                for(let index in data) {
-                    const $option = document.createElement('option');
-
-                    console.log("지역코드 = ", data[index].regionCode);
-                    $option.value = data[index].regionCode;
-                    $option.textContent = data[index].district;
-
-                    console.log($option);
-
-                    $region.appendChild($option);
-                }
-            });
-
-        document.getElementById('signupButton').addEventListener('click', () => {
-            const regionCode = document.getElementById('region').value;
-            const userRole = document.getElementById('userRole');
-            const account = document.getElementById('account');
-            const nickname = document.getElementById('nickname');
-            const username = document.getElementById('username');
-            const phone = document.getElementById('phone');
-            const email = document.getElementById('email');
-
-            const userData = {
-                userRole,
-                account,
-                password,
-                username,
-                nickname,
-                phone,
-                email,
-                regionCode
-            };
-
-            console.log('회원가입 데이터 확인 : ', userData);
-
-            // document.getElementById('signupForm').submit();
-        })
-
-        const password = document.getElementById('password');
-        const checkPwd = document.getElementById('checkPwd');
-        const errorMsg2 = document.getElementById('errorMsg2');
-        const errorMsg4 = document.getElementById('errorMsg4');
-
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-
-            console.log('폼제출');
-
-            if(checkPwd.value !== password.value) {
-                event.preventDefault();
-                alert('비밀번호가 일치하지 않습니다.');
-                console.log('비밀번호 불일치');
-                return;
-            } else {
-                // this.submit();
-                console.log('비밀번호 일치');
-            }
-
-            const agree = document.getElementById('agree');
-            const errorMsg3 = document.getElementById('errorMsg3');
-
-
-            if(!agree.checked) {
-                // alert("약관에 동의해야 회원가입 진행이 가능합니다.");
-                event.preventDefault();
-                errorMsg3.style.display = 'block';
-                console.log('체크안함');
-            } else {
-                console.log('체크함');
-            }
-
-            const id = document.getElementById('account').value;
-            // const password = document.getElementById('password').value;
-
-            // 한글 포함 여부 검사
-            const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-            if (KoreanRegex.test(id) || KoreanRegex.test(password.value)) {
-                alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
-                event.preventDefault();
-                return;
-            } else {
-                // this.submit();
-            }
-
-            // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
-            // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
-            // .* 조건이 문자열 어디에나 위치할 수 있음
-            const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
-            if (!pwdRegex.test(password.value)) {
-                alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 8 ~ 10자 내로 입력해주세요.');
-                event.preventDefault();
-                return;
-            } else {
-                // this.submit();
-            }
-
-            // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
-            const firstNum = document.getElementById('signUpPhoneNum1').value;
-            const midNum = document.getElementById('signUpPhoneNum2').value;
-            const lastNum = document.getElementById('signUpPhoneNum3').value;
-            const phone = `${firstNum}-${midNum}-${lastNum}`;
-
-            const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-            if (!phoneNumRegex.test(phone)) {
-                alert('올바른 휴대전화번호를 입력해주세요.');
-                event.preventDefault();
-                return;
-            } else {
-                console.log('phone');
-                // this.submit();
-            }
-
-            if(!isAcctChecked) {
-                event.preventDefault();
-                alert('아이디 중복 확인 해주세요.');
-            } else {
-                alert("회원 가입 완료 되었습니다");
-            }
-
-
-        });
-
-        //     document.getElementById('signupForm').addEventListener('submit', function(event) {
-        //         event.preventDefault()
-        //
-        //         /* 입력 폼이 제출  */
-        //         const formData = new FormData(this);
-        //
-        //         // 전화번호를 하나의 필드로 결합
-        //         const phone = `${document.getElementById('signUpPhoneNum1').value}-${document.getElementById('signUpPhoneNum2').value}-${document.getElementById('signUpPhoneNum3').value}`;
-        //         formData.set('phone', phone);
-        //
-        //         // 이메일 필드 결합
-        //         const email = `${document.getElementById('signupEmailLocal').value}@${document.getElementById('signupEmailDomain').value}`;
-        //         formData.set('email', email);
-        //
-        //         console.log("User Role:", formData.get('userRole'));
-        //         console.log("Email:", formData.get('email'));
-        //         console.log("Phone:", formData.get('phone'));
-        //
-        //         // 회원 가입 완료 되면 로그인 페이지로 이동하게 만들어보자
-        //         // 코드 훔치삼~!!~!
-        //         const data = {};
-        //
-        //         formData.forEach((value, key) => {
-        //             // 값이 배열이면 조합해서 저장
-        //             if (data[key]) {
-        //                 if (!Array.isArray(data[key])) {
-        //                     data[key] = [data[key]];
-        //                 }
-        //                 data[key].push(value);
-        //             } else {
-        //                 data[key] = value;
-        //             }
-        //         });
-        //
-        //         fetch("/member/user/signup", {
-        //             method: "POST",
-        //             body: formData
-        //         })
-        //             .then(response => {
-        //                 return response.json()
-        //             }).then(data => {
-        //             console.log(data.status)
-        //             console.log(data.message)
-        //             console.log(data.status)
-        //             console.log(data.message)
-        //             if(data.status == "success") {
-        //                 alert("회원 가입 완료 되었습니다.")
-        //
-        //                 location.href='/member/auth/login'
-        //             } else {
-        //                 alert("[회원 가입 실패] 다시 시도해주세요.")
-        //             }
-        //         })
-        //             .catch(error => {
-        //                 console.log("[Error] " + error)
-        //                 alert("전송 중 오류가 발생했습니다.");
-        //             });
-        //
-        // });
-
-        let isAcctChecked = false;
-        //
-        // document.getElementById('checkAcct').addEventListener('click', function () {
-        //     isAcctChecked = true;
-        // });
-
-        document.getElementById('checkAcct').addEventListener('click', function() {
-            const account = document.getElementById('account').value;
-
-            fetch(`/member/user/checkAccount?account=${account}`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    const errorMsg1 = document.getElementById('errorMsg1');
-
-                    if(data.exists) {
-                        alert('이미 사용중인 아이디 입니다.');
-                    } else {
-                        errorMsg1.style.display = 'block';
-                    }
-
-                })
-                .catch(error => {
-                    console.error('error : ', error);
-                    const errorMsg1 = document.getElementById('errorMsg1');
-                    errorMsg1.textContent = '오류 발생';
+                if(data.exists) {
+                    alert('이미 사용중인 아이디 입니다.');
+                } else {
                     errorMsg1.style.display = 'block';
-                });
-            isAcctChecked = true;
-        });
+                }
 
-        document.getElementById('checkPwd').addEventListener('input', function(event) {
+            })
+            .catch(error => {
+                console.error('error : ', error);
+                const errorMsg1 = document.getElementById('errorMsg1');
+                errorMsg1.textContent = '오류 발생';
+                errorMsg1.style.display = 'block';
+            });
+        isAcctChecked = true;
+    });
 
-            if(checkPwd.value !== password.value) {
-                event.preventDefault();
-                errorMsg2.style.display = 'block';
-                errorMsg4.style.display = 'none';
-                console.log('다름');
-            } else {
-                errorMsg2.style.display = 'none';
-                errorMsg4.style.display = 'block';
-                console.log('일치');
-            }
+    document.getElementById('checkPwd').addEventListener('input', function(event) {
 
-        });
+        if(checkPwd.value !== password.value) {
+            event.preventDefault();
+            errorMsg2.style.display = 'block';
+            errorMsg4.style.display = 'none';
+            console.log('다름');
+        } else {
+            errorMsg2.style.display = 'none';
+            errorMsg4.style.display = 'block';
+            console.log('일치');
+        }
 
-        // 이메일 유효성 검사 및 @ 추가 확인?? (정규표현식 너무 어려움..)
-        // id로 signupEmailLocal 요소 끄집어 와서 에드리스너 멕여주기(받을 이벤트 종류를 문자열로, 이벤트 발생했을 때 호출 될 콜백함수)
-        document.getElementById('signupEmailLocal').addEventListener('input', function () {
-            const local = document.getElementById('signupEmailLocal').value;
-            const domain = document.getElementById('signupEmailDomain').value;
-            const email = `${local}@${domain}`;	// 합쳐서 이메일 완성 챠란~!
+    });
 
-            // 이메일 형식 검사?? (로컬 + @ + 도메인)
-            // {2,} 도메인 확장자가 최소 두 문자 이상이어야 함 : example.c 불가능한 example.com 가능한
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-            if (emailRegex.test(email)) {
-                console.log(`Valid Email : ${email}`);
-            } else {
-                console.log(`Invalid Email Format`)
-            }
-        });
+    // 이메일 유효성 검사 및 @ 추가 확인?? (정규표현식 너무 어려움..)
+    // id로 signupEmailLocal 요소 끄집어 와서 에드리스너 멕여주기(받을 이벤트 종류를 문자열로, 이벤트 발생했을 때 호출 될 콜백함수)
+    document.getElementById('signupEmailLocal').addEventListener('input', function () {
+        const local = document.getElementById('signupEmailLocal').value;
+        const domain = document.getElementById('signupEmailDomain').value;
+        const email = `${local}@${domain}`;	// 합쳐서 이메일 완성 챠란~!
 
-        // 회원가입 시 아이디와 비밀번호 유효성 검사
-        // preventDefault 브라우저가 수행하는 동작을 방지
-        document.getElementById('signupForm').addEventListener('submit', function (e) {
-            // e.preventDefault();
+        // 이메일 형식 검사?? (로컬 + @ + 도메인)
+        // {2,} 도메인 확장자가 최소 두 문자 이상이어야 함 : example.c 불가능한 example.com 가능한
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (emailRegex.test(email)) {
+            console.log(`Valid Email : ${email}`);
+        } else {
+            console.log(`Invalid Email Format`)
+        }
+    });
 
-            // const id = document.getElementById('account').value;
-            // const password = document.getElementById('password').value;
-            //
-            // // 한글 포함 여부 검사
-            // const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-            // if (KoreanRegex.test(id) || KoreanRegex.test(password)) {
-            //     alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
-            //     e.preventDefault();
-            //     return;
-            // } else {
-            //     // this.submit();
-            // }
-            //
-            // // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
-            // // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
-            // // .* 조건이 문자열 어디에나 위치할 수 있음
-            // const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
-            // if (!pwdRegex.test(password)) {
-            //     alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 8 ~ 10자 내로 입력해주세요.');
-            //     e.preventDefault();
-            //     return;
-            // } else {
-            //     // this.submit();
-            // }
-            //
-            // // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
-            // const firstNum = document.getElementById('signUpPhoneNum1').value;
-            // const midNum = document.getElementById('signUpPhoneNum2').value;
-            // const lastNum = document.getElementById('signUpPhoneNum3').value;
-            // const phone = `${firstNum}-${midNum}-${lastNum}`;
-            //
-            // const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-            // if (!phoneNumRegex.test(phone)) {
-            //     alert('올바른 휴대전화번호를 입력해주세요.');
-            //     e.preventDefault();
-            //     return;
-            // } else {
-            //     console.log('phone');
-            //     // this.submit();
-            // }
-            //
-            // if(!isAcctChecked) {
-            //     e.preventDefault();
-            //     alert('아이디 중복 확인 해주세요.');
-            // }
+    // 회원가입 시 아이디와 비밀번호 유효성 검사
+    // preventDefault 브라우저가 수행하는 동작을 방지
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+        // e.preventDefault();
 
-        });
+        // const id = document.getElementById('account').value;
+        // const password = document.getElementById('password').value;
+        //
+        // // 한글 포함 여부 검사
+        // const KoreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        // if (KoreanRegex.test(id) || KoreanRegex.test(password)) {
+        //     alert('아이디와 비밀번호에는 한글을 입력할 수 없습니다.');
+        //     e.preventDefault();
+        //     return;
+        // } else {
+        //     // this.submit();
+        // }
+        //
+        // // 비밀번호 유효성 검사 (소문자, 숫자, 특수문자 포함 8자리 이상)
+        // // (?=) 전방 탐색을 이용하여 문자열 어딘가에 조건이 있는지 확인
+        // // .* 조건이 문자열 어디에나 위치할 수 있음
+        // const pwdRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@!$%*&?])[a-z\d@!$%*&?]{8,}$/;
+        // if (!pwdRegex.test(password)) {
+        //     alert('비밀번호는 소문자, 숫자, 특수문자를 포함하여 8 ~ 10자 내로 입력해주세요.');
+        //     e.preventDefault();
+        //     return;
+        // } else {
+        //     // this.submit();
+        // }
+        //
+        // // 휴대전화 유효성 검사 ( 세자리-세자리 혹은 네자리-네자리 : nnn-nnn(n)-nnnn)
+        // const firstNum = document.getElementById('signUpPhoneNum1').value;
+        // const midNum = document.getElementById('signUpPhoneNum2').value;
+        // const lastNum = document.getElementById('signUpPhoneNum3').value;
+        // const phone = `${firstNum}-${midNum}-${lastNum}`;
+        //
+        // const phoneNumRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+        // if (!phoneNumRegex.test(phone)) {
+        //     alert('올바른 휴대전화번호를 입력해주세요.');
+        //     e.preventDefault();
+        //     return;
+        // } else {
+        //     console.log('phone');
+        //     // this.submit();
+        // }
+        //
+        // if(!isAcctChecked) {
+        //     e.preventDefault();
+        //     alert('아이디 중복 확인 해주세요.');
+        // }
 
-        const button = document.getElementById('toggle');
-        const content = document.getElementById('content');
+    });
 
-        button.addEventListener('click', () => {
-            if(content.style.display === 'none') {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'none';
-            }
-        });
+    const button = document.getElementById('toggle');
+    const content = document.getElementById('content');
 
-    </script>
+    button.addEventListener('click', () => {
+        if(content.style.display === 'none') {
+            content.style.display = 'block';
+        } else {
+            content.style.display = 'none';
+        }
+    });
+
+</script>
 
 </body>
 </html>

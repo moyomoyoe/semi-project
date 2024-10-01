@@ -44,14 +44,15 @@
 <body>
 <!-- 상단 네비게이션 -->
 <div class="header">
-    <div class="header-left">
+    <div class="header-left" id="header-logo">
         <h1>모여모여</h1>
         <span>📍 in ○○구</span>
     </div>
-    <div class="header-right">
-        <span>nickname (로그인시 전환)</span>
+    <div th:if="${userSession != null}" class="header-right">
+        <span th:text="${ userSession.nickname }"></span>
         <img src="https://via.placeholder.com/30" alt="User Icon">
     </div>
 </div>
+
 </body>
 </html>
