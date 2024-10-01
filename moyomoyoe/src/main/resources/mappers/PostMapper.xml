@@ -249,14 +249,12 @@
 
     <select id="getImageById" resultMap="imageResultMap">
         SELECT
-        a.image_id,
-        a.image_name
+        image_id,
+        image_name
         FROM
-        tbl_image a
-        JOIN
-        tbl_post_list b ON b.image_id = a.image_id
+        tbl_image
         WHERE
-        b.post_id = #{ postId }
+        image_id = #{ imageId }
     </select>
 
     <!-- 게시글 수정 -->

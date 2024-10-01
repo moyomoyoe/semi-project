@@ -147,13 +147,18 @@ public class PostController {
 
         // 현재 로그인한 사용자 정보 가져오기
         Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authPost = " + authPost);
+        System.out.println("authPost 1번출력= " + authPost);
+
+        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
+        int loggedInUserId = userDTO.getId();
+        String loggedInNickname = userDTO.getNickname();
 
         // postId에 맞는 게시글 상세 정보를 조회
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
         ImageDTO imageDTO = postService.getImageById(getDetailPost.getImageId());
+        System.out.println("imageDTO = " + imageDTO);
 
         if (imageDTO == null || imageDTO.getImageName() == null) {
             // 기본 이미지를 설정
@@ -161,7 +166,7 @@ public class PostController {
             imageDTO.setImageName("/static/image/image1.png"); // 기본 이미지 경로 설정
         }
 
-        System.out.println("authPost = " + authPost);
+        System.out.println("authPost 2번출력= " + authPost);
 
         // 비회원이지만 게시글이 비회원 열람 가능 (userOpen이 true)인 경우 접근 허용
         if (authPost == null || !authPost.isAuthenticated() || authPost.getPrincipal().equals("anonymousUser")) {
@@ -174,16 +179,10 @@ public class PostController {
             // userOpen이 true이면 비회원도 접근 허용
             model.addAttribute("detailPost", getDetailPost);
             model.addAttribute("detailPostComment", detailPostComment);
+            model.addAttribute("imageDTO", imageDTO);
             return "board/detailpost";
         }
 
-        // 세션에서 사용자 정보 가져오기
-        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
-        String loggedInNickname = (String) session.getAttribute("loggedInNickname");
-
-
-        // 인증된 사용자의 정보 가져오기 (UserDTO로 캐스팅)
-        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
         // 게시글 작성자와 로그인한 사용자 정보 전달
         int postOwnerId = getDetailPost.getUserId();  // 게시글 작성자의 ID
 
