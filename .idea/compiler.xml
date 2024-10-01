@@ -3,8 +3,6 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="com.moyomoyoe.moyomoyoe" target="17" />
-      <module name="com.moyomoyoe.moyomoyoe.main" target="17" />
-      <module name="com.moyomoyoe.moyomoyoe.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

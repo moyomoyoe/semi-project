@@ -4,6 +4,7 @@ import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
+import moyomoyoe.image.ImageDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -47,4 +48,10 @@ public interface PostMapper {
 
     // 게시글 댓글 삭제
     void deleteComment(int commentId);
+
+    // 게시글 댓글 삭제 권한
+    CommentDTO findCommentById(int commentId);
+
+    // 이미지 첨부
+    void registImage(ImageDTO newImage);
 }
