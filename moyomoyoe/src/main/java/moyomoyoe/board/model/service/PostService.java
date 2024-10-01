@@ -62,6 +62,8 @@ public class PostService {
         return postMapper.findDetailPostById(postId);
     }
 
+
+
     // postId 별 댓글 목록
     public List<CommentDTO> detailPostComment(int postId) {
         return postMapper.detailPostComment(postId);
@@ -73,18 +75,15 @@ public class PostService {
         postMapper.deletePost(postId);
     }
 
-
-
+    // 댓글 입력
     @Transactional
     public void comment(CommentDTO commentDTO) {
         postMapper.comment(commentDTO);
     }
 
-
     // 게시글 등록
     @Transactional
     public int createPost(PostDTO postDTO) {
-
         postMapper.insertPost(postDTO);
         return postDTO.getPostId();
     }
@@ -96,6 +95,7 @@ public class PostService {
         postMapper.updatePost(postDTO);
     }
 
+    // 댓글 삭제
     @Transactional
     public void deleteComment(int commentId) {
 

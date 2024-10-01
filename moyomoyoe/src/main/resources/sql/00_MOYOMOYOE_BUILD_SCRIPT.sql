@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS tbl_reservation
 ) ENGINE = INNODB COMMENT '예약';
 
 INSERT INTO tbl_image (image_name)
-VALUES ('/static/image1.png');
+VALUES ('/static/image/image1.png');
 
 INSERT INTO tbl_keyword_id (keyword_name)
 VALUES ('영화'),

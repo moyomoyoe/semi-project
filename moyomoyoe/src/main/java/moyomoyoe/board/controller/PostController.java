@@ -8,6 +8,7 @@ import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.board.model.service.PostService;
 import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.auth.model.service.AuthService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.logging.LoggerFactory;
@@ -124,31 +125,39 @@ public class PostController {
     @GetMapping("/detailpost/{postId}")
     public String getDetailPost(@PathVariable("postId") int postId,
                                 Model model,
+                                HttpSession session,
                                 RedirectAttributes rAttr){
 
-        // 현재 로그인한 사용자 정보 가져오기 (SecurityContextHolder 사용)
+        // 현재 로그인한 사용자 정보 가져오기
         Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("authPost = " + authPost);
-
-        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
-        int loggedInUserId = userDTO.getId();
-        String loggedInNickname = userDTO.getNickname();
 
         // postId에 맞는 게시글 상세 정보를 조회
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
-
         System.out.println("authPost = " + authPost);
 
-        if (authPost ==  null&& !getDetailPost.getUserOpen()){
-
-            System.out.println("로그인 후 접근 가능합니다.");
-
-            model.addAttribute("userOpenError", "로그인 후 접근 가능합니다.");
-
-            return "redirect:/board/mainSearchList";
+        // 비회원이지만 게시글이 비회원 열람 가능 (userOpen이 true)인 경우 접근 허용
+        if (authPost == null || !authPost.isAuthenticated() || authPost.getPrincipal().equals("anonymousUser")) {
+            if (!getDetailPost.getUserOpen()) {
+                // userOpen이 false인 경우, 로그인 요구
+                System.out.println("로그인 후 접근 가능합니다.");
+                rAttr.addFlashAttribute("userOpenError", "로그인 후 접근 가능합니다.");
+                return "redirect:/board/searchList";
+            }
+            // userOpen이 true이면 비회원도 접근 허용
+            model.addAttribute("detailPost", getDetailPost);
+            model.addAttribute("detailPostComment", detailPostComment);
+            return "board/detailpost";
         }
 
+        // 세션에서 사용자 정보 가져오기
+        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+        String loggedInNickname = (String) session.getAttribute("loggedInNickname");
+
+
+        // 인증된 사용자의 정보 가져오기 (UserDTO로 캐스팅)
+        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
         // 게시글 작성자와 로그인한 사용자 정보 전달
         int postOwnerId = getDetailPost.getUserId();  // 게시글 작성자의 ID
 
@@ -156,10 +165,10 @@ public class PostController {
         model.addAttribute("loggedInNickname", loggedInNickname);
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
-        model.addAttribute("postOwnerId", postOwnerId);  // 게시글 작성자 ID 전달
+        model.addAttribute("postOwnerId", postOwnerId);
 
         // detailpost.html로 데이터 전달 및 렌더링
-        return "board/detailpost";  // board/detailpost.html 파일로 이동
+        return "board/detailpost";
     }
 
     // postId 별 세부 게시글 삭제

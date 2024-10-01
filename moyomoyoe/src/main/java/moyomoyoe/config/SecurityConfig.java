@@ -1,5 +1,6 @@
 package moyomoyoe.config;
 
+import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.member.auth.model.UserRole;
 import moyomoyoe.member.exception.AuthFailHandler;
 import moyomoyoe.member.exception.AuthSuccessHandler;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -61,13 +63,13 @@ public class SecurityConfig {
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/business/*").hasAnyAuthority(UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
-            auth.requestMatchers("/board/detailpost/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
-            auth.requestMatchers(HttpMethod.POST, "/board/detailpost/delete/**").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll();
-//            // 게시글 삭제 요청 권한 설정 (일반 사용자, 관리자)
-//            auth.requestMatchers(HttpMethod.POST, "/board/detailpost/delete/**").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
-            // 추가: /board/searchlist에 대한 접근을 모두 허용
-            auth.requestMatchers("/board/searchlist").permitAll();  // 이 경로는 모두 접근 가능
+            auth.requestMatchers(HttpMethod.POST, "/board/detailpost/delete/**").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
+
+            // 특정 HTML 파일에 대한 접근을 모두 허용
+            auth.requestMatchers("/board/keywordName", "/board/keywordlist", "/board/latestlist", "/board/api/regionlist/cities","/board/api/regionlist/districts", "/board/regionlist", "/board/searchlist", "/board/titlelist").permitAll();
+            auth.requestMatchers("/board/detailpost/*").permitAll();
+
             auth.anyRequest().authenticated();
         }).formLogin(login -> {
             login.loginPage("/member/auth/login");
