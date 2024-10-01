@@ -8,6 +8,8 @@
 registstore
 <form id="storeForm" th:action="@{/reservation/schedule/regist/store}" th:object="${store}" method="post">
     <div>
+        <img th:src="${ img }" alt="업로드 파일" width="100" height="100">
+        파일 : <input type="file" name="singleFile"><br>
         <label for="storeId" > 상가 번호 </label>
         <input type="hidden" id="storeId" th:field="*{storeId}">
         <label for="name">상호명 :</label>
@@ -39,6 +41,7 @@ registstore
 </body>
 <script th:inline="javascript">
     const userId = /*[[${userId}]]*/ 0;
+
     document.getElementById("storeForm").addEventListener("submit", function(event) {
         event.preventDefault(); // 기본 제출 이벤트 방지
 
@@ -48,6 +51,7 @@ registstore
         const data = Object.fromEntries(formData.entries());
         const userId =  formData.get('userId');
         console.log(userId)
+        fetch("")
 
         fetch("/reservation/schedule/regist/store", {
             method: "POST",
@@ -60,11 +64,7 @@ registstore
                 console.log(response)
                 return response.json()
             }).then(data=>{
-            console.log(data.status)
-            console.log(data.message)
-            console.log(data.status)
-            console.log(data.message)
-            if(data.status== "success"){
+            if(data.status == "success"){
                 console.log(userId)
                 alert("일정 수정 성공")
 
