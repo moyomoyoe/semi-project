@@ -17,6 +17,11 @@
         <result property="keywordId" column="keyword_id"/>
     </resultMap>
 
+    <resultMap id="imageResultMap" type="moyomoyoe.image.ImageDTO">
+        <id property="imageId" column="image_id"/>
+        <result property="imageName" column="image_name"/>
+    </resultMap>
+
     <resultMap id="keywordResultMap" type="moyomoyoe.board.model.dto.KeywordDTO">
         <id property="keywordId" column="keyword_id"/>
         <result property="keywordName" column="keyword_name"/>
@@ -134,6 +139,8 @@
             title LIKE CONCAT('%', #{title}, '%')
     </select>
 
+
+
     <!--세부게시글페이지-->
     <select id="findDetailPostById" resultMap="postResultMap">
         SELECT
@@ -145,6 +152,7 @@
             user_open,
             image_id,
             user_id,
+            region_code,
             keyword_id
         FROM
             tbl_post_list
@@ -225,6 +233,31 @@
         #{keywordId}
         )
     </insert>
+
+    <!-- 이미지 첨부 -->
+    <insert id="registImage" parameterType="moyomoyoe.image.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+        INSERT INTO
+        tbl_image
+        (
+        image_name
+        )
+        VALUES
+        (
+        #{imageName}
+        )
+    </insert>
+
+    <select id="getImageById" resultMap="imageResultMap">
+        SELECT
+        a.image_id,
+        a.image_name
+        FROM
+        tbl_image a
+        JOIN
+        tbl_post_list b ON b.image_id = a.image_id
+        WHERE
+        b.post_id = #{ postId }
+    </select>
 
     <!-- 게시글 수정 -->
     <update id="updatePost" parameterType="moyomoyoe.board.model.dto.PostDTO">

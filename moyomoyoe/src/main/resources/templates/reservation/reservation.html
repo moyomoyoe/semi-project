@@ -91,7 +91,7 @@
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/reservation/submit">
             <!-- CSRF Token 설정 (Spring Security가 활성화된 경우) -->
-            <input type="hidden" id="storeId" name="storeId" th:value="${store.storeId}">
+            <input type="hidden" id="storeId" name="storeId" th:value="${store.storeId}" />
 
             <div class="form-group">
                 <label for="name">이름</label>
@@ -104,16 +104,8 @@
             </div>
 
             <div class="form-group">
-                <label for="peopleCount">인원수</label>
-                <select id="peopleCount" name="capacity" class="form-control" required>
-                    <option value="">인원수를 선택하세요</option>
-                    <option value="1">1명</option>
-                    <option value="2">2명</option>
-                    <option value="3">3명</option>
-                    <option value="4">4명</option>
-                    <option value="5">5명</option>
-                    <option value="6">6명</option>
-                </select>
+                <label for="capacity">인원수</label>
+                <input min="1" id="capacity" type="number" class="form-control" name="capacity" value="5" required> <label>명</label>
             </div>
 
             <input type="hidden" id="date" name="date">
@@ -123,17 +115,6 @@
 
             <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
         </form>
-
-        </form>
-    </section>
-    <section id="step3" class="hidden">
-        <h2>예약이 완료되었습니다.</h2>
-        <p>예약 정보:</p>
-        <p>가게명: <span id="confirm-store">업체명 1</span></p>
-        <p>예약자명: <span id="confirm-name"></span></p>
-        <p>예약 날짜: <span id="confirm-date"></span></p>
-        <p>예약 시간: <span id="confirm-time"></span></p>
-        <button type="button" id="finish-button" class="btn btn-secondary">처음으로</button>
     </section>
 </main>
 
@@ -142,19 +123,49 @@
     let selectedTimes = [];
     let reservedTimes = [];
 
-    const fetchReservedTimes = (date) => {
-        let storeId = $('#storeId').val();
-        console.log('Fetching reserved times for storeId: ', storeId); // 디버깅을 위해 추가
+    const fetchReservedTimes = (date, storeId) => {
+        console.log('Fetching reserved times for storeId: ', storeId);
         return $.ajax({
-            url: '/reservation/getReservedTimes',
+            url: '/reservation/schedules/' + storeId,
             type: 'GET',
-            data: { date: date, storeId: storeId },
+            data: { date: date },
             success: function (data) {
-                reservedTimes = data.map(time => time.slice(0, 5));
+                reservedTimes = data.map(schedule => {
+                    return {
+                        startTime: schedule.startTime,
+                        endTime: schedule.endTime,
+                        capacity: schedule.capacity
+                    };
+                });
+                displayTimeSlots();
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching reserved times:', error); // 에러 로그 추가
             }
+        });
+    };
+
+    const displayTimeSlots = () => {
+        $('#time-slots').empty();
+        reservedTimes.forEach(schedule => {
+            const timeSlot = `${schedule.startTime} ~ ${schedule.endTime} (수용인원: ${schedule.capacity}명)`;
+            const isDisabled = false;  // 예약이 가능한 시간
+
+            const timeButton = $('<button></button>')
+                .text(timeSlot)
+                .addClass('btn btn-outline-primary')
+                .toggleClass('disabled', isDisabled)
+                .prop('disabled', isDisabled)
+                .click(function () {
+                    $(this).toggleClass('active');
+                    if ($(this).hasClass('active')) {
+                        selectedTimes.push(schedule.startTime);
+                    } else {
+                        selectedTimes = selectedTimes.filter(t => t !== schedule.startTime);
+                    }
+                    $('#selectedTimes').val(selectedTimes.join(','));
+                });
+            $('#time-slots').append(timeButton);
         });
     };
 
@@ -176,37 +187,19 @@
                 return {html: arg.dayNumberText.replace('일', '')};
             },
             dateClick: function (info) {
+                // 날짜를 클릭했을 때 실행되는 부분
                 selectedDate = info.dateStr;
                 $('#date').val(selectedDate);
 
-                fetchReservedTimes(selectedDate).then(() => {
-                    const startTime = 9;
-                    const endTime = 18;
-                    $('#time-slots').empty();
+                // storeId 가져오기
+                const storeId = $('#storeId').val();  // Store ID를 가져옴
 
-                    for (let hour = startTime; hour <= endTime; hour++) {
-                        const timeSlot = `${hour}:00`;
-                        const isDisabled = reservedTimes.includes(timeSlot);
-
-                        const timeButton = $('<button></button>')
-                            .text(timeSlot)
-                            .addClass('btn btn-outline-primary')
-                            .toggleClass('disabled', isDisabled)
-                            .prop('disabled', isDisabled)
-                            .click(function () {
-                                if (!$(this).hasClass('disabled')) {
-                                    $(this).toggleClass('active');
-                                    if ($(this).hasClass('active')) {
-                                        selectedTimes.push(timeSlot);
-                                    } else {
-                                        selectedTimes = selectedTimes.filter(t => t !== timeSlot);
-                                    }
-                                    $('#selectedTimes').val(selectedTimes.join(','));
-                                }
-                            });
-                        $('#time-slots').append(timeButton);
-                    }
-                });
+                // 예약된 시간 가져오기
+                if (storeId) {
+                    fetchReservedTimes(selectedDate, storeId);
+                } else {
+                    console.error('Store ID가 설정되지 않았습니다.');
+                }
             }
         });
         calendar.render();

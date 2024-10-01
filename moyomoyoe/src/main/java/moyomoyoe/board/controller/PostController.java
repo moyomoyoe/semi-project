@@ -2,11 +2,9 @@ package moyomoyoe.board.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import moyomoyoe.board.model.dto.CommentDTO;
-import moyomoyoe.board.model.dto.KeywordDTO;
-import moyomoyoe.board.model.dto.PostDTO;
-import moyomoyoe.board.model.dto.RegionDTO;
+import moyomoyoe.board.model.dto.*;
 import moyomoyoe.board.model.service.PostService;
+import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import moyomoyoe.member.auth.model.service.AuthService;
 import org.apache.logging.log4j.LogManager;
@@ -14,18 +12,34 @@ import org.apache.logging.log4j.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/board")
@@ -34,11 +48,14 @@ public class PostController {
     private static final Logger logger = LogManager.getLogger(PostController.class);
     private final PostService postService;
     private final MessageSource messageSource;
+    private final ImageController imageController;
+
 
     @Autowired
-    public PostController(PostService postService, MessageSource messageSource) {
+    public PostController(PostService postService, MessageSource messageSource, ImageController imageController) {
         this.postService = postService;
         this.messageSource = messageSource;
+        this.imageController = imageController;
     }
 
     //searchlist.html 연결 Controller
@@ -135,6 +152,15 @@ public class PostController {
         // postId에 맞는 게시글 상세 정보를 조회
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
+
+        ImageDTO imageDTO = postService.getImageById(getDetailPost.getImageId());
+
+        if (imageDTO == null || imageDTO.getImageName() == null) {
+            // 기본 이미지를 설정
+            imageDTO = new ImageDTO();
+            imageDTO.setImageName("/static/image/image1.png"); // 기본 이미지 경로 설정
+        }
+
         System.out.println("authPost = " + authPost);
 
         // 비회원이지만 게시글이 비회원 열람 가능 (userOpen이 true)인 경우 접근 허용
@@ -165,6 +191,7 @@ public class PostController {
         model.addAttribute("loggedInNickname", loggedInNickname);
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
+        model.addAttribute("imageDTO", imageDTO);
         model.addAttribute("postOwnerId", postOwnerId);
 
         // detailpost.html로 데이터 전달 및 렌더링
@@ -231,6 +258,9 @@ public class PostController {
         return "redirect:/board/detailpost/" + postId;
     }
 
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     // 게시글 등록 페이지 이동
     @GetMapping("/createpost")
     public String showCreatePost(Model model, Principal principal, RedirectAttributes rAttr){
@@ -246,7 +276,11 @@ public class PostController {
 
     // 게시글 등록 후 상세페이지로 이동
     @PostMapping("/createpost")
-    public String createPost(@ModelAttribute PostDTO postDTO, RedirectAttributes rAttr){
+    public String createPost(@ModelAttribute PostDTO postDTO,
+                             RedirectAttributes rAttr,
+                             @RequestParam(required = false, name = "singleFile") MultipartFile singleFile,
+                             @ModelAttribute ImageDTO newImage,
+                             HttpServletRequest req) throws IOException {
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -257,6 +291,82 @@ public class PostController {
 
         postDTO.setUserId(userId);
         postDTO.setNickname(nickname);
+
+        if(singleFile == null || singleFile.isEmpty()) {
+            postDTO.setImageId(postDTO.getImageId());
+        } else {
+            System.out.println("[[파일 확인?]] = " + singleFile);
+
+            Resource resource = resourceLoader.getResource("/static/image/");
+            System.out.println("경로 확인쓰 = " + resource);
+
+            String filePath = null;
+
+            if (!resource.exists()) {
+
+                //경로 없을 때
+                String root = "src/main/resources/static/image/";
+
+                File file = new File(root);
+                file.mkdirs();
+
+                filePath = file.getAbsolutePath();
+            } else {
+
+                // 경로 있을 때
+                filePath = resourceLoader.getResource("/static/image/")
+                        .getFile()
+                        .getAbsolutePath();
+            }
+
+            System.out.println("파일 업로드 경로 확인용~" + filePath);
+
+            String originalFileName = singleFile.getOriginalFilename();
+            System.out.println("원본 파일 이름요 = " + originalFileName);
+
+            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+            System.out.println("파일 확장자요 = " + extension);
+
+            String savedName = UUID.randomUUID().toString().replace("-", "") + extension;
+            System.out.println("저장 될 파일 이름요 = " + savedName);
+
+            boolean isFileSave = false;
+
+            try {
+                singleFile.transferTo(new File(filePath + "/" + savedName));
+
+                File savedFile = new File(filePath + "/" + savedName);
+
+                if(savedFile.exists()) {
+                    // 파일 저장 완?
+                    isFileSave = true;
+                    newImage.setImageName("/static/image/" + savedName);
+                    newImage.setImageId(postDTO.getImageId());
+                } else {
+                    System.out.println("파일 저장 안 됨!");
+                }
+
+                if(isFileSave) {
+
+                    postService.registImage(newImage);
+
+                    postDTO.setImageId(newImage.getImageId());
+
+                    System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
+                    System.out.println("업로드 성공!");
+
+                } else {
+                    System.out.println("[DB 저장 안 됨!!] : 경로에 파일 없음");
+                }
+
+            } catch (IOException e) {
+                new File(filePath + "/" + savedName).delete();
+                System.out.println("업로드 실패!");
+
+                e.printStackTrace();
+
+            }
+        }
 
         int postId = postService.createPost(postDTO);
 
@@ -271,7 +381,8 @@ public class PostController {
 
     // 게시글 수정 페이지 이동
     @GetMapping("/editpost/{postId}")
-    public String editPostForm(@PathVariable("postId") int postId, Model model){
+    public String editPostForm(@PathVariable("postId") int postId,
+                               Model model){
 
         PostDTO postDTO = postService.findDetailPostById(postId);
         model.addAttribute("postDTO", postDTO);
@@ -285,14 +396,96 @@ public class PostController {
 
     // 게시글 수정 후 상세페이지로 이동
     @PostMapping("/editpost/{postId}")
-    public String updatePost(@PathVariable("postId") int postId, @ModelAttribute PostDTO postDTO, Authentication authentication, RedirectAttributes rAttr){
+    public String updatePost(@PathVariable("postId") int postId,
+                             @ModelAttribute PostDTO postDTO,
+                             Authentication authentication,
+                             RedirectAttributes rAttr,
+                             @ModelAttribute ImageDTO newImage,
+                             @RequestParam(required = false, name = "singleFile") MultipartFile singleFile) throws IOException {
 
         UserDTO userDTO = (UserDTO) authentication.getPrincipal();
 
         postDTO.setUserId(userDTO.getId());
         postDTO.setNickname(userDTO.getNickname());
-
         postDTO.setPostId(postId);
+
+        if(singleFile == null || singleFile.isEmpty()) {
+            postDTO.setImageId(postDTO.getImageId());
+        } else {
+            System.out.println("[[파일 확인?]] = " + singleFile);
+
+            Resource resource = resourceLoader.getResource("/static/image/");
+            System.out.println("경로 확인쓰 = " + resource);
+
+            String filePath = null;
+
+            if (!resource.exists()) {
+
+                //경로 없을 때
+                String root = "src/main/resources/static/image/";
+
+                File file = new File(root);
+                file.mkdirs();
+
+                filePath = file.getAbsolutePath();
+            } else {
+
+                // 경로 있을 때
+                filePath = resourceLoader.getResource("/static/image/")
+                        .getFile()
+                        .getAbsolutePath();
+            }
+
+            System.out.println("파일 업로드 경로 확인용~" + filePath);
+
+            String originalFileName = singleFile.getOriginalFilename();
+            System.out.println("원본 파일 이름요 = " + originalFileName);
+
+            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+            System.out.println("파일 확장자요 = " + extension);
+
+            String savedName = UUID.randomUUID().toString().replace("-", "") + extension;
+            System.out.println("저장 될 파일 이름요 = " + savedName);
+
+            boolean isFileSave = false;
+
+            try {
+                singleFile.transferTo(new File(filePath + "/" + savedName));
+
+                File savedFile = new File(filePath + "/" + savedName);
+
+                if(savedFile.exists()) {
+                    // 파일 저장 완?
+                    isFileSave = true;
+                    newImage.setImageName("/static/image/" + savedName);
+                    newImage.setImageId(postDTO.getImageId());
+                } else {
+                    System.out.println("파일 저장 안 됨!");
+                }
+
+                if(isFileSave) {
+
+                    postService.registImage(newImage);
+
+                    postDTO.setImageId(newImage.getImageId());
+
+                    System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
+                    System.out.println("업로드 성공!");
+
+                } else {
+                    System.out.println("[DB 저장 안 됨!!] : 경로에 파일 없음");
+                }
+
+            } catch (IOException e) {
+                new File(filePath + "/" + savedName).delete();
+
+                System.out.println("업로드 실패!");
+
+                e.printStackTrace();
+
+            }
+        }
+
         postService.updatePost(postDTO);
 
         rAttr.addFlashAttribute("successmessage", "게시글이 수정되었습니다.");

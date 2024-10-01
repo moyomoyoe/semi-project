@@ -929,7 +929,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
     </schema>
     <schema id="289" parent="1" name="moyomoyoedb">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-10-01.00:49:13</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-10-01.09:00:53</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="performance_schema">
@@ -1020,6 +1020,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
     </column>
     <foreign-key id="307" parent="292" name="fk_post_id">
       <ColNames>post_id</ColNames>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>post_id</RefColNames>
       <RefTableName>tbl_post_list</RefTableName>
     </foreign-key>
@@ -1469,30 +1470,37 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <DasType>int|0s</DasType>
       <Position>10</Position>
     </column>
-    <foreign-key id="390" parent="300" name="img_id">
+    <column id="390" parent="300" name="is_active">
+      <Comment>활성화여부</Comment>
+      <DasType>char(1)|0s</DasType>
+      <DefaultExpression>&apos;Y&apos;</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>11</Position>
+    </column>
+    <foreign-key id="391" parent="300" name="img_id">
       <ColNames>image_id</ColNames>
       <RefColNames>image_id</RefColNames>
       <RefTableName>tbl_image</RefTableName>
     </foreign-key>
-    <foreign-key id="391" parent="300" name="user_region">
+    <foreign-key id="392" parent="300" name="user_region">
       <ColNames>user_region</ColNames>
       <RefColNames>region_code</RefColNames>
       <RefTableName>tbl_region</RefTableName>
     </foreign-key>
-    <index id="392" parent="300" name="PRIMARY">
+    <index id="393" parent="300" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="393" parent="300" name="img_id">
+    <index id="394" parent="300" name="img_id">
       <ColNames>image_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="394" parent="300" name="user_region">
+    <index id="395" parent="300" name="user_region">
       <ColNames>user_region</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="395" parent="300" name="PRIMARY">
+    <key id="396" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

@@ -14,6 +14,8 @@ public class AuthController {
     public ModelAndView loginFail(ModelAndView mv,
                                   @RequestParam String message) {
 
+        System.out.println("[로그인실패쓰] 왓니?");
+
         mv.addObject("message", message);
         mv.setViewName("member/auth/fail");
 

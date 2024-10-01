@@ -30,8 +30,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -50,6 +50,9 @@
     &quot;accountId&quot;: &quot;ab64bb26-f81c-4380-99c7-23d7ac0963d0&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 6
@@ -69,7 +72,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.MoyomoyoeApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;board&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging board&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/myWs/11_SpringBoot/chap06-fileupload&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -86,11 +89,15 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="moyomoyoe.member.user.model.dao" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static\font" />
       <recent name="C:\Users\hi\Downloads\laundrygothic_ttf\LaundryGothic_TTF" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\java\moyomoyoe\member\user\model\dto" />
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static\font" />
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\templates\board" />
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static" />
@@ -127,10 +134,35 @@
       <workItem from="1727674910489" duration="18945000" />
       <workItem from="1727695149958" duration="2569000" />
       <workItem from="1727742491806" duration="5573000" />
+      <workItem from="1727769792711" duration="2685000" />
+      <workItem from="1727772497759" duration="932000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="board" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

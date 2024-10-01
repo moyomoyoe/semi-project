@@ -32,31 +32,31 @@ public class AuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
 
         if(exception instanceof BadCredentialsException) {
 
-            errorMessage = "[인증실패] 아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.";
+            errorMessage = "아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.";
 
             System.out.println(errorMessage);
 
         } else if(exception instanceof InternalAuthenticationServiceException) {
 
-            errorMessage = "[인증실패] 서버에서 오류가 발생하였습니다.";
+            errorMessage = "서버에서 오류가 발생하였습니다.";
 
             System.out.println(errorMessage);
 
         } else if(exception instanceof UsernameNotFoundException) {
 
-            errorMessage = "[인증실패] 존재하지 않는 아이디 입니다.";
+            errorMessage = "존재하지 않는 아이디 입니다.";
 
             System.out.println(errorMessage);
 
         } else if(exception instanceof AuthenticationCredentialsNotFoundException) {
 
-            errorMessage = "[인증실패] 인증 요청이 거부 되었습니다.";
+            errorMessage = "인증 요청이 거부 되었습니다.";
 
             System.out.println(errorMessage);
 
         } else {
 
-            errorMessage = "[인증실패] 알 수 없는 오류로 로그인 요청을 처리할 수 없습니다.";
+            errorMessage = "알 수 없는 오류로 로그인 요청을 처리할 수 없습니다.";
 
             System.out.println(errorMessage);
 
@@ -64,7 +64,7 @@ public class AuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
 
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");
 
-        setDefaultFailureUrl("auth/fail?message = " + errorMessage);
+        setDefaultFailureUrl("/member/auth/fail?message=" + errorMessage);
 
         super.onAuthenticationFailure(request,response, exception);
 

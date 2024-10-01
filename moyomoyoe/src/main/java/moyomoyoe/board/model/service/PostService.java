@@ -1,13 +1,11 @@
 package moyomoyoe.board.model.service;
 
-import moyomoyoe.board.controller.PostController;
 import moyomoyoe.board.model.dao.PostMapper;
 import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import moyomoyoe.image.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,10 +57,9 @@ public class PostService {
 
     // postId 별 세부 게시글 내용
     public PostDTO findDetailPostById(int postId) {
+
         return postMapper.findDetailPostById(postId);
     }
-
-
 
     // postId 별 댓글 목록
     public List<CommentDTO> detailPostComment(int postId) {
@@ -81,9 +78,11 @@ public class PostService {
         postMapper.comment(commentDTO);
     }
 
+
     // 게시글 등록
     @Transactional
     public int createPost(PostDTO postDTO) {
+
         postMapper.insertPost(postDTO);
         return postDTO.getPostId();
     }
@@ -100,5 +99,19 @@ public class PostService {
     public void deleteComment(int commentId) {
 
         postMapper.deleteComment(commentId);
+    }
+
+    public CommentDTO findCommentById(int commentId) {
+
+        return postMapper.findCommentById(commentId);
+    }
+
+    public void registImage(ImageDTO newImage) {
+        postMapper.registImage(newImage);
+    }
+
+    public ImageDTO getImageById(int imageId) {
+
+        return postMapper.getImageById(imageId);
     }
 }

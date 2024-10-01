@@ -26,11 +26,18 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
+  freemarker:
+    cache: false
 
 ## mybatis config
 mybatis:
   mapper-locations: mappers/**/*.xml
-
-
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+## logging config for transaction
+logging:
+  level:
+    org:
+      springframework:
+        transaction: TRACE

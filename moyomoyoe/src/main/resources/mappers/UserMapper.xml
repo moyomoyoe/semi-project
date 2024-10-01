@@ -14,6 +14,7 @@
         <result property="phone" column="phone"/>
         <result property="userRole" column="user_role"/>
         <result property="imageId" column="image_id"/>
+        <result property="isActive" column="is_active"/>
     </resultMap>
 
     <resultMap id="regionResultMap" type="moyomoyoe.member.user.model.dto.RegionDTO">
@@ -44,7 +45,8 @@
         phone,
         user_role,
         image_id,
-        user_region
+        user_region,
+        is_active
         FROM
         tbl_user
         WHERE
@@ -94,6 +96,27 @@
         b.id = #{ id }
     </select>
 
+    <select id="findAccount" parameterType="moyomoyoe.member.user.model.dto.FindIdDTO">
+        SELECT
+        account
+        FROM
+        tbl_user
+        WHERE
+        username = #{ username } AND
+        email = #{ email } AND
+        is_active = 'Y'
+    </select>
+
+    <select id="findPwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
+        SELECT
+        password
+        FROM
+        tbl_user
+        WHERE
+        account = #{ account } AND
+        email = #{ email }
+    </select>
+
     <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
         INSERT INTO
         tbl_user
@@ -132,7 +155,6 @@
         (
         #{ imageName }
         )
-
     </insert>
 
     <update id="update" parameterType="moyomoyoe.member.auth.model.dto.UserDTO">
@@ -144,6 +166,24 @@
         phone = #{ phone },
         email = #{ email },
         image_id = #{ imageId }
+        WHERE
+        account = #{ account }
+    </update>
+
+    <update id="updatePwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
+        UPDATE
+        tbl_user
+        SET
+        password = #{ password }
+        WHERE
+        account = #{ account }
+    </update>
+
+    <update id="deleteUser" parameterType="String">
+        UPDATE
+        tbl_user
+        SET
+        is_active = 'N'
         WHERE
         account = #{ account }
     </update>

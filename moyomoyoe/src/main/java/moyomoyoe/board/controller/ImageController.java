@@ -1,12 +1,11 @@
-package moyomoyoe.member.user.controller;
+package moyomoyoe.board.controller;
 
+import moyomoyoe.board.model.service.PostService;
 import moyomoyoe.image.ImageDTO;
-import moyomoyoe.member.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,26 +16,24 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Controller
-public class FileUploadController {
+public class ImageController {
 
     @Autowired
     private ResourceLoader resourceLoader;
+
     @Autowired
-    private UserService userService;
+    private PostService postService;
 
-    @PostMapping("/member/user/single-file")
+    @PostMapping("/board/detailpost/single-file")
     public String singleFileUpload(@RequestParam MultipartFile singleFile,
-                                   RedirectAttributes rAttr,
-                                   @ModelAttribute ImageDTO newImage) throws IOException {
-
-        System.out.println("파일 확인? = " + singleFile);
+                                   @RequestParam ImageDTO newImage,
+                                   RedirectAttributes rAttr) throws IOException {
 
         Resource resource = resourceLoader.getResource("/static/image/");
-        System.out.println("경로 확인쓰 = " + resource);
 
         String filePath = null;
 
-        if(!resource.exists()) {
+        if (!resource.exists()) {
 
             //경로 없을 때
             String root = "src/main/resources/static/image/";
@@ -67,11 +64,7 @@ public class FileUploadController {
         try {
             singleFile.transferTo(new File(filePath + "/" + savedName));
 
-            newImage.setImageName("/static/image/" + savedName);
-
-            userService.registImage(newImage);
-
-            System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
+            postService.registImage(newImage);
 
             rAttr.addFlashAttribute("message", "성공");
             rAttr.addFlashAttribute("img", "/static/image/" + savedName);
@@ -88,7 +81,6 @@ public class FileUploadController {
             e.printStackTrace();
         }
 
-        return "redirect:/member/user/editInfo";
+        return "redirect:/board/createpost";
     }
-
 }
