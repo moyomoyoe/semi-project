@@ -63,6 +63,9 @@
         a.store_id = #{code}
         GROUP BY
         a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity
+        ORDER BY
+        a.start_time ASC;
+        ;
     </select>
 
     <!-- 사용자 ID로 스토어 ID 가져오기 -->
@@ -127,6 +130,20 @@
         SELECT res_id
         FROM tbl_reservation
         WHERE schedule_id = #{id}
+        ;
+    </select>
+    <select id="getImageId">
+        SELECT image_id
+        FROM tbl_image
+        WHERE
+        image_name = #{imageName}
+        ;
+    </select>
+    <select id="getImageById">
+        SELECT image_name
+        FROM tbl_image
+        WHERE
+        image_id = #{id}
         ;
     </select>
 
