@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f75677c4-462b-4626-adfe-debcf87c5181" name="Changes" comment="" />
+    <list default="true" id="f75677c4-462b-4626-adfe-debcf87c5181" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f474ad3b-9d07-4135-904a-5d991edc86b6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f474ad3b-9d07-4135-904a-5d991edc86b6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/board/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/board/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/fonts/laundrygothic Bold.woff" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/fonts/laundrygothicBold.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/fonts/laundrygothic Regular.woff" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/fonts/laundrygothicRegular.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/0ab030ae7cf4437f8afcae3653df9631.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/468a1192adab43d8baa6b420b0689320.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/503d80426ac2416888b882b4a2d94da9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/5fca6b9ef2bb478fb0854f4c7eb888dc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/c0ffb7ebab114d4c95a4364af9a22643.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/d4cf27c7eda54e579d256021702bba2b.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/f5ca95fff67441298bdae5ebec7d8a8c.png" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,32 +77,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build moyomoyoe.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.MoyomoyoeApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging board&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/myWs/11_SpringBoot/chap06-fileupload&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build moyomoyoe.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.MoyomoyoeApplication.executor": "Run",
+    "git-widget-placeholder": "board",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/최예진/Downloads/semi-project-board(보드에관응님올린거)",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="moyomoyoe.member.user.model.dao" />
@@ -117,8 +133,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
       </set>
     </attachedChunks>
   </component>
@@ -136,6 +152,7 @@
       <workItem from="1727742491806" duration="5573000" />
       <workItem from="1727769792711" duration="2685000" />
       <workItem from="1727772497759" duration="932000" />
+      <workItem from="1727796767200" duration="1548000" />
     </task>
     <servers />
   </component>

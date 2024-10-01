@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,50 +8,144 @@
         /* 상단 네비게이션 바 */
         .header {
             display: flex;
+            width: 100%;
+            height: 80px;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 20px;
             background-color: #ffffff;
             border-bottom: 1px solid #ddd;
+            box-sizing: border-box;
+            position: relative;
         }
+
+        .navbar {
+            position: absolute;
+            bottom: 0; /* 헤더의 하단에 위치 */
+            width: 100%; /* 전체 너비 차지 */
+            display: flex;
+            justify-content: center; /* 버튼들을 가로로 중앙 정렬 */
+            padding-bottom: 4px; /* 아래쪽에 약간의 패딩 */
+        }
+        .navbar ul {
+            list-style-type: none; /* 리스트 점 없애기 */
+            margin: 0;
+            padding: 0;
+            display: flex; /* 가로로 정렬 */
+            gap: 40px; /* 버튼 간의 간격 */
+        }
+        .navbar li {
+            margin-right: 40px; /* 두 메뉴 사이에 간격 추가 */
+        }
+
+        .nav-button {
+            background: #CAEEE7;
+            border: #6BAFA2 2px solid;
+            border-radius: 20px;
+            padding: 5px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
+            transition: background 0.3s ease, border-color 0.3s ease; /* 부드러운 전환 */
+
+        }
+
+        .nav-button:hover {
+            background: #B2DBD5;  /* 마우스를 올렸을 때 배경색 변경 */
+            border-color: #569387; /* 테두리 색상 변경 */
+        }
+
+        /*.header-left {*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*}*/
+
+        /*.header-left h1 {*/
+        /*    margin: 0;*/
+        /*    font-size: 28px;*/
+        /*}*/
 
         .header-left {
             display: flex;
-            align-items: center;
+            align-items: center; /* 수직 중앙 정렬 */
         }
-
+        /* h1과 span을 가로로 나란히 배치 */
         .header-left h1 {
-            margin: 0;
-            font-size: 24px;
+            margin-right: 5px; /* h1과 span 사이에 간격 추가 */
+            display: inline-block; /* h1을 블록에서 인라인으로 변경 */
+            font-size: 35px;
+        }
+        .header-left span {
+            display: inline-block;
+            font-size: 17px;
         }
 
+        /* 오른쪽 요소들을 가로로 정렬 */
         .header-right {
             display: flex;
-            align-items: center;
+            align-items: center; /* 수직으로 중앙 정렬 */
+            gap: 15px; /* 로그인, 회원가입, 로고 이미지 사이의 간격 */
         }
 
-        .header-right span {
-            margin-right: 15px;
+        /* 로그인/회원가입 버튼 가로 정렬 */
+        .auth-links {
+            display: flex;
+            gap: 15px; /* 로그인과 회원가입 사이의 간격 */
+            align-items: center;
         }
 
         .header-right img {
             width: 30px;
             height: 30px;
-            border-radius: 50%;
+            border-radius: 70%;
         }
+
+        .main-logo {
+            display: flex;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+        }
+
+
     </style>
 </head>
 <body>
 <!-- 상단 네비게이션 -->
 <div class="header">
-    <div class="header-left">
-        <h1>모여모여</h1>
-        <span>📍 in ○○구</span>
+    <div class="header-left" style="cursor: pointer;" onclick="location.href='/'">
+        <h1>모요모여</h1>
+        <span>📍in ○○구</span>
     </div>
-    <div th:if="${userSession != null}" class="header-right">
-        <span th:text="${ userSession.nickname }"></span>
-        <img src="https://via.placeholder.com/30" alt="User Icon">
+
+    <!-- 네비게이션 바 -->
+    <nav class="navbar">
+        <ul>
+            <li><button class="nav-button" onclick="location.href='/board/searchlist'">게시글</button></li>
+            <li><button class="nav-button" onclick="location.href='/reservation/storeList'">예약하기</button></li>
+        </ul>
+    </nav>
+
+    <!-- 로그인 후 상태 -->
+    <div class="header-right">
+        <div th:if="${userSession != null}" style="cursor: pointer;" onclick="location.href='/profile'">
+            <span th:text="${userSession.nickname}"></span>
+            <img src="https://via.placeholder.com/30" alt="User Icon">
+        </div>
     </div>
+    <!-- 비로그인 상태일 때 로그인/회원가입 버튼 표시 -->
+    <div th:if="${userSession == null}" class="auth-links">
+        <div sec:authorize="!isAuthenticated()">
+            <span onclick="location.href='/member/auth/login'" style="cursor: pointer;">로그인</span>
+            <a>/</a>
+            <span onclick="location.href='/member/user/signup'" style="cursor: pointer;">회원가입</span>
+        </div>
+    </div>
+
+    <!-- 메인 로고 클릭 시 메인으로 이동 -->
+    <img src="resources/static/image/image1.png" alt="Main Logo" class="main-logo" style="cursor: pointer;" onclick="location.href='/'">
+
 </div>
 </body>
 </html>
