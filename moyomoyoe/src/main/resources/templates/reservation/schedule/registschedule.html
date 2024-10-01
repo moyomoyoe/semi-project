@@ -9,22 +9,41 @@
     <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
 </head>
 <body>
-<h1>확인용</h1>
-
-<h3 th:text="${userSession.id}"></h3>
-<h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
 <div class="container">
-<div style="display: flex">
-    <div id="startTime"></div>
-    <div id="endTime"></div>
-</div>
-<input min="1" id="capacity" type="number" value="5"> <label>명</label>
-<button id ="makeSchedule" > 새 일정 생성</button>
-<hr>
+<h1 class="title">일정 관리</h1>
+
+<h3 hidden th:text="${userSession.id}"></h3>
+<h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
+
 <h2>현 일정</h2>
-<div id="container" class="token-container"></div>
+    <hr>
+
+    <div id="container" class="token-container"></div>
+
+    <div>
+        <div class="description" style=" display:block">
+            <h2>새 일정 생성</h2>
+            <div style="display: flex ;justify-content: center">
+                <div>
+                    <h3> 시작시간</h3>
+                    <div id="startTime"></div>
+                </div>
+                <div>
+                    <h3> 종료시간</h3>
+                    <div id="endTime"></div>
+                </div>
+            </div>
+            <div style="margin: 10%">
+                <label>수용인원</label><input min="1" id="capacity" type="number" value="5"> <label>명</label>
+                <button id ="makeSchedule" > 생성</button>
+            </div>
+        </div>
+
+        <div style="margin: 20px">
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
-<a href="/"> 취소 메인으로</a>
+<button onclick="backToInfo()"> 돌아가기</button>
+        </div>
+    </div>
 </div>
 <script th:inline="javascript">
 
@@ -39,6 +58,14 @@
         alert("오류 발생 이전페이지로 돌아갑니다")
     }
 
+    function backToInfo(){
+        let check = confirm("작성하신 내용은 저장되지 않습니다. 돌아가시겠습니까?")
+        if (check) {
+            location.href = `/reservation/schedule/storeInfo/${userId}`
+        }
+    }
+
+
     console.log(schedules);
 
     schedules.forEach(s =>{
@@ -49,15 +76,15 @@
     function makeNode(s){
         let newSchedule = document.createElement("div");
         newSchedule.classList.add("token");
-        newSchedule.innerHTML = ` ${s.startTime} ~ ${s.endTime}
-        <button id="delete-btn">X</button>
+        newSchedule.innerHTML = ` ${s.startTime.slice(0, 5)} ~ ${s.endTime.slice(0, 5)}
+        <button id="delete-btn" class="token-btn">X</button>
        <br>
-       ${s.capacity}명 까지 가능
+       최대 수용인원 : ${s.capacity}
       `;
         newSchedule
             .querySelector("#delete-btn")
             .addEventListener("click", () => {
-                if (confirm("삭제하시겠습니까?")) {
+                if (confirm("해당 일정에 예정된 예약은 모두 삭제됩니다. 삭제하시겠습니까?")) {
                     const index = schedules.indexOf(s);
                     if (index > -1) {
                         schedules.splice(index, 1);
@@ -133,6 +160,8 @@
         }
     })
     function saveSchedule(){
+        let check = confirm("저장하시겠습니까?")
+        if(!check)return
         console.log("saveSchedule 호출")
 
         fetch(`schedule/${storeId}`, {
