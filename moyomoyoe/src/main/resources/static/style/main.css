@@ -1,24 +1,95 @@
-  /*<link rel="stylesheet" href="/static/style/main.css" />*/
 
-  @font-face {
-      font-family:'LaundryGothic';
-      src: url("/fonts/laundrygothic Regular.woff") format('woff');
-      font-weight: normal;
-      font-style: normal;
-  }
-
-  body {
-      font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
-  }
-
-/*본문 컨테이너 전체 중앙정렬*/
-.container {
-    padding: 20px;
-    align-items: center;
-    align-content: center;
-    text-align: center;
+@font-face {
+    font-family:'LaundrygothicRegular';
+    src: url("./fonts/laundrygothicRegular.woff") format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
+body {
+    font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
+}
+
+/* 전체 레이아웃을 감싸는 outer-container */
+.outer-container {
+    display: flex; /* flexbox로 좌우로 정렬 */
+    /*flex-direction: row; !* 기본 가로 정렬이므로 명시적으로 row 설정 *!*/
+    /*justify-content: space-between; !* 좌우 여백과 중앙 콘텐츠를 균등하게 배치 *!*/
+    width: 100%;
+    height: 100vh; /* 화면 높이를 전체로 설정 */
+    box-sizing: border-box; /* padding 포함 */
+}
+
+/*본문 컨테이너 전체 중앙정렬*/
+.centered-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    background-color: #fff;
+    /*padding: 0 300px; !* 양쪽에 300px 여백 추가 *!*/
+    box-sizing: border-box;
+}
+
+/* 왼쪽과 오른쪽 여백의 색상 설정 */
+.left-space, .right-space {
+    background-color: #CAEEE7;
+    width: 300px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+/* Right-space에 있는 사이드바 스타일 */
+.schedule-sidebar {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: auto;
+    margin-left: 10px;
+}
+.schedule-header {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+}
+
+.schedule-content {
+    display: none; /* 기본적으로 숨김 처리 */
+    padding: 10px;
+    font-size: 15px;
+}
+
+.schedule-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.schedule-content ul li {
+    padding: 5px 0;
+}
+
+/* 접기/펼치기 가능한 aside */
+#toggle-schedule {
+    cursor: pointer;
+}
 
 /*버튼과 동일하게 보이는 a태그*/
 .a-button {

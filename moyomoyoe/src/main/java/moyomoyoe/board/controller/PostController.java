@@ -6,35 +6,21 @@ import moyomoyoe.board.model.dto.*;
 import moyomoyoe.board.model.service.PostService;
 import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.auth.model.dto.UserDTO;
-import moyomoyoe.member.auth.model.service.AuthService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -142,14 +128,54 @@ public class PostController {
     @GetMapping("/detailpost/{postId}")
     public String getDetailPost(@PathVariable("postId") int postId,
                                 Model model,
-                                HttpSession session,
                                 RedirectAttributes rAttr){
 
         // 현재 로그인한 사용자 정보 가져오기
         Authentication authPost = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authPost 1번출력= " + authPost);
 
-        UserDTO userDTO = (UserDTO) authPost.getPrincipal();
+        // 비회원일 경우 처리
+        if (authPost == null || !authPost.isAuthenticated() || authPost.getPrincipal().equals("anonymousUser")) {
+            // postId에 맞는 게시글 상세 정보를 조회
+            PostDTO getDetailPost = postService.findDetailPostById(postId);
+
+            // 비회원이지만 게시글이 비회원 열람 가능 (userOpen이 true)인 경우 접근 허용
+            if (!getDetailPost.getUserOpen()) {
+                // userOpen이 false인 경우, 로그인 요구
+                System.out.println("로그인 후 접근 가능합니다.");
+                rAttr.addFlashAttribute("userOpenError", "로그인 후 접근 가능합니다.");
+                return "redirect:/board/searchList";
+            }
+
+            // postId에 맞는 댓글 조회
+            List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
+
+            // 이미지 처리
+            ImageDTO imageDTO = postService.getImageById(getDetailPost.getImageId());
+            if (imageDTO == null || imageDTO.getImageName() == null) {
+                imageDTO = new ImageDTO();
+                imageDTO.setImageName("/static/image/image1.png"); // 기본 이미지 경로 설정
+            }
+
+            // 비회원도 볼 수 있는 게시글 데이터 전달
+            model.addAttribute("detailPost", getDetailPost);
+            model.addAttribute("detailPostComment", detailPostComment);
+            model.addAttribute("imageDTO", imageDTO);
+
+            return "board/detailpost";
+        }
+
+        // 로그인된 사용자일 경우 처리
+        UserDTO userDTO;
+        try {
+            userDTO = (UserDTO) authPost.getPrincipal();  // UserDTO 캐스팅
+        } catch (ClassCastException e) {
+            // 캐스팅이 실패한 경우 예외 처리
+            System.out.println("로그인한 사용자 정보 가져오기 실패.");
+            rAttr.addFlashAttribute("authError", "로그인한 사용자 정보를 가져올 수 없습니다.");
+            return "redirect:/board/searchList";
+        }
+
+        // 로그인한 사용자 정보
         int loggedInUserId = userDTO.getId();
         String loggedInNickname = userDTO.getNickname();
 
@@ -157,35 +183,17 @@ public class PostController {
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
+        // 이미지 처리
         ImageDTO imageDTO = postService.getImageById(getDetailPost.getImageId());
-        System.out.println("imageDTO = " + imageDTO);
-
         if (imageDTO == null || imageDTO.getImageName() == null) {
-            // 기본 이미지를 설정
             imageDTO = new ImageDTO();
             imageDTO.setImageName("/static/image/image1.png"); // 기본 이미지 경로 설정
         }
 
-        System.out.println("authPost 2번출력= " + authPost);
+        // 게시글 작성자 ID 가져오기
+        int postOwnerId = getDetailPost.getUserId();
 
-        // 비회원이지만 게시글이 비회원 열람 가능 (userOpen이 true)인 경우 접근 허용
-        if (authPost == null || !authPost.isAuthenticated() || authPost.getPrincipal().equals("anonymousUser")) {
-            if (!getDetailPost.getUserOpen()) {
-                // userOpen이 false인 경우, 로그인 요구
-                System.out.println("로그인 후 접근 가능합니다.");
-                rAttr.addFlashAttribute("userOpenError", "로그인 후 접근 가능합니다.");
-                return "redirect:/board/searchList";
-            }
-            // userOpen이 true이면 비회원도 접근 허용
-            model.addAttribute("detailPost", getDetailPost);
-            model.addAttribute("detailPostComment", detailPostComment);
-            model.addAttribute("imageDTO", imageDTO);
-            return "board/detailpost";
-        }
-
-        // 게시글 작성자와 로그인한 사용자 정보 전달
-        int postOwnerId = getDetailPost.getUserId();  // 게시글 작성자의 ID
-
+        // 모델에 데이터 추가
         model.addAttribute("loggedInUserId", loggedInUserId);
         model.addAttribute("loggedInNickname", loggedInNickname);
         model.addAttribute("detailPost", getDetailPost);

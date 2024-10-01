@@ -23,7 +23,7 @@ moyomoyoedb|schema||moyomoyoe||SELECT|G
 moyomoyoedb|schema||moyomoyoe||SHOW VIEW|G
 moyomoyoedb|schema||moyomoyoe||TRIGGER|G
 moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
-      <ServerVersion>8.0.38</ServerVersion>
+      <ServerVersion>8.0.39</ServerVersion>
     </root>
     <collation id="2" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
@@ -929,7 +929,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
     </schema>
     <schema id="289" parent="1" name="moyomoyoedb">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-10-01.09:00:53</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-10-01.16:21:06</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="performance_schema">
