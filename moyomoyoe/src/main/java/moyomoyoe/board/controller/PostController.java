@@ -61,6 +61,7 @@ public class PostController {
         return "static/index";
     }
 
+
     // 날짜별 전체게시글 목록
     @GetMapping("/postlist")
     public String PostList(Model model){

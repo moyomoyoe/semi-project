@@ -1,10 +1,10 @@
 package moyomoyoe.member.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import moyomoyoe.member.auth.model.dto.UserDTO;
+import jakarta.servlet.http.HttpSession;
 import moyomoyoe.image.ImageDTO;
-import moyomoyoe.member.user.model.dto.RegionDTO;
-import moyomoyoe.member.user.model.dto.SignupDTO;
+import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.user.model.dto.*;
 import moyomoyoe.member.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -42,6 +42,7 @@ public class UserController {
     public void signup() {}
 
     @PostMapping("/signup")
+    @ResponseBody
     public ModelAndView signup(ModelAndView mv,
                                @ModelAttribute SignupDTO newUserInfo,
                                @RequestParam String phone,
@@ -59,28 +60,22 @@ public class UserController {
 
         Integer result = userService.regist(newUserInfo);
 
-        String message = null;
+        Map<String, String> response = new HashMap<>();
 
         if(result == null) {
-            message = "이미 가입 된 회원 정보 입니다.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/signup");
+            response.put("status", "fail");
+            response.put("message", "이미 가입 된 회원 정보입니다.");
         } else if(result == 0) {
-            message = "회원 가입 실패 하였습니다. 다시 시도해주세요.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/signup");
+            response.put("status", "fail");
+            response.put("message", "회원 가입에 실패했습니다. 다시 시도 해주세요.");
         } else if(result >= 1) {
-            message = "회원 가입 성공하였습니다.";
-            System.out.println(message);
-
-            mv.setViewName("member/auth/login");
+            response.put("status", "success");
+            response.put("message", "회원 가입에 성공 했습니다.");
+            System.out.println(response);
+            mv.setViewName("redirect:/member/auth/login");
         } else {
-            message = "알 수 없는 오류가 발생하였습니다. 다시 시도 해주세요.";
-            System.out.println(message);
-
-            mv.setViewName("member/user/signup");
+            response.put("status", "error");
+            response.put("message", "알 수 없는 오류가 발생 했습니다. 다시 시도 해주세요.");
         }
         System.out.println(result);
         return mv;
@@ -201,7 +196,7 @@ public class UserController {
         if(singleFile.isEmpty()) {
             newUserInfo.setImageId(user.getImageId());
         } else {
-            System.out.println("파일 확인? = " + singleFile);
+            System.out.println("[[파일 확인?]] = " + singleFile);
 
             Resource resource = resourceLoader.getResource("/static/image/");
             System.out.println("경로 확인쓰 = " + resource);
@@ -236,22 +231,37 @@ public class UserController {
             String savedName = UUID.randomUUID().toString().replace("-", "") + extension;
             System.out.println("저장 될 파일 이름요 = " + savedName);
 
+            boolean isFileSave = false;
+
             try {
                 singleFile.transferTo(new File(filePath + "/" + savedName));
 
-                newImage.setImageName("/static/image/" + savedName);
-                newImage.setImageId(newUserInfo.getImageId());
+                File savedFile = new File(filePath + "/" + savedName);
 
-                userService.registImage(newImage);
+                if(savedFile.exists()) {
+                    // 파일 저장 완?
+                    isFileSave = true;
+                    newImage.setImageName("/static/image/" + savedName);
+                    newImage.setImageId(newUserInfo.getImageId());
+                } else {
+                    System.out.println("파일 저장 안 됨!");
+                }
 
-                newUserInfo.setImageId(newImage.getImageId());
+                if(isFileSave) {
 
-                System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
+                    userService.registImage(newImage);
+
+                    newUserInfo.setImageId(newImage.getImageId());
+
+                    System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
 
 //                rAttr.addFlashAttribute("message", "성공");
 //                rAttr.addFlashAttribute("img", "/static/image/" + savedName);
 
-                System.out.println("업로드 성공!");
+                    System.out.println("업로드 성공!");
+                } else {
+                    System.out.println("[DB 저장 안 됨!!] : 경로에 파일 없음");
+                }
 
             } catch (IOException e) {
                 new File(filePath + "/" + savedName).delete();
@@ -269,7 +279,7 @@ public class UserController {
         String message = null;
 
         if(result == null) {
-            message = "회원 가입 실패!";
+            message = "회원 정보 수정 실패??";
             System.out.println(message);
 
             mv.setViewName("member/user/editInfo");
@@ -399,5 +409,138 @@ public class UserController {
 //
 //        return "redirect:/member/user/editInfo";
 //    }
+
+    @GetMapping("/findId")
+    public void findId() {
+        System.out.println("[아이디 찾기] 왓니?");
+    }
+
+    @PostMapping("/findId")
+    @ResponseBody
+    public ModelAndView findId(ModelAndView mv,
+                               @RequestParam String username,
+                               @RequestParam String email){
+
+        FindIdDTO findAccount = userService.findAccount(username, email);
+
+        System.out.println(username + email);
+
+        if(findAccount != null) {
+            mv.addObject("account", findAccount.getAccount());
+            mv.addObject("message", "아이디는 " + findAccount.getAccount() + "입니다.");
+            mv.addObject("redirect", true); // 로그인 페이지로
+        } else {
+            mv.addObject("message", "일치하는 정보가 없습니다.");
+            mv.addObject("redirect", false); // 로그인 페이지로 안 감
+        }
+        System.out.println("[아이디 잘 가져오니?] findAccount = " + findAccount);
+        mv.setViewName("member/user/findId");
+        return mv;
+    }
+
+
+    @GetMapping("/findPwd")
+    public void findPwd() {
+        System.out.println("[비밀번호 찾기] 왓니?");
+    }
+
+    @PostMapping("/findPwd")
+    @ResponseBody
+    public ModelAndView findPwd(ModelAndView mv,
+                                @RequestParam String account,
+                                @RequestParam String email) {
+
+        System.out.println("[비밀번호 찾기 이메일 확인] 왓니?");
+
+        FindPwdDTO findPwd = userService.findPwd(account, email);
+
+        if(findPwd != null) {
+            mv.addObject("message", "이메일 확인 완료 되었습니다. 비밀번호를 변경해주세요.");
+            mv.addObject("account", account);
+            mv.addObject("redirect", true);
+        } else {
+            mv.addObject("message", "일치하는 정보가 없습니다.");
+            mv.addObject("redirect", false);
+        }
+
+        mv.setViewName("/member/user/findPwd");
+        return mv;
+    }
+
+    @PostMapping("/changePwd")
+    @ResponseBody
+    public ModelAndView changePwd(ModelAndView mv,
+                                  @ModelAttribute FindPwdDTO newPwd) {
+
+        System.out.println("[비밀번호 초기화] 왔니? ");
+
+        Integer result = userService.updatePwd(newPwd);
+        String message = null;
+
+        if(result == null) {
+            message = "비밀번호 초기화 실패??";
+            mv.addObject("done", message);
+            System.out.println(message);
+
+            mv.setViewName("member/user/findPwd");
+        } else if(result == 0) {
+            message = "비밀번호 초기화에 실패 하였습니다. 다시 시도해주세요.";
+            mv.addObject("done", message);
+
+            System.out.println(message);
+
+            mv.setViewName("member/user/findPwd");
+        } else if(result >= 1) {
+            message = "비밀번호 초기화 성공하였습니다.";
+            mv.addObject("done", message);
+
+            System.out.println(message);
+            mv.setViewName("redirect:/member/auth/login");
+
+        } else {
+            message = "알 수 없는 오류가 발생하였습니다. 다시 시도 해주세요.";
+            mv.addObject("done", message);
+
+            System.out.println(message);
+
+            mv.setViewName("member/user/findPwd");
+        }
+
+
+        mv.setViewName("/member/auth/login");
+        return mv;
+    }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(HttpSession session,
+                             RedirectAttributes rAttr,
+                             Principal principal) {
+
+        System.out.println("[회원 탈퇴] 왓니?");
+
+        String account = principal.getName();
+
+        System.out.println("account = " + account);
+
+        if(account != null) {
+
+            userService.deleteUser(account);
+
+            rAttr.addFlashAttribute("message", "회원 탈퇴가 완료 되었습니다.");
+            System.out.println("[회원 탈퇴] 성공~!~!");
+
+            // 세션 무효화
+            session.invalidate();
+
+            return "redirect:/main";
+        } else {
+
+            System.out.println("[회원 탈퇴] 실패~~~!");
+            rAttr.addFlashAttribute("message", "사용자 정보가 존재하지 않습니다. 다시 시도해주세요.");
+
+            return "redirect:/member/user/userInfo";
+        }
+    }
+
 
 }

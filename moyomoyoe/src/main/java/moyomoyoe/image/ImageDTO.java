@@ -8,9 +8,9 @@ public class ImageDTO {
     public ImageDTO() {
     }
 
-    public ImageDTO(int imageId, String imageName) {
+    public ImageDTO(int imageId, String image_name) {
         this.imageId = imageId;
-        this.imageName = imageName;
+        this.imageName = image_name;
     }
 
     public int getImageId() {

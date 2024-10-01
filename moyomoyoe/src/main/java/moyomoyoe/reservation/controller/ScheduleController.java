@@ -34,6 +34,7 @@ public class ScheduleController {
     //사업장 세부정보
     @GetMapping("/storeInfo/{code}")
     public String storeInfo(@PathVariable("code") int code, HttpSession session) {
+        System.out.println("[사업자 마이페이지]");
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
         Integer storeId = reserService.FindUserStore(code);
         if (code <= 0 || storeId==null){
@@ -42,29 +43,25 @@ public class ScheduleController {
         else {
             // 해당 사업체의 세부정보와 일정정보를 세션에 저장
             StoreDTO store = reserService.getStoreAllInfo(storeId);
-            List<ScheduleDTO> schedule = reserService.getSchedule(storeId);
 
             System.out.println("store = " + store);
-            System.out.println("schedule = " + schedule);
-            if (store != null) {
-                System.out.println("store!=null 조건 충족 닿았습니다");
-                session.setAttribute("store", store);
-                session.setAttribute("schedule", schedule);
-            }
+
+            session.setAttribute("store", store);
             return "redirect:" + defaultUrl + "storeInfo"; // 해당 페이지로 리턴
         }
-
     }
 
     @GetMapping("/storeInfo")
     public String getStoreInfoFromSession(HttpSession session, Model model) {
         // 세션에 저장된 데이터를 가져옴
         StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
-        List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
+        List<ScheduleDTO> schedule = reserService.getSchedule(storeInfo.getStoreId());
 
+        String url = "/static/image/image1.png";
         // 모델에 추가해서 Thymeleaf로 전달
         model.addAttribute("store", storeInfo);
         model.addAttribute("schedule", schedule);
+        model.addAttribute("image",url);
 
         return defaultUrl+"storeInfo";
     }

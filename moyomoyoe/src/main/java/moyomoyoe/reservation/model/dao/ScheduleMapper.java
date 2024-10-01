@@ -21,4 +21,6 @@ public interface ScheduleMapper {
     Integer findUserStore(int code);
 
     void deleteStore(int code);
+
+    List<Integer> getResBySchedule(int id);
 }

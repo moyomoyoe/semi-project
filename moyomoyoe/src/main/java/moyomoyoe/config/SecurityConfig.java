@@ -56,13 +56,11 @@ public class SecurityConfig {
 //                .and();
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/member/auth/login", "/member/user/signup", "/member/auth/fail", "member/user/region", "member/user/checkAccount", "/").permitAll();
+            auth.requestMatchers("/member/auth/login", "/member/user/signup", "/member/auth/fail", "member/user/region", "member/user/checkAccount", "member/user/findId", "member/user/findPwd", "member/user/changePwd", "/main", "/").permitAll();
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/business/*").hasAnyAuthority(UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
-            // 세부게시글 페이지 접근 권한 부여
-            auth.requestMatchers("/board/detailpost/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
-            auth.requestMatchers("/static/**", "/css/**", "/image/**").permitAll();
+            auth.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll();
             auth.anyRequest().authenticated();
         }).formLogin(login -> {
             login.loginPage("/member/auth/login");
@@ -85,6 +83,5 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
 }

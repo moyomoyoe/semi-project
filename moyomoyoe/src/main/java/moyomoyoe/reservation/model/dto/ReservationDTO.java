@@ -1,18 +1,18 @@
 package moyomoyoe.reservation.model.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ReservationDTO {
     private int resId;
     private int userIdRes;
     private Date resDate;
-    private String customerNum; // 수정된 필드명
+    private int customerNum;
     private int scheduleId;
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(int resId, int userIdRes, Date resDate, String customerNum, int scheduleId) {
+    public ReservationDTO(int resId, int userIdRes, Date resDate, int customerNum, int scheduleId) {
         this.resId = resId;
         this.userIdRes = userIdRes;
         this.resDate = resDate;
@@ -44,12 +44,12 @@ public class ReservationDTO {
         this.resDate = resDate;
     }
 
-    public String getCustomerNum() {
-        return customerNum; // 수정된 Getter
+    public int getCustomerNum() {
+        return customerNum;
     }
 
-    public void setCustomerNum(String customerNum) {
-        this.customerNum = customerNum; // 수정된 Setter
+    public void setCustomerNum(int customerNum) {
+        this.customerNum = customerNum;
     }
 
     public int getScheduleId() {
@@ -66,7 +66,7 @@ public class ReservationDTO {
                 "resId=" + resId +
                 ", userIdRes=" + userIdRes +
                 ", resDate=" + resDate +
-                ", customerNum='" + customerNum + '\'' + // 수정된 필드명 반영
+                ", customerNum=" + customerNum +
                 ", scheduleId=" + scheduleId +
                 '}';
     }
