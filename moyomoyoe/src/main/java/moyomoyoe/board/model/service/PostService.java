@@ -107,4 +107,9 @@ public class PostService {
     public void registImage(ImageDTO newImage) {
         postMapper.registImage(newImage);
     }
+
+    public ImageDTO getImageById(int imageId) {
+
+        return postMapper.getImageById(imageId);
+    }
 }

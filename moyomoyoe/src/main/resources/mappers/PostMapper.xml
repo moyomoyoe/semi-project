@@ -247,17 +247,17 @@
         )
     </insert>
 
-<!--    <select id="getImageById" resultMap="imageResultMap">-->
-<!--        SELECT-->
-<!--        a.image_id,-->
-<!--        a.image_name-->
-<!--        FROM-->
-<!--        tbl_image a-->
-<!--        JOIN-->
-<!--        tbl_user b ON b.image_id = a.image_id-->
-<!--        WHERE-->
-<!--        b.post_id = #{ postId }-->
-<!--    </select>-->
+    <select id="getImageById" resultMap="imageResultMap">
+        SELECT
+        a.image_id,
+        a.image_name
+        FROM
+        tbl_image a
+        JOIN
+        tbl_post_list b ON b.image_id = a.image_id
+        WHERE
+        b.post_id = #{ postId }
+    </select>
 
     <!-- 게시글 수정 -->
     <update id="updatePost" parameterType="moyomoyoe.board.model.dto.PostDTO">

@@ -8,7 +8,7 @@
 <body>
 <h1>게시글 수정</h1>
 
-<form th:action="@{/board/editpost/{postId}(postId=${postDTO.postId})}" method="post">
+<form th:action="@{/board/editpost/{postId}(postId=${postDTO.postId})}" method="post" enctype="multipart/form-data">
     <input type="hidden" th:value="${postDTO.postId}" name="postId"/>
 
     <label for="title">제목:</label>
@@ -25,15 +25,6 @@
         <option value="false" th:selected="${postDTO.userOpen} == false">비공개</option>
     </select>
     <br>
-
-<!--    <label for="regionCode">지역 코드:</label>-->
-<!--    <input type="number" id="regionCode" name="regionCode" th:value="${postDTO.regionCode}">-->
-<!--    <br>-->
-
-<!--    <label for="keywordId">키워드 ID:</label>-->
-<!--    <input type="number" id="keywordId" name="keywordId" th:value="${postDTO.keywordId}">-->
-<!--    <br>-->
-
 
     <label for="regionCode">지역 :</label>
     <select id="regionCode" name="regionCode">
@@ -64,9 +55,6 @@
         <option value="25" th:selected="${postDTO.regionCode} == 25">중랑구</option>
     </select>
 
-
-
-
     <label for="keywordId">키워드 :</label>
     <select id="keywordId" name="keywordId">
         <option value="1" th:selected="${postDTO.keywordId} == 1">영화</option>
@@ -78,8 +66,11 @@
     </select>
     <br>
 
-    <label for="imageId">이미지:</label>
-    <input type="number" id="imageId" name="imageId" th:value="${postDTO.imageId}">
+        <div>
+            <label for="singleFile">이미지 파일 선택:</label>
+            <input type="file" id="singleFile" name="singleFile">
+        </div>
+
     <br>
 
     <button type="submit">수정</button>

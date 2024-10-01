@@ -54,4 +54,6 @@ public interface PostMapper {
 
     // 이미지 첨부
     void registImage(ImageDTO newImage);
+
+    ImageDTO getImageById(int imageId);
 }
