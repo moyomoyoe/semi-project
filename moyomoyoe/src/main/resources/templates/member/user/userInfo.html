@@ -48,12 +48,24 @@
     </div>
     <br>
     <div id="userInfo">
-        이름 : <span th:text="${ user.name }"></span><br>
-        아이디 : <span th:text="${ user.account }"></span><br>
-        닉네임 : <span th:text="${ user.nickname }"></span><br>
-        지역 : <span th:text="${ user.region }"></span><br>
-        연락처 : <span th:text="${ user.phone }"></span><br>
-        이메일 : <span th:text="${ user.email }"></span><br>
+        <div class="info-group">
+            <label><b>이름</b></label><span th:text="${ user.name }"></span><br>
+        </div>
+        <div class="info-group">
+            <label><b>아이디</b></label><span th:text="${ user.account }"></span><br>
+        </div>
+        <div class="info-group">
+            <label><b>닉네임</b></label><span th:text="${ user.nickname }"></span><br>
+        </div>
+        <div class="info-group">
+            <label><b>지역</b></label><span th:text="${ user.region }"></span><br>
+        </div>
+        <div class="info-group">
+            <label><b>연락처</b></label><span th:text="${ user.phone }"></span><br>
+        </div>
+        <div class="info-group">
+            <label><b>이메일</b></label><span th:text="${ user.email }"></span><br>
+        </div>
     </div>
     <br>
     <div class="editInfo">
@@ -70,8 +82,8 @@
 
     <div id="deleteModal">
         <div>
-            <span id="modalClose" style="cursor: pointer">ｘ</span>
-            <h3>정말로 회원 탈퇴를 진행 하시겠습니까?</h3>
+            <span id="modalClose" style="cursor: pointer; font-size: 20px">×</span>
+            <p>정말로 회원 탈퇴를 진행 하시겠습니까?</p>
             <button id="button">확인</button>
         </div>
     </div>
@@ -79,7 +91,7 @@
     <script>
 
         document.getElementById('deleteUserBtn').onclick = function() {
-            document.getElementById('deleteModal').style.display = 'block';
+            document.getElementById('deleteModal').style.display = 'flex';
         };
 
         document.getElementById('button').onclick = function() {

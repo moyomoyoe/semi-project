@@ -1,0 +1,82 @@
+hr {
+    width: 500px;
+}
+
+form {
+    margin: 30px auto;
+}
+
+.custom-hr {
+    border-top: 1px solid lightgray;
+    margin: 8px auto;
+    width: 500px;
+}
+
+.edit-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /*transform: translateX(-50px);*/
+}
+
+.info-group,
+.form-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /*align-items: center;*/
+    /*margin-bottom: 15px; !* 각 필드 간의 간격 *!*/
+    /*margin-right: 100px;*/
+    margin: 10px 0;
+}
+
+.info-group label,
+.form-group label {
+    width: 100px;
+    text-align: right;
+    margin-right: 50px;
+}
+
+.info-group span {
+    text-align: left;
+    width: 200px;
+    white-space: nowrap;
+}
+
+.form-group input{
+    text-align: left;
+    width: 200px;
+    height: 20px;
+    white-space: nowrap;
+}
+
+.form-group select {
+    text-align: left;
+    width: 80px;
+    white-space: nowrap;
+}
+
+.email-group {
+    display: flex;
+    align-items: center;
+}
+
+.button {
+    margin: 30px;
+}
+
+.errorMsg2,
+.errorMsg4 {
+    margin: 0;
+    padding: 0;
+}
+
+#errorMsg2,
+#errorMsg4{
+    text-align: left;
+    margin-left: 150px;
+    width: 200px;
+    white-space: nowrap;
+}
+

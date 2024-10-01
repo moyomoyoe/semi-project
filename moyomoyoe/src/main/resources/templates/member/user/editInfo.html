@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/editInfo.css" />
+    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/member.css" />
     <title>EDITINFO</title>
     <style>
         #upload-file-button {
@@ -20,39 +23,72 @@
     </style>
 </head>
 <body>
-    <h1>회원 정보 수정</h1>
+<div th:replace="common/header.html"></div>
+<div class="page-title">
+    <h2>&nbsp;&nbsp;회원 정보 수정</h2>
+    <hr>
+</div>
 
-    <h3>프로필 사진 첨부 - 웨않되</h3>
-
+<div class="container">
     <div th:if="${ img != null }">
         <img th:src="${ img }" alt="업로드 파일" width="100" height="100">
     </div>
     <form th:action="@{/member/user/updateInfo}" method="POST" id="updateInfo" enctype="multipart/form-data">
-        파일 : <input type="file" name="singleFile"><br>
-        <hr>
-        이름 : <span th:text="${ user.name }"></span><br>
-        아이디 : <span th:text="${ user.account }"></span><br>
-        비밀번호 : <input type="password" id="password" name="password" required><br>
-        비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
-        <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
-        <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
-        닉네임 : <input type="text" id="nickname" name="nickname" required><br>
-        지역 : <span th:text="${ user.region }"></span><br>
-        연락처 : <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
-        -
-        <input type="text" id="signUpPhoneNum2" name="phone" size="4" required>
-        -
-        <input type="text" id="signUpPhoneNum3" name="phone" size="4" required><br>
-        이메일 : <input type="text" id="signupEmailLocal" name="email" required>
-        @
-        <select id="signupEmailDomain" name="email" required>
-            <option value="naver.com">naver.com</option>
-            <option value="gmail.com">gmail.com</option>
-            <option value="daum.net">daum.net</option>
-        </select><br>
+        <div class="edit-info">
+        <div class="form-group">
+            <label><b>파일</b></label><input type="file" name="singleFile" style="height: 25px"><br>
+        </div>
+        <div class="custom-hr"></div>
+        <div class="info-group">
+            <label><b>이름</b></label><span th:text="${ user.name }"></span><br>
+        </div>
+        <div class="info-group">
+            <label><b>아이디</b></label><span th:text="${ user.account }"></span><br>
+        </div>
+        <div class="form-group">
+            <label><b>비밀번호</b></label><input type="password" id="password" name="password" required><br>
+        </div>
+        <div class="form-group">
+            <label><b>비밀번호 확인</b></label><input type="password" id="checkPwd" name="checkPwd" required><br>
+        </div>
+        <div class="errorMsg2">
+            <span id="errorMsg2" style="color: tomato; display: none"><small>Ⅹ  비밀번호가 일치하지 않습니다.</small></span>
+        </div>
+            <div class="errorMsg4">
+            <span id="errorMsg4" style="color: forestgreen; display: none"><small>√  비밀번호 일치 확인</small></span>
+            </div>
+        <div class="form-group">
+            <label><b>닉네임</b></label><input type="text" id="nickname" name="nickname" required><br>
+        </div>
+        <div class="info-group">
+            <label><b>지역</b></label><span th:text="${ user.region }"></span><br>
+        </div>
+        <div class="form-group">
+            <label><b>연락처</b></label><input type="text" id="signUpPhoneNum1" name="phone" size="3" style="width: auto" required>
+            -
+            <input type="text" id="signUpPhoneNum2" name="phone" size="4" style="width: auto" required>
+            -
+            <input type="text" id="signUpPhoneNum3" name="phone" size="4" style="width: auto" required><br>
+        </div>
+        <div class="form-group">
+            <label><b>이메일</b></label>
+            <div class="email-group">
+            <input type="text" id="signupEmailLocal" name="email" style="width: 100px" required>
+            @
+            <select id="signupEmailDomain" name="email" required>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="daum.net">daum.net</option>
+            </select><br>
+            </div>
+        </div>
+        </div>
         <br>
-        <button id="updateFormButton">저장</button>
+        <div class="button">
+            <button id="updateFormButton">저장</button>
+        </div>
     </form>
+</div>
 
 
     <script>
