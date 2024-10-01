@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>게시글 상세 보기</title>
@@ -86,9 +88,13 @@
 
 <br>
 
-<!-- 삭제 버튼 -->
-<form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteForm">
-    <button type="submit" onclick="return deletePost(event)">삭제</button>
+<!-- 게시글 작성자에게만 삭제 버튼 표시 -->
+<form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteFormUser" th:if="${loggedInUserId == detailPost.userId}">
+    <button type="submit" onclick="return deletePost(event, 'deleteFormUser')">삭제</button>
+</form>
+<!-- 관리자에게 삭제 버튼 표시 -->
+<form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteFormAdmin" sec:authorize="hasAnyAuthority('ADMIN')">
+    <button type="submit" onclick="return deletePost(event, 'deleteFormAdmin')">삭제 (관리자)</button>
 </form>
 
 <!-- 수정 -->
@@ -101,13 +107,13 @@
 <br>
 
 <script>
-    function deletePost(event) {
+    function deletePost(event, formId) {
         // 기본 폼 제출 동작을 막음
         event.preventDefault();
 
         // 삭제 확인창
         if (confirm('삭제하시겠습니까?')) {
-            var form = document.getElementById('deleteForm');
+            var form = document.getElementById(formId);  // formId를 사용해 폼 선택
             var action = form.getAttribute('action');
 
             // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
@@ -121,7 +127,7 @@
                 .then(response => {
                     if (response.ok) {
                         alert('게시글이 삭제되었습니다.');
-                        window.location.href = '/index.html'; // 삭제 후 index.html로 리다이렉트
+                        window.location.href = '/board/searchlist';
                     } else {
                         alert('삭제에 실패했습니다.');
                     }

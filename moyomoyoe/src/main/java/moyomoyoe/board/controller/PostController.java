@@ -1,5 +1,6 @@
 package moyomoyoe.board.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.KeywordDTO;
@@ -9,17 +10,18 @@ import moyomoyoe.board.model.service.PostService;
 import moyomoyoe.member.auth.model.dto.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -38,21 +40,21 @@ public class PostController {
         this.messageSource = messageSource;
     }
 
-    //index.html 연결 Controller
-    @GetMapping("/main")
-    public String mainPostList(Model model) {
-        return "static/index";
+    //searchlist.html 연결 Controller
+    @GetMapping("/searchlist")
+    public String getSearchList(Model model) {
+        return "board/searchlist";
     }
 
     // 날짜별 전체게시글 목록
-    @GetMapping("/postlist")
-    public String PostList(Model model){
-        List<PostDTO> postList = postService.findAllPost();
-        model.addAttribute("postList", postList);
-        return "board/postlist";
+    @GetMapping("/latestlist")
+    public String Latestlist(Model model){
+        List<PostDTO> latestlist = postService.findAllPost();
+        model.addAttribute("latestList", latestlist);
+        return "board/latestlist";
     }
 
-    // index에 키워드 이름 호출
+    // searchlist에 키워드 이름 호출
     @GetMapping(value = "/keywordName", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<KeywordDTO>findKeywordName(){
@@ -144,13 +146,17 @@ public class PostController {
 
             model.addAttribute("userOpenError", "로그인 후 접근 가능합니다.");
 
-            return "redirect:/board/postlist";
+            return "redirect:/board/mainSearchList";
         }
+
+        // 게시글 작성자와 로그인한 사용자 정보 전달
+        int postOwnerId = getDetailPost.getUserId();  // 게시글 작성자의 ID
 
         model.addAttribute("loggedInUserId", loggedInUserId);
         model.addAttribute("loggedInNickname", loggedInNickname);
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
+        model.addAttribute("postOwnerId", postOwnerId);  // 게시글 작성자 ID 전달
 
         // detailpost.html로 데이터 전달 및 렌더링
         return "board/detailpost";  // board/detailpost.html 파일로 이동
@@ -159,9 +165,31 @@ public class PostController {
     // postId 별 세부 게시글 삭제
     @PostMapping("/detailpost/delete/{postId}")
     public String deletePost(@PathVariable("postId") int postId, RedirectAttributes rAttr) {
-        postService.deletePost(postId);
-        rAttr.addFlashAttribute("successMessage", "삭제 되었습니다");
-        return "redirect:/index.html";
+
+        // 현재 로그인한 사용자 정보 가져오기 (SecurityContextHolder 사용)
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO userDTO = (UserDTO) auth.getPrincipal();
+        int loggedInUserId = userDTO.getId();
+
+        // postId에 해당하는 게시글을 조회하여 작성자 확인
+        PostDTO post = postService.findDetailPostById(postId);
+
+        boolean owner = loggedInUserId == post.getUserId();
+
+        // 현재 사용자의 권한 확인 (ADMIN 권한이 있는지)
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN"));
+
+        // 게시글 작성자 또는 관리자인지 확인
+        if (owner || isAdmin) {
+            // 삭제 권한이 있는 경우 게시글 삭제
+            postService.deletePost(postId);  // 여기서 오류가 발생하는지 확인 필요
+        }
+
+        // 삭제 성공 메시지
+        rAttr.addFlashAttribute("successMessage", "게시글이 삭제되었습니다.");
+        return "redirect:/board/searchlist";  // 삭제 후 게시글 목록으로 이동
+
     }
 
     // postId 별 세부게시글 댓글등록

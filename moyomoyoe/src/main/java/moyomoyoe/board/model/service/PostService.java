@@ -1,10 +1,13 @@
 package moyomoyoe.board.model.service;
 
+import moyomoyoe.board.controller.PostController;
 import moyomoyoe.board.model.dao.PostMapper;
 import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +72,8 @@ public class PostService {
     public void deletePost(int postId) {
         postMapper.deletePost(postId);
     }
+
+
 
     @Transactional
     public void comment(CommentDTO commentDTO) {

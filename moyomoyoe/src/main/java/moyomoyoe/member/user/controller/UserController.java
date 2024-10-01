@@ -2,7 +2,7 @@ package moyomoyoe.member.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import moyomoyoe.member.auth.model.dto.UserDTO;
-import moyomoyoe.member.user.model.dto.ImageDTO;
+import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.user.model.dto.RegionDTO;
 import moyomoyoe.member.user.model.dto.SignupDTO;
 import moyomoyoe.member.user.model.service.UserService;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -203,7 +202,7 @@ public class UserController {
         } else {
             System.out.println("파일 확인? = " + singleFile);
 
-            Resource resource = resourceLoader.getResource("/static/image/");
+            Resource resource = resourceLoader.getResource("/css/image/");
             System.out.println("경로 확인쓰 = " + resource);
 
             String filePath = null;
@@ -220,7 +219,7 @@ public class UserController {
             } else {
 
                 // 경로 있을 때
-                filePath = resourceLoader.getResource("/static/image/")
+                filePath = resourceLoader.getResource("/css/image/")
                         .getFile()
                         .getAbsolutePath();
             }
@@ -239,7 +238,7 @@ public class UserController {
             try {
                 singleFile.transferTo(new File(filePath + "/" + savedName));
 
-                newImage.setImageName("/static/image/" + savedName);
+                newImage.setImageName("/css/image/" + savedName);
                 newImage.setImageId(newUserInfo.getImageId());
 
                 userService.registImage(newImage);

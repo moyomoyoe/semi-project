@@ -22,7 +22,7 @@
         <result property="district" column="district"/>
     </resultMap>
 
-    <resultMap id="imageResultMap" type="moyomoyoe.member.user.model.dto.ImageDTO">
+    <resultMap id="imageResultMap" type="moyomoyoe.image.ImageDTO">
         <id property="imageId" column="image_id"/>
         <result property="imageName" column="image_name"/>
     </resultMap>
@@ -122,7 +122,7 @@
         )
     </insert>
 
-    <insert id="registImage" parameterType="moyomoyoe.member.user.model.dto.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
+    <insert id="registImage" parameterType="moyomoyoe.image.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
         INSERT INTO
         tbl_image
         (

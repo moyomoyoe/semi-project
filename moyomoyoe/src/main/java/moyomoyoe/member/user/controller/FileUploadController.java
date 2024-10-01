@@ -1,20 +1,6 @@
 package moyomoyoe.member.user.controller;
 
-import moyomoyoe.member.user.model.dto.ImageDTO;
-import moyomoyoe.member.user.model.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 @Controller
 public class FileUploadController {
