@@ -26,24 +26,26 @@ registstore
         <select type="text" id="storeSort" th:field="*{storeSort}">
             <option value="기타" >기타</option>
             <option value="음식" >음식</option>
+            <option value="숙박" >숙박</option>
+            <option value="파티" >파티</option>
+            <option value="게임" >게임</option>
+            <option value="스포츠" >스포츠</option>
         </select>
         <label for="businessNo"> 등록번호</label>
         <input type="text" id="businessNo" th:field="*{businessNo}">
         <input hidden="hidden"  id="userId" th:field="*{userId}">
         <input hidden id="imageId" th:field="*{imageId}">
-
     </div>
-    <div>
-        <label></label>
-    </div>
-
+<div>
     <button id="submit"> 등록</button>
-    <a class="a-button" style="background-color: #e3e3e3" href="/"> 취소 </a>
+    <button type="button" style="background-color: #e3e3e3" onclick="backToInfo()"> 취소 </button>
     <button onclick="deleteFetch()" class="a-button-warning right-align">사업장 삭제</button>
-
+    </div>
 </form>
+
 </div>
 </body>
+
 <script>
     // 파일 입력 요소와 이미지 미리보기 요소 선택
     const fileInput = document.getElementById('fileInput');
@@ -67,9 +69,10 @@ registstore
     });
 </script>
 <script th:inline="javascript">
-    const userId = /*[[${userId}]]*/ 0;
+    const userId = document.querySelector("#userId").value;
     const imageUrl = /*[[${img}]]*/ " ";
 
+    console.log(imageUrl)
     // 서버에 폼 데이터를 전송하는 함수
     function submitFormData(formData) {
         const data = Object.fromEntries(formData.entries());
@@ -124,6 +127,9 @@ registstore
 
     document.getElementById("storeForm").addEventListener("submit", function(event) {
         event.preventDefault(); // 기본 제출 이벤트 방지
+        let check = confirm("저장하시겠습니까?")
+        if(!check)return
+
         const formData = new FormData(this);
         const fileInput = document.querySelector('input[name="singleFile"]');
         const uploadedFileName = fileInput.files[0]?.name || "";
@@ -139,73 +145,6 @@ registstore
             submitFormData(formData); // 파일이 변경되지 않은 경우
         }
     });
-
-
-    /*  const userId = /!*[[${userId}]]*!/ 0;
-      const imageUrl = /!*[[${img}]]*!/ " ";
-
-
-      document.getElementById("storeForm").addEventListener("submit", function(event) {
-          event.preventDefault(); // 기본 제출 이벤트 방지
-
-          const formData = new FormData(this); // 현재 폼의 데이터를 FormData로 생성
-
-          if(imageUrl != formData.get('singleFile')){
-              console.log("파일이 변경되었으므로 서버에 업로드합니다.");
-              // 새로운 FormData 생성, singleFile 필드만 추가
-              const fileInput = document.querySelector('input[name="singleFile"]');
-              const fileData = new FormData();
-              fileData.append('singleFile', fileInput.files[0]); // 파일을 FormData에 추가
-
-              fetch("/reservation/schedule/regist/single-file", {
-                  method: "POST",
-                  body: fileData // singleFile만 포함된 FormData 전송
-              })
-                  .then(response => response.json())
-                  .then(result => {
-                      if (result.status =="success"){
-                          console.log("파일 업로드 성공:", result);
-                          formData.set(`imageId ${result.id}`)
-                          console.log(`이미지 아이디 : ${result.id}`)
-                          console.log(formData)
-                      }
-                  })
-                  .catch(error => {
-                      console.error("파일 업로드 중 오류 발생:", error);
-                  });
-          }
-
-          // FormData를 JSON 객체로 변환
-          const data = Object.fromEntries(formData.entries());
-          const userId =  formData.get('userId');
-          console.log(userId)
-          fetch("/reservation/schedule/regist/store", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data), // JSON 형식으로 변환하여 전송
-          })
-              .then(response => {
-                  console.log(response)
-                  return response.json()
-              }).then(dat=>{
-              if(dat.status == "success"){
-                  console.log(userId)
-                  alert("상가 정보 수정 성공")
-
-                  location.href=`/reservation/schedule/storeInfo/${userId}`
-              }else{
-                  alert("실패했습니다. 다시 시도해주세요.")
-              }
-              })
-              .catch(error => {
-                  console.error("Error:", error); // 오류 로그
-                  alert("전송 중 오류가 발생했습니다."); // 오류 메시지 표시
-              });
-      });
-
-  */
     function deleteFetch(){
         if (
             confirm("사업장 정보를 삭제하시겠습니까? 현재 들어온 예약과 등록된 일정을 포함한 정보가 모두 삭제됩니다.")
@@ -222,6 +161,11 @@ registstore
             );
         }
     }
-
+    function backToInfo(){
+        let check = confirm("작성하신 내용은 저장되지 않습니다. 돌아가시겠습니까?")
+        if (check){
+            location.href = `/reservation/schedule/storeInfo/${userId}`;
+        }
+    }
 </script>
 </html>
