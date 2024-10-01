@@ -1,5 +1,7 @@
 package moyomoyoe.reservation.model.service;
 
+import moyomoyoe.image.ImageDTO;
+import moyomoyoe.member.user.model.dao.UserMapper;
 import moyomoyoe.reservation.model.dao.ReservationMapper;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import moyomoyoe.reservation.model.dto.StoreDTO;
@@ -13,14 +15,14 @@ import java.util.List;
 
 @Service
 public class ScheduleService {
+    @Autowired
     ScheduleMapper dao;
+
+    @Autowired
     ReservationMapper resDao;
 
     @Autowired
-    public ScheduleService(ScheduleMapper dao, ReservationMapper resDao) {
-        this.dao = dao;
-        this.resDao = resDao;
-    }
+    UserMapper userDao;
 
 
     public Integer FindUserStore(int code){
@@ -73,7 +75,7 @@ public class ScheduleService {
 
     @Transactional
     public void registStore(StoreDTO info) {
-        //이미 등록된 가게라면 update
+        //이미 등록된 가게라면 update, 이미 있는 이미지라면 비업로드
         System.out.println("서비스단 정보"+info);
         if(info.getStoreId()==0)
             dao.registStore(info);
@@ -86,4 +88,16 @@ public class ScheduleService {
         registSchedule(code, new ArrayList<>());
         dao.deleteStore(code);
     }
+
+    @Transactional
+    public int registImage(ImageDTO newImage) {
+        userDao.registImage(newImage);
+       return dao.getImageId(newImage.getImageName());
+    }
+
+    public String getImageById(int i) {
+        return dao.getImageById(i);
+    }
+
+
 }

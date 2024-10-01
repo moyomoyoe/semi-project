@@ -129,5 +129,19 @@
         WHERE schedule_id = #{id}
         ;
     </select>
+    <select id="getImageId">
+        SELECT image_id
+        FROM tbl_image
+        WHERE
+        image_name = #{imageName}
+        ;
+    </select>
+    <select id="getImageById">
+    SELECT image_name
+    FROM tbl_image
+    WHERE
+    image_id = #{id}
+    ;
+</select>
 
 </mapper>
