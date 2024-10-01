@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS tbl_user
     user_role   VARCHAR(10)  NOT NULL COMMENT '사용자권한',
     image_id    INT          NULL COMMENT '이미지번호',
     user_region INT          NULL COMMENT '사용자지역',
+    is_active CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '활성화여부',
 
     CONSTRAINT pk_id PRIMARY KEY (id),
     CONSTRAINT img_id FOREIGN KEY (image_id) REFERENCES tbl_image (image_id),
@@ -134,7 +135,7 @@ CREATE TABLE IF NOT EXISTS tbl_reservation
 ) ENGINE = INNODB COMMENT '예약';
 
 INSERT INTO tbl_image (image_name)
-VALUES ('/static/image1.jpg');
+VALUES ('/static/image/image1.png');
 
 INSERT INTO tbl_keyword_id (keyword_name)
 VALUES ('영화'),

@@ -1,6 +1,6 @@
 package moyomoyoe.reservation.model.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ReservationDTO {
     private int resId;

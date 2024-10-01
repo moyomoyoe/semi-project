@@ -91,7 +91,7 @@
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/reservation/submit">
             <!-- CSRF Token 설정 (Spring Security가 활성화된 경우) -->
-            <input type="hidden" id="storeId" name="storeId" th:value="${store.storeId}">
+            <input type="hidden" id="storeId" name="storeId" th:value="${store.storeId}" />
 
             <div class="form-group">
                 <label for="name">이름</label>
@@ -124,7 +124,7 @@
     let reservedTimes = [];
 
     const fetchReservedTimes = (date, storeId) => {
-        console.log('Fetching reserved times for storeId: ', storeId); // 디버깅을 위해 추가
+        console.log('Fetching reserved times for storeId: ', storeId);
         return $.ajax({
             url: '/reservation/schedules/' + storeId,
             type: 'GET',
@@ -187,11 +187,19 @@
                 return {html: arg.dayNumberText.replace('일', '')};
             },
             dateClick: function (info) {
+                // 날짜를 클릭했을 때 실행되는 부분
                 selectedDate = info.dateStr;
                 $('#date').val(selectedDate);
 
+                // storeId 가져오기
                 const storeId = $('#storeId').val();  // Store ID를 가져옴
-                fetchReservedTimes(selectedDate, storeId);
+
+                // 예약된 시간 가져오기
+                if (storeId) {
+                    fetchReservedTimes(selectedDate, storeId);
+                } else {
+                    console.error('Store ID가 설정되지 않았습니다.');
+                }
             }
         });
         calendar.render();

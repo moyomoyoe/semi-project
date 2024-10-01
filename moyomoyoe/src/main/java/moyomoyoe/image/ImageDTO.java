@@ -1,4 +1,4 @@
-package moyomoyoe.member.user.model.dto;
+package moyomoyoe.image;
 
 public class ImageDTO {
 

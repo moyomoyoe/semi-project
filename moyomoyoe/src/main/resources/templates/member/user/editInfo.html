@@ -36,6 +36,7 @@
         비밀번호 : <input type="password" id="password" name="password" required><br>
         비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
         <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
+        <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
         닉네임 : <input type="text" id="nickname" name="nickname" required><br>
         지역 : <span th:text="${ user.region }"></span><br>
         연락처 : <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
@@ -80,9 +81,11 @@
             if(checkPwd.value !== password.value) {
                 event.preventDefault();
                 errorMsg2.style.display = 'block';
+                errorMsg4.style.display = 'none';
                 console.log('다름');
             } else {
                 errorMsg2.style.display = 'none';
+                errorMsg4.style.display = 'block';
                 console.log('일치');
             }
         });

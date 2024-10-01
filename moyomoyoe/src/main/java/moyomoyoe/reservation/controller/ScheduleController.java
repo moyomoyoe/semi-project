@@ -34,37 +34,34 @@ public class ScheduleController {
     //사업장 세부정보
     @GetMapping("/storeInfo/{code}")
     public String storeInfo(@PathVariable("code") int code, HttpSession session) {
+        System.out.println("[사업자 마이페이지]");
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
         Integer storeId = reserService.FindUserStore(code);
         if (code <= 0 || storeId==null){
             return "redirect:" + defaultUrl+"regist/store/"+code;
         }
         else {
-        // 해당 사업체의 세부정보와 일정정보를 세션에 저장
-        StoreDTO store = reserService.getStoreAllInfo(storeId);
-        List<ScheduleDTO> schedule = reserService.getSchedule(storeId);
+            // 해당 사업체의 세부정보와 일정정보를 세션에 저장
+            StoreDTO store = reserService.getStoreAllInfo(storeId);
 
-        System.out.println("store = " + store);
-        System.out.println("schedule = " + schedule);
-        if (store != null) {
-            System.out.println("store!=null 조건 충족 닿았습니다");
+            System.out.println("store = " + store);
+
             session.setAttribute("store", store);
-            session.setAttribute("schedule", schedule);
-        }
             return "redirect:" + defaultUrl + "storeInfo"; // 해당 페이지로 리턴
         }
-
     }
 
     @GetMapping("/storeInfo")
     public String getStoreInfoFromSession(HttpSession session, Model model) {
         // 세션에 저장된 데이터를 가져옴
         StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
-        List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
+        List<ScheduleDTO> schedule = reserService.getSchedule(storeInfo.getStoreId());
 
+        String url = "/static/image/image1.png";
         // 모델에 추가해서 Thymeleaf로 전달
         model.addAttribute("store", storeInfo);
         model.addAttribute("schedule", schedule);
+        model.addAttribute("image",url);
 
         return defaultUrl+"storeInfo";
     }
@@ -157,8 +154,8 @@ public class ScheduleController {
         List<ScheduleDTO> schedule;
         if (storeId!=null)
             schedule =reserService.getSchedule(storeId);
-       else {
-           schedule = new ArrayList<>();
+        else {
+            schedule = new ArrayList<>();
         }
         System.out.println("스케쥴 출력"+schedule);
         //로그인 정보에서 등록된 게 있으면 미리 작성되어 있는게 좋음
@@ -192,7 +189,7 @@ public class ScheduleController {
     @GetMapping("/delete/store/{code}")
     @ResponseBody
     public  Map<String, String> deleteStore(@PathVariable("code") int code){
-        System.out.println("delete요청이 왔습니다");        
+        System.out.println("delete요청이 왔습니다");
         Integer storeId = reserService.FindUserStore(code);
         Map<String, String> response = new HashMap<>();
         try {
