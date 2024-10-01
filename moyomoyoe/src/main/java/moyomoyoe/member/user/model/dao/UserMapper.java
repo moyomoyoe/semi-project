@@ -34,5 +34,3 @@ public interface UserMapper {
 
     void deleteUser(String account);
 }
-
-

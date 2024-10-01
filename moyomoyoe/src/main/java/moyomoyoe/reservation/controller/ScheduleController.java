@@ -4,31 +4,39 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import moyomoyoe.image.ImageDTO;
+import moyomoyoe.member.user.model.service.UserService;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import moyomoyoe.reservation.model.dto.StoreDTO;
 import moyomoyoe.reservation.model.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/reservation/schedule")
 //리팩토링 , 첨삭 생각 나중에 하기
 public class ScheduleController {
     //세션에서 role 확인후, 조회등의 페이지를 구분 해야함
-    ScheduleService reserService;
-    String defaultUrl ="/reservation/schedule/";
+    private ScheduleService reserService;
+    private String defaultUrl ="/reservation/schedule/";
+    private UserService uerService;
 
     @Autowired
-    public ScheduleController(ScheduleService reserService) {
+    private ResourceLoader resourceLoader;
+
+    public ScheduleController(ScheduleService reserService, UserService uerService) {
         this.reserService = reserService;
+        this.uerService = uerService;
     }
 
     //사업장 세부정보
@@ -57,10 +65,20 @@ public class ScheduleController {
         StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
         List<ScheduleDTO> schedule = reserService.getSchedule(storeInfo.getStoreId());
 
-        String url = "/static/image/image1.png";
+        String url =reserService.getImageById(1);
+
+        Integer imageId=storeInfo.getImageId();
+        System.out.println("기본 url"+url);
+
+        if(imageId !=null){
+            System.out.println("imageId = "+imageId);
+            System.out.println("/storeInfo의 이미지 결과 확인중" +reserService.getImageById(imageId));
+            url = reserService.getImageById(storeInfo.getImageId());
+        }
         // 모델에 추가해서 Thymeleaf로 전달
         model.addAttribute("store", storeInfo);
         model.addAttribute("schedule", schedule);
+
         model.addAttribute("image",url);
 
         return defaultUrl+"storeInfo";
@@ -90,6 +108,11 @@ public class ScheduleController {
     @GetMapping("/regist/store")
     public String RegistStore(Model model) {
         StoreDTO store = (StoreDTO) model.getAttribute("store");
+        String url =reserService.getImageById(1);
+        if(store.getImageId()!=null){
+            url = reserService.getImageById(store.getImageId());
+        }
+        model.addAttribute("img", url);
         model.addAttribute("store", store==null ? new StoreDTO():store);
         return defaultUrl + "registstore";
     }
@@ -102,15 +125,12 @@ public class ScheduleController {
     public Map<String, String> RegistStore(@RequestBody StoreDTO store) {
         Map<String, String> response = new HashMap<>();
         System.out.println(store+"확인된 데이터");
-        //StoreDTO temp = new StoreDTO(0,"더미 데이터", "종각", "기타","123456","어떤 가게입니다.",1, null);
-        System.out.println(store);
         try {
             // Store 등록 서비스 호출
             reserService.registStore(store);
             // 성공 시 응답 설정
             response.put("status", "success");
             response.put("message", "Store registered successfully!");
-            response.put("확인", "이게맞나?");
         } catch (Exception e) {
             // 실패 시 응답 설정
             e.printStackTrace();
@@ -206,4 +226,56 @@ public class ScheduleController {
         return response;
     }
 
+    @PostMapping("/regist/single-file")
+    @ResponseBody
+    public Map<String, String> singleFileUpload(@RequestParam MultipartFile singleFile,
+                                                @ModelAttribute ImageDTO newImage) throws IOException {
+        Map<String, String> response =new HashMap<>();
+        System.out.println("파일 확인? = " + singleFile);
+        Resource resource = resourceLoader.getResource("/static/image/");
+        System.out.println("경로 확인쓰 = " + resource);
+
+        String filePath = null;
+        if(!resource.exists()) {
+            //경로 없을 때
+            String root = "src/main/resources/static/image/";
+
+            File file = new File(root);
+            file.mkdirs();
+
+            filePath = file.getAbsolutePath();
+        } else {
+            // 경로 있을 때
+            filePath = resourceLoader.getResource("/static/image/")
+                    .getFile()
+                    .getAbsolutePath();
+        }
+
+        String originalFileName = singleFile.getOriginalFilename();
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+        String savedName = UUID.randomUUID().toString().replace("-", "") + extension;
+
+        try {
+            singleFile.transferTo(new File(filePath + "/" + savedName));
+
+            newImage.setImageName("/static/image/" + savedName);
+
+            int imageId= reserService.registImage(newImage);
+
+            System.out.println("[DB에 저장 된 사진 경로?] = " + newImage);
+
+            System.out.println(imageId);
+            response.put("status", "success");
+            response.put("imageId", String.valueOf(imageId));
+
+        } catch(IOException e) {
+            new File(filePath + "/" + savedName).delete();
+            response.put("status", "fail");
+
+            e.printStackTrace();
+        }
+        System.out.println("리턴할 값"+response);
+        return response;
+    }
 }
