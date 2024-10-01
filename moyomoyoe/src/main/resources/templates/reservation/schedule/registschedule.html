@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <link rel="stylesheet" href="/static/style/test.css" />
     <link rel="stylesheet" href="/static/style/schedule.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
@@ -23,7 +22,7 @@
 <button id ="makeSchedule" > 새 일정 생성</button>
 <hr>
 <h2>현 일정</h2>
-<div id="container"></div>
+<div id="container" class="token-container"></div>
 <button id="save" onclick="saveSchedule()"> 일정 저장</button>
 <a href="/"> 취소 메인으로</a>
 </div>
@@ -49,12 +48,11 @@
 
     function makeNode(s){
         let newSchedule = document.createElement("div");
+        newSchedule.classList.add("token");
         newSchedule.innerHTML = ` ${s.startTime} ~ ${s.endTime}
         <button id="delete-btn">X</button>
        <br>
        ${s.capacity}명 까지 가능
-       </div>
-        </div>
       `;
         newSchedule
             .querySelector("#delete-btn")

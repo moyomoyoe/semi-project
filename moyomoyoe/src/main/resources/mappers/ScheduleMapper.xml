@@ -123,4 +123,11 @@
         store_id = #{code}
     </delete>
 
+    <select id="getResBySchedule">
+        SELECT res_id
+        FROM tbl_reservation
+        WHERE schedule_id = #{id}
+        ;
+    </select>
+
 </mapper>
