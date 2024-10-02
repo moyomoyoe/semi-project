@@ -1,0 +1,76 @@
+/*  <link rel="stylesheet" href="/static/style/test.css" />*/
+
+/* html 전체 지정 폰트로 설정 */
+body {
+    font-family: '런드리고딕OTF', sans-serif;
+}
+
+/*본문 컨테이너 전체 중앙정렬*/
+.container {
+    padding: 20px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+
+/*버튼과 동일하게 보이는 a태그*/
+.a-button {
+    display: inline-block;
+    background: #CAEEE7;
+    border: #6BAFA2 2px solid;
+    border-radius: 20px;
+    color: black;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.a-button:hover {
+    background: #B2DBD5;  /* 마우스를 올렸을 때 배경색 변경 */
+    border-color: #569387; /* 테두리 색상 변경 */
+}
+
+/*주의가 필요한 버튼(a태그)*/
+.a-button-warning {
+    display: inline-block;
+    background: #F8D7DA;    /* 연한 붉은색 배경 */
+    border: #F5C6CB 2px solid;  /* 경고 느낌의 테두리 색상 */
+    border-radius: 20px;    /* 모서리 둥글게 */
+    color: #721C24;         /* 경고 느낌의 어두운 붉은 텍스트 */
+    text-decoration: none;  /* 밑줄 제거 */
+    padding: 10px 20px;     /* 안쪽 여백 */
+    font-size: 16px;        /* 글자 크기 */
+    cursor: pointer;        /* 마우스 커서 모양 변경 */
+    text-align: center;     /* 텍스트 중앙 정렬 */
+}
+
+.a-button-warning:hover {
+    background: #F5C6CB;  /* 마우스를 올렸을 때 배경색 변경 */
+    border-color: #F1B0B7; /* 테두리 색상 변경 */
+}
+
+/*우측정렬이 필요한 컴포넌트 일 시*/
+.right-align{
+    position: absolute;
+    right: 20px;
+}
+
+button{
+    font-family: '런드리고딕OTF', sans-serif;
+    background: #CAEEE7;
+    border: #6BAFA2 2px solid;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+button:hover {
+     background: #B2DBD5;  /* 마우스를 올렸을 때 배경색 변경 */
+     border-color: #569387; /* 테두리 색상 변경 */
+ }
+
+

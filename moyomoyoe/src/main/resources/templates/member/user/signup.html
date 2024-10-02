@@ -2,81 +2,142 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/signup.css" />
+    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/member.css" />
     <title>SIGNUP</title>
 </head>
 <body>
-<h1>회원가입</h1>
+<div th:replace="common/header.html"></div>
+<div class="page-title">
+    <h2>&nbsp;&nbsp;회원가입</h2>
+    <hr>
+</div>
 
-<form th:action="@{/member/user/signup}" method="post" id="signupForm">
-    회원 구분 :
-    <input type="radio" id="user" name="userRole" value="USER" checked> 일반 회원
-    <input type="radio" id="business" name="userRole" value="BUSINESS"> 사업자 회원<br>
-    아이디 : <input type="text" id="account" name="account" required><button type="button" id="checkAcct">중복확인</button><br>
-    <span id="errorMsg1" style="color: forestgreen; display: none"><small>사용 가능한 아이디</small></span>
-    비밀번호 : <input type="password" id="password" name="password" required><br>
-    비밀번호 확인 : <input type="password" id="checkPwd" name="checkPwd" required><br>
-    <span id="errorMsg2" style="color: tomato; display: none"><small>비밀번호가 일치하지 않습니다.</small></span>
-    <span id="errorMsg4" style="color: forestgreen; display: none"><small>비밀번호 일치 확인</small></span>
-    이름 : <input type="text" id="username" name="username" required><br>
-    닉네임 : <input type="text" id="nickname" name="nickname" required><br>
-    연락처 : <input type="text" id="signUpPhoneNum1" name="phone" size="3" required>
-    -
-    <input type="text" id="signUpPhoneNum2" name="phone" size="4" required>
-    -
-    <input type="text" id="signUpPhoneNum3" name="phone" size="4" required><br>
-    지역 :
-    <select name="userRegion" id="region" required>
-        <option value="" disabled selected>선택</option>
-    </select><br>
-    이메일 : <input type="text" id="signupEmailLocal" name="email" required>
-    @
-    <select id="signupEmailDomain" name="email" required>
-        <option value="naver.com">naver.com</option>
-        <option value="gmail.com">gmail.com</option>
-        <option value="daum.net">daum.net</option>
-    </select><br>
-    <!--        사업자 등록 번호 : <input type="text" name="busyNo"><br>-->
-    <br>
-    이용약관 : <button type="button" id="toggle" style="border: none; text-decoration: none;">더보기</button>
-    <div id="content" style="display: none;">
+<div class="container">
+    <form th:action="@{/member/user/signup}" method="post" id="signupForm">
+        <div class="signup">
+        <div class="form-group">
+            <label>회원 구분</label>
+            <div class="role">
+                <input type="radio" id="user" name="userRole" value="USER" style="width: 20px;" checked> 일반 회원
+            </div>
+            <div class="role">
+                <input type="radio" id="business" name="userRole" value="BUSINESS" style="width: 20px;"> 사업자 회원<br>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>아이디</label>
+                <input type="text" id="account" name="account" style="width: 130px;" required>&nbsp;&nbsp;<button type="button" id="checkAcct">중복확인</button><br>
+        </div>
+        <div class="errorMsg1">
+            <span id="errorMsg1" style="color: forestgreen; display: none"><small>√  사용 가능한 아이디</small></span>
+        </div>
+        <div class="form-group">
+            <label>비밀번호</label>
+            <input type="password" id="password" name="password" required><br>
+        </div>
+        <div class="form-group">
+            <label>비밀번호 확인</label>
+            <input type="password" id="checkPwd" name="checkPwd" required><br>
+        </div>
+            <div class="errorMsg2">
+                <span id="errorMsg2" style="color: tomato; display: none"><small>Ⅹ  비밀번호가 일치하지 않습니다.</small></span>
+            </div>
+            <div class="errorMsg4">
+                <span id="errorMsg4" style="color: forestgreen; display: none"><small>√  비밀번호 일치 확인</small></span>
+            </div>
+        <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="username" name="username" required><br>
+        </div>
+        <div class="form-group">
+            <label>닉네임</label>
+            <input type="text" id="nickname" name="nickname" required><br>
+        </div>
+        <div class="form-group">
+            <label>연락처</label>
+            <input type="text" id="signUpPhoneNum1" name="phone" size="3" style="width: auto" required>
+            -
+            <input type="text" id="signUpPhoneNum2" name="phone" size="4" style="width: auto" required>
+            -
+            <input type="text" id="signUpPhoneNum3" name="phone" size="4" style="width: auto" required><br>
+        </div>
+        <div class="form-group">
+            <label>지역</label>
+            <select name="userRegion" id="region" style="width: 200px" required>
+                <option value="" disabled selected>선택</option>
+            </select><br>
+        </div>
+        <div class="form-group">
+            <label>이메일</label>
+            <div class="email-group">
+                <input type="text" id="signupEmailLocal" name="email" style="width: 100px;" required>
+                @
+                <select id="signupEmailDomain" name="email" required>
+                    <option value="naver.com">naver.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="daum.net">daum.net</option>
+                </select><br>
+            </div>
+        </div>
+        <!--        사업자 등록 번호 : <input type="text" name="busyNo"><br>-->
+        <br>
+        <div class="form-group">
+            <label>이용약관</label>
+                <button type="button" id="toggle" style="border: none; text-decoration: none; width: 200px;">자세히 보기</button>
+        </div>
+            <div id="content" style="display: none; text-align: left">
             <pre>
-<b>[개인정보 수집과 이용에 대한 동의]</b>
-사이트 이용과 관련하여 개인정보 수집과 이용에 관한 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
-수집하는 자: 모요모여(moyomoyoe)
-개인정보 수집 및 이용 목적: 사이트 이용
-수집하는 개인정보 항목: 이름, 연락처, 지역, 이메일
-개인정보 보유 및 이용 기간: 수집 일로부터 365일
-※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 사이트 이용에 제약이 있음을 알려드립니다.
-개인정보 수집과 이용에 동의하시나요?</pre>
+            <b>[개인정보 수집과 이용에 대한 동의]</b>
+            사이트 이용과 관련하여 개인정보 수집과 이용에 관한 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
 
-        <pre>
-<b>[개인정보 취급 위탁에 대한 동의]</b>
-본인 확인 서비스 제공을 위해 개인정보 취급 위탁 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
-수탁자: 모요모여(moyomoyoe)
-개인정보 수집 및 이용 목적: 회원가입 등에 필요한 본인확인 서비스 제공
-수집하는 개인정보 항목: 이름, 연락처, 지역, 이메일
-개인정보 보유 및 이용 기간: 수집 일로부터 3년
-※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 서비스를 이용할 수 없음을 알려드립니다.
-개인정보 취급 위탁에 대해 동의하시나요?</pre>
+            수집하는 자: 모요모여(moyomoyoe)
+            개인정보 수집 및 이용 목적: 사이트 이용
+            수집하는 개인정보 항목: 이름, 연락처, 지역, 이메일
+            개인정보 보유 및 이용 기간: 수집 일로부터 365일
 
-        <pre>
-<b>[개인정보 제 3자 제공에 대한 동의]</b>
-여행 상품 할인 프로모션 안내를 위해 개인정보 제3자 제공 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
-제공 받는 자: 모요모여(moyomoyoe)
-개인정보 제공 및 이용 목적: 예약에 관한 서비스 제공
-제공하는 개인정보 항목: 이름, 연락처, 지역, 이메일
-개인정보 보유 및 이용 기간: 수집 일로부터 365일
-※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 예약 서비스를 제공 받을 수 없음을 알려드립니다.
-개인정보 제 3자 제공에 동의하시나요?</pre>
-    </div>
-    <br>
-    <input type="checkbox" id="agree" name="privacy" value="agree" required>
-    <label for="agree">동의합니다.</label>
-    <span id="errorMsg3" style="color: tomato; display: none"><small>약관에 동의해주세요.</small></span>
-    <br>
-    <br>
-    <button id="signupButton">회원가입</button>
-</form>
+            ※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 사이트 이용에 제약이 있음을 알려드립니다.
+            개인정보 수집과 이용에 동의하시나요?</pre>
+
+            <pre>
+            <b>[개인정보 취급 위탁에 대한 동의]</b>
+            본인 확인 서비스 제공을 위해 개인정보 취급 위탁 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
+
+            수탁자: 모요모여(moyomoyoe)
+            개인정보 수집 및 이용 목적: 회원가입 등에 필요한 본인확인 서비스 제공
+            수집하는 개인정보 항목: 이름, 연락처, 지역, 이메일
+            개인정보 보유 및 이용 기간: 수집 일로부터 3년
+
+            ※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 서비스를 이용할 수 없음을 알려드립니다.
+            개인정보 취급 위탁에 대해 동의하시나요?</pre>
+
+            <pre>
+            <b>[개인정보 제 3자 제공에 대한 동의]</b>
+            여행 상품 할인 프로모션 안내를 위해 개인정보 제3자 제공 동의를 받고자 합니다. 아래 보기에서 동의 여부를 선택해 주세요.
+
+            제공 받는 자: 모요모여(moyomoyoe)
+            개인정보 제공 및 이용 목적: 예약에 관한 서비스 제공
+            제공하는 개인정보 항목: 이름, 연락처, 지역, 이메일
+            개인정보 보유 및 이용 기간: 수집 일로부터 365일
+
+            ※ 귀하께서는 동의하지 않을 권리가 있습니다. 동의하지 않을 경우 예약 서비스를 제공 받을 수 없음을 알려드립니다.
+            개인정보 제 3자 제공에 동의하시나요?</pre>
+            </div>
+        <br>
+        <div class="form-group">
+            <input type="checkbox" id="agree" name="privacy" value="agree" style="width: 30px; " required>
+            <label for="agree" style="width: 80px">동의합니다.</label>
+            <span id="errorMsg3" style="color: tomato; display: none"><small>약관에 동의해주세요.</small></span>
+        </div>
+        <br>
+        <br>
+        </div>
+        <div class="button">
+            <button id="signupButton">회원가입</button>
+        </div>
+    </form>
+</div>
 
 <!--    <script th:inline="javascript">-->
 <!--        const message = [[${ message }]];-->
@@ -303,17 +364,43 @@
         isAcctChecked = true;
     });
 
+    document.getElementById('account').addEventListener('input', function() {
+        const account = document.getElementById('account');
+        const errorMsg1 = document.getElementById('errorMsg1');
+
+        if(account.value === '') {
+            errorMsg1.style.display = 'none';
+        }
+    });
+
+    document.getElementById('password').addEventListener('input', function () {
+
+        if(password.value === '') {
+            errorMsg2.style.display = 'none';
+            errorMsg4.style.display = 'none';
+        }
+    });
+
     document.getElementById('checkPwd').addEventListener('input', function(event) {
+
+        if(checkPwd.value === '') {
+            event.preventDefault();
+            errorMsg2.style.display = 'none';
+            errorMsg4.style.display = 'none';
+        }
 
         if(checkPwd.value !== password.value) {
             event.preventDefault();
             errorMsg2.style.display = 'block';
             errorMsg4.style.display = 'none';
             console.log('다름');
-        } else {
+        } else if(checkPwd.value === password.value) {
             errorMsg2.style.display = 'none';
             errorMsg4.style.display = 'block';
             console.log('일치');
+        } else if(password.value !== '' && checkPwd.value !== '') {
+            errorMsg2.style.display = 'none';
+            errorMsg4.style.display = 'none';
         }
 
     });

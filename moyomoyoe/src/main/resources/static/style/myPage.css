@@ -1,0 +1,29 @@
+.profile-image {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.buttons {
+    /*position: absolute;*/
+    /*right: 700px;*/
+    margin: 60px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.users {
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.user-name-region {
+    margin-top: 40px;
+    margin-right: 60px;
+}
+
+h2.user-nickname {
+    font-size: 30px;
+}

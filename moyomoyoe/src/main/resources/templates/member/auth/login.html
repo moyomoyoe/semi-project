@@ -1,25 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/login.css" />
+    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/member.css" />
     <title>LOGIN</title>
 </head>
 <body>
-<h1>로그인</h1>
+    <div th:replace="common/header.html"></div>
+    <div class="page-title">
+        <h2>&nbsp;&nbsp;로그인</h2>
+        <hr>
+    </div>
 
-<form th:action="@{/member/auth/login}" th:method="POST">
-    <lable>아이디 : </lable>
-    <input type="text" id="user" name="account">
-    <br>
-    <lable>비밀번호 : </lable>
-    <input type="password" id="password" name="password">
-    <br>
-    <button>로그인</button>
-</form>
-<div>
-    <a href="/member/user/findId">아이디 찾기</a>
-    <a href="/member/user/findPwd">비밀번호 찾기</a>
-</div>
+    <div class="container">
+        <form th:action="@{/member/auth/login}" th:method="POST">
+            <div class="form-group">
+                <label>아이디</label>
+                <input type="text" id="user" name="account" placeholder="아이디">
+            </div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="비밀번호">
+            </div>
+            <div class="find-group">
+                <a class="find" href="/member/user/findId">아이디 찾기</a>&nbsp;&nbsp;
+                <a class="find" href="/member/user/findPwd">비밀번호 찾기</a>
+            </div>
+            <br>
+            <div class="buttons">
+                <button>로그인</button>&nbsp;&nbsp;
+                <div sec:authorize="!isAuthenticated()" class="a-button">
+                    <a href="/member/user/signup">회원가입</a>
+                </div>
+            </div>
+        </form>
+    </div>
 
 </body>
 </html>
