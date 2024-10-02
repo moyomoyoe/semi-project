@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>사업자 마이페이지 및 예약 리스트</title>
+    <link rel="stylesheet" href="/static/style/main.css" />
+    <link rel="stylesheet" href="/static/style/schedule.css" />
 </head>
 <body>
-<h1>사업자 마이페이지 상세화면 및 예약 리스트</h1>
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
 
-<div th:if="${store.storeId} != 0">
-    <h3 th:text="|가게명 : ${store.storeName}|"></h3>
-    <h3 th:text="|업종 : ${store.storeSort}|"></h3>
-    <h4 th:text="|설명문 : ${store.description}|"></h4>
 
-    <hr>
+    <div class="centered-container">
+        <h2>예약 관리</h2>
+        <hr>
+<!--        -->
+<!--<div th:if="${store.storeId} != 0">-->
+<!--    <h3 th:text="|가게명 : ${store.storeName}|"></h3>-->
+<!--    <h3 th:text="|업종 : ${store.storeSort}|"></h3>-->
+<!--    <h4 th:text="|설명문 : ${store.description}|"></h4>-->
 
-</div>
 
 <!-- 사업장 예약 리스트 -->
 <div th:if="${reservations != null and reservations.size() > 0}">
@@ -31,30 +37,38 @@
         </li>
     </ul>
 </div>
+        <div id="reservation-container">
+
+        </div>
+
+
 <div th:if="${reservations == null or reservations.size() == 0}">
     <p>예약된 일정이 없습니다.</p>
 </div>
 
-<!-- 버튼 섹션 -->
-<button onclick="deleteFetch()">사업장 삭제</button>
-<a href="/main">메인으로</a>
+<a class="a-button" href="/main">돌아가기</a>
 
-<script th:inline="javascript">
-    let userId = /*[[${store.userId}]]*/ 0;
-    console.log(userId);
-    function deleteFetch() {
-        if (confirm("사업장 정보를 삭제하시겠습니까? 현재 들어온 예약과 등록된 일정을 포함한 정보가 모두 삭제됩니다.")) {
-            fetch(`/reservation/schedule/delete/store/${userId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        location.href = `/reservation/schedule/regist/store/${userId}`;
-                    } else {
-                        alert("사업장 삭제에 실패했습니다. 다시 시도해주세요.");
-                    }
-                });
-        }
-    }
-</script>
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+
+</div>
 </body>
+<script th:inline="javascript">
+    const reservations = /*[[${reservations}]]*/ [];
+    const container = document.querySelector("#reservation-container");
+    let curDate="";
+
+        console.log(reservations)
+    reservations.forEach(r=>{
+        if (curDate != r.res_date){
+            curDate=r.res_date
+            container.innerHTML += `<br><h1>${curDate.slice(-5)}의 예약 목록</h1><hr>`
+        }
+        container.innerHTML +=
+            `<div class="token">예약자 명: ${r.}<br>
+            인원수: ${r.customer_num}<br>
+            </div>`
+    })
+
+</script>
 </html>
