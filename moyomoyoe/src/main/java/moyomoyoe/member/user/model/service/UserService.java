@@ -131,7 +131,7 @@ public class UserService {
 
     public ImageDTO getImageById(int id) {
         System.out.println("[작동하니?]");
-         return userMapper.getImageById(id);
+        return userMapper.getImageById(id);
     }
 
     public FindIdDTO findAccount(String username, String email) {

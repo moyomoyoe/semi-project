@@ -5,21 +5,21 @@
     <title>LOGIN</title>
 </head>
 <body>
-    <h1>로그인</h1>
+<h1>로그인</h1>
 
-    <form th:action="@{/member/auth/login}" th:method="POST">
-        <lable>아이디 : </lable>
-        <input type="text" id="user" name="account">
-        <br>
-        <lable>비밀번호 : </lable>
-        <input type="password" id="password" name="password">
-        <br>
-        <button>로그인</button>
-    </form>
-    <div>
-        <a href="/member/user/findId">아이디 찾기</a>
-        <a href="/member/user/findPwd">비밀번호 찾기</a>
-    </div>
+<form th:action="@{/member/auth/login}" th:method="POST">
+    <lable>아이디 : </lable>
+    <input type="text" id="user" name="account">
+    <br>
+    <lable>비밀번호 : </lable>
+    <input type="password" id="password" name="password">
+    <br>
+    <button>로그인</button>
+</form>
+<div>
+    <a href="/member/user/findId">아이디 찾기</a>
+    <a href="/member/user/findPwd">비밀번호 찾기</a>
+</div>
 
 </body>
 </html>

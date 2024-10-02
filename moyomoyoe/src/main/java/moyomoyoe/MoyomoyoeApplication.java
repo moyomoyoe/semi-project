@@ -17,7 +17,7 @@ public class MoyomoyoeApplication implements CommandLineRunner {
     private DummyDataGenerator dummyDataGenerator;
 
     public static void main(String[] args) {
-        SpringApplication.run(moyomoyoe.MoyomoyoeApplication.class, args);
+        SpringApplication.run(MoyomoyoeApplication.class, args);
     }
 
     @Override

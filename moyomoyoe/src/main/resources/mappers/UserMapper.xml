@@ -36,156 +36,156 @@
 
     <select id="findByAccount" resultMap="authenticatedUser">
         SELECT
-            id,
-            username,
-            account,
-            password,
-            nickname,
-            email,
-            phone,
-            user_role,
-            image_id,
-            user_region,
-            is_active
+        id,
+        username,
+        account,
+        password,
+        nickname,
+        email,
+        phone,
+        user_role,
+        image_id,
+        user_region,
+        is_active
         FROM
-            tbl_user
+        tbl_user
         WHERE
-            account = #{ account }
+        account = #{ account }
     </select>
 
     <select id="findAllRegion" resultMap="allRegionResultMap">
         SELECT
-            region_code,
-            city,
-            district
+        region_code,
+        city,
+        district
         FROM
-            tbl_region
+        tbl_region
     </select>
 
     <select id="getRegionByUserId" resultMap="regionResultMap">
         SELECT
-            a.region_code,
-            a.city,
-            a.district
+        a.region_code,
+        a.city,
+        a.district
         FROM
-            tbl_region a
+        tbl_region a
         JOIN
-            tbl_user b ON b.user_region = a.region_code
+        tbl_user b ON b.user_region = a.region_code
         WHERE
-            b.id = #{ id }
+        b.id = #{ id }
     </select>
 
     <select id="findById" parameterType="moyomoyoe.member.auth.model.dto.UserDTO">
         SELECT
-            *
+        *
         FROM
-            tbl_region
+        tbl_region
         WHERE
-            id = #{ id }
+        id = #{ id }
     </select>
 
     <select id="getImageById" resultMap="imageResultMap">
         SELECT
-            a.image_id,
-            a.image_name
+        a.image_id,
+        a.image_name
         FROM
-            tbl_image a
+        tbl_image a
         JOIN
-            tbl_user b ON b.image_id = a.image_id
+        tbl_user b ON b.image_id = a.image_id
         WHERE
-            b.id = #{ id }
+        b.id = #{ id }
     </select>
 
     <select id="findAccount" parameterType="moyomoyoe.member.user.model.dto.FindIdDTO">
         SELECT
-            account
+        account
         FROM
-            tbl_user
+        tbl_user
         WHERE
-            username = #{ username } AND
-            email = #{ email } AND
-            is_active = 'Y'
+        username = #{ username } AND
+        email = #{ email } AND
+        is_active = 'Y'
     </select>
 
     <select id="findPwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
         SELECT
-            password
+        password
         FROM
-            tbl_user
+        tbl_user
         WHERE
-            account = #{ account } AND
-            email = #{ email }
+        account = #{ account } AND
+        email = #{ email }
     </select>
 
     <insert id="regist" parameterType="moyomoyoe.member.user.model.dto.SignupDTO">
         INSERT INTO
-            tbl_user
+        tbl_user
         (
-            username,
-            account,
-            password,
-            nickname,
-            email,
-            phone,
-            user_role,
-            user_region,
-            image_id
+        username,
+        account,
+        password,
+        nickname,
+        email,
+        phone,
+        user_role,
+        user_region,
+        image_id
         )
         VALUES
         (
-            #{ username },
-            #{ account },
-            #{ password },
-            #{ nickname },
-            #{ email },
-            #{ phone },
-            #{ userRole },
-            #{ userRegion },
-            1
+        #{ username },
+        #{ account },
+        #{ password },
+        #{ nickname },
+        #{ email },
+        #{ phone },
+        #{ userRole },
+        #{ userRegion },
+        1
         )
     </insert>
 
     <insert id="registImage" parameterType="moyomoyoe.image.ImageDTO" useGeneratedKeys="true" keyProperty="imageId">
         INSERT INTO
-            tbl_image
+        tbl_image
         (
-            image_name
+        image_name
         )
         VALUES
         (
-            #{ imageName }
+        #{ imageName }
         )
     </insert>
 
     <update id="update" parameterType="moyomoyoe.member.auth.model.dto.UserDTO">
         UPDATE
-            tbl_user
+        tbl_user
         SET
-            password = #{ password },
-            nickname = #{ nickname },
-            phone = #{ phone },
-            email = #{ email },
-            image_id = #{ imageId }
+        password = #{ password },
+        nickname = #{ nickname },
+        phone = #{ phone },
+        email = #{ email },
+        image_id = #{ imageId }
         WHERE
-            account = #{ account }
+        account = #{ account }
     </update>
 
     <update id="updatePwd" parameterType="moyomoyoe.member.user.model.dto.FindPwdDTO">
         UPDATE
-            tbl_user
+        tbl_user
         SET
-            password = #{ password }
+        password = #{ password }
         WHERE
-            account = #{ account }
+        account = #{ account }
     </update>
 
     <update id="deleteUser" parameterType="String">
         UPDATE
-            tbl_user
+        tbl_user
         SET
-            is_active = 'N'
+        is_active = 'N'
         WHERE
-            account = #{ account }
+        account = #{ account }
     </update>
 
 

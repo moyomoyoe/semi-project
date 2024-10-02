@@ -1,5 +1,6 @@
 package moyomoyoe.config;
 
+import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.member.auth.model.UserRole;
 import moyomoyoe.member.exception.AuthFailHandler;
 import moyomoyoe.member.exception.AuthSuccessHandler;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -43,7 +46,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
@@ -61,6 +64,10 @@ public class SecurityConfig {
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/business/*").hasAnyAuthority(UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll();
+            auth.requestMatchers(HttpMethod.POST, "/board/detailpost/delete/**").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
+            // 특정 HTML 파일에 대한 접근을 모두 허용
+            auth.requestMatchers("/board/keywordName", "/board/keywordlist", "/board/latestlist", "/board/api/regionlist/cities","/board/api/regionlist/districts", "/board/regionlist", "/board/searchlist", "/board/titlelist").permitAll();
+            auth.requestMatchers("/board/detailpost/*").permitAll();
             auth.anyRequest().authenticated();
         }).formLogin(login -> {
             login.loginPage("/member/auth/login");

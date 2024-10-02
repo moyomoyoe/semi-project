@@ -113,6 +113,15 @@
     <!-- 사업장별 예약 조회 -->
     <select id="getReservationsByStore" parameterType="int" resultType="map">
         SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
+    <!-- 사용자 ID를 이용해 사용자 이름 조회 -->
+    <!--    <select id="getUserNameByUserId" parameterType="int" resultType="string">-->
+    <!--        SELECT nickname FROM tbl_user WHERE id = #{userId}-->
+    <!--    </select>-->
+
+    <!-- 사업장별 예약 현황 조회 -->
+    <select id="getReservationsByStoreId" parameterType="int" resultMap="reservationMap">
+        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id,
+               s.store_name, s.store_sort, u.nickname AS user_name
         FROM tbl_reservation r
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
         WHERE sch.store_id = #{storeId}
