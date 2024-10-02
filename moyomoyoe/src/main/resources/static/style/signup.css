@@ -1,0 +1,122 @@
+body {
+    font-family: '런드리고딕OTF', sans-serif;
+    justify-content: center;
+}
+
+form {
+    margin: 30px auto;
+}
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /*transform: translateX(-50px);*/
+}
+
+.form-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    /*margin-bottom: 15px; !* 각 필드 간의 간격 *!*/
+    /*margin-right: 100px;*/
+    margin: 10px 0;
+}
+
+.form-group label {
+    width: 100px;
+    text-align: right;
+    margin-right: 50px;
+}
+
+.form-group input {
+    text-align: left;
+    width: 200px;
+    height: 20px;
+    white-space: nowrap;
+}
+
+.form-group select {
+    text-align: left;
+    width: 80px;
+    white-space: nowrap;
+}
+
+.email-group {
+    display: flex;
+    align-items: center;
+}
+
+.button {
+    margin: 30px;
+}
+
+.errorMsg1,
+.errorMsg2,
+.errorMsg4 {
+    margin: 0;
+    padding: 0;
+}
+
+#errorMsg1,
+#errorMsg2,
+#errorMsg4 {
+    text-align: left;
+    margin-left: 150px;
+    width: 200px;
+    white-space: nowrap;
+}
+
+/*label {*/
+/*    display: inline-block; !* 레이블을 블록 요소로 변환 *!*/
+/*    width: 100px; !* 레이블 너비 설정 *!*/
+/*    text-align: right;*/
+/*}*/
+
+/*input {*/
+/*    max-width: 200px;*/
+/*    margin: 5px;*/
+/*}*/
+
+/*.input-b {*/
+/*    width: 200px; !* 입력 필드 너비 설정 *!*/
+/*    padding: 5px; !* 여백 추가 *!*/
+/*}*/
+
+/*.input-a {*/
+/*    width: 10px;*/
+/*    padding: 5px;*/
+/*}*/
+
+/*.input-c {*/
+/*    width: 50px;*/
+/*    padding: 5px;*/
+/*}*/
+
+#checkAcct,
+#toggle {
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+input[type="radio"] {
+    vertical-align: middle; /* 수평 중앙 정렬 */
+    margin-right: 5px; /* 텍스트와의 간격 조정 */
+}
+
+input[type="checkbox"] {
+    margin: 0;
+    vertical-align: middle; /* 수평 중앙 정렬 */
+}
+
+.role {
+    margin-right: 5px;
+}
+
+.role input {
+    width: 50px;
+}
+
+

@@ -63,8 +63,8 @@ public class ScheduleService {
         for(int id : deletedSchedules){
             System.out.println(id+ "삭제로직 구비중");
             List<Integer> resList = dao.getResBySchedule(id);
-            for(int rid : resList)
-                resDao.deleteReservation(rid);
+                for(int rid : resList)
+                    resDao.deleteReservation(rid);
             dao.deleteScheduleId(id);
         }
         for(ScheduleDTO s:insertSchedules){
@@ -92,7 +92,7 @@ public class ScheduleService {
     @Transactional
     public int registImage(ImageDTO newImage) {
         userDao.registImage(newImage);
-        return dao.getImageId(newImage.getImageName());
+       return dao.getImageId(newImage.getImageName());
     }
 
     public String getImageById(int i) {

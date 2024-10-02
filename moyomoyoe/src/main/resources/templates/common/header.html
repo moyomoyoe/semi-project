@@ -68,9 +68,9 @@
 
         .header-left {
             display: flex;
-            align-items: center; /* 수직 중앙 정렬 */
+            align-items: center;
         }
-        /* h1과 span을 가로로 나란히 배치 */
+
         .header-left h1 {
             margin-right: 5px; /* h1과 span 사이에 간격 추가 */
             display: inline-block; /* h1을 블록에서 인라인으로 변경 */
@@ -81,7 +81,6 @@
             font-size: 17px;
         }
 
-        /* 오른쪽 요소들을 가로로 정렬 */
         .header-right {
             display: flex;
             align-items: center; /* 수직으로 중앙 정렬 */
@@ -95,10 +94,14 @@
             align-items: center;
         }
 
+        .header-right span {
+            margin-right: 15px;
+        }
+
         .header-right img {
             width: 30px;
             height: 30px;
-            border-radius: 70%;
+            border-radius: 50%;
         }
 
         .main-logo {
@@ -114,25 +117,18 @@
 <body>
 <!-- 상단 네비게이션 -->
 <div class="header">
-    <div class="header-left" style="cursor: pointer;" onclick="location.href='/'">
-        <h1>모요모여</h1>
-        <span>📍in ○○구</span>
+    <div class="header-left" id="header-logo">
+        <h1>모여모여</h1>
+        <span th:if="${userSession != null}" th:text="|📍 in ${ userSession.region }|"></span>
+        <span th:if="${user != null}" th:text="|📍 in ${ user.region }|"></span>
     </div>
-
-    <!-- 네비게이션 바 -->
-    <nav class="navbar">
-        <ul>
-            <li><button class="nav-button" onclick="location.href='/board/searchlist'">게시글</button></li>
-            <li><button class="nav-button" onclick="location.href='/reservation/storeList'">예약하기</button></li>
-        </ul>
-    </nav>
-
-    <!-- 로그인 후 상태 -->
-    <div class="header-right">
-        <div th:if="${userSession != null}" style="cursor: pointer;" onclick="location.href='/profile'">
-            <span th:text="${userSession.nickname}"></span>
-            <img src="https://via.placeholder.com/30" alt="User Icon">
-        </div>
+    <div th:if="${userSession != null}" class="header-right">
+        <span th:text="${ userSession.nickname }"></span>
+        <img th:src="${ userSession.image }" alt="User Icon">
+    </div>
+    <div th:if="${user != null}" class="header-right">
+        <span th:text="${ user.nickname }"></span>
+        <img th:src="${ user.image }" alt="User Icon">
     </div>
     <!-- 비로그인 상태일 때 로그인/회원가입 버튼 표시 -->
     <div th:if="${userSession == null}" class="auth-links">

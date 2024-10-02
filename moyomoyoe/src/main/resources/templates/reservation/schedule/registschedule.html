@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/test.css" />
     <link rel="stylesheet" href="/static/style/schedule.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
     <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.js"></script>
 </head>
 <body>
-<div class="container">
-    <h1 class="title">일정 관리</h1>
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+    <div class="centered-container container">
 
-    <h3 hidden th:text="${userSession.id}"></h3>
-    <h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
-
-    <h2>현 일정</h2>
+<h3 hidden th:text="${userSession.id}"></h3>
+<h3 hidden="hidden" id="data" th:text="${schedule}"></h3>
+<h2>현 일정</h2>
     <hr>
-
     <div id="container" class="token-container"></div>
 
     <div>
@@ -40,10 +41,12 @@
         </div>
 
         <div style="margin: 20px">
-            <button id="save" onclick="saveSchedule()"> 일정 저장</button>
-            <button onclick="backToInfo()"> 돌아가기</button>
+<button id="save" onclick="saveSchedule()"> 일정 저장</button>
+<button onclick="backToInfo()"> 돌아가기</button>
         </div>
     </div>
+</div>
+    <div th:replace="common/schdulelist.html"></div>
 </div>
 <script th:inline="javascript">
 

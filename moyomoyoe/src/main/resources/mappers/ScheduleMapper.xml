@@ -140,11 +140,11 @@
         ;
     </select>
     <select id="getImageById">
-        SELECT image_name
-        FROM tbl_image
-        WHERE
-        image_id = #{id}
-        ;
-    </select>
+    SELECT image_name
+    FROM tbl_image
+    WHERE
+    image_id = #{id}
+    ;
+</select>
 
 </mapper>

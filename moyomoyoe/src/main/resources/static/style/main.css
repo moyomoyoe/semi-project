@@ -6,7 +6,8 @@
     font-style: normal;
 }
 
-body {
+html, body {
+    height: 100%;
     font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
 }
 
@@ -16,7 +17,8 @@ body {
     /*flex-direction: row; !* 기본 가로 정렬이므로 명시적으로 row 설정 *!*/
     /*justify-content: space-between; !* 좌우 여백과 중앙 콘텐츠를 균등하게 배치 *!*/
     width: 100%;
-    height: 100vh; /* 화면 높이를 전체로 설정 */
+    min-height: 100%;
+    height: auto;/* 화면 높이를 전체로 설정 */
     box-sizing: border-box; /* padding 포함 */
 }
 
@@ -35,7 +37,7 @@ body {
 .left-space, .right-space {
     background-color: #CAEEE7;
     width: 300px;
-    height: 100vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -134,7 +136,7 @@ body {
 /*우측정렬이 필요한 컴포넌트 일 시*/
 .right-align{
     position: absolute;
-    right: 20px;
+    right: 320px;
 }
 
 

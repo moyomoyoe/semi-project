@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+
+    <link rel="stylesheet" href="/static/style/main.css" /
     <meta charset="UTF-8">
     <title>MYPAGE</title>
 </head>
 <body>
-<h1>마이페이지</h1>
+
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
+
+
+    <h1>마이페이지</h1>
 
 <div id="profileImg">
     <img src="" alt="기본프로필사진">
@@ -37,5 +47,8 @@
 
 </script>
 
+</div>
+<div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>
