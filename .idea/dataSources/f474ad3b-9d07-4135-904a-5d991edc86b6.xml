@@ -23,7 +23,7 @@ moyomoyoedb|schema||moyomoyoe||SELECT|G
 moyomoyoedb|schema||moyomoyoe||SHOW VIEW|G
 moyomoyoedb|schema||moyomoyoe||TRIGGER|G
 moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
-      <ServerVersion>8.0.39</ServerVersion>
+      <ServerVersion>8.0.38</ServerVersion>
     </root>
     <collation id="2" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
@@ -925,12 +925,11 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <Charset>utf8mb4</Charset>
     </collation>
     <schema id="288" parent="1" name="information_schema">
-      <LastIntrospectionLocalTimestamp>2024-10-01.17:27:18</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb3_general_ci</CollationName>
     </schema>
     <schema id="289" parent="1" name="moyomoyoedb">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-10-01.18:35:54</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-10-02.00:48:03</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="performance_schema">
@@ -1049,7 +1048,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="313" parent="293" name="image_id">
-      <AutoIncrement>2</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <Comment>이미지번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1071,7 +1070,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="317" parent="294" name="keyword_id">
-      <AutoIncrement>7</AutoIncrement>
+      <AutoIncrement>6</AutoIncrement>
       <Comment>취미</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1094,7 +1093,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="321" parent="295" name="post_id">
-      <AutoIncrement>8</AutoIncrement>
+      <AutoIncrement>7</AutoIncrement>
       <Comment>게시글번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1201,7 +1200,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="341" parent="296" name="region_code">
-      <AutoIncrement>25</AutoIncrement>
+      <AutoIncrement>24</AutoIncrement>
       <Comment>지역코드</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1230,7 +1229,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="346" parent="297" name="res_id">
-      <AutoIncrement>5</AutoIncrement>
+      <AutoIncrement>4</AutoIncrement>
       <Comment>예약번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1289,7 +1288,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="357" parent="298" name="schedule_id">
-      <AutoIncrement>5</AutoIncrement>
+      <AutoIncrement>4</AutoIncrement>
       <Comment>일정번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1339,7 +1338,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="366" parent="299" name="store_id">
-      <AutoIncrement>13</AutoIncrement>
+      <AutoIncrement>12</AutoIncrement>
       <Comment>사업장아이디</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>

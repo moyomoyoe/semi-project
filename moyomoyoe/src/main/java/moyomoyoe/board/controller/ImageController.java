@@ -25,7 +25,7 @@ public class ImageController {
     private PostService postService;
 
     @PostMapping("/board/detailpost/single-file")
-    public String singleFileUpload(@RequestParam MultipartFile singleFile,
+    public String singleFileUpload(@RequestParam(required = false, name = "singleFile") MultipartFile singleFile,
                                    @RequestParam ImageDTO newImage,
                                    RedirectAttributes rAttr) throws IOException {
 

@@ -1,87 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/style/main.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 작성</title>
+    <link rel="stylesheet" href="/static/style/main.css"/>
+    <link rel="stylesheet" href="/static/style/schedule.css"/>
+    <link rel="stylesheet" href="/static/style/board/create.css"/>
+
+    <script>
+        // 폼 제출 후 alert을 띄우는 함수
+        function showAlert(event) {
+            event.preventDefault(); // 기본 form 제출 동작을 막음
+            alert("게시글 등록이 완료되었습니다!");
+            event.target.submit(); // 폼을 다시 제출하여 원래 동작 수행
+        }
+    </script>
 </head>
 <body>
-<h1>게시글 작성</h1>
 <div th:replace="common/header.html"></div>
 <div class="outer-container">
     <div class="left-space"></div>
+<div class="centered-container">
+<div class="form-container">
+    <h1>게시글 작성</h1>
 
-    <div class="centered-container">
-<form action="/board/createpost" method="post" enctype="multipart/form-data">
-    <label for="title">제목:</label>
-    <input type="text" id="title" name="title" required>
-    <br>
+    <form action="/board/createpost" method="post" enctype="multipart/form-data" onsubmit="showAlert(event)">
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" placeholder="제목을 입력하세요. (최대 20글자)" required>
 
-    <label for="context">내용:</label>
-    <textarea id="context" name="context" required></textarea>
-    <br>
+        <label for="context">내용</label>
+        <textarea id="context" name="context" placeholder="내용을 입력하세요. (최대 1000글자)" required></textarea>
 
-    <label for="userOpen">공개 여부:</label>
-    <select id="userOpen" name="userOpen">
-        <option value="true">공개</option>
-        <option value="false">비공개</option>
-    </select>
-    <br>
+        <!-- 이미지 업로드 -->
+        <label for="singleFile">이미지 업로드</label>
+        <input type="file" id="singleFile" name="singleFile">
 
-    <!--    <label for="imageId">이미지:</label>-->
-    <!--    <input type="number" id="imageId" name="imageId">-->
-    <!--    <br>-->
+        <!-- 서울시와 카테고리 선택 -->
+        <div class="location-bar">
+            <label for="regionCode">서울시</label>
+            <select id="regionCode" name="regionCode">
+                <option value="1">강남구</option>
+                <option value="2">강동구</option>
+                <option value="3">강북구</option>
+                <option value="4">강서구</option>
+                <option value="5">관악구</option>
+                <option value="6">광진구</option>
+                <option value="7">구로구</option>
+                <option value="8">금천구</option>
+                <option value="9">노원구</option>
+                <option value="10">도봉구</option>
+                <option value="11">동대문구</option>
+                <option value="12">동작구</option>
+                <option value="13">마포구</option>
+                <option value="14">서대문구</option>
+                <option value="15">서초구</option>
+                <option value="16">성동구</option>
+                <option value="17">성북구</option>
+                <option value="18">송파구</option>
+                <option value="19">양천구</option>
+                <option value="20">영등포구</option>
+                <option value="21">용산구</option>
+                <option value="22">은평구</option>
+                <option value="23">종로구</option>
+                <option value="24">중구</option>
+                <option value="25">중랑구</option>
+            </select>
 
-    <label for="singleFile">이미지 업로드:</label>
-    <input type="file" id="singleFile" name="singleFile"><br>
+            <label for="keywordId">카테고리</label>
+            <select id="keywordId" name="keywordId">
+                <option value="1">영화</option>
+                <option value="2">독서</option>
+                <option value="3">스터디</option>
+                <option value="4">스포츠</option>
+                <option value="5">여행</option>
+                <option value="6">기타</option>
+            </select>
+        </div>
 
-    <label for="regionCode">지역 :</label>
-    <select id="regionCode" name="regionCode">
-        <option value="1">강남구</option>
-        <option value="2">강동구</option>
-        <option value="3">강북구</option>
-        <option value="4">강서구</option>
-        <option value="5">관악구</option>
-        <option value="6">광진구</option>
-        <option value="7">구로구</option>
-        <option value="8">금천구</option>
-        <option value="9">노원구</option>
-        <option value="10">도봉구</option>
-        <option value="11">동대문구</option>
-        <option value="12">동작구</option>
-        <option value="13">마포구</option>
-        <option value="14">서대문구</option>
-        <option value="15">서초구</option>
-        <option value="16">성동구</option>
-        <option value="17">성북구</option>
-        <option value="18">송파구</option>
-        <option value="19">양천구</option>
-        <option value="20">영등포구</option>
-        <option value="21">용산구</option>
-        <option value="22">은평구</option>
-        <option value="23">종로구</option>
-        <option value="24">중구</option>
-        <option value="25">중랑구</option>
-    </select>
-    <br>
+        <!-- 비회원 열람 여부 -->
+        <div class="user-open">
+            <label for="userOpen">비회원 열람 여부</label>
+            <select id="userOpen" name="userOpen">
+                <option value="true">공개</option>
+                <option value="false">비공개</option>
+            </select>
+        </div>
 
-    <label for="keywordId">키워드 :</label>
-    <select id="keywordId" name="keywordId">
-        <option value="1">영화</option>
-        <option value="2">독서</option>
-        <option value="3">스터디</option>
-        <option value="4">스포츠</option>
-        <option value="5">여행</option>
-        <option value="6">기타</option>
-    </select>
-    <br>
-
-
-
-    <button type="submit">게시글 등록</button>
-</form>
+        <button class="update" type="submit">글 등록</button>
+        </form>
     </div>
+    </div>
+
     <div th:replace="common/schdulelist.html"></div>
 </div>
 </body>

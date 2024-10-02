@@ -1,0 +1,89 @@
+/* 기본 설정 */
+body {
+    background-color: white; /* 배경색을 흰색으로 설정 */
+    font-family: 'LaundryGothic', sans-serif; /* 'LaundryGothic' 폰트를 사용 */
+    line-height: 1.6; /* 줄 간격을 1.6으로 설정 */
+    margin: 0; /* 기본 마진을 0으로 설정 */
+    padding: 0; /* 기본 패딩을 0으로 설정 */
+}
+
+.form-container {
+    display: flex; /* 플렉스 박스로 설정하여 내부 요소를 정렬 */
+    flex-direction: column; /* 요소들을 세로로 배치 */
+    align-items: center; /* 요소들을 수평으로 중앙 정렬 */
+    padding: 25px; /* 컨테이너 내부의 여백을 25px로 설정 */
+    border: 2px solid #aaa; /* 테두리 색을 진한 회색으로 설정 */
+    border-radius: 12px; /* 모서리를 둥글게 설정 */
+    width: 80%; /* 컨테이너가 화면 너비의 80%를 차지하도록 설정 */
+    margin: 30px auto; /* 상단에 30px 간격을 두고, 좌우 중앙에 배치 */
+    background-color: #f9f9f9; /* 컨테이너 배경색을 연한 회색으로 설정 */
+}
+
+label {
+    font-size: 20px; /* 글씨 크기를 20px로 설정 */
+    margin-top: 15px; /* 상단 여백 15px 설정 */
+    font-weight: bold; /* 글씨를 굵게 설정 */
+}
+
+input[type="text"], textarea, select {
+    width: 100%; /* 입력 필드가 컨테이너 너비 전체를 차지하도록 설정 */
+    padding: 12px; /* 입력 필드 내부 여백을 12px로 설정 */
+    margin-top: 10px; /* 상단 여백 10px 설정 */
+    border: 2px solid #aaa; /* 테두리 색을 진한 회색으로 설정 */
+    border-radius: 5px; /* 모서리를 둥글게 설정 */
+    box-sizing: border-box; /* 박스 크기 계산에 패딩과 테두리를 포함 */
+}
+
+textarea {
+    height: 350px; /* 텍스트 영역의 높이를 350px로 설정 */
+}
+
+/* 이미지 업로드 버튼과 입력 필드 사이의 간격 추가 */
+.image-upload {
+    margin-top: 20px; /* 이미지 업로드 버튼 상단에 20px 간격 추가 */
+}
+
+.location-bar {
+    display: flex; /* 요소들을 가로로 배치 */
+    justify-content: space-between; /* 좌우 끝에 배치 */
+    align-items: center; /* 수직으로 중앙 정렬 */
+    gap: 15px; /* 요소들 사이 간격을 15px로 설정 */
+    margin-top: 20px; /* 상단에 20px 여백 추가 */
+    width: 100%; /* 너비를 100%로 설정하여 컨테이너의 너비를 모두 차지 */
+}
+
+.location-bar select {
+    width: 40%; /* 선택 박스의 너비를 40%로 설정 */
+}
+
+.user-open {
+    display: flex; /* 요소들을 가로로 배치 */
+    align-items: center; /* 수직으로 중앙 정렬 */
+    justify-content: space-between; /* 좌우 끝에 배치 */
+    margin-top: 20px; /* 상단에 20px 여백 추가 */
+    width: 100%; /* 너비를 100%로 설정 */
+}
+
+.user-open label {
+    width: 60%; /* 레이블의 너비를 60%로 설정 */
+}
+
+.user-open select {
+    width: 15%; /* 선택 박스의 너비를 15%로 설정 */
+}
+
+/* 게시글 등록 버튼 */
+button.update {
+    margin-top: 25px; /* 상단에 25px 여백 추가 */
+    background-color: #CAEEE7; /* 연한 청록색 배경 설정 */
+    border: 2px solid #6BAFA2; /* 테두리 색을 진한 청록색으로 설정 */
+    border-radius: 20px; /* 버튼의 모서리를 둥글게 설정 */
+    padding: 12px 25px; /* 상하 12px, 좌우 25px 패딩 설정 */
+    font-size: 16px; /* 글씨 크기를 16px로 설정 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+    transition: background-color 0.3s ease; /* 배경색 전환을 0.3초 동안 자연스럽게 변경 */
+}
+
+button.update:hover {
+    background-color: #B2DBD5; /* 마우스를 올리면 배경색을 어두운 청록색으로 변경 */
+}

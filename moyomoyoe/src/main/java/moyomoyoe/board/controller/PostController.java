@@ -300,7 +300,8 @@ public class PostController {
         postDTO.setNickname(nickname);
 
         if(singleFile == null || singleFile.isEmpty()) {
-            postDTO.setImageId(postDTO.getImageId());
+//            postDTO.setImageId(postDTO.getImageId());
+            postDTO.setImageId(1);
         } else {
             System.out.println("[[파일 확인?]] = " + singleFile);
 
@@ -417,7 +418,7 @@ public class PostController {
         postDTO.setPostId(postId);
 
         if(singleFile == null || singleFile.isEmpty()) {
-            postDTO.setImageId(postDTO.getImageId());
+            postDTO.setImageId(1);
         } else {
             System.out.println("[[파일 확인?]] = " + singleFile);
 

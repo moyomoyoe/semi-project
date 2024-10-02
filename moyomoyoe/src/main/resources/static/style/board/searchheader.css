@@ -1,0 +1,176 @@
+@font-face {
+    font-family:'LaundrygothicRegular';
+    src: url("./fonts/laundrygothicRegular.woff") format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body {
+    height: 100%;
+    font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
+}
+
+/* 상단 네비게이션 */
+.fixed-nav {
+    align-items: center;
+    margin-top: 90px;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 10px 0;
+    display: flex;
+    gap: 10px;
+}
+
+/* 가운데 정렬을 위한 버튼 그룹 */
+.button-group {
+    display: flex;
+    justify-content: center; /* 중앙에 정렬 */
+    gap: 30px; /* 버튼 간의 간격 */
+    margin: 0 auto;
+}
+
+/* 버튼 기본 스타일 */
+.custom-button {
+    background: #CAEEE7;
+    border: #6BAFA2 2px solid;
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    margin-bottom: 25px;
+}
+/* 버튼 호버 스타일 */
+.custom-button:hover {
+    background: #B2DBD5;
+    border-color: #569387;
+}
+
+/* 키워드 버튼 아래에 추가될 버튼 스타일 */
+#keywordNameButton {
+    display: none;
+    flex-direction: row;
+    justify-content: center; /* 버튼을 중앙에 정렬 */
+    align-items: center;
+    position: static;
+}
+#keywordNameButton button {
+    background: #CAEEE7;
+    border: #6BAFA2 2px solid;
+    border-radius: 20px;
+    padding: 3px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+#keywordNameButton button:hover {
+    background: #B2DBD5;
+    border-color: #569387;
+}
+
+/* 지역 선택 섹션 전체를 감싸는 컨테이너 */
+.region-selection {
+    justify-content: center; /* 중앙 정렬 */
+    background-color: #CAEEE7; /* 배경색 설정 */
+    border: #6BAFA2 2px solid;
+    border-radius: 30px; /* 모서리 둥글게 */
+    padding: 8px 10px; /* 패딩 추가 */
+    width: 450px;
+    margin: 20px auto;
+}
+
+.region-group {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 10px; /* 아이템 간 간격 */
+}
+
+/* 시/구 선택 드롭다운 */
+.region-group select {
+    background-color: white; /* 드롭다운 배경 흰색 */
+    border: none; /* 테두리 없애기 */
+    padding: 5px 15px; /* 안쪽 여백 */
+    font-size: 20px; /* 폰트 크기 */
+    border-radius: 15px; /* 모서리 둥글게 */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+}
+
+/* 아이콘 정렬 */
+.location-icon img, .regionAccept img {
+    width: 20px; /* 아이콘 크기 */
+    height: 20px;
+}
+
+/* 지역검색 버튼 아이콘 */
+.regionAccept {
+    background-color: transparent; /* 배경 투명하게 */
+    border: none; /* 테두리 없애기 */
+    cursor: pointer; /* 클릭 시 커서 */
+}
+
+/* 제목검색 컨테이너 스타일 */
+.search-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin: 20px auto;
+}
+
+/* 검색 입력창과 버튼을 감싸는 박스 스타일 */
+#searchBox {
+    display: flex;
+    align-items: center;
+    background-color: #CAEEE7; /* 배경색 */
+    border: 2px solid #6BAFA2;
+    border-radius: 30px; /* 모서리 둥글게 */
+    padding: 10px;
+    width: 400px; /* 적당한 너비 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+}
+
+/* 검색 입력창 스타일 */
+#searchInput {
+    flex: 1; /* 남은 공간을 모두 차지 */
+    border: none;
+    border-radius: 30px;
+    background: white;
+    padding: 8px;
+    font-size: 20px;
+    width: 300px;
+}
+
+/* 검색 버튼 스타일 */
+#searchButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* 검색 버튼 안의 아이콘 스타일 */
+.search-icon {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* 글쓰기 버튼을 오른쪽에 정렬 */
+.createpost-container {
+    display: flex;
+    right: 40px; /* 오른쪽 여백 */
+}
+
+.createpost-button {
+    background: #CAEEE7;
+    border: #6BAFA2 2px solid;
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    text-align: right; /* 글쓰기 버튼을 오른쪽에 정렬 */
+    margin: 20px 0; /* 위아래 여백을 추가 */
+}
+
+.createpost-button:hover {
+    background: #B2DBD5;  /* 마우스를 올렸을 때 배경색 변경 */
+    border-color: #569387; /* 테두리 색상 변경 */
+}
+
