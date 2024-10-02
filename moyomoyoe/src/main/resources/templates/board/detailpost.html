@@ -3,11 +3,19 @@
         xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+
+    <link rel="stylesheet" href="/static/style/main.css" />
     <meta charset="UTF-8">
     <title>게시글 상세 보기</title>
 </head>
 <body>
 <h3>게시글 상세 보기</h3>
+
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
 
 <div>
     <label>제목:</label>
@@ -180,5 +188,8 @@
 </ul>
 
 
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>

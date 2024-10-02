@@ -1,13 +1,14 @@
 
 @font-face {
-    font-family:'런드리고딕OTF';
+    font-family:'LaundrygothicRegular';
     src: url("./fonts/laundrygothicRegular.woff") format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
-body {
-    font-family: '런드리고딕OTF', sans-serif; /* 지정한 폰트 적용 */
+html, body {
+    height: 100%;
+    font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
 }
 
 /* 전체 레이아웃을 감싸는 outer-container */
@@ -16,7 +17,8 @@ body {
     /*flex-direction: row; !* 기본 가로 정렬이므로 명시적으로 row 설정 *!*/
     /*justify-content: space-between; !* 좌우 여백과 중앙 콘텐츠를 균등하게 배치 *!*/
     width: 100%;
-    height: 100vh; /* 화면 높이를 전체로 설정 */
+    min-height: 100%;
+    height: auto;/* 화면 높이를 전체로 설정 */
     box-sizing: border-box; /* padding 포함 */
 }
 
@@ -35,7 +37,7 @@ body {
 .left-space, .right-space {
     background-color: #CAEEE7;
     width: 300px;
-    height: 100vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -103,7 +105,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    font-family: '런드리고딕OTF', sans-serif; /* 폰트 적용 */
+    font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
 }
 
 .a-button:hover {
@@ -123,7 +125,7 @@ body {
     font-size: 16px;        /* 글자 크기 */
     cursor: pointer;        /* 마우스 커서 모양 변경 */
     text-align: center;     /* 텍스트 중앙 정렬 */
-    font-family: '런드리고딕OTF', sans-serif; /* 폰트 적용 */
+    font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
 }
 
 .a-button-warning:hover {
@@ -134,7 +136,7 @@ body {
 /*우측정렬이 필요한 컴포넌트 일 시*/
 .right-align{
     position: absolute;
-    right: 20px;
+    right: 320px;
 }
 
 
@@ -146,7 +148,7 @@ button{
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    font-family: '런드리고딕OTF', sans-serif; /* 폰트 적용 */
+    font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
 }
 button:hover {
     background: #B2DBD5;  /* 마우스를 올렸을 때 배경색 변경 */

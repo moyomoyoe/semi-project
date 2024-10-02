@@ -55,10 +55,32 @@
 
         <h3>게시글 쓰기</h3>
         <button onclick="location.href='/board/createpost'">게시글 쓰기</button>
+        <!-- 예약 관련 버튼 -->
+        <div class="action-buttons">
+            <button onclick="location.href='/reservation/storeList'">예약 가능한 업체 리스트 조회하기</button>
+        </div>
+
+        예약 관련 버튼
+        <div class="action-buttons mt-4">
+            <button onclick="location.href='/reservation/userReservations'">내 예약 목록 보기</button>
+            <button th:if="${store != null}" th:onclick="'location.href=\'/store/' + ${store.storeId} + '/reservations\''">
+                사업장 별 예약 목록 보기
+            </button>
+            <p th:if="${store == null}">해당 매장이 존재하지 않습니다.</p>
+        </div>
+
+        <!-- 사업장별 예약 조회 버튼 -->
+        <div sec:authorize="hasAnyAuthority('BUSINESS')">
+            <!-- 사업장 정보 조회 -->
+            <!--    <a th:href="@{'reservation/schedule/storeInfo/' + ${userSession.id}}" class="btn btn-info">사업장</a>-->
+            <a th:href="@{'/reservation/store/reservations/' + ${userSession.id}}" class="btn btn-primary">사업장별 예약 현황 조회</a>
+        </div>
+        <hr>
+
     </div>
     <div th:replace="common/schdulelist.html"></div>
+
 </div>
 
 </body>
 </html>
-   

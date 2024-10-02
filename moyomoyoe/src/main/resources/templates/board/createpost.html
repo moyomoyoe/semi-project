@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/main.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 작성</title>
 </head>
 <body>
 <h1>게시글 작성</h1>
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
 
+    <div class="centered-container">
 <form action="/board/createpost" method="post" enctype="multipart/form-data">
     <label for="title">제목:</label>
     <input type="text" id="title" name="title" required>
@@ -76,5 +81,8 @@
 
     <button type="submit">게시글 등록</button>
 </form>
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>
