@@ -2,22 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>사업장 예약 리스트</title>
+    <title>사업자 마이페이지 및 예약 리스트</title>
 </head>
 <body>
-<h1>사업장 예약 리스트</h1>
+<h1>사업자 마이페이지 상세화면 및 예약 리스트</h1>
 
+<div th:if="${store.storeId} != 0">
+    <h3 th:text="|가게명 : ${store.storeName}|"></h3>
+    <h3 th:text="|업종 : ${store.storeSort}|"></h3>
+    <h4 th:text="|설명문 : ${store.description}|"></h4>
+
+    <hr>
+
+</div>
+
+<!-- 사업장 예약 리스트 -->
 <div th:if="${reservations != null and reservations.size() > 0}">
     <h3>예약 목록</h3>
     <ul>
         <li th:each="reservation : ${reservations}">
             <h4 th:if="${reservation != null}">
-                예약 ID: <span th:text="${reservation['res_id']}"></span><br>
                 예약 날짜: <span th:text="${reservation['res_date']}"></span><br>
                 인원수: <span th:text="${reservation['customer_num']}"></span><br>
-                사용자 이름: <span th:text="${reservation['user_name']}"></span><br>
-                상점 이름: <span th:text="${reservation['store_name']}"></span><br>
-                상점 종류: <span th:text="${reservation['store_sort']}"></span><br>
+                사용자 ID: <span th:text="${reservation['user_id_res']}"></span><br>
+                스케줄 ID: <span th:text="${reservation['schedule_id']}"></span><br>
             </h4>
             <hr>
         </li>
@@ -27,6 +35,26 @@
     <p>예약된 일정이 없습니다.</p>
 </div>
 
-<a href="/">메인으로</a>
+<!-- 버튼 섹션 -->
+<button onclick="deleteFetch()">사업장 삭제</button>
+<a href="/main">메인으로</a>
+
+<script th:inline="javascript">
+    let userId = /*[[${store.userId}]]*/ 0;
+    console.log(userId);
+    function deleteFetch() {
+        if (confirm("사업장 정보를 삭제하시겠습니까? 현재 들어온 예약과 등록된 일정을 포함한 정보가 모두 삭제됩니다.")) {
+            fetch(`/reservation/schedule/delete/store/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        location.href = `/reservation/schedule/regist/store/${userId}`;
+                    } else {
+                        alert("사업장 삭제에 실패했습니다. 다시 시도해주세요.");
+                    }
+                });
+        }
+    }
+</script>
 </body>
 </html>

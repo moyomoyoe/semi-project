@@ -27,16 +27,16 @@ import java.util.Map;
 @RequestMapping("/reservation")
 public class ReservationController {
 
-    private final ReservationService reservationService;
-    String defaultUrl ="/reservation/schedule/";
+    ReservationService reservationService;
+    ScheduleService reserService;
     ReservationMapper reservationMapper;
-    ScheduleService scheduleService;
+    String defaultUrl ="/reservation/schedule/";
 
     @Autowired
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ScheduleService reserService, ReservationService reservationService) {
+        this.reserService = reserService;
         this.reservationService = reservationService;
     }
-
 
     // 매장 목록 조회
     @GetMapping("/storeList")
@@ -181,21 +181,19 @@ public class ReservationController {
         }
     }
 
-
-
-
     //사업장 세부정보
     @GetMapping("/storeInfo/{code}")
     public String storeInfo(@PathVariable("code") int code, HttpSession session) {
         System.out.println("[사업자 마이페이지]");
         //code가 0이라면 => 저장된 정보가 없음 등록화면으로
-        Integer storeId = scheduleService.FindUserStore(code);
-        if (code <= 0 || storeId == null) {
-            return "redirect:" + defaultUrl + "regist/store/" + code;
-        } else {
+        Integer storeId = reserService.FindUserStore(code);
+        if (code <= 0 || storeId==null){
+            return "redirect:" + defaultUrl+"regist/store/"+code;
+        }
+        else {
             // 해당 사업체의 세부정보와 일정정보를 세션에 저장
-            StoreDTO store = scheduleService.getStoreAllInfo(storeId);
-            List<ScheduleDTO> schedule = scheduleService.getSchedule(storeId);
+            StoreDTO store = reserService.getStoreAllInfo(storeId);
+            List<ScheduleDTO> schedule = reserService.getSchedule(storeId);
 
             System.out.println("store = " + store);
             System.out.println("schedule = " + schedule);
@@ -223,17 +221,25 @@ public class ReservationController {
     }
 
     // 사업장별 예약 목록 조회
-    @GetMapping("/storeReservationList")
-    public String getStoreReservationList(Model model, HttpSession session) {
-        Integer storeId = (Integer) session.getAttribute("storeId");
-        if (storeId != null) {
-            // 비즈니스 로직 처리
-            model.addAttribute("storeId", storeId);
-            // 데이터 추가
-        } else {
-            model.addAttribute("storeId", 0); // 기본값 설정
+    // Controller 코드 수정
+    @GetMapping("/store/reservations/{userId}")
+    public String getReservationsByStore(@PathVariable("userId") int userId, Model model) {
+        // 사용자의 사업장 ID 조회
+        Integer storeId = reservationService.getStoreIdByUserId(userId);
+
+        if (storeId == null) {
+            model.addAttribute("error", "해당 사업장을 찾을 수 없습니다.");
+            return "redirect:/reservation/schedule/error";
         }
 
-        return "reservation/storeReservationList"; // 템플릿 파일 위치
+        // 사업장 정보 및 예약 목록 조회
+        StoreDTO store = reservationService.getStoreById(storeId);
+        List<ReservationDTO> reservations = reservationService.getReservationsByStore(storeId);
+
+        // 모델에 추가해서 Thymeleaf로 전달
+        model.addAttribute("store", store);
+        model.addAttribute("reservations", reservations);
+
+        return "reservation/storeReservationList";
     }
 }

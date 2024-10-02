@@ -1,6 +1,7 @@
 package moyomoyoe.reservation.model.service;
 
 import moyomoyoe.reservation.model.dao.ReservationMapper;
+import moyomoyoe.reservation.model.dao.ScheduleMapper;
 import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import moyomoyoe.reservation.model.dto.StoreDTO;
@@ -8,20 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class ReservationService {
-    private static final Logger logger = LoggerFactory.getLogger(ReservationService.class);
+    private final ScheduleMapper dao;
     private final ReservationMapper reservationMapper;
 
     @Autowired
-    public ReservationService(ReservationMapper reservationMapper) {
+    public ReservationService(ScheduleMapper dao, ReservationMapper reservationMapper) {
+        this.dao = dao;
         this.reservationMapper = reservationMapper;
     }
 
@@ -100,9 +99,18 @@ public class ReservationService {
         return reservationMapper.getReservationDetailWithStore(resId);
     }
 
-    // 사업장별 예약 조회
-    public List<Map<String, Object>> getReservationsByStoreId(int storeId) {
-        return reservationMapper.getReservationsByStoreId(storeId);
+    // 사용자의 사업장 ID 조회 메소드 추가
+    public Integer getStoreIdByUserId(int userId) {
+        return reservationMapper.getStoreIdByUserId(userId);
+    }
+
+    public List<ReservationDTO> getReservationsByStore(int storeId) {
+        return reservationMapper.getReservationsByStore(storeId);
+    }
+
+    // 기타 예약 관련 서비스 로직들 추가
+    public void saveReservation(ReservationDTO reservationDTO) {
+        reservationMapper.insertReservation(reservationDTO);
     }
 
     // 예약 취소

@@ -110,21 +110,19 @@
         WHERE r.res_id = #{resId}
     </select>
 
-    <!-- 사용자 ID를 이용해 사용자 이름 조회 -->
-<!--    <select id="getUserNameByUserId" parameterType="int" resultType="string">-->
-<!--        SELECT nickname FROM tbl_user WHERE id = #{userId}-->
-<!--    </select>-->
-
-    <!-- 사업장별 예약 현황 조회 -->
-    <select id="getReservationsByStoreId" parameterType="int" resultMap="reservationMap">
-        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id,
-               s.store_name, s.store_sort, u.nickname AS user_name
+    <!-- 사업장별 예약 조회 -->
+    <select id="getReservationsByStore" parameterType="int" resultType="map">
+        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
         FROM tbl_reservation r
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
-                 JOIN tbl_store s ON sch.store_id = s.store_id
-                 JOIN tbl_user u ON r.user_id_res = u.id
-        WHERE s.store_id = #{storeId}
+        WHERE sch.store_id = #{storeId}
         ORDER BY r.res_date DESC
+    </select>
+
+    <select id="getStoreIdByUserId" parameterType="int" resultType="int">
+        SELECT store_id
+        FROM tbl_store
+        WHERE id = #{userId}
     </select>
 
     <!-- 예약 취소 쿼리 -->
@@ -132,4 +130,6 @@
         DELETE FROM tbl_reservation
         WHERE res_id = #{resId}
     </delete>
+
+
 </mapper>
