@@ -8,16 +8,18 @@ public class ReservationDTO {
     private Date resDate;
     private int customerNum;
     private int scheduleId;
+    private String userNameRes;
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(int resId, int userIdRes, Date resDate, int customerNum, int scheduleId) {
+    public ReservationDTO(int resId, int userIdRes, Date resDate, int customerNum, int scheduleId, String userNameRes) {
         this.resId = resId;
         this.userIdRes = userIdRes;
         this.resDate = resDate;
         this.customerNum = customerNum;
         this.scheduleId = scheduleId;
+        this.userNameRes = userNameRes;
     }
 
     public int getResId() {
@@ -60,6 +62,14 @@ public class ReservationDTO {
         this.scheduleId = scheduleId;
     }
 
+    public String getUserNameRes() {
+        return userNameRes;
+    }
+
+    public void setUserNameRes(String userNameRes) {
+        this.userNameRes = userNameRes;
+    }
+
     @Override
     public String toString() {
         return "ReservationDTO{" +
@@ -68,6 +78,7 @@ public class ReservationDTO {
                 ", resDate=" + resDate +
                 ", customerNum=" + customerNum +
                 ", scheduleId=" + scheduleId +
+                ", userNameRes='" + userNameRes + '\'' +
                 '}';
     }
 }
