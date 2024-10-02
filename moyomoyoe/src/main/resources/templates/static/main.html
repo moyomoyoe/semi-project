@@ -14,18 +14,18 @@
     <div class="centered-container">
         <h3>로그인 구역</h3>
 
-<div sec:authorize="!isAuthenticated()">
-    <a href="/member/auth/login">로그인/회원가입</a>
-</div>
-<div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
-    <a href="/member/user/myPage">마이페이지</a>
-</div>
-<div sec:authorize="hasAnyAuthority('BUSINESS')">
-    <a href="/member/business/myPage">마이페이지</a>
-</div>
-<!--<div sec:authorize="!isAuthenticated()">-->
-<!--    <a href="/member/user/signup">회원가입</a>-->
-<!--</div>-->
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/member/auth/login">로그인</a>
+        </div>
+        <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
+            <a href="/member/user/myPage">마이페이지</a>
+        </div>
+        <div sec:authorize="hasAnyAuthority('BUSINESS')">
+            <a href="/member/business/myPage">마이페이지</a>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <a href="/member/user/signup">회원가입</a>
+        </div>
 
         <!--<img th:src="${ userSession.image }" alt="사진!" width="100" height="100">-->
         <div sec:authorize="hasAnyAuthority('ADMIN', 'USER', 'BUSINESS')">
@@ -61,3 +61,4 @@
 
 </body>
 </html>
+   

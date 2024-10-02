@@ -72,12 +72,25 @@
         }
 
         .header-left h1 {
-            margin: 0;
-            font-size: 24px;
+            margin-right: 5px; /* h1과 span 사이에 간격 추가 */
+            display: inline-block; /* h1을 블록에서 인라인으로 변경 */
+            font-size: 35px;
+        }
+        .header-left span {
+            display: inline-block;
+            font-size: 17px;
         }
 
         .header-right {
             display: flex;
+            align-items: center; /* 수직으로 중앙 정렬 */
+            gap: 15px; /* 로그인, 회원가입, 로고 이미지 사이의 간격 */
+        }
+
+        /* 로그인/회원가입 버튼 가로 정렬 */
+        .auth-links {
+            display: flex;
+            gap: 15px; /* 로그인과 회원가입 사이의 간격 */
             align-items: center;
         }
 
@@ -90,6 +103,15 @@
             height: 30px;
             border-radius: 50%;
         }
+
+        .main-logo {
+            display: flex;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -107,21 +129,6 @@
     <div th:if="${user != null}" class="header-right">
         <span th:text="${ user.nickname }"></span>
         <img th:src="${ user.image }" alt="User Icon">
-
-    <!-- 네비게이션 바 -->
-    <nav class="navbar">
-        <ul>
-            <li><button class="nav-button" onclick="location.href='/board/searchlist'">게시글</button></li>
-            <li><button class="nav-button" onclick="location.href='/reservation/storeList'">예약하기</button></li>
-        </ul>
-    </nav>
-
-    <!-- 로그인 후 상태 -->
-    <div class="header-right">
-        <div th:if="${userSession != null}" style="cursor: pointer;" onclick="location.href='/profile'">
-            <span th:text="${userSession.nickname}"></span>
-            <img src="https://via.placeholder.com/30" alt="User Icon">
-        </div>
     </div>
     <!-- 비로그인 상태일 때 로그인/회원가입 버튼 표시 -->
     <div th:if="${userSession == null}" class="auth-links">
