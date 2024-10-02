@@ -136,7 +136,7 @@ html, body {
 /*우측정렬이 필요한 컴포넌트 일 시*/
 .right-align{
     position: absolute;
-    right: 20px;
+    right: 320px;
 }
 
 
