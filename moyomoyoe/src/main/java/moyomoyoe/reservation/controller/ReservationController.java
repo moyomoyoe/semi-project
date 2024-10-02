@@ -2,6 +2,7 @@ package moyomoyoe.reservation.controller;
 
 import jakarta.servlet.http.HttpSession;
 import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.user.model.service.UserService;
 import moyomoyoe.reservation.model.dao.ReservationMapper;
 import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
@@ -29,6 +30,7 @@ public class ReservationController {
 
     ReservationService reservationService;
     ScheduleService reserService;
+    UserService uerService;
     ReservationMapper reservationMapper;
     String defaultUrl ="/reservation/schedule/";
 
@@ -218,9 +220,22 @@ public class ReservationController {
         StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
         List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
 
+        String url = reservationService.getImageById(1);
+
+        Integer imageId = storeInfo.getImageId();
+        System.out.println("기본 url = " + url);
+
+        if(imageId != null) {
+            System.out.println("imageId = " + imageId);
+            System.out.println("/storeInfo의 이미지 결과 확인중" + reservationService.getImageById(imageId));
+            url = reservationService.getImageById(storeInfo.getImageId());
+        }
+
         // 모델에 추가해서 Thymeleaf로 전달
         model.addAttribute("store", storeInfo);
         model.addAttribute("schedule", schedule);
+
+        model.addAttribute("image", url);
 
         return defaultUrl+"storeInfo";
     }

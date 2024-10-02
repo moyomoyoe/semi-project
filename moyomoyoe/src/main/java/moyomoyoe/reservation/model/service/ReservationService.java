@@ -118,4 +118,8 @@ public class ReservationService {
     public void cancelReservation(int resId) {
         reservationMapper.deleteReservation(resId);
     }
+
+    public String getImageById(int i) {
+        return dao.getImageById(i);
+    }
 }

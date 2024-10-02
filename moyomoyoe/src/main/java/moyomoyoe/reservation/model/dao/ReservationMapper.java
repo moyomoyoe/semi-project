@@ -57,5 +57,9 @@ public interface ReservationMapper {
 
     void deleteReservation(@Param("resId") int resId);
 
+    int getImageId(String imageName);
+
+    String getImageById(int id);
+
 
 }

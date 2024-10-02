@@ -8,7 +8,7 @@
 
 </head>
 <body>
-
+<div th:replace="common/header"></div>
 <header>
     <h1>매장 상세 정보</h1>
     <nav>
@@ -35,9 +35,8 @@
     <button class="back-button" th:onclick="|location.href='/reservation/storeList'|">목록</button>
 </main>
 
-<footer>
-    <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-</footer>
+<!-- 푸터 포함 -->
+<div th:replace="common/footer"></div>
 
 </body>
 </html>

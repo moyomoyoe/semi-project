@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Store List</title>
-    <!-- 기존 스타일 대신 외부 CSS 파일 링크 추가 -->
-    <link rel="stylesheet" href="/static/style/test.css" />
+
+    <!-- CSS 및 폰트 파일 링크 추가 -->
+    <link rel="stylesheet" href="/static/style/main.css" />
+    <link rel="stylesheet" href="/static/style/schedule.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
-<header class="container">
-    <div th:replace="common/header"></div>
-    <h1>사업장 리스트</h1>
-    <nav>
-        <a href="/" th:href="@{/}" class="a-button">Home</a> |
-        <a href="/about" th:href="@{/about}" class="a-button">About Us</a> |
-        <a href="/contact" th:href="@{/contact}" class="a-button">Contact</a>
-    </nav>
-</header>
+<!-- 헤더 포함 -->
+<div th:replace="common/header"></div>
 
 <main class="container">
-    <h2>리스트</h2>
+    <h1>사업장 리스트</h1>
 
     <!-- Loop through each store -->
     <div th:each="store : ${stores}" class="store">
         <!-- Dynamically generate image URL based on store id -->
-        <img th:src="@{'/images/store/' + ${store.storeId} + '.png'}" alt="Store Image" class="store-image">
+        <img th:src="@{'/images/store/' + ${store.imageId} + '.png'}" alt="Store Image" class="store-image">
 
         <!-- Display store name, type, and link to reservation details -->
         <h2>
@@ -36,12 +32,20 @@
         <p>[[${store.description}]]</p>
 
         <!-- Button to make a reservation -->
+        <div class="store-details">
+            <h2>
+                <a th:href="@{/reservation/storeDetail/{id}(id=${store.storeId})}" class="a-button">
+                    [[${store.storeName}]] ([[${store.storeSort}]])
+                </a>
+            </h2>
+            <p>[[${store.storeAddress}]]</p>
+            <p>[[${store.description}]]</p>
+        </div>
     </div>
 </main>
 
-<footer class="container">
-    <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-</footer>
+<!-- 푸터 포함 -->
+<div th:replace="common/footer"></div>
 
 </body>
 </html>
