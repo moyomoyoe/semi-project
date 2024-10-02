@@ -1,13 +1,13 @@
 
 @font-face {
-    font-family:'LaundrygothicRegular';
+    font-family:'런드리고딕OTF';
     src: url("./fonts/laundrygothicRegular.woff") format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 body {
-    font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
+    font-family: '런드리고딕OTF', sans-serif; /* 지정한 폰트 적용 */
 }
 
 /* 전체 레이아웃을 감싸는 outer-container */
@@ -103,7 +103,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
+    font-family: '런드리고딕OTF', sans-serif; /* 폰트 적용 */
 }
 
 .a-button:hover {
@@ -123,7 +123,7 @@ body {
     font-size: 16px;        /* 글자 크기 */
     cursor: pointer;        /* 마우스 커서 모양 변경 */
     text-align: center;     /* 텍스트 중앙 정렬 */
-    font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
+    font-family: '런드리고딕OTF', sans-serif; /* 폰트 적용 */
 }
 
 .a-button-warning:hover {
@@ -146,7 +146,7 @@ button{
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    font-family: 'LaundryGothic', sans-serif; /* 폰트 적용 */
+    font-family: '런드리고딕OTF', sans-serif; /* 폰트 적용 */
 }
 button:hover {
     background: #B2DBD5;  /* 마우스를 올렸을 때 배경색 변경 */

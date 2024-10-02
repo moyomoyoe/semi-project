@@ -427,7 +427,7 @@ public class UserController {
 
         if(findAccount != null) {
             mv.addObject("account", findAccount.getAccount());
-            mv.addObject("message", "아이디는 " + findAccount.getAccount() + "입니다.");
+            mv.addObject("message", "아이디는  " + findAccount.getAccount() + "  입니다.");
             mv.addObject("redirect", true); // 로그인 페이지로
         } else {
             mv.addObject("message", "일치하는 정보가 없습니다.");

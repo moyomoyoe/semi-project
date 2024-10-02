@@ -1,8 +1,8 @@
 /* 페이지 타이틀 */
 .page-title h2 {
-    transform: translateX(300px);
+    transform: translateX(100px);
     margin-top: 80px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .page-title hr {

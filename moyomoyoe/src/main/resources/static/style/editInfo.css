@@ -33,7 +33,7 @@ form {
 
 .info-group label,
 .form-group label {
-    width: 100px;
+    width: 120px;
     text-align: right;
     margin-right: 50px;
 }
@@ -64,10 +64,12 @@ form {
 
 .button {
     margin: 30px;
+    text-align: center;
 }
 
 .errorMsg2,
-.errorMsg4 {
+.errorMsg4,
+.optionPwd {
     margin: 0;
     padding: 0;
 }
@@ -80,3 +82,14 @@ form {
     white-space: nowrap;
 }
 
+#optionPwd {
+    text-align: left;
+    margin-left: 250px;
+    width: 200px;
+    white-space: nowrap;
+}
+
+p#required {
+    margin-bottom: 5px;
+    font-size: 15px;
+}
