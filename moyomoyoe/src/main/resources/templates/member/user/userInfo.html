@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/style/userInfo.css" />
     <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/member.css" />
     <title>USERINFO</title>
     <style>
@@ -37,6 +38,10 @@
 </head>
 <body>
 <div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
 <div class="page-title">
     <h2>&nbsp;&nbsp;회원 정보 조회</h2>
     <hr>
@@ -105,5 +110,8 @@
 
     </script>
 
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>

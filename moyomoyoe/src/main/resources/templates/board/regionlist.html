@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/main.css" />
     <title>regionlist</title>
     <script>
         const successMessage = `[[${ successMessage}]]`;
@@ -11,8 +12,13 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 </head>
-<body>
-<h3>게시판 지역조회 페이지</h3>
+<body><div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
+
+    <h3>게시판 지역조회 페이지</h3>
 
 <div th:replace="common/header.html"></div>
 <div id="grid"></div>
@@ -95,5 +101,8 @@
 </script>
     <button onclick="location.href='/'">메인으로</button>
 
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>

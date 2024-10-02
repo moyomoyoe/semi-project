@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/static/style/main.css" />
 </head>
 <body>
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
+
 <h3>전체게시글조회</h3>
 <button onclick="location.href='/board/latestlist'">게시글조회</button><br>
 
@@ -233,5 +240,8 @@
     };
 </script>
 
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>

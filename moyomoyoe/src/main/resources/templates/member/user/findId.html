@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/style/findId.css" />
     <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/member.css" />
     <title>FINDID</title>
     <style>
@@ -36,6 +37,12 @@
     </style>
 </head>
 <body>
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
+
 <h1>아이디 찾기</h1>
 
 <form th:action="@{/member/user/findId}" method="POST">
@@ -91,5 +98,9 @@
 
 
 </script>
+
+</div>
+<div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>

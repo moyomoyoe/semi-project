@@ -33,6 +33,12 @@
     </style>
 </head>
 <body>
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+
+    <div class="centered-container">
+
 <h1>비밀번호 찾기</h1>
 
 <form th:action="@{/member/user/findPwd}" method="POST">
@@ -139,5 +145,9 @@
 
 
 </script>
+
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 </body>
 </html>

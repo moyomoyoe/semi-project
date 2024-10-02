@@ -51,20 +51,32 @@
             <div class="description" th:text="|${store.description}|"></div>
 
         </div>
-        <div style="margin: 20px;">
+        <div style="margin: 20px; display: flex; justify-content: center ;gap: 10px" >
             <a class="a-button" th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}" >일정 수정</a>
             <a class="a-button" th:href="@{'/reservation/schedule/regist/store/' + ${store.userId}}" >사업장정보 수정</a>
             <!--    아래는 fetch로 보낼거임 th:href="@{'/reservation/schedule/regist/schedule/' + ${store.userId}}"-->
-            <button class="a-button-warning" style=" position: absolute; right: 120px;">로그아웃</button>
+            <form th:action="@{/member/auth/logout}" th:method="post" id="logout">
+
+                <button class="a-button-warning" style=" position: absolute; right: 120px;">로그아웃</button>
+            </form>
             <button class="a-button-warning right-align">회원탈퇴</button>
-            <a href="/"> 메인으로</a>
         </div>
     </div>
         </div>
     <div th:replace="common/schdulelist.html"></div>
 </div>
 </body>
-<script th:inline="javascript">
+<script>
+
+    document.getElementById('logout').addEventListener('submit', function(event) {
+
+        if(!confirm('로그아웃 하시겠습니까?')) {
+            event.preventDefault();
+        } else {
+            alert('로그아웃 완료 되었습니다.');
+        }
+
+    });
 
 </script>
 
