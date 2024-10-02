@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="/static/style/board/detail.css">
 </head>
 <body>
-<h3>게시글 상세 보기</h3>
+
+<div th:replace="common/header.html"></div>
+<div class="outer-container">
+    <div class="left-space"></div>
+    <div class="centered-container">
 <div class="post-container">
     <div class="post-header">
         <div class="author-info">
@@ -26,15 +30,49 @@
         </div>
         <div class="actions">
             <button onclick="location.href='/'">메인으로</button>
-            <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post"
-                  id="deleteFormUser" th:if="${loggedInUserId == detailPost.userId || loggedInNickname == '관리자'}">
-                <button type="submit" onclick="return deletePost(event, 'deleteFormUser')">삭제</button>
-            </form>
             <div th:if="${loggedInUserId == detailPost.userId}">
                 <a th:href="@{/board/editpost/{postId}(postId=${detailPost.postId})}" class="button-style">수정</a>
             </div>
+            <!-- 게시글 작성자에게만 삭제 버튼 표시 -->
+            <form th:action="@{/board/detailpost/delete/{postId}(postId=${detailPost.postId})}" method="post" id="deleteFormUser" th:if="${loggedInUserId == detailPost.userId || loggedInNickname == '관리자'}">
+                <button type="submit" onclick="return deletePost(event, 'deleteFormUser')">삭제</button>
+            </form>
         </div>
     </div>
+
+    <script>
+        function deletePost(event, formId) {
+            // 기본 폼 제출 동작을 막음
+            event.preventDefault();
+
+            // 삭제 확인창
+            if (confirm('삭제하시겠습니까?')) {
+                var form = document.getElementById(formId);  // formId를 사용해 폼 선택
+                var action = form.getAttribute('action');
+
+                // Ajax 요청으로 폼을 제출하고, 완료 후 alert와 페이지 이동 처리
+                fetch(action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(new FormData(form))
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('게시글이 삭제되었습니다.');
+                            window.location.href = '/board/searchlist';
+                        } else {
+                            alert('삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('서버에 문제가 발생했습니다.');
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
 
     <div class="post-content">
         <h1 th:text="${detailPost.title}">Title</h1>
@@ -98,19 +136,20 @@
 
 <!-- 댓글 작성 -->
 <div class="comment-section">
-    <h3>댓글 작성</h3>
+    <h2>댓글</h2>
     <form th:action="@{/board/detailpost/{postId}(postId=${detailPost.postId})}" method="post" class="comment-form">
         <textarea name="comment" rows="2" placeholder="댓글을 입력하세요"></textarea>
-        <button type="submit">등록</button>
+        <button type="submit">댓글 등록</button>
     </form>
 </div>
 
 <!-- 댓글 목록 -->
-<h3>댓글목록</h3>
 <ul class="comment-list">
     <li th:each="comment : ${detailPostComment}">
         <div class="comment-content">
-            <strong th:text="${comment.nickname}">닉네임</strong>: <span th:text="${comment.comment}">댓글 내용</span>
+            <strong th:text="${comment.nickname}">닉네임</strong> <em th:text="${comment.commentPostDate}">작성일: </em>
+            <br>
+            <span th:text="${comment.comment}">댓글 내용</span>
         </div>
         <form th:if="${loggedInNickname == comment.nickname || loggedInNickname == '관리자'}"
               th:action="@{/board/detailpost/delete/comment/{commentId}(commentId=${comment.commentId})}" method="post">
@@ -119,7 +158,9 @@
         </form>
     </li>
 </ul>
-
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
+</div>
 
 </body>
 </html>
