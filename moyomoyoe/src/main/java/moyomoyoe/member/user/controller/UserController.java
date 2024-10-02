@@ -104,7 +104,7 @@ public class UserController {
         String query = "SELECT COUNT(*) FROM tbl_user WHERE account = ?";
 
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(query)) {
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, account);
             ResultSet resultSet = stmt.executeQuery();
             if(resultSet.next()) {

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>postList</title>
+    <script>
+        const successMessage = `[[${ successMessage}]]`;
+        if(successMessage) alert(successMessage);
+    </script>
+
+    <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+</head>
+<body>
+    <h3>게시판 전체조회 페이지</h3>
+
+    <div th:replace="common/header.html"></div>
+    <div id="grid"></div>
+
+    <script th:inline="javascript">
+        let latestList = /*[[${latestList}]]*/ [];
+
+        console.log(latestList);
+
+
+        const grid = new tui.Grid({
+            el: document.getElementById('grid'),
+            data: latestList,
+            scrollX: false,
+            scrollY: true,
+            columns: [
+                {
+                    header: '게시글번호',
+                    name: 'postId'
+                },
+                {
+                    header: '제목',
+                    name: 'title'
+                },
+                {
+                    header: '내용',
+                    name: 'context'
+                },
+                {
+                    header: '닉네임',
+                    name: 'nickname'
+                },
+                {
+                    header: '작성일자',
+                    name: 'postDate',
+                    sortable: 'true',
+                    sortingType: 'desc',
+                },
+                {
+                    header: '비회원열람여부',
+                    name: 'userOpen'
+                },
+                {
+                    header: '이미지',
+                    name: 'imageName',  // 랜덤하게 생성된 imageName 사용
+                    formatter: function(item) {
+                        const imageName = item.value;
+                        if (imageName) {
+                            // imageName을 기반으로 이미지 경로 생성
+                            const imagePath = `/image/${imageName}`;  // imageName으로 경로 생성
+                            return `<img src="${imagePath}" alt="Image" style="width: 50px; height: 50px;" />`;
+                        } else {
+                            // 이미지가 없는 경우 기본 이미지 표시
+                            return `<img src="/image/image1.png" alt="No Image" style="width: 50px; height: 50px;" />`;
+                        }
+                    }
+                },
+                {
+                    header: '키워드',
+                    name: 'keywordId'
+                }
+            ]
+        })
+            grid.sort('postDate', false);
+
+        // 행(row)을 클릭했을 때 상세 페이지로 이동하는 이벤트 등록
+        grid.on('click', (ev) => {
+            // 클릭한 행의 데이터가 있는지 확인
+            const postId = ev.instance.getValue(ev.rowKey, 'postId');  // 클릭한 행의 postId 가져오기
+
+            console.log(`Selected postId: ${postId}`);
+
+            if (postId) {
+                // postId를 이용해 detailpost 페이지로 이동
+                window.location.href = `/board/detailpost/${postId}`;
+            } else {
+                console.log('postId not found');
+            }
+        });
+    </script>
+    <button onclick="location.href='/'">메인으로</button>
+
+    <script th:if="${userOpenError}">
+        alert([[${userOpenError}]]);
+    </script>
+
+</body>
+</html>

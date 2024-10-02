@@ -33,39 +33,39 @@
     </style>
 </head>
 <body>
-    <h1>아이디 찾기</h1>
+<h1>아이디 찾기</h1>
 
-    <form th:action="@{/member/user/findId}" method="POST">
-        이름 : <input type="text" id="username" name="username"><br>
-        이메일 : <input type="text" id="email" name="email"><br>
-        <br>
-        <button>아이디 찾기</button>
-    </form>
+<form th:action="@{/member/user/findId}" method="POST">
+    이름 : <input type="text" id="username" name="username"><br>
+    이메일 : <input type="text" id="email" name="email"><br>
+    <br>
+    <button>아이디 찾기</button>
+</form>
 
-    <div id="resultModal">
-        <div>
-            <span id="modalClose" style="cursor: pointer">ｘ</span>
-            <p id="message" th:text="${ message }"></p>
-            <button id="button">확인</button>
-        </div>
+<div id="resultModal">
+    <div>
+        <span id="modalClose" style="cursor: pointer">ｘ</span>
+        <p id="message" th:text="${ message }"></p>
+        <button id="button">확인</button>
     </div>
+</div>
 
-    <script>
-        window.onload = function() {
-            const message = '[[${message}]]';
-            const redirect = '[[${redirect}]]';
-            console.log("서버에서 온 메세지" + message);
+<script>
+    window.onload = function() {
+        const message = '[[${message}]]';
+        const redirect = '[[${redirect}]]';
+        console.log("서버에서 온 메세지" + message);
 
-            if(message) {
-                if(redirect === 'true') {
-                    document.getElementById('message').innerText = message;
-                    console.log(message);
-                    document.getElementById('resultModal').style.display = 'flex';
-                } else {
-                    alert(message); // 아이디를 못 찾았을 땐 alert 창이 나타나기
-                    location.href='/member/user/findId';
-                }
+        if(message) {
+            if(redirect === 'true') {
+                document.getElementById('message').innerText = message;
+                console.log(message);
+                document.getElementById('resultModal').style.display = 'flex';
+            } else {
+                alert(message); // 아이디를 못 찾았을 땐 alert 창이 나타나기
+                location.href='/member/user/findId';
             }
+        }
 
         document.getElementById('modalClose').onclick = function() {
             document.getElementById('resultModal').style.display = 'none';
@@ -84,9 +84,9 @@
             }
         };
 
-        };
+    };
 
 
-    </script>
+</script>
 </body>
 </html>

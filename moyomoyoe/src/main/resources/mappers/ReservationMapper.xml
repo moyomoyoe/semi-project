@@ -111,9 +111,9 @@
     </select>
 
     <!-- 사용자 ID를 이용해 사용자 이름 조회 -->
-<!--    <select id="getUserNameByUserId" parameterType="int" resultType="string">-->
-<!--        SELECT nickname FROM tbl_user WHERE id = #{userId}-->
-<!--    </select>-->
+    <!--    <select id="getUserNameByUserId" parameterType="int" resultType="string">-->
+    <!--        SELECT nickname FROM tbl_user WHERE id = #{userId}-->
+    <!--    </select>-->
 
     <!-- 사업장별 예약 현황 조회 -->
     <select id="getReservationsByStoreId" parameterType="int" resultMap="reservationMap">

@@ -5,6 +5,7 @@ import moyomoyoe.board.model.dto.CommentDTO;
 import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
+import moyomoyoe.image.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +57,7 @@ public class PostService {
 
     // postId 별 세부 게시글 내용
     public PostDTO findDetailPostById(int postId) {
+
         return postMapper.findDetailPostById(postId);
     }
 
@@ -70,6 +72,7 @@ public class PostService {
         postMapper.deletePost(postId);
     }
 
+    // 댓글 입력
     @Transactional
     public void comment(CommentDTO commentDTO) {
         postMapper.comment(commentDTO);
@@ -91,9 +94,24 @@ public class PostService {
         postMapper.updatePost(postDTO);
     }
 
+    // 댓글 삭제
     @Transactional
     public void deleteComment(int commentId) {
 
         postMapper.deleteComment(commentId);
+    }
+
+    public CommentDTO findCommentById(int commentId) {
+
+        return postMapper.findCommentById(commentId);
+    }
+
+    public void registImage(ImageDTO newImage) {
+        postMapper.registImage(newImage);
+    }
+
+    public ImageDTO getImageById(int imageId) {
+
+        return postMapper.getImageById(imageId);
     }
 }
