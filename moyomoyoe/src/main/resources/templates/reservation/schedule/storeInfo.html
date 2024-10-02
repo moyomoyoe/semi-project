@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/style/test.css" />
     <link rel="stylesheet" href="/static/style/schedule.css" />
+    <link rel="stylesheet" href="/static/style/main.css" />
     <title>Title</title>
 </head>
 <body>
 <div th:replace="common/header"></div>
-<div class="container">
+
+<div class="outer-container">
+    <div class="left-space"></div>
     <!--컴파일용 정보-->
+
+    <div class="centered-container">
     <h3 hidden th:text="|유저 : ${store.userId}|"></h3>
     <div th:if="${store.storeId} != 0">
         <h3 class="title" th:text="|${store.storeName}|"></h3>
@@ -56,6 +60,8 @@
             <a href="/"> 메인으로</a>
         </div>
     </div>
+        </div>
+    <div th:replace="common/schdulelist.html"></div>
 </div>
 </body>
 <script th:inline="javascript">
