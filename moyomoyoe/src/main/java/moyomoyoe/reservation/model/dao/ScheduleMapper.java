@@ -26,4 +26,8 @@ public interface ScheduleMapper {
     void deleteStore(int code);
 
     List<Integer> getResBySchedule(int id);
+
+    int getImageId(String imageName);
+
+    String getImageById(int i);
 }
