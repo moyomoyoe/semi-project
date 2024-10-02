@@ -8,19 +8,82 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>예약 목록</title>
     <style>
-
-
-        /* 푸터 스타일 */
+        /* 기존 CSS 유지 */
         .sidebar-footer {
             margin-top: 20px;
             font-size: 0.9em;
             color: #666;
         }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-button {
+            float: right;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .close-button:hover {
+            color: #d9534f;
+        }
+
+        /* 예약 카드 스타일 */
+        .reservation-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .reservation-card:hover {
+            background-color: #f1f1f1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservation-date {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .reservation-time {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .reservation-details {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="right-space">
-
     <aside class="schedule-sidebar">
         <div class="schedule-header">
             <span id="toggle-schedule" onclick="toggleSchedule()">⯈ 일정 목록</span>
@@ -32,7 +95,17 @@
             <p>Footer Content</p>
         </div>
     </aside>
+</div>
 
+<!-- 모달 창 (예약 상세 정보) -->
+<div id="reservation-detail-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeDetailModal()">&times;</span>
+        <h3>예약 상세 정보</h3>
+        <div id="modal-detail-content">
+            <!-- 예약 상세 정보가 여기에 동적으로 추가됩니다. -->
+        </div>
+    </div>
 </div>
 
 <script>
@@ -57,15 +130,19 @@
                 })
                 .then(data => {
                     if (data.length > 0) {
-                        let listHtml = '<ul>';
+                        let listHtml = '';
                         data.forEach(reservation => {
-                            listHtml += `<li>
-                            예약 날짜: ${reservation.resDate}<br>
-                            인원수: ${reservation.customerNum}<br>
-                            예약자 닉네임: ${reservation.userNickname ? reservation.userNickname : '정보 없음'}
-                        </li>`;
+                            listHtml += `
+                                <div class="reservation-card" onclick="openDetailModal(${reservation.resId})">
+                                    <div class="reservation-date">${reservation.resDate}</div>
+                                    <div class="reservation-time">${reservation.startTime} ~ ${reservation.endTime}</div>
+                                    <div class="reservation-details">
+                                        예약자명: ${reservation.userNickname ? reservation.userNickname : '정보 없음'}<br>
+                                        인원수: ${reservation.customerNum}
+                                    </div>
+                                </div>
+                            `;
                         });
-                        listHtml += '</ul>';
                         scheduleContent.innerHTML = listHtml;
                     } else {
                         scheduleContent.innerHTML = '<p>예약된 일정이 없습니다.</p>';
@@ -85,6 +162,44 @@
             // 일정 목록 숨기기
             scheduleContent.style.display = "none";
             toggleIcon.textContent = "⯈ 일정 목록"; // 화살표 오른쪽으로 변경
+        }
+    }
+
+    function openDetailModal(resId) {
+        // AJAX 요청으로 예약 상세 정보를 가져오기
+        fetch(`/reservation/reservationDetail/${resId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'text/html' // 응답이 HTML 형식임을 명시
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // HTML 응답을 텍스트로 받음
+                } else {
+                    throw new Error('Failed to fetch reservation details: ' + response.statusText);
+                }
+            })
+            .then(html => {
+                const modalDetailContent = document.getElementById("modal-detail-content");
+                modalDetailContent.innerHTML = html; // 모달에 HTML을 추가
+                document.getElementById("reservation-detail-modal").style.display = "block";
+            })
+            .catch(error => {
+                console.error('Error fetching reservation detail:', error);
+                alert("예약 상세 정보를 불러오는 중 문제가 발생했습니다.");
+            });
+    }
+
+    function closeDetailModal() {
+        document.getElementById("reservation-detail-modal").style.display = "none";
+    }
+
+    // 모달 외부 클릭 시 닫기
+    window.onclick = function (event) {
+        const modal = document.getElementById("reservation-detail-modal");
+        if (event.target === modal) {
+            modal.style.display = "none";
         }
     }
 </script>
