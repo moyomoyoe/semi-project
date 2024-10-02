@@ -44,10 +44,18 @@ public interface ReservationMapper {
 
 //    ReservationDTO getReservationDetail(int resId);
 
+    // 예약 정보와 상점 정보를 조인해서 상세 조회
     Map<String, Object> getReservationDetailWithStore(int resId);
 
-    // 사업장별 예약 조회
-    List<Map<String, Object>> getReservationsByStoreId(@Param("storeId") int storeId);
+    // 사용자의 사업장 ID 조회
+    Integer getStoreIdByUserId(int userId);
+
+    // 사업장별 예약 조회 메서드 추가
+    List<ReservationDTO> getReservationsByStore(@Param("storeId") int storeId);
+
+    List<Integer> getResBySchedule(int id);
 
     void deleteReservation(@Param("resId") int resId);
+
+
 }

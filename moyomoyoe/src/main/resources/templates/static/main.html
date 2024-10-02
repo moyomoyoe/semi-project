@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>SEMI-PROJECT</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style/test.css" />
 </head>
 <body>
+<div th:insert="~{common/header}"></div>
 <h1>메인</h1>
+
 <hr>
 <h3>로그인 구역</h3>
 
@@ -36,24 +40,39 @@
     <a th:href="@{'reservation/schedule/storeInfo/' + ${userSession.id}}">사업장 </a>
 </div>
 <hr>
+<hr>
 
 <!-- 예약 관련 버튼 -->
 <div class="action-buttons">
     <button onclick="location.href='/reservation/storeList'">예약 가능한 업체 리스트 조회하기</button>
-    <button onclick="location.href='/reservation/reservationList'">예약 일정 리스트 보기</button> <!-- 추가된 버튼 -->
 </div>
+
+<div class="action-buttons mt-4">
+    <button onclick="location.href='/reservation/userReservations'">내 예약 목록 보기</button>
+    <button th:if="${store != null}" th:onclick="'location.href=\'/store/' + ${store.storeId} + '/reservations\''">
+        사업장 별 예약 목록 보기
+    </button>
+    <p th:if="${store == null}">해당 매장이 존재하지 않습니다.</p>
+</div>
+
+<!-- 사업장별 예약 조회 버튼 -->
+<div sec:authorize="hasAnyAuthority('BUSINESS')">
+    <!-- 사업장 정보 조회 -->
+    <!--    <a th:href="@{'reservation/schedule/storeInfo/' + ${userSession.id}}" class="btn btn-info">사업장</a>-->
+    <a th:href="@{'/reservation/store/reservations/' + ${userSession.id}}" class="btn btn-primary">사업장별 예약 현황 조회</a>
+</div>
+<hr>
+
+
 
 
 <hr>
 <br>
 <h3>게시판 조회 및 세부 조회</h3>
-    <button onclick="location.href='/board/index'">게시글 조회 부분</button>
-
+<button onclick="location.href='/board/index'">게시글 조회 부분</button>
 
 <h3>게시글 쓰기</h3>
 <button onclick="location.href='/board/createpost'">게시글 쓰기</button>
 
-
 </body>
 </html>
-   
