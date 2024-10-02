@@ -62,7 +62,7 @@
     <!-- 특정 예약 상세 조회 -->
     <select id="getReservationById" parameterType="int" resultMap="reservationMap">
         SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
-        FROM tbl_reservation
+        FROM tbl_reservation r
         WHERE r.res_id = #{resId};
     </select>
 
@@ -99,6 +99,7 @@
         SELECT res_id, user_id_res, res_date, customer_num, schedule_id
         FROM tbl_reservation
         WHERE user_id_res = #{userId}
+        ORDER BY res_date DESC
     </select>
 
     <!-- 예약 정보와 상점 정보를 조인해서 상세 조회 -->

@@ -10,6 +10,8 @@ import moyomoyoe.reservation.model.dto.StoreDTO;
 import moyomoyoe.reservation.model.service.ReservationService;
 import moyomoyoe.reservation.model.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -89,7 +92,7 @@ public class ReservationController {
             ScheduleDTO scheduleDTO = scheduleList.get(0); // 첫 번째 스케줄을 선택
 
             // 예약 DTO 생성
-            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0,"");
+            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0);
 
             // 예약 저장
             reservationService.saveReservation(reservationDTO, scheduleDTO);
@@ -148,6 +151,20 @@ public class ReservationController {
 
         mv.addObject("user", userDTO);
         return mv;
+    }
+
+    // 사용자 예약 목록 조회 - JSON 응답
+    @GetMapping("/userReservationsData")
+    @ResponseBody
+    public ResponseEntity<List<ReservationDTO>> getUserReservationsData(@AuthenticationPrincipal UserDTO userDTO) {
+        int userId = userDTO.getId();
+        List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
+
+        if (userReservations == null || userReservations.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+        } else {
+            return ResponseEntity.ok(userReservations);
+        }
     }
 
     // 예약 상세 조회
