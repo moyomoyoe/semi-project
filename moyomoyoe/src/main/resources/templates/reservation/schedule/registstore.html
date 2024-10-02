@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/schedule.css" />
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 registstore
-<div class="container">
+<div class="outer-container">
+<div class="left-space"></div>
+<div class="centered-container">
 <form id="storeForm" th:action="@{/reservation/schedule/regist/store}" th:object="${store}" method="post">
     <div>
         <img id="previewImage" th:src="${ img }" alt="업로드 파일" width="100" height="100">
@@ -43,6 +45,9 @@ registstore
     </div>
 </form>
 
+</div>
+
+    <div th:replace="common/schdulelist.html"></div>
 </div>
 </body>
 
