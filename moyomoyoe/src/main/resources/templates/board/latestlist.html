@@ -8,6 +8,8 @@
         if(successMessage) alert(successMessage);
     </script>
 
+    <link rel="stylesheet" href="/static/style/main.css" />
+
     <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
     <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 </head>
@@ -15,6 +17,10 @@
     <h3>게시판 전체조회 페이지</h3>
 
     <div th:replace="common/header.html"></div>
+    <div class="outer-container">
+        <div class="left-space"></div>
+
+        <div class="centered-container">
     <div id="grid"></div>
 
     <script th:inline="javascript">
@@ -98,6 +104,9 @@
     <script th:if="${userOpenError}">
         alert([[${userOpenError}]]);
     </script>
+        </div>
 
+        <div th:replace="common/schdulelist.html"></div>
+    </div>
 </body>
 </html>
