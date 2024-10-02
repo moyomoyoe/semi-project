@@ -1,0 +1,89 @@
+/* 기본 설정 */
+body {
+    background-color: white;
+    font-family: 'LaundryGothic', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    border: 2px solid #aaa; /* 회색 라인 더 진하게 */
+    border-radius: 12px;
+    width: 80%;
+    margin: 30px auto; /* 윗쪽 간격 추가 */
+    background-color: #f9f9f9; /* 배경색 추가 */
+}
+
+label {
+    font-size: 20px; /* 제목과 내용의 글씨 크기 증가 */
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px solid #aaa; /* 회색 라인 더 진하게 */
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 350px; /* 내용 칸 크기 증가 */
+}
+
+/* 이미지 업로드 버튼과 입력 필드 사이의 간격 추가 */
+.image-upload {
+    margin-top: 20px; /* 이미지 업로드 버튼을 약간 아래로 이동 */
+}
+
+.location-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.location-bar select {
+    width: 40%; /* 선택박스 크기 조정 */
+}
+
+.user-open {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.user-open label {
+    width: 60%;
+}
+
+.user-open select {
+    width: 15%;
+}
+
+/* 게시글 수정 버튼 */
+button.update {
+    margin-top: 25px;
+    background-color: #CAEEE7;
+    border: 2px solid #6BAFA2;
+    border-radius: 20px;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 자연스러운 hover 효과 */
+}
+
+button.update:hover {
+    background-color: #B2DBD5;
+}

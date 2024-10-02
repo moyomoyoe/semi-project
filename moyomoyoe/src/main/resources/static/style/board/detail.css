@@ -1,0 +1,132 @@
+body {
+    font-family: 'LaundryGothic', sans-serif;
+    background-color: #f9f9f9;
+}
+
+.post-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.post-header .author-info {
+    display: flex;
+    align-items: center;
+}
+
+.post-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-header .details {
+    line-height: 1.2;
+}
+
+.post-header .actions {
+    display: flex;
+    gap: 10px;
+}
+
+.post-header .actions a {
+    text-decoration: none;
+    color: #6BAFA2;
+    font-weight: bold;
+}
+
+.post-content {
+    margin: 20px 0;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.comment-section {
+    margin-top: 40px;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.comment-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    resize: none;
+}
+
+.comment-form button {
+    background-color: #CAEEE7;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #B2DBD5;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-list li .comment-content {
+    flex-grow: 1;
+}
+
+.comment-list li button {
+    background-color: transparent;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+.comment-list li button:hover {
+    text-decoration: underline;
+}
+
+.button-style {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #CAEEE7;
+    color: black;
+    text-decoration: none;
+    border: 2px solid #6BAFA2;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.button-style:hover {
+    background-color: #B2DBD5;
+    border-color: #569387;
+}

@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS tbl_post_list
 (
     post_id     INT AUTO_INCREMENT COMMENT '게시글번호',
     title       VARCHAR(20)  NOT NULL COMMENT '제목',
-    context     VARCHAR(500) NOT NULL COMMENT '내용',
+    context     VARCHAR(1000) NOT NULL COMMENT '내용',
     nickname    VARCHAR(20)  NOT NULL COMMENT '작성자',
     post_date   VARCHAR(20)  NOT NULL COMMENT '작성일자',
     user_open   BOOLEAN      NOT NULL DEFAULT TRUE COMMENT '비회원열람',
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS tbl_comment
     comment_id        INT AUTO_INCREMENT NOT NULL COMMENT '댓글번호',
     post_id           INT                NOT NULL COMMENT '게시글번호',
     nickname          VARCHAR(20)        NOT NULL COMMENT '댓글작성자닉네임',
-    comment           VARCHAR(100)       NOT NULL COMMENT '댓글내용',
+    comment           VARCHAR(300)       NOT NULL COMMENT '댓글내용',
     comment_post_date VARCHAR(20)        NOT NULL COMMENT '댓글작성일자',
     user_id           INT                NOT NULL COMMENT '사용자번호',
 
