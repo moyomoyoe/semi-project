@@ -23,7 +23,7 @@
 
 
 <!-- 사업장 예약 리스트 -->
-<div th:if="${reservations != null and reservations.size() > 0}">
+<!--<div th:if="${reservations != null and reservations.size() > 0}">
     <h3>예약 목록</h3>
     <ul>
         <li th:each="reservation : ${reservations}">
@@ -36,7 +36,8 @@
             <hr>
         </li>
     </ul>
-</div>
+</div>-->
+        <div class="texts">클릭시 세부정보로 넘어갑니다.</div>
         <div id="reservation-container">
 
         </div>
@@ -55,19 +56,35 @@
 </body>
 <script th:inline="javascript">
     const reservations = /*[[${reservations}]]*/ [];
+    const schedules = /*[[${schedules}]]*/ [];
     const container = document.querySelector("#reservation-container");
     let curDate="";
 
+        console.log(schedules)
         console.log(reservations)
     reservations.forEach(r=>{
         if (curDate != r.res_date){
-            curDate=r.res_date
-            container.innerHTML += `<br><h1>${curDate.slice(-5)}의 예약 목록</h1><hr>`
+            curDate = r.res_date;
+            const dateHeader = document.createElement("h2");
+            dateHeader.innerText = `${curDate.slice(-5)}의 예약 목록`;
+            container.appendChild(dateHeader);
+
+            const hr = document.createElement("hr");
+            container.appendChild(hr);
         }
-        container.innerHTML +=
-            `<div class="token">예약자 명:${r.user_name_res}<br>
-            인원수: ${r.customer_num}<br>
-            </div>`
+        let schedule = schedules.find(s => s.scheduleId === r.schedule_id);
+        let newReservation = document.createElement("button");
+        newReservation.id ="token"
+
+        newReservation.classList.add("clickable-token");
+        newReservation.innerHTML=  `예약자 명:${r.user_name_res}<br>
+            인원수 : ${r.customer_num}<hr>
+            ${schedule.startTime.slice(0,5)} ~ ${schedule.endTime.slice(0,5)}
+            `
+        newReservation.addEventListener("click",()=>{
+            location.href=`/reservation/reservationDetail/${r.res_id}`;} )// 즉시 실행 함수로 r.res_id를 고정
+        container.appendChild(newReservation)
+
     })
 
 </script>

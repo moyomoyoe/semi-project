@@ -27,6 +27,22 @@
         <result property="imageId" column="image_id_store"/>
     </resultMap>
 
+<!--
+    <resultMap id="fullInfoMap" type="moyomoyoe.reservation.model.dto.FullInfoMap">
+        <id property="resId" column="res_id"/>
+        <result property="userIdRes" column="user_id_res"/>
+        <result property="customerNum" column="customer_num"/>
+        <result property="scheduleId" column="schedule_id"/>
+        <result property="resDate" column="res_date"/>
+        <result property="userNameRes" column=""/>
+        <result property="storeId" column="store_id"/>
+        <result property="storeName" column="store_name"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="imageId" column="image_id_store"/>
+    </resultMap>
+-->
+
     <!-- 스토어 전체 정보 가져오기 -->
     <select id="getStoreAllInfo" parameterType="int" resultMap="storeMap">
         SELECT
@@ -65,6 +81,20 @@
         a.schedule_id, a.store_id, a.start_time, a.end_time, a.capacity
         ORDER BY
         a.start_time ASC;
+        ;
+    </select>
+
+    <select id="getScheduleById" parameterType="int" resultMap="scheduleMap">
+        SELECT
+        a.schedule_id,
+        a.store_id,
+        a.start_time,
+        a.end_time,
+        a.capacity,
+        FROM
+        tbl_schedule a
+        WHERE
+        schedule_id = #{code}
         ;
     </select>
 
@@ -146,5 +176,17 @@
     image_id = #{id}
     ;
 </select>
+    <select id="getUserFullReserInfo" parameterType="int" resultType="map">
+        SELECT a.res_id, a.user_id_res, a.res_date,
+        a.customer_num, a.schedule_id,
+        b.start_time, b.end_time,
+        c.store_name, c.image_id_store
+        FROM tbl_reservation a
+        JOIN tbl_schedule b ON a.schedule_id = b.schedule_id
+        JOIN tbl_store c ON b.store_id = c.store_id
+        WHERE a.user_id_res = #{code}
+        AND (a.res_date > CURRENT_DATE OR (a.res_date = CURRENT_DATE AND b.end_time > CURRENT_TIME))
+        ORDER BY a.res_date, b.start_time;
+    </select>
 
 </mapper>

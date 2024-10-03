@@ -1,12 +1,11 @@
 package moyomoyoe.reservation.model.dao;
 
-import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.StoreDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ScheduleMapper {
@@ -30,4 +29,9 @@ public interface ScheduleMapper {
     int getImageId(String imageName);
 
     String getImageById(int i);
+
+    ScheduleDTO getScheduleById(int code);
+
+    List<Map<String,String>> getUserFullReserInfo(int code);
+
 }

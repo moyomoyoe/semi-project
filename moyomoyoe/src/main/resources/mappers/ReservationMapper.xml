@@ -26,7 +26,7 @@
         <result property="customerNum" column="customer_num"/>
         <result property="scheduleId" column="schedule_id"/>
         <result property="resDate" column="res_date"/>
-        <result property="userNameRes" column=""/>
+        <result property="userNameRes" column="user_name_res"/>
     </resultMap>
 
     <!-- StoreList 조회 -->
@@ -118,6 +118,7 @@
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
                  JOIN tbl_user u ON r.user_id_res = u.id
         WHERE sch.store_id = #{storeId}
+          AND (r.res_date >= CURRENT_DATE)
         ORDER BY r.res_date ASC
     </select>
 
