@@ -18,9 +18,8 @@
     <h1>사업장 리스트</h1>
 
     <!-- Loop through each store -->
-    <div th:each="store : ${stores}" class="store">
-        <!-- Dynamically generate image URL based on store id -->
-        <img th:src="@{'/images/store/' + ${store.imageId} + '.png'}" alt="Store Image" class="store-image">
+    <div th:each="storeMap : ${stores}" class="store">
+        <img th:src="@{|${storeMap.imagePath}|}" alt="Store Image">
 
         <!-- Display store name, type, and link to reservation details -->
         <h2>
@@ -34,13 +33,14 @@
         <!-- Button to make a reservation -->
         <div class="store-details">
             <h2>
-                <a th:href="@{/reservation/storeDetail/{id}(id=${store.storeId})}" class="a-button">
-                    [[${store.storeName}]] ([[${store.storeSort}]])
+                <a th:href="@{/reservation/storeDetail/{id}(id=${storeMap['store'].storeId})}" class="a-button">
+                    [[${storeMap['store'].storeName}]] ([[${storeMap['store'].storeSort}]])
                 </a>
             </h2>
-            <p>[[${store.storeAddress}]]</p>
-            <p>[[${store.description}]]</p>
+            <p>[[${storeMap['store'].storeAddress}]]</p>
+            <p>[[${storeMap['store'].description}]]</p>
         </div>
+    </div>
     </div>
 </main>
 

@@ -68,7 +68,7 @@
 
 <main>
     <div class="store-detail">
-        <img th:src="@{'/images/store/' + ${store.storeId} + '.png'}" alt="Store Image">
+        <img th:src="${imagePath}" alt="Store Image"/>
         <h2 th:text="${store.storeName} + ' (' + ${store.storeSort} + ')'">매장 이름 (업종)</h2>
         <p>주소: <span th:text="${store.storeAddress}">주소</span></p>
         <p>상세 설명: <span th:text="${store.description}">상세 설명</span></p>
