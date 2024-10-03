@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>예약 시스템</title>
-    <link rel="stylesheet" href="/static/style/test.css" />
-    <link rel="stylesheet" href="/static/style/schedule.css" />
-    <!-- 기존의 외부 스타일시트 추가 -->
+    <link rel="stylesheet" href="/static/style/test.css"/>
+    <link rel="stylesheet" href="/static/style/schedule.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
@@ -31,13 +30,47 @@
             margin-bottom: 20px;
         }
 
+        .button-style {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 1em;
+            font-weight: bold;
+            color: #333;
+            background-color: #E3FFFA;
+            border: 2px solid #6AA8A5;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .button-style:hover {
+            background-color: #6AA8A5;
+            color: white;
+        }
+
+        #calendar {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #d3d3d3; /* 캘린더 배경색을 옅은 회색으로 변경 */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
         .time-slots button {
             margin: 5px;
-            padding: 10px;
-            border: 1px solid #343a40;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid #008080; /* 진한 민트색 */
             background-color: white;
+            color: black;
             cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .time-slots button:hover {
+            background-color: #6AA8A5;
+            color: white;
         }
 
         .time-slots button.active {
@@ -55,26 +88,25 @@
             cursor: not-allowed;
         }
 
-        .fc-day.fc-past {
-            opacity: 0.5;
-            pointer-events: none;
+        /* 기존 스타일 유지 */
+        .fc-daygrid-day-number {
+            color: #000; /* 날짜 숫자 색상: 검은색으로 변경 */
         }
 
-        .fc-day.fc-past:hover {
-            cursor: not-allowed;
+        .fc-button {
+            background-color: #E3FFFA;
+            border: 2px solid #6AA8A5;
+            color: #333; /* 기본 글자 색상: 짙은 회색 */
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
         }
 
-        .fc-day.fc-sun, .holiday {
-            color: red;
-        }
-
-        .fc-day.fc-future {
-            color: black;
-        }
-
-        #calendar {
-            max-width: 500px; /* 달력 크기를 줄이기 위해 max-width 설정 */
-            margin: 0 auto;
+        .fc-button:hover {
+            background-color: #6AA8A5; /* 호버 시 배경색 */
+            color: #333; /* 호버 시 글자 색상: 짙은 회색 */
         }
     </style>
 </head>
@@ -88,33 +120,36 @@
         <h2>예약 날짜와 시간 선택</h2>
         <div class="form-group">
             <label>예약 날짜</label>
-            <div id="calendar"></div>
+            <div id="calendar" style="background-color: #E3FFFA; padding: 20px; border-radius: 8px;"></div>
         </div>
         <div class="form-group">
             <label>예약 시간 선택</label>
             <div class="time-slots" id="time-slots"></div>
         </div>
-        <button type="button" id="next-button" class="btn btn-primary">다음 단계</button>
+        <button type="button" id="next-button" class="button-style">다음 단계</button>
     </section>
     <section id="step2" class="hidden">
         <h2>예약 정보 입력</h2>
         <form id="reservation-form" method="post" action="/reservation/reservation/submit">
-            <!-- CSRF Token 설정 (Spring Security가 활성화된 경우) -->
-            <input type="hidden" id="storeId" name="storeId" th:value="${store.storeId}" />
+            <input type="hidden" id="storeId" name="storeId" th:value="${store.storeId}"/>
 
-            <div class="form-group">
-                <label for="name">이름</label>
-                <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required>
+            <div class="form-group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="name" style="flex: 0 0 100px; font-weight: bold;">이름:</label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력하세요" required
+                       style="flex: 1; max-width: 200px; padding: 5px;">
             </div>
 
-            <div class="form-group">
-                <label for="phone">전화번호</label>
-                <input type="tel" id="phone" class="form-control" name="phone" placeholder="전화번호를 입력하세요" required>
+            <div class="form-group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="phone" style="flex: 0 0 100px; font-weight: bold;">전화번호:</label>
+                <input type="tel" id="phone" class="form-control" name="phone" placeholder="전화번호를 입력하세요" required
+                       style="flex: 1; max-width: 200px; padding: 5px;">
             </div>
 
-            <div class="form-group">
-                <label for="capacity">인원수</label>
-                <input min="1" id="capacity" type="number" class="form-control" name="capacity" value="5" required> <label>명</label>
+            <div class="form-group" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="capacity" style="flex: 0 0 100px; font-weight: bold;">인원수:</label>
+                <input min="1" id="capacity" type="number" class="form-control" name="capacity" value="5" required
+                       style="flex: 1; max-width: 50px; padding: 5px;">
+                <label style="margin-left: 5px;">명</label>
             </div>
 
             <input type="hidden" id="date" name="date">
@@ -122,8 +157,9 @@
             <input type="hidden" id="endTime" name="endTime">
             <input type="hidden" id="selectedTimes" name="selectedTimes">
 
-            <button type="submit" id="reserve-button" class="btn btn-primary">예약하기</button>
+            <button type="submit" id="reserve-button" class="button-style">예약하기</button>
         </form>
+        <a href="javascript:void(0)" id="finish-button" class="button-style">홈으로</a>
     </section>
 </main>
 
@@ -137,7 +173,7 @@
         return $.ajax({
             url: '/reservation/schedules/' + storeId,
             type: 'GET',
-            data: { date: date },
+            data: {date: date},
             success: function (data) {
                 reservedTimes = data.map(schedule => {
                     return {
@@ -149,7 +185,7 @@
                 displayTimeSlots();
             },
             error: function (xhr, status, error) {
-                console.error('Error fetching reserved times:', error); // 에러 로그 추가
+                console.error('Error fetching reserved times:', error);
             }
         });
     };
@@ -158,11 +194,11 @@
         $('#time-slots').empty();
         reservedTimes.forEach(schedule => {
             const timeSlot = `${schedule.startTime} ~ ${schedule.endTime} (수용인원: ${schedule.capacity}명)`;
-            const isDisabled = false;  // 예약이 가능한 시간
+            const isDisabled = false;
 
             const timeButton = $('<button></button>')
                 .text(timeSlot)
-                .addClass('btn btn-outline-primary')
+                .addClass('button-style')
                 .toggleClass('disabled', isDisabled)
                 .prop('disabled', isDisabled)
                 .click(function () {
@@ -196,14 +232,12 @@
                 return {html: arg.dayNumberText.replace('일', '')};
             },
             dateClick: function (info) {
-                // 날짜를 클릭했을 때 실행되는 부분
+                // 날짜 클릭 시 동작
                 selectedDate = info.dateStr;
                 $('#date').val(selectedDate);
 
-                // storeId 가져오기
-                const storeId = $('#storeId').val();  // Store ID를 가져옴
-
-                // 예약된 시간 가져오기
+                // Store ID 가져오기
+                const storeId = $('#storeId').val();
                 if (storeId) {
                     fetchReservedTimes(selectedDate, storeId);
                 } else {
@@ -211,6 +245,11 @@
                 }
             }
         });
+
+        // 캘린더 배경색과 텍스트 색상 설정
+        calendarEl.style.backgroundColor = '#FFFFFF'; // 캘린더 배경색을 화이트로 설정
+        calendarEl.style.color = '#6AA8A5'; // 캘린더 텍스트 색상 설정
+
         calendar.render();
     };
 
@@ -233,9 +272,11 @@
             $('#startTime').val(startTime);
             $('#endTime').val(endTime);
 
+            // 예약 정보를 전송하는 부분
             this.submit();
         });
 
+        // 다음 단계 버튼 클릭 시 처리
         $('#next-button').click(function () {
             if (!selectedDate || selectedTimes.length === 0) {
                 alert('예약할 시간을 선택하세요.');
@@ -246,6 +287,7 @@
             $('#step2').removeClass('hidden');
         });
 
+        // 홈으로 버튼 클릭 시 메인 페이지로 이동
         $('#finish-button').click(function () {
             window.location.href = "/main.html";
         });
