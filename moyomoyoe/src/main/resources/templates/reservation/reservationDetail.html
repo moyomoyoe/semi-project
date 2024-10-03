@@ -21,6 +21,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 400px; /* 가로 길이 설정 */
+            margin: 0 auto; /* 수평 가운데 정렬 */
         }
 
         table {
@@ -80,54 +81,74 @@
 
         .button-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* 버튼 간격 조정 */
             margin-top: 20px;
+            width: 100%; /* 버튼 컨테이너 가로 길이 설정 */
+        }
+
+        .button-container form,
+        .button-container a {
+            flex: 1; /* 버튼들을 균등하게 배치 */
+            text-align: center;
         }
     </style>
 </head>
 <div th:replace="common/header"></div>
 <body>
-
 <div class="container">
     <h1>예약 상세 정보</h1>
 
     <!-- 예약 정보 테이블 -->
-    <table>
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
         <tr>
-            <th>예약 ID</th>
-            <td th:text="${reservation.res_id}">예약 ID</td>
+            <th colspan="2">예약 정보</th>
         </tr>
+        </thead>
+        <tbody>
         <tr>
             <th>예약 날짜</th>
-            <td th:text="${reservation.res_date}">예약 날짜</td>
+            <td th:text="${resDate}">예약 날짜 없음</td>
         </tr>
         <tr>
             <th>인원수</th>
-            <td th:text="${reservation.customer_num}">인원수</td>
+            <td th:text="${customerNum}">인원수 없음</td>
         </tr>
         <tr>
             <th>스케줄 ID</th>
-            <td th:text="${reservation.schedule_id}">스케줄 ID</td>
+            <td th:text="${scheduleId}">스케줄 ID 없음</td>
         </tr>
+        </tbody>
     </table>
 
     <!-- 상점 정보 테이블 -->
-    <table>
+    <table border="1" cellspacing="0" cellpadding="5" style="margin-top: 20px;">
+        <thead>
+        <tr>
+            <th colspan="2">상점 정보</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr>
             <th>상점 이름</th>
-            <td th:text="${reservation.store_name}">상점 이름</td>
+            <td th:text="${storeName}">상점 이름 없음</td>
         </tr>
         <tr>
             <th>상점 종류</th>
-            <td th:text="${reservation.store_sort}">상점 종류</td>
+            <td th:text="${storeSort}">상점 종류 없음</td>
         </tr>
+        <tr>
+            <th>상점 주소</th>
+            <td th:text="${storeAddress}">상점 주소 없음</td>
+        </tr>
+        </tbody>
     </table>
 
     <!-- 버튼 컨테이너 -->
     <div class="button-container">
         <!-- 예약 취소 버튼 -->
         <form th:action="@{/reservation/reservationCancel}" method="post">
-            <input type="hidden" th:value="${reservation.res_id}" name="resId">
+            <input type="hidden" th:value="${resId}" name="resId">
             <button type="submit" class="cancel-button">예약 취소</button>
         </form>
 
@@ -135,6 +156,5 @@
         <a href="/" class="button-style">홈</a>
     </div>
 </div>
-
 </body>
 </html>

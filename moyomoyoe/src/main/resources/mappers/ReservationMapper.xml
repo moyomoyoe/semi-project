@@ -108,13 +108,10 @@
                r.res_date,
                r.customer_num,
                r.schedule_id,
-<<<<<<< HEAD
                TIME_FORMAT(sch.start_time, '%H:%i') as start_time,
                TIME_FORMAT(sch.end_time, '%H:%i') as end_time
-=======
                sch.start_time,
                sch.end_time
->>>>>>> cfdc17d ([docs] 매장리스트, 매장상세조회시 등록한 사진이 나오게 렌더링완료)
         FROM tbl_reservation r
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
         WHERE r.user_id_res = #{userId}
