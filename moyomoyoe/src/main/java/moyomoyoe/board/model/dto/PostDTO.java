@@ -16,11 +16,12 @@ public class PostDTO {
     private int userId;
 
     private String imageName;
+    private String profileImage;
 
     public PostDTO() {
     }
 
-    public PostDTO(int postId, String title, String context, String nickname, LocalDate postDate, Boolean userOpen, int regionCode, int imageId, int keywordId, int userId, String imageName) {
+    public PostDTO(int postId, String title, String context, String nickname, LocalDate postDate, Boolean userOpen, int regionCode, int imageId, int keywordId, int userId, String imageName, String profileImage) {
         this.postId = postId;
         this.title = title;
         this.context = context;
@@ -32,6 +33,15 @@ public class PostDTO {
         this.keywordId = keywordId;
         this.userId = userId;
         this.imageName = imageName;
+        this.profileImage = profileImage;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public int getPostId() {
@@ -134,7 +144,7 @@ public class PostDTO {
                 ", keywordId=" + keywordId +
                 ", userId=" + userId +
                 ", imageName='" + imageName + '\'' +
+                ", profileImage='" + profileImage + '\'' +
                 '}';
     }
-
 }

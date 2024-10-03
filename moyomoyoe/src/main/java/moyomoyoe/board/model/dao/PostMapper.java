@@ -56,4 +56,10 @@ public interface PostMapper {
     void registImage(ImageDTO newImage);
 
     ImageDTO getImageById(int imageId);
+
+    // 프로필 이미지 가져오기
+    ImageDTO getProfileImageById(int imageId);
+
+    // userId로 imageId 조회 (프로필)
+    int getImageByUserId(int userId);
 }

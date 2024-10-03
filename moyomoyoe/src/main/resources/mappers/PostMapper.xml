@@ -160,6 +160,25 @@
         post_id = #{postId}
     </select>
 
+    <select id="getImageByUserId">
+        SELECT image_id
+        FROM tbl_user
+        WHERE id = #{userId}
+    </select>
+
+    <!-- 사용자 프로필 이미지 -->
+    <select id="getProfileImageById" resultMap="imageResultMap">
+        SELECT
+        image_id,
+        image_name
+        FROM
+        tbl_image
+        WHERE
+        image_id = #{imageId}
+    </select>
+
+
+
     <!--세부게시글삭제-->
     <delete id="deletePost" parameterType="int">
         DELETE
