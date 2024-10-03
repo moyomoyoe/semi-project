@@ -84,6 +84,11 @@ public class ReservationService {
         return reservationMapper.getUserReservations(userId);
     }
 
+    // 사용자 예약 목록 조회시 시간 가져오기
+    public List<Map<String, Object>> getUserReservationsWithSchedule(int userId) {
+        return reservationMapper.getUserReservationsWithSchedule(userId);
+    }
+
     // 예약 상세 정보 조회
 //    public ReservationDTO getReservationDetail(int resId) {
 //        return reservationMapper.getReservationDetail(resId);

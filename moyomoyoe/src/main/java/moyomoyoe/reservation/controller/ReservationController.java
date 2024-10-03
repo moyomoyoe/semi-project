@@ -23,9 +23,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeParseException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/reservation")
@@ -156,14 +154,29 @@ public class ReservationController {
     // 사용자 예약 목록 조회 - JSON 응답
     @GetMapping("/userReservationsData")
     @ResponseBody
-    public ResponseEntity<List<ReservationDTO>> getUserReservationsData(@AuthenticationPrincipal UserDTO userDTO) {
+    public ResponseEntity<List<Map<String, Object>>> getUserReservationsData(@AuthenticationPrincipal UserDTO userDTO) {
         int userId = userDTO.getId();
         List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
 
         if (userReservations == null || userReservations.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
         } else {
-            return ResponseEntity.ok(userReservations);
+            List<Map<String, Object>> reservationDataList = new ArrayList<>();
+
+            for (ReservationDTO reservation : userReservations) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("resId", reservation.getResId());
+                map.put("userIdRes", reservation.getUserIdRes());
+                map.put("resDate", reservation.getResDate());
+                map.put("customerNum", reservation.getCustomerNum());
+                map.put("scheduleId", reservation.getScheduleId());
+                map.put("startTime", reservationService.getScheduleById(reservation.getScheduleId()).getStartTime());
+                map.put("endTime", reservationService.getScheduleById(reservation.getScheduleId()).getEndTime());
+
+                reservationDataList.add(map);
+            }
+
+            return ResponseEntity.ok(reservationDataList);
         }
     }
 
