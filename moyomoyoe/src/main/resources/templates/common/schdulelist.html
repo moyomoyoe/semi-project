@@ -117,7 +117,6 @@
 <div id="reservation-detail-modal" class="modal">
     <div class="modal-content">
         <span class="close-button" onclick="closeDetailModal()">&times;</span>
-        <h3>예약 상세 정보</h3>
         <div id="modal-detail-content">
             <!-- 예약 상세 정보가 여기에 동적으로 추가됩니다. -->
         </div>
@@ -148,18 +147,22 @@
                     if (data.length > 0) {
                         let listHtml = '';
                         data.forEach(reservation => {
+                            // 시간을 포맷팅 (startTime과 endTime이 문자열로 온다고 가정)
+                            const startTime = formatTime(reservation.startTime);
+                            const endTime = formatTime(reservation.endTime);
+
                             listHtml += `
-                                <div class="reservation-card" onclick="openDetailModal(${reservation.resId})">
-                                    <div class="reservation-date">${reservation.resDate}</div>
-                                    <div class="reservation-time">
-                                        <span>${reservation.startTime} ~ ${reservation.endTime}</span>
-                                    </div>
-                                    <div class="reservation-details">
-                                        예약자명: ${reservation.userNickname ? reservation.userNickname : '정보 없음'}<br>
-                                        인원수: ${reservation.customerNum}
-                                    </div>
+                            <div class="reservation-card" onclick="openDetailModal(${reservation.resId})">
+                                <div class="reservation-date">${reservation.resDate}</div>
+                                <div class="reservation-time">
+                                    <span>${startTime} ~ ${endTime}</span>
                                 </div>
-                            `;
+                                <div class="reservation-details">
+                                    예약자명: ${reservation.userNickname ? reservation.userNickname : '정보 없음'}<br>
+                                    인원수: ${reservation.customerNum}
+                                </div>
+                            </div>
+                        `;
                         });
                         scheduleContent.innerHTML = listHtml;
                     } else {
@@ -181,6 +184,12 @@
             scheduleContent.style.display = "none";
             toggleIcon.textContent = "⯈ 일정 목록"; // 화살표 오른쪽으로 변경
         }
+    }
+
+    function formatTime(timeString) {
+        if (!timeString) return '시간 없음';
+        const [hour, minute] = timeString.split(':');
+        return `${hour}:${minute}`;
     }
 
     function openDetailModal(resId) {

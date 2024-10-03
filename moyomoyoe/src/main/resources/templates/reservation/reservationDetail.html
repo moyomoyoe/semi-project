@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>예약 상세 정보</title>
     <style>
         body {
             display: flex;
@@ -108,15 +107,15 @@
         <tbody>
         <tr>
             <th>예약 날짜</th>
-            <td th:text="${resDate}">예약 날짜 없음</td>
+            <td th:text="${#strings.defaultString(resDate, '예약 날짜 없음')}">예약 날짜 없음</td>
+        </tr>
+        <tr>
+            <th>예약 시간</th>
+            <td th:text="|${#dates.format(startTime, 'HH:mm')} ~ ${#dates.format(endTime, 'HH:mm')}|">시간 없음</td>
         </tr>
         <tr>
             <th>인원수</th>
-            <td th:text="${customerNum}">인원수 없음</td>
-        </tr>
-        <tr>
-            <th>스케줄 ID</th>
-            <td th:text="${scheduleId}">스케줄 ID 없음</td>
+            <td th:text="${#strings.defaultString(customerNum, '인원수 없음')}">인원수 없음</td>
         </tr>
         </tbody>
     </table>
@@ -131,15 +130,15 @@
         <tbody>
         <tr>
             <th>상점 이름</th>
-            <td th:text="${storeName}">상점 이름 없음</td>
+            <td th:text="${#strings.defaultString(storeName, '상점 이름 없음')}">상점 이름 없음</td>
         </tr>
         <tr>
             <th>상점 종류</th>
-            <td th:text="${storeSort}">상점 종류 없음</td>
+            <td th:text="${#strings.defaultString(storeSort, '상점 종류 없음')}">상점 종류 없음</td>
         </tr>
         <tr>
             <th>상점 주소</th>
-            <td th:text="${storeAddress}">상점 주소 없음</td>
+            <td th:text="${#strings.defaultString(storeAddress, '상점 주소 없음')}">상점 주소 없음</td>
         </tr>
         </tbody>
     </table>
