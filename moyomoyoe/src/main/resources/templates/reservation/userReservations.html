@@ -23,39 +23,49 @@
     <div id="profileImg">
 =======
     <style>
-        /* 버튼 스타일 */
-        .button-style {
-            background-color: #d0f0e5; /* 연한 청록색 배경 */
-            color: black; /* 검정색 텍스트 */
-            padding: 10px 20px;
-            border-radius: 25px; /* 둥근 모서리 */
-            text-decoration: none; /* 밑줄 제거 */
-            font-size: 1.1em;
-            font-weight: bold;
-            border: 3px solid #78a999; /* 테두리 */
-            cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .button-style:hover {
-            background-color: #b0e0cd; /* 호버 시 조금 더 어두운 청록색 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
         /* 카드 스타일 */
         .reservation-card {
             border: 1px solid #ddd;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px; /* 내부 여백 줄이기 */
+            margin-bottom: 15px; /* 카드 간격 줄이기 */
+            max-width: 400px; /* 최대 너비를 줄여 카드 크기 축소 */
             background-color: #f9f9f9;
             transition: background-color 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            margin: 0 auto; /* 카드 가운데 정렬 */
         }
 
-        .reservation-card:hover {
-            background-color: #f1f1f1;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        /* 예약 액션 버튼 스타일 */
+        .reservation-actions a.detail-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #E3FFFA; /* 연한 청록색 배경 (2번 이미지 스타일 반영) */
+            color: black; /* 검정색 텍스트 */
+            text-decoration: none;
+            border-radius: 20px;
+            border: 2px solid #6AA8A5; /* 진한 청록색 테두리 */
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .reservation-actions a.detail-link:hover {
+            background-color: #6AA8A5; /* 호버 시 진한 청록색 */
+            color: white; /* 호버 시 흰색 텍스트 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 */
+        }
+
+        /* 예약 정보 컨테이너 스타일 */
+        .reservation-container {
+            max-width: 500px; /* 컨테이너 크기 줄임 */
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            text-align: center;
         }
 
         .reservation-date {
@@ -77,44 +87,8 @@
 
         .reservation-actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* 버튼을 가운데 정렬 */
             margin-top: 15px;
-        }
-
-        .detail-link {
-            background-color: #d0f0e5; /* 연한 청록색 배경 */
-            color: black; /* 검정색 텍스트 */
-            padding: 10px 20px;
-            text-decoration: none; /* 밑줄 제거 */
-            border-radius: 25px; /* 둥근 모서리 */
-            font-size: 1.1em;
-            font-weight: bold;
-            border: 3px solid #78a999; /* 테두리 */
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .detail-link:hover {
-            background-color: #b0e0cd; /* 호버 시 조금 더 어두운 청록색 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .reservation-actions button {
-            border: none;
-            padding: 10px 15px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 25px; /* 둥근 모서리 추가 */
-            transition: background-color 0.3s;
-        }
-
-        .reservation-actions .cancel-button {
-            background-color: #f5a1a0; /* 조금 옅은 빨간색 */
-            color: white;
-            border: 3px solid #e57373; /* 테두리 */
-        }
-
-        .reservation-actions .cancel-button:hover {
-            background-color: #f08080; /* 호버 시 진한 빨간색 */
         }
     </style>
 </head>
@@ -160,7 +134,7 @@
 <div th:if="${userReservations != null and userReservations.size() > 0}" class="reservation-list">
     <h3>예약된 일정</h3>
     <div th:each="reservation : ${userReservations}" class="reservation-card">
-        <div th:if="${reservation != null}">
+        <div th:if="${reservation != null}" class="reservation-container">
             <div class="reservation-date" th:text="${#strings.defaultString(reservation.resDate, '날짜 없음')}"></div>
             <div class="reservation-time">
                 시간: <span th:text="${#strings.defaultString(reservation.startTime, '시간 없음')}"></span> ~
@@ -171,7 +145,6 @@
                 인원수: <span th:text="${#strings.defaultString(reservation.customerNum, '인원수 없음')}"></span>
             </div>
             <div class="reservation-actions">
-                <button class="cancel-button">예약 취소</button>
                 <a th:href="@{/reservation/reservationDetail/{resId}(resId=${reservation.resId})}" class="detail-link">상세 보기</a>
             </div>
         </div>
