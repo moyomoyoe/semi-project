@@ -58,9 +58,11 @@ public interface ReservationMapper {
 
     void deleteReservation(@Param("resId") int resId);
 
+    // 기존 이미지 관련 메소드
     int getImageId(String imageName);
-
     String getImageById(int id);
 
+    // 매장 ID를 이용해 이미지 ID 조회
+    Integer getImageIdByStoreId(@Param("storeId") int storeId);
 
 }

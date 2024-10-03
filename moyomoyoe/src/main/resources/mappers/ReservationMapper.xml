@@ -6,8 +6,9 @@
     <resultMap id="storeMap" type="moyomoyoe.reservation.model.dto.StoreDTO">
         <id property="storeId" column="store_id"/>
         <result property="storeName" column="store_name"/>
-        <result property="storeSort" column="store_sort"/>
         <result property="storeAddress" column="store_address"/>
+        <result property="storeSort" column="store_sort"/>
+        <result property="imageId" column="image_id"/>
     </resultMap>
 
     <!-- Schedule 테이블에 대한 결과 매핑 -->
@@ -26,6 +27,7 @@
         <result property="customerNum" column="customer_num"/>
         <result property="scheduleId" column="schedule_id"/>
         <result property="resDate" column="res_date"/>
+        <result property="userNameRes" column="user_name_res"/> <!-- 추가 필요 -->
         <result property="userNameRes" column="user_name_res"/>
     </resultMap>
 
@@ -101,12 +103,17 @@
 
     <!-- 사용자별 예약한 시간 조회 -->
     <select id="getUserReservationsWithSchedule" parameterType="int" resultMap="reservationMap">
-        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id,
-               sch.start_time, sch.end_time
+        SELECT r.res_id,
+               r.user_id_res,
+               r.res_date,
+               r.customer_num,
+               r.schedule_id,
+               TIME_FORMAT(sch.start_time, '%H:%i') as start_time,
+               TIME_FORMAT(sch.end_time, '%H:%i') as end_time
         FROM tbl_reservation r
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
         WHERE r.user_id_res = #{userId}
-        ORDER BY r.res_date DESC
+        ORDER BY r.res_date ASC
     </select>
 
     <!-- 예약 정보와 상점 정보를 조인해서 상세 조회 -->
@@ -116,8 +123,11 @@
                r.res_date,
                r.customer_num,
                r.schedule_id,
+               sch.start_time,
+               sch.end_time,
                s.store_name,
-               s.store_sort
+               s.store_sort,
+               s.store_address
         FROM tbl_reservation r
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
                  JOIN tbl_store s ON sch.store_id = s.store_id
@@ -126,24 +136,22 @@
 
     <!-- 사업장별 예약 현황 조회 -->
     <select id="getReservationsByStore" parameterType="int" resultType="map">
-        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id, u.username as user_name_res
-        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
         SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id, u.username AS user_name_res
-        FROM tbl_reservation r
-                 JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
-        WHERE sch.store_id = #{storeId}
-        ORDER BY r.res_date DESC
-    </select>
-
-    <!-- 사업장별 예약 목록 조회 -->
-    <select id="getReservationsByStoreId" parameterType="int" resultMap="reservationMap">
-        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
         FROM tbl_reservation r
                  JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
                  JOIN tbl_user u ON r.user_id_res = u.id
         WHERE sch.store_id = #{storeId}
           AND (r.res_date >= CURRENT_DATE)
         ORDER BY r.res_date ASC
+    </select>
+
+    <!-- 사업장별 예약 목록 조회 (중복 제거 후 하나만 남김) -->
+    <select id="getReservationsByStoreId" parameterType="int" resultMap="reservationMap">
+        SELECT r.res_id, r.user_id_res, r.res_date, r.customer_num, r.schedule_id
+        FROM tbl_reservation r
+                 JOIN tbl_schedule sch ON r.schedule_id = sch.schedule_id
+        WHERE sch.store_id = #{storeId}
+        ORDER BY r.res_date DESC
     </select>
 
     <!-- 사용자 ID로 Store ID 조회 -->
@@ -172,6 +180,13 @@
         SELECT image_name
         FROM tbl_image
         WHERE image_id = #{id}
+    </select>
+
+    <!-- 매장 ID를 이용해 이미지 ID 조회 -->
+    <select id="getImageIdByStoreId" parameterType="int" resultType="int">
+        SELECT image_id_store
+        FROM tbl_store
+        WHERE store_id = #{storeId}
     </select>
 
 </mapper>

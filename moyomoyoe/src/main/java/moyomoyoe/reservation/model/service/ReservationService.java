@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,16 +91,6 @@ public class ReservationService {
         return reservationMapper.getUserReservationsWithSchedule(userId);
     }
 
-    // 예약 상세 정보 조회
-//    public ReservationDTO getReservationDetail(int resId) {
-//        return reservationMapper.getReservationDetail(resId);
-//    }
-//
-//    // userId 가져와서 userName 조회
-//    public String getUserNameByUserId(int userId) {
-//        return reservationMapper.getUserNameByUserId(userId);
-//    }
-
     // 상세조회(상점정보+예약정보)
     public Map<String, Object> getReservationDetailWithStore(int resId) {
         return reservationMapper.getReservationDetailWithStore(resId);
@@ -124,7 +116,78 @@ public class ReservationService {
         reservationMapper.deleteReservation(resId);
     }
 
-    public String getImageById(int i) {
-        return dao.getImageById(i);
+    public List<Map<String, Object>> getAllStoresWithImages() {
+        List<StoreDTO> stores = reservationMapper.getAllStores();
+        List<Map<String, Object>> storeListWithImagePaths = new ArrayList<>();
+
+        String[] possibleExtensions = {".jpg", ".png", ".gif"};
+        String basePath = "src/main/resources/static/image/";
+        String defaultImagePath = "/static/image/default.jpg";
+
+        for (StoreDTO store : stores) {
+            Map<String, Object> storeMap = new HashMap<>();
+            storeMap.put("store", store);
+
+            // 이미지 경로 설정
+            String imagePath = defaultImagePath;
+            Integer imageId = store.getImageId();
+
+            if (imageId != null) {
+                for (String extension : possibleExtensions) {
+                    File file = new File(basePath + imageId + extension);
+                    if (file.exists()) {
+                        imagePath = "/static/image/" + imageId + extension;
+                        break;
+                    }
+                }
+            }
+
+            storeMap.put("imagePath", imagePath);
+            storeListWithImagePaths.add(storeMap);
+        }
+
+        return storeListWithImagePaths;
+    }
+
+    public String getImageById(int id) {
+        return reservationMapper.getImageById(id);
+    }
+
+    // 매장 ID로 이미지 경로 조회
+    public String getImagePathByStoreId(int storeId) {
+        String basePath = "/static/image/";
+        String defaultImagePath = "/static/image/097ad46b162e449a91545154fc6d4216.jpg";
+        String imagePath = defaultImagePath;
+
+        // DB에서 매장 ID에 해당하는 이미지 ID를 조회하고, 이미지 파일 경로 생성
+        Integer imageId = reservationMapper.getImageIdByStoreId(storeId);
+
+        if (imageId != null) {
+            String imageName = reservationMapper.getImageById(imageId);
+            if (imageName != null && !imageName.isEmpty()) {
+                imagePath = imageName;
+            }
+        }
+
+        return imagePath;
+    }
+
+    // 기존의 이미지 경로 생성 로직 사용
+    public String getImagePathById(Integer imageId) {
+        if (imageId == null) {
+            return "/static/image/default.jpg";  // 기본 이미지 경로 설정
+        }
+
+        String[] possibleExtensions = {".jpg", ".png", ".gif"};
+        String basePath = "src/main/resources/static/image/";
+
+        for (String extension : possibleExtensions) {
+            File file = new File(basePath + imageId + extension);
+            if (file.exists()) {
+                return "/static/image/" + imageId + extension;
+            }
+        }
+
+        return "/static/image/default.jpg";  // 이미지 파일이 없을 경우 기본 이미지 반환
     }
 }

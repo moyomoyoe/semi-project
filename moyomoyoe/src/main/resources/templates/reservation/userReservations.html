@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style/board/main.css"/>
+    <link rel="stylesheet" href="/static/style/board/editinfo.css"/>
     <title>내 예약 목록</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/schedule.css" />
 
@@ -18,12 +21,118 @@
 
 <div th:if="${user != null}">
     <div id="profileImg">
+=======
+    <style>
+        /* 버튼 스타일 */
+        .button-style {
+            background-color: #d0f0e5; /* 연한 청록색 배경 */
+            color: black; /* 검정색 텍스트 */
+            padding: 10px 20px;
+            border-radius: 25px; /* 둥근 모서리 */
+            text-decoration: none; /* 밑줄 제거 */
+            font-size: 1.1em;
+            font-weight: bold;
+            border: 3px solid #78a999; /* 테두리 */
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .button-style:hover {
+            background-color: #b0e0cd; /* 호버 시 조금 더 어두운 청록색 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 카드 스타일 */
+        .reservation-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .reservation-card:hover {
+            background-color: #f1f1f1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservation-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .reservation-time {
+            font-size: 1em;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .reservation-details {
+            margin-top: 10px;
+            font-size: 1em;
+        }
+
+        .reservation-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .detail-link {
+            background-color: #d0f0e5; /* 연한 청록색 배경 */
+            color: black; /* 검정색 텍스트 */
+            padding: 10px 20px;
+            text-decoration: none; /* 밑줄 제거 */
+            border-radius: 25px; /* 둥근 모서리 */
+            font-size: 1.1em;
+            font-weight: bold;
+            border: 3px solid #78a999; /* 테두리 */
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .detail-link:hover {
+            background-color: #b0e0cd; /* 호버 시 조금 더 어두운 청록색 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservation-actions button {
+            border: none;
+            padding: 10px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 25px; /* 둥근 모서리 추가 */
+            transition: background-color 0.3s;
+        }
+
+        .reservation-actions .cancel-button {
+            background-color: #f5a1a0; /* 조금 옅은 빨간색 */
+            color: white;
+            border: 3px solid #e57373; /* 테두리 */
+        }
+
+        .reservation-actions .cancel-button:hover {
+            background-color: #f08080; /* 호버 시 진한 빨간색 */
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/header.html"></div>
+<h1 class="page-title">내 예약 목록</h1>
+
+<!-- 사용자 프로필 정보 -->
+<div th:if="${user != null}" class="user-profile">
+    <div id="profileImg" class="profile-img">
+>>>>>>> d55fa88 ([docs] css 적용중, 중간작업커밋)
         <img th:src="${#strings.defaultString(user.image, '/static/default-profile.png')}" alt="프로필 사진" width="100" height="100">
     </div>
-    <h2 th:text="${#strings.defaultString(user.nickname, '닉네임 없음')}"></h2>
+    <h2 class="user-nickname" th:text="${#strings.defaultString(user.nickname, '닉네임 없음')}"></h2>
 </div>
 -->
 
+<<<<<<< HEAD
         <h1>내 예약 목록</h1>
         <!-- 사용자 프로필 정보 -->
         <div class="texts">클릭시 세부정보로 넘어갑니다.</div>
@@ -46,8 +155,30 @@
             <hr>
         </li>
     </ul>
+=======
+<!-- 예약 목록 -->
+<div th:if="${userReservations != null and userReservations.size() > 0}" class="reservation-list">
+    <h3>예약된 일정</h3>
+    <div th:each="reservation : ${userReservations}" class="reservation-card">
+        <div th:if="${reservation != null}">
+            <div class="reservation-date" th:text="${#strings.defaultString(reservation.resDate, '날짜 없음')}"></div>
+            <div class="reservation-time">
+                시간: <span th:text="${#strings.defaultString(reservation.startTime, '시간 없음')}"></span> ~
+                <span th:text="${#strings.defaultString(reservation.endTime, '시간 없음')}"></span>
+            </div>
+            <div class="reservation-details">
+                예약자명: <span th:text="${#strings.defaultString(user.nickname, '유저 없음')}"></span><br>
+                인원수: <span th:text="${#strings.defaultString(reservation.customerNum, '인원수 없음')}"></span>
+            </div>
+            <div class="reservation-actions">
+                <button class="cancel-button">예약 취소</button>
+                <a th:href="@{/reservation/reservationDetail/{resId}(resId=${reservation.resId})}" class="detail-link">상세 보기</a>
+            </div>
+        </div>
+    </div>
+>>>>>>> d55fa88 ([docs] css 적용중, 중간작업커밋)
 </div>
-<div th:if="${userReservations == null or userReservations.size() == 0}">
+<div th:if="${userReservations == null or userReservations.size() == 0}" class="no-reservation">
     <p>예약이 없습니다.</p>
 </div>-->
 
@@ -55,12 +186,20 @@
         <p>예약이 없습니다.</p>
     </div>
 
+<<<<<<< HEAD
 <!-- 홈으로 가는 링크 -->
 <a class="a-button" href="/">메인으로</a>
     </div>
     <div th:replace="common/schdulelist.html"></div>
 
 </div>
+=======
+<!-- 홈으로 가는 링크 (버튼) -->
+<div style="margin-top: 20px; text-align: center;">
+    <a href="/" class="button-style">홈</a>
+</div>
+
+>>>>>>> d55fa88 ([docs] css 적용중, 중간작업커밋)
 </body>
 <script th:inline="javascript">
     const reservations = /*[[${reservations}]]*/ [];

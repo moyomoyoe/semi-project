@@ -45,7 +45,20 @@ public class ReservationController {
     @GetMapping("/storeList")
     public String getStoreListPage(Model model) {
         List<StoreDTO> stores = reservationService.getAllStores();
-        model.addAttribute("stores", stores);
+        List<Map<String, Object>> storeListWithImagePaths = new ArrayList<>();
+
+        for (StoreDTO store : stores) {
+            Map<String, Object> storeMap = new HashMap<>();
+            storeMap.put("store", store);
+
+            // 매장 ID를 이용해 이미지 경로 조회
+            String imagePath = reservationService.getImagePathByStoreId(store.getStoreId());
+            storeMap.put("imagePath", imagePath);
+
+            storeListWithImagePaths.add(storeMap);
+        }
+
+        model.addAttribute("stores", storeListWithImagePaths);
         return "reservation/storeList";
     }
 
@@ -53,7 +66,13 @@ public class ReservationController {
     @GetMapping("/storeDetail/{id}")
     public String getStoreDetailPage(@PathVariable("id") int id, Model model) {
         StoreDTO store = reservationService.getStoreById(id);
+
+        // 매장 ID로 이미지 경로 조회
+        String imagePath = reservationService.getImagePathByStoreId(id);
+
         model.addAttribute("store", store);
+        model.addAttribute("imagePath", imagePath);
+
         return "reservation/storeDetailView";
     }
 
@@ -139,6 +158,33 @@ public class ReservationController {
     public ModelAndView getUserReservations(@AuthenticationPrincipal UserDTO userDTO, HttpSession session) {
         ModelAndView mv = new ModelAndView("reservation/userReservations");
         int userId = userDTO.getId();
+        List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
+
+        // 스케줄 정보와 예약 정보를 결합하여 반환
+        List<Map<String, Object>> reservationDetails = new ArrayList<>();
+        for (ReservationDTO reservation : userReservations) {
+            Map<String, Object> reservationMap = new HashMap<>();
+            reservationMap.put("resId", reservation.getResId());
+            reservationMap.put("userIdRes", reservation.getUserIdRes());
+            reservationMap.put("resDate", reservation.getResDate());
+            reservationMap.put("customerNum", reservation.getCustomerNum());
+            reservationMap.put("scheduleId", reservation.getScheduleId());
+
+            // 스케줄 정보를 통해 시작 및 종료 시간 추가
+            ScheduleDTO schedule = reservationService.getScheduleById(reservation.getScheduleId());
+            if (schedule != null) {
+                reservationMap.put("startTime", schedule.getStartTime());
+                reservationMap.put("endTime", schedule.getEndTime());
+            } else {
+                reservationMap.put("startTime", "시간 없음");
+                reservationMap.put("endTime", "시간 없음");
+            }
+
+            reservationDetails.add(reservationMap);
+        }
+
+        session.setAttribute("userReservations", reservationDetails);
+        mv.addObject("userReservations", reservationDetails);
         //List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
 
         List<Map<String,String>> reservation = reserService.getUserFullReserInfo(userId);
@@ -180,11 +226,12 @@ public class ReservationController {
         }
     }
 
-    // 예약 상세 조회
+    // 예약 상세 정보
     @GetMapping("/reservationDetail/{resId}")
     public ModelAndView getReservationDetail(@PathVariable("resId") int resId) {
         ModelAndView mv = new ModelAndView("reservation/reservationDetail");
 
+        // 예약 정보 조회
         Map<String, Object> reservationDetailWithStore = reservationService.getReservationDetailWithStore(resId);
 
         if (reservationDetailWithStore == null || reservationDetailWithStore.isEmpty()) {
@@ -192,17 +239,17 @@ public class ReservationController {
             return mv;
         }
 
-        mv.addObject("reservation", reservationDetailWithStore);  // Map 전체를 모델에 추가
+        // 필요한 필드를 명시적으로 추가하여 Thymeleaf에서 사용 가능하도록 설정
+        mv.addObject("resId", reservationDetailWithStore.get("res_id"));
+        mv.addObject("resDate", reservationDetailWithStore.get("res_date"));
+        mv.addObject("startTime", reservationDetailWithStore.get("start_time"));
+        mv.addObject("endTime", reservationDetailWithStore.get("end_time"));
+        mv.addObject("customerNum", reservationDetailWithStore.get("customer_num"));
+        mv.addObject("storeName", reservationDetailWithStore.get("store_name"));
+        mv.addObject("storeSort", reservationDetailWithStore.get("store_sort"));
+        mv.addObject("storeAddress", reservationDetailWithStore.get("store_address"));
 
         return mv;
-    }
-
-    // 예약 목록 조회
-    @GetMapping("/reservationList")
-    public String getReservationList(Model model) {
-        List<ScheduleDTO> reservationList = reservationService.getAllReservations();
-        model.addAttribute("reservationList", reservationList);
-        return "reservation/reservationList";
     }
 
     // 예약 취소
@@ -242,32 +289,6 @@ public class ReservationController {
             return "redirect:" + defaultUrl + "storeInfo"; // 해당 페이지로 리턴
         }
 
-    }
-
-    @GetMapping("/storeInfo")
-    public String getStoreInfoFromSession(HttpSession session, Model model) {
-        // 세션에 저장된 데이터를 가져옴
-        StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
-        List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
-
-        String url = reservationService.getImageById(1);
-
-        Integer imageId = storeInfo.getImageId();
-        System.out.println("기본 url = " + url);
-
-        if(imageId != null) {
-            System.out.println("imageId = " + imageId);
-            System.out.println("/storeInfo의 이미지 결과 확인중" + reservationService.getImageById(imageId));
-            url = reservationService.getImageById(storeInfo.getImageId());
-        }
-
-        // 모델에 추가해서 Thymeleaf로 전달
-        model.addAttribute("store", storeInfo);
-        model.addAttribute("schedule", schedule);
-
-        model.addAttribute("image", url);
-
-        return defaultUrl+"storeInfo";
     }
 
     // 사업장별 예약 목록 조회

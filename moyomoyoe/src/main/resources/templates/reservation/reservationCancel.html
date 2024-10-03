@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>예약 취소 완료</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style/main.css"/>
 </head>
 <body>
-<header>
-    <h1 class="text-center mt-5">예약 취소 완료</h1>
-</header>
+<h1>예약 취소 완료</h1>
 
-<main class="container mt-4">
-    <div class="alert alert-success">
-        <p>예약이 성공적으로 취소되었습니다.</p>
-        <a href="/reservations" class="btn btn-primary">예약 목록으로 돌아가기</a>
-    </div>
-</main>
+<!-- 성공 메시지 표시 -->
+<div class="success-message" style="background-color: #dff0d8; padding: 20px; border-radius: 8px;">
+    <p>예약이 성공적으로 취소되었습니다.</p>
+    <!-- 버튼 이름과 링크 수정 -->
+    <button onclick="location.href='/main.html'" style="background-color: #007bff; color: white; padding: 10px 15px; border-radius: 8px; border: none; cursor: pointer;">홈으로 가기</button>
+</div>
 </body>
 </html>
