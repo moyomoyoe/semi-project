@@ -22,8 +22,8 @@ public class ReservationDTO {
         this.userNameRes = userNameRes;
     }
 
-    public ReservationDTO(int i, int id, Date sqlDate, int capacity, int i1) {
-    }
+//    public ReservationDTO(int i, int id, Date sqlDate, int capacity, int i1) {
+//    }
 
     public int getResId() {
         return resId;

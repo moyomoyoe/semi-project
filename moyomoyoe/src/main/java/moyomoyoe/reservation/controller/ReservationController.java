@@ -92,7 +92,7 @@ public class ReservationController {
             ScheduleDTO scheduleDTO = scheduleList.get(0); // 첫 번째 스케줄을 선택
 
             // 예약 DTO 생성
-            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0);
+            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0, "");
 
             // 예약 저장
             reservationService.saveReservation(reservationDTO, scheduleDTO);

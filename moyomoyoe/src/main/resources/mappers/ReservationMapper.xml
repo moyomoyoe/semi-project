@@ -96,10 +96,9 @@
 
     <!-- 사용자별 예약 정보 조회 -->
     <select id="getUserReservations" parameterType="int" resultMap="reservationMap">
-        SELECT r.res_id, r.res_date, r.customer_num, r.user_id_res, s.start_time, s.end_time, s.store_name
-        FROM tbl_reservation r
-                 JOIN tbl_schedule s ON r.schedule_id = s.schedule_id
-        WHERE r.user_id_res = #{userId}
+        SELECT res_id, user_id_res, res_date, customer_num, schedule_id
+        FROM tbl_reservation
+        WHERE user_id_res = #{userId}
         ORDER BY res_date DESC
     </select>
 
