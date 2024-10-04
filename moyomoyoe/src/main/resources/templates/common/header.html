@@ -138,9 +138,9 @@
     </div>
 
     <!-- 네비게이션 바 -->
-    <nav class="navbar">
+    <nav id="navbar" class="navbar">
         <ul>
-            <li><button class="nav-button" onclick="location.href='/board/searchlist'">게시글</button></li>
+            <li><button class="nav-button" onclick="location.href='/board/latestlist'">게시글</button></li>
             <li><button class="nav-button" onclick="location.href='/reservation/storeList'">예약하기</button></li>
         </ul>
     </nav>
@@ -177,6 +177,7 @@
 <script>
     const header = document.querySelector("#header")
     const region = document.querySelector("#region")
+    const navbar = document.querySelector("#navbar")
     fetch("/member/user/getInfo").
     then(response =>{
         // console.log(response)
@@ -198,11 +199,15 @@
             region.innerHTML = `📍 in ${ data.region }`;
             let plusDiv =""
             if (data.role !="BUSINESS") {
+
                 plusDiv=`
                     <div>
                         <a href="/member/user/myPage" class="a-button"
                            style="width: 100px; padding: 5px 10px;">마이페이지</a>
                     </div>`
+            }
+            else {
+                navbar.remove()
             }
             let memberHeader = document.createElement("div")
             memberHeader.classList.add("header-right")
