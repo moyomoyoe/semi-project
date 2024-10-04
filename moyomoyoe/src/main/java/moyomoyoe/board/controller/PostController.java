@@ -457,7 +457,7 @@ public class PostController {
             if (!resource.exists()) {
 
                 //경로 없을 때
-                String root = "moyomoyoe/src/main/resources/static/image/";
+                String root = "src/main/resources/static/image/";
 
                 File file = new File(root);
                 file.mkdirs();
