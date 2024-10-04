@@ -131,8 +131,8 @@
 <!-- 상단 네비게이션 -->
 <div id="header" class="header">
     <div class="header-left" id="header-logo" onclick="location.href='/'" style="cursor: pointer;">
-        <h1>모여모여</h1>
-        <span id="region"></span>
+        <h1>모요모여</h1>
+        <span id="regionDis"></span>
         <!-- <span th:if="${userSession != null}" th:text="|📍 in ${ userSession.region }|"></span>
          <span th:if="${user != null}" th:text="|📍 in ${ user.region }|"></span>-->
     </div>
@@ -176,7 +176,7 @@
 </body>
 <script>
     const header = document.querySelector("#header")
-    const region = document.querySelector("#region")
+    const region = document.querySelector("#regionDis")
     const navbar = document.querySelector("#navbar")
     fetch("/member/user/getInfo").
     then(response =>{
