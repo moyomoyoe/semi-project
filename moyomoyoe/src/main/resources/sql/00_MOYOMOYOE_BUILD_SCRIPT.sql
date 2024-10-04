@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS tbl_user
     email       VARCHAR(25)  NOT NULL COMMENT '이메일',
     phone       VARCHAR(20)  NOT NULL COMMENT '핸드폰',
     user_role   VARCHAR(10)  NOT NULL COMMENT '사용자권한',
-    image_id    INT          NULL COMMENT '이미지번호',
+    image_id    INT          DEFAULT 1 NULL COMMENT '이미지번호',
     user_region INT          NULL COMMENT '사용자지역',
     is_active CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '활성화여부',
 

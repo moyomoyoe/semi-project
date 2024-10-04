@@ -6,6 +6,7 @@ import moyomoyoe.board.model.dto.KeywordDTO;
 import moyomoyoe.board.model.dto.PostDTO;
 import moyomoyoe.board.model.dto.RegionDTO;
 import moyomoyoe.image.ImageDTO;
+import moyomoyoe.member.auth.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,4 +115,14 @@ public class PostService {
 
         return postMapper.getImageById(imageId);
     }
+
+    public int getImageByUserId(int userId) {
+        return postMapper.getImageByUserId(userId);
+    }
+
+
+    public ImageDTO getProfileImageById(int imageId) {
+        return postMapper.getProfileImageById(imageId);
+    }
+
 }

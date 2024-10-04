@@ -5,34 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f75677c4-462b-4626-adfe-debcf87c5181" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f474ad3b-9d07-4135-904a-5d991edc86b6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f474ad3b-9d07-4135-904a-5d991edc86b6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/MoyomoyoeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/MoyomoyoeApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/auth/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/auth/model/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/auth/model/UserRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/auth/model/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/auth/model/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/business/businessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/business/businessController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/exception/AuthFailHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/exception/AuthFailHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/exception/AuthSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/exception/AuthSuccessHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/model/dao/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/model/dao/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/model/service/DummyDataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/model/service/DummyDataGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/model/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/member/user/model/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/reservation/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/reservation/controller/ScheduleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/reservation/model/dao/ScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/reservation/model/dao/ScheduleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/reservation/model/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/java/moyomoyoe/reservation/model/service/ScheduleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/mappers/ScheduleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/mappers/ScheduleMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/style/schedule.css" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/style/schedule.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/member/user/editInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/member/user/editInfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/member/user/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/reservation/schedule/registschedule.html" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/reservation/schedule/registschedule.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/reservation/schedule/registstore.html" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/reservation/schedule/registstore.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/reservation/schedule/storeInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/templates/reservation/schedule/storeInfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/test/java/moyomoyoe/MoyoApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/moyomoyoe/src/test/java/moyomoyoe/MoyoTestApplication.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/image/8d84f6cefd4d4ef88dd7a4c4fafb3c07.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/moyomoyoe/src/main/resources/static/style/board/allpostlist.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +21,26 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/moyomoyoe">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="moyomoyoe" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="moyomoyoe" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="moyomoyoe" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -100,6 +88,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.Build moyomoyoe.executor": "Run",
+    "Gradle.moyomoyoe [build].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -108,8 +97,9 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.MoyomoyoeApplication.executor": "Run",
     "git-widget-placeholder": "board",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/myWs/semiProject/Project/stash/1002(12.39)게시판부분css작업중",
+    "last_opened_file_path": "C:/myWs/semiProject/Project/semi-project/semi-project/moyomoyoe",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -133,18 +123,18 @@
       <recent name="moyomoyoe.member.user.model.dao" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\myWorkSpace\semiProject-1003\moyomoyoe\src\main\resources\static\image" />
       <recent name="C:\myWorkSpace\semiProject-1001\moyomoyoe\src\main\resources" />
       <recent name="C:\myWorkSpace\semiProject-1001\moyomoyoe\src\main\resources\static" />
       <recent name="C:\myWorkSpace\semiProject-1001\moyomoyoe\src\main\resources\mappers" />
       <recent name="C:\myWorkSpace\semiProject-1001\moyomoyoe\src\main\java\moyomoyoe" />
-      <recent name="C:\myWorkSpace\semiProject-1001\moyomoyoe\src\main\java\moyomoyoe\" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static\image" />
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static\style\board" />
       <recent name="C:\myWorkSpace\semiProject-1001\moyomoyoe\src\main\resources\mappers" />
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\java\moyomoyoe\member\user\model\dto" />
       <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\static\font" />
-      <recent name="C:\myWs\semiProject\Project\semi-project\semi-project\moyomoyoe\src\main\resources\templates\board" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="moyomoyoe" />
@@ -152,7 +142,29 @@
       <recent name="moyomoyoe.image" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.MoyomoyoeApplication">
+    <configuration name="moyomoyoe [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/moyomoyoe" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="MoyomoyoeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="moyomoyoe.main" />
@@ -161,6 +173,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.moyomoyoe [build]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -192,6 +209,14 @@
       <workItem from="1727829601547" duration="9301000" />
       <workItem from="1727840868752" duration="14659000" />
       <workItem from="1727860396408" duration="3580000" />
+      <workItem from="1727865004271" duration="1238000" />
+      <workItem from="1727886830922" duration="1090000" />
+      <workItem from="1727941854081" duration="10265000" />
+      <workItem from="1727952744731" duration="8000" />
+      <workItem from="1727956548648" duration="973000" />
+      <workItem from="1727972221853" duration="13881000" />
+      <workItem from="1727987640925" duration="8128000" />
+      <workItem from="1728002004645" duration="44000" />
     </task>
     <servers />
   </component>

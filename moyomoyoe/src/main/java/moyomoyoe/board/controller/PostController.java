@@ -6,6 +6,7 @@ import moyomoyoe.board.model.dto.*;
 import moyomoyoe.board.model.service.PostService;
 import moyomoyoe.image.ImageDTO;
 import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.user.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,26 +36,33 @@ public class PostController {
     private final PostService postService;
     private final MessageSource messageSource;
     private final ImageController imageController;
+    @Autowired
+    private UserService userService;
+
 
 
     @Autowired
-    public PostController(PostService postService, MessageSource messageSource, ImageController imageController) {
+    public PostController(PostService postService, MessageSource messageSource, ImageController imageController, UserService userService) {
         this.postService = postService;
         this.messageSource = messageSource;
         this.imageController = imageController;
+        this.userService = userService;
     }
 
     //searchlist.html 연결 Controller
     @GetMapping("/searchlist")
-    public String getSearchList(Model model) {
+    public String searchList(Model model) {
+        List<PostDTO> latestList = postService.findAllPost();
+        model.addAttribute("latestList", latestList);
         return "board/searchlist";
     }
 
     // 날짜별 전체게시글 목록
     @GetMapping("/latestlist")
-    public String Latestlist(Model model){
-        List<PostDTO> latestlist = postService.findAllPost();
-        model.addAttribute("latestList", latestlist);
+    public String latestList(Model model){
+        List<PostDTO> latestList = postService.findAllPost();
+        System.out.println("latestList = " + latestList);
+        model.addAttribute("latestList", latestList);
         return "board/latestlist";
     }
 
@@ -149,6 +157,15 @@ public class PostController {
             // postId에 맞는 댓글 조회
             List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
+            // 프로필 이미지 경로 가져오기
+//            int imageId = postService.getImageByUserId(getDetailPost.getUserId());
+//            System.out.println("imageId = " + imageId);
+//
+//            String profileImage = postService.getProfileImageById(imageId);
+//            System.out.println("profileImage = " + profileImage);
+            int imageId = postService.getImageByUserId(getDetailPost.getUserId());
+            ImageDTO profileImage = postService.getProfileImageById(imageId);
+
             // 이미지 처리
             ImageDTO imageDTO = postService.getImageById(getDetailPost.getImageId());
             if (imageDTO == null || imageDTO.getImageName() == null) {
@@ -160,6 +177,7 @@ public class PostController {
             model.addAttribute("detailPost", getDetailPost);
             model.addAttribute("detailPostComment", detailPostComment);
             model.addAttribute("imageDTO", imageDTO);
+            model.addAttribute("profileImage", profileImage);
 
             return "board/detailpost";
         }
@@ -183,6 +201,15 @@ public class PostController {
         PostDTO getDetailPost = postService.findDetailPostById(postId);
         List<CommentDTO> detailPostComment = postService.detailPostComment(postId);
 
+        // 프로필 이미지 경로 가져오기
+//            int imageId = postService.getImageByUserId(getDetailPost.getUserId());
+//            System.out.println("imageId = " + imageId);
+//
+//            String profileImage = postService.getProfileImageById(imageId);
+//            System.out.println("profileImage = " + profileImage);
+        int imageId = postService.getImageByUserId(getDetailPost.getUserId());
+        ImageDTO profileImage = postService.getProfileImageById(imageId);
+
         // 이미지 처리
         ImageDTO imageDTO = postService.getImageById(getDetailPost.getImageId());
         if (imageDTO == null || imageDTO.getImageName() == null) {
@@ -199,6 +226,7 @@ public class PostController {
         model.addAttribute("detailPost", getDetailPost);
         model.addAttribute("detailPostComment", detailPostComment);
         model.addAttribute("imageDTO", imageDTO);
+        model.addAttribute("profileImage", profileImage);
         model.addAttribute("postOwnerId", postOwnerId);
 
         // detailpost.html로 데이터 전달 및 렌더링
@@ -296,8 +324,10 @@ public class PostController {
         String nickname = userDTO.getNickname();
         int userId = userDTO.getId();
 
+
         postDTO.setUserId(userId);
         postDTO.setNickname(nickname);
+
 
         if(singleFile == null || singleFile.isEmpty()) {
 //            postDTO.setImageId(postDTO.getImageId());
@@ -430,7 +460,7 @@ public class PostController {
             if (!resource.exists()) {
 
                 //경로 없을 때
-                String root = "src/main/resources/static/image/";
+                String root = "/static/image/";
 
                 File file = new File(root);
                 file.mkdirs();
