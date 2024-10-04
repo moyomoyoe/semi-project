@@ -66,7 +66,7 @@ public class MainController {
             }
         }
         mv.setViewName("redirect:/board/latestlist");
-        mv.setViewName("static/main");
+        //mv.setViewName("static/main");
         return mv;
     }
 
