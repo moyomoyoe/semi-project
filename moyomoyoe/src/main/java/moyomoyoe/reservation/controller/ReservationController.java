@@ -62,6 +62,7 @@ public class ReservationController {
         return "reservation/storeList";
     }
 
+
     // 매장 상세 조회
     @GetMapping("/storeDetail/{id}")
     public String getStoreDetailPage(@PathVariable("id") int id, Model model) {

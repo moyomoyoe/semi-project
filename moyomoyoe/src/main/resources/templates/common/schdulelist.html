@@ -95,8 +95,8 @@
     </style>
 </head>
 <body>
-<div class="right-space" style="display: block">
-
+<div id="blur-background"></div> <!-- 흐릿한 배경 처리 -->
+<div class="right-space">
     <aside class="schedule-sidebar">
         <div class="schedule-header">
             <span id="toggle-schedule" onclick="toggleSchedule()">⯈ 일정 목록</span>
@@ -105,20 +105,10 @@
             <!-- 예약 목록이 동적으로 여기에 추가됩니다 -->
         </div>
         <div class="sidebar-footer">
-            <p>(주) 모여모여
-                사업자번호 111-11-11111
-                <br>
-                통신판매업 신고번호 2024-서울종로-9999
-                <br>
-                주소 서울특별시 종로구 인사동길 12 대일빌동 10층 10호
-                <br>
-                전화 1234-5678
-                고객문의 moyomoyoe@gmail.com</p>
+            <p>Footer Content</p>
         </div>
     </aside>
-    <div class="right-space">
-        <img src="/static/image/leftspace-3.png" alt="Left Space Image 3">
-    </div>
+</div>
 
 <!-- 모달 창 (예약 상세 정보) -->
 <div id="reservation-detail-modal" class="modal">
@@ -127,6 +117,20 @@
         <div id="modal-detail-content">
             <!-- 예약 상세 정보가 여기에 동적으로 추가됩니다. -->
         </div>
+    </div>
+    <div class="sidebar-footer">
+        <p>(주) 모여모여
+            사업자번호 111-11-11111
+            <br>
+            통신판매업 신고번호 2024-서울종로-9999
+            <br>
+            주소 서울특별시 종로구 인사동길 12 대일빌동 10층 10호
+            <br>
+            전화 1234-5678
+            고객문의 moyomoyoe@gmail.com</p>
+    </div>
+    <div class="right-space">
+        <img src="/static/image/leftspace-3.png" alt="Left Space Image 3">
     </div>
 </div>
 

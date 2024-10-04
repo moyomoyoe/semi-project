@@ -125,7 +125,7 @@
         p.post_date,
         p.user_open,
         p.image_id,
-        i.image_name
+        i.image_name,
         p.keyword_id
         FROM
         tbl_post_list p
