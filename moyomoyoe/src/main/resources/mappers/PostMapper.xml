@@ -14,6 +14,7 @@
         <result property="userOpen" column="user_open"/>
         <result property="regionCode" column="region_code"/>
         <result property="imageId" column="image_id"/>
+        <result property="imageName" column="image_name"/>
         <result property="keywordId" column="keyword_id"/>
     </resultMap>
 
@@ -45,17 +46,22 @@
     <!-- 전체메뉴 쿼리 -->
     <select id="findAllPost" resultMap="postResultMap">
         SELECT
-        post_id,
-        title,
-        context,
-        nickname,
-        post_date,
-        user_open,
-        region_code,
-        image_id,
-        keyword_id
+        p.post_id,
+        p.title,
+        p.context,
+        p.nickname,
+        p.post_date,
+        p.user_open,
+        p.region_code,
+        p.image_id,
+        i.image_name,
+        p.keyword_id
         FROM
-        tbl_post_list
+        tbl_post_list p
+        LEFT JOIN
+        tbl_image i ON p.image_id = i.image_id
+        ORDER BY
+        p.post_date DESC
     </select>
 
     <!-- 키워드 쿼리 -->
@@ -82,6 +88,8 @@
         tbl_post_list
         WHERE
         keyword_id = #{keywordId}
+        ORDER BY
+        post_date DESC
     </select>
 
     <!-- 지역 시 쿼리-->
@@ -119,6 +127,8 @@
         tbl_post_list
         WHERE
         region_code = #{regionCode}
+        ORDER BY
+        post_date DESC
     </select>
 
     <!--제목검색 쿼리-->
@@ -137,6 +147,8 @@
         tbl_post_list
         WHERE
         title LIKE CONCAT('%', #{title}, '%')
+        ORDER BY
+        post_date DESC
     </select>
 
 

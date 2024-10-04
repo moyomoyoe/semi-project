@@ -117,7 +117,7 @@
 <body>
 <!-- 상단 네비게이션 -->
 <div class="header">
-    <div class="header-left" id="header-logo">
+    <div class="header-left" id="header-logo" onclick="location.href='/'" style="cursor: pointer;">
         <h1>모여모여</h1>
         <span th:if="${userSession != null}" th:text="|📍 in ${ userSession.region }|"></span>
         <span th:if="${user != null}" th:text="|📍 in ${ user.region }|"></span>
@@ -149,7 +149,7 @@
     </div>
 
     <!-- 메인 로고 클릭 시 메인으로 이동 -->
-    <img src="/resources/static/image/image1.png" alt="Main Logo" class="main-logo" style="cursor: pointer;" onclick="location.href='/'">
+    <img src="/static/image/image1.png" alt="Main Logo" class="main-logo" style="cursor: pointer;" onclick="location.href='/'">
 
 </div>
 </body>

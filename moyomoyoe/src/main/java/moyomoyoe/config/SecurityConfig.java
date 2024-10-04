@@ -63,11 +63,12 @@ public class SecurityConfig {
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/business/*").hasAnyAuthority(UserRole.BUSINESS.getRole(), UserRole.ADMIN.getRole());
-            auth.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll();
+            auth.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/image/**").permitAll();
             auth.requestMatchers(HttpMethod.POST, "/board/detailpost/delete/**").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());
             // 특정 HTML 파일에 대한 접근을 모두 허용
             auth.requestMatchers("/board/keywordName", "/board/keywordlist", "/board/latestlist", "/board/api/regionlist/cities","/board/api/regionlist/districts", "/board/regionlist", "/board/searchlist", "/board/titlelist").permitAll();
             auth.requestMatchers("/board/detailpost/*").permitAll();
+
             auth.anyRequest().authenticated();
         }).formLogin(login -> {
             login.loginPage("/member/auth/login");

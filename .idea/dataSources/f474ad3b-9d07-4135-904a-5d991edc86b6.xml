@@ -929,7 +929,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
     </schema>
     <schema id="289" parent="1" name="moyomoyoedb">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-10-02.00:48:03</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-10-04.00:34:16</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="performance_schema">
@@ -982,7 +982,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
     <column id="301" parent="292" name="comment_id">
-      <AutoIncrement>5</AutoIncrement>
+      <AutoIncrement>7</AutoIncrement>
       <Comment>댓글번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1093,7 +1093,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="321" parent="295" name="post_id">
-      <AutoIncrement>7</AutoIncrement>
+      <AutoIncrement>8</AutoIncrement>
       <Comment>게시글번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
@@ -1229,7 +1229,7 @@ moyomoyoedb|schema||moyomoyoe||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="346" parent="297" name="res_id">
-      <AutoIncrement>4</AutoIncrement>
+      <AutoIncrement>5</AutoIncrement>
       <Comment>예약번호</Comment>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>

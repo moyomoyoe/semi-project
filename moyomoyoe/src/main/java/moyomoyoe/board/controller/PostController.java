@@ -51,15 +51,18 @@ public class PostController {
 
     //searchlist.html 연결 Controller
     @GetMapping("/searchlist")
-    public String getSearchList(Model model) {
+    public String searchList(Model model) {
+        List<PostDTO> latestList = postService.findAllPost();
+        model.addAttribute("latestList", latestList);
         return "board/searchlist";
     }
 
     // 날짜별 전체게시글 목록
     @GetMapping("/latestlist")
-    public String Latestlist(Model model){
-        List<PostDTO> latestlist = postService.findAllPost();
-        model.addAttribute("latestList", latestlist);
+    public String latestList(Model model){
+        List<PostDTO> latestList = postService.findAllPost();
+        System.out.println("latestList = " + latestList);
+        model.addAttribute("latestList", latestList);
         return "board/latestlist";
     }
 
@@ -457,7 +460,7 @@ public class PostController {
             if (!resource.exists()) {
 
                 //경로 없을 때
-                String root = "src/main/resources/static/image/";
+                String root = "/static/image/";
 
                 File file = new File(root);
                 file.mkdirs();
