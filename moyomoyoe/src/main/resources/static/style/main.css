@@ -32,10 +32,12 @@ html, body {
     background-color: #fff;
     /*padding: 0 300px; !* 양쪽에 300px 여백 추가 *!*/
     box-sizing: border-box;
+    z-index: 3;
 }
 
 /* 왼쪽과 오른쪽 여백의 색상 설정 */
 .left-space, .right-space {
+    position: relative;
     background-color: #CAEEE7;
     width: 300px;
     height: auto;
@@ -47,8 +49,17 @@ html, body {
     padding-right: 10px;
 }
 
+.right-space img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    z-index: 0;
+}
+
 /* Right-space에 있는 사이드바 스타일 */
 .schedule-sidebar {
+    position: relative; /* 기준 위치를 유지 */
+    z-index: 1; /* img보다 앞에 오도록 설정 */
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;

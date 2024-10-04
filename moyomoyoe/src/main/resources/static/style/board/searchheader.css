@@ -9,6 +9,27 @@ html, body {
     font-family: 'LaundryGothic', sans-serif; /* 지정한 폰트 적용 */
 }
 
+.left-space {
+    position: relative;
+    background-color: #CAEEE7;
+    width: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+.left-space-image {
+    max-width: 180%;
+    height: auto;
+    object-fit: contain;
+    z-index: 0;
+    margin: 10px auto; /* 이미지 가운데 정렬 */
+}
+
 /* 상단 네비게이션 */
 .fixed-nav {
     align-items: center;
@@ -72,7 +93,7 @@ html, body {
     border: #6BAFA2 2px solid;
     border-radius: 30px; /* 모서리 둥글게 */
     padding: 8px 10px; /* 패딩 추가 */
-    width: 450px;
+    width: 500px;
     margin: 20px auto;
 }
 
