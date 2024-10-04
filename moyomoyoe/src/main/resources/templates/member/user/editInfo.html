@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/style/editInfo.css" />
-    <link rel="stylesheet" href="/static/style/test.css" />
+    <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/member.css" />
     <title>EDITINFO</title>
     <style>
@@ -28,7 +28,6 @@
     <div class="left-space"></div>
 
     <div class="centered-container">
-
 <div class="page-title">
     <h2>&nbsp;&nbsp;회원 정보 수정</h2>
     <hr>
@@ -40,6 +39,7 @@
     </div>
     <form th:action="@{/member/user/updateInfo}" method="POST" id="updateInfo" enctype="multipart/form-data">
         <div class="edit-info">
+            <p id="required">∗ 는 필수 입력 값입니다.</p>
         <div class="form-group">
             <label><b>파일</b></label><input type="file" name="singleFile" style="height: 25px"><br>
         </div>
@@ -51,10 +51,13 @@
             <label><b>아이디</b></label><span th:text="${ user.account }"></span><br>
         </div>
         <div class="form-group">
-            <label><b>비밀번호</b></label><input type="password" id="password" name="password" required><br>
+            <label><b>∗ 비밀번호</b></label><input type="password" id="password" name="password" required><br>
         </div>
+            <div class="optionPwd">
+                <span id="optionPwd" style="color: gray; font-size: 14px"><small>알파벳 소문자, 숫자, 특수문자(@!$%*&?) 포함 8 ~ 10자 내</small></span>
+            </div>
         <div class="form-group">
-            <label><b>비밀번호 확인</b></label><input type="password" id="checkPwd" name="checkPwd" required><br>
+            <label><b>∗ 비밀번호 확인</b></label><input type="password" id="checkPwd" name="checkPwd" required><br>
         </div>
         <div class="errorMsg2">
             <span id="errorMsg2" style="color: tomato; display: none"><small>Ⅹ  비밀번호가 일치하지 않습니다.</small></span>
@@ -63,20 +66,20 @@
             <span id="errorMsg4" style="color: forestgreen; display: none"><small>√  비밀번호 일치 확인</small></span>
             </div>
         <div class="form-group">
-            <label><b>닉네임</b></label><input type="text" id="nickname" name="nickname" required><br>
+            <label><b>∗ 닉네임</b></label><input type="text" id="nickname" name="nickname" required><br>
         </div>
         <div class="info-group">
             <label><b>지역</b></label><span th:text="${ user.region }"></span><br>
         </div>
         <div class="form-group">
-            <label><b>연락처</b></label><input type="text" id="signUpPhoneNum1" name="phone" size="3" style="width: auto" required>
+            <label><b>∗ 연락처</b></label><input type="text" id="signUpPhoneNum1" name="phone" size="3" style="width: auto" required>
             -
             <input type="text" id="signUpPhoneNum2" name="phone" size="4" style="width: auto" required>
             -
             <input type="text" id="signUpPhoneNum3" name="phone" size="4" style="width: auto" required><br>
         </div>
         <div class="form-group">
-            <label><b>이메일</b></label>
+            <label><b>∗ 이메일</b></label>
             <div class="email-group">
             <input type="text" id="signupEmailLocal" name="email" style="width: 100px" required>
             @
@@ -116,17 +119,41 @@
             }
         });
 
-        document.getElementById('checkPwd').addEventListener('input', function(event) {
+        document.getElementById('password').addEventListener('input', function () {
 
-            if(checkPwd.value !== password.value) {
-                event.preventDefault();
+            if (password.value === '' && checkPwd.value === '') {
+                // 두 입력란이 모두 비어 있을 때
+                errorMsg2.style.display = 'none';
+                errorMsg4.style.display = 'none';
+            } else if (checkPwd.value === '') {
+                // 비밀번호 확인란이 비어 있을 때
+                errorMsg2.style.display = 'none';
+                errorMsg4.style.display = 'none';
+            } else if (checkPwd.value !== password.value) {
+                // 비밀번호와 비밀번호 확인란이 다를 때
                 errorMsg2.style.display = 'block';
                 errorMsg4.style.display = 'none';
-                console.log('다름');
             } else {
+                // 비밀번호와 비밀번호 확인란이 일치할 때
                 errorMsg2.style.display = 'none';
                 errorMsg4.style.display = 'block';
-                console.log('일치');
+            }
+        });
+
+        document.getElementById('checkPwd').addEventListener('input', function() {
+
+            if (password.value === '' && checkPwd.value === '') {
+                // 두 입력란이 모두 비어 있을 때
+                errorMsg2.style.display = 'none';
+                errorMsg4.style.display = 'none';
+            } else if (checkPwd.value !== password.value) {
+                // 비밀번호와 비밀번호 확인란이 다를 때
+                errorMsg2.style.display = 'block';
+                errorMsg4.style.display = 'none';
+            } else if (checkPwd.value === password.value) {
+                // 비밀번호와 비밀번호 확인란이 일치할 때
+                errorMsg2.style.display = 'none';
+                errorMsg4.style.display = 'block';
             }
         });
 

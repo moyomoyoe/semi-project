@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/style/findId.css" />
-    <link rel="stylesheet" href="/static/style/test.css" />
     <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/member.css" />
     <title>FINDID</title>
@@ -42,15 +41,25 @@
     <div class="left-space"></div>
 
     <div class="centered-container">
+        <div class="page-title">
+            <h2>&nbsp;&nbsp;아이디 찾기</h2>
+            <hr>
+        </div>
 
-<h1>아이디 찾기</h1>
-
-<form th:action="@{/member/user/findId}" method="POST">
-    이름 : <input type="text" id="username" name="username"><br>
-    이메일 : <input type="text" id="email" name="email"><br>
-    <br>
-    <button>아이디 찾기</button>
-</form>
+        <div class="container">
+            <form th:action="@{/member/user/findId}" method="POST">
+                <div class="form-group">
+                    <label>이름</label><input type="text" id="username" name="username"><br>
+                </div>
+                <div class="form-group">
+                    <label>이메일</label><input type="text" id="email" name="email"><br>
+                </div>
+                <br>
+                <div class="button">
+                    <button>아이디 찾기</button>
+                </div>
+            </form>
+        </div>
 
 <div id="resultModal">
     <div>
@@ -98,9 +107,8 @@
 
 
 </script>
-
-</div>
-<div th:replace="common/schdulelist.html"></div>
+    </div>
+    <div th:replace="common/schdulelist.html"></div>
 </div>
 </body>
 </html>

@@ -1,0 +1,44 @@
+/* 본문 컨테이너 전체 중앙 정렬 */
+.container {
+    position: relative;
+    padding: 20px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+form {
+    padding: 80px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px; /* 각 필드 간의 간격 */
+    margin-right: 100px;
+}
+
+label {
+    display: inline-block; /* 레이블을 블록 요소로 변환 */
+    width: 100px; /* 레이블 너비 설정 */
+    text-align: right;
+    padding-right: 20px;
+}
+
+input {
+    width: 200px; /* 입력 필드 너비 설정 */
+    padding: 5px; /* 여백 추가 */
+}
+
+.button {
+    margin: 30px;
+}
+
+#resultModal {
+    padding: 10px;
+}
+
+p#message {
+    padding: 10px;
+}

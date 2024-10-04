@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScheduleService {
@@ -35,6 +36,12 @@ public class ScheduleService {
 
     public List<ScheduleDTO> getSchedule(int code) {
         return dao.getSchedule(code);
+    }
+    public ScheduleDTO getScheduleById(int code) {
+        return dao.getScheduleById(code);
+    }
+    public List<Map<String,String>> getUserFullReserInfo(int code){
+        return dao.getUserFullReserInfo(code);
     }
 
     @Transactional

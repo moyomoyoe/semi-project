@@ -59,6 +59,7 @@ public class SecurityConfig {
 //                .and();
 
         http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/member/user/deleteUser").permitAll();
             auth.requestMatchers("/member/auth/login", "/member/user/signup", "/member/auth/fail", "member/user/region", "member/user/checkAccount", "member/user/findId", "member/user/findPwd", "member/user/changePwd", "/main", "/").permitAll();
             auth.requestMatchers("/member/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             auth.requestMatchers("/member/user/*").hasAnyAuthority(UserRole.USER.getRole(), UserRole.ADMIN.getRole());

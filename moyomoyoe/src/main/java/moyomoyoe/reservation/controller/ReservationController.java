@@ -87,7 +87,7 @@ public class ReservationController {
             ScheduleDTO scheduleDTO = scheduleList.get(0); // 첫 번째 스케줄을 선택
 
             // 예약 DTO 생성
-            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0);
+            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0,"");
 
             // 예약 저장
             reservationService.saveReservation(reservationDTO, scheduleDTO);
@@ -136,9 +136,14 @@ public class ReservationController {
     public ModelAndView getUserReservations(@AuthenticationPrincipal UserDTO userDTO, HttpSession session) {
         ModelAndView mv = new ModelAndView("reservation/userReservations");
         int userId = userDTO.getId();
-        List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
-        session.setAttribute("userReservations", userReservations);
-        mv.addObject("userReservations", userReservations);
+        //List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
+
+        List<Map<String,String>> reservation = reserService.getUserFullReserInfo(userId);
+
+        //session.setAttribute("userReservations", userReservations);
+        //mv.addObject("userReservations", userReservations);
+        mv.addObject("reservations", reservation);
+
         mv.addObject("user", userDTO);
         return mv;
     }
@@ -235,10 +240,12 @@ public class ReservationController {
         // 사업장 정보 및 예약 목록 조회
         StoreDTO store = reservationService.getStoreById(storeId);
         List<ReservationDTO> reservations = reservationService.getReservationsByStore(storeId);
+        List<ScheduleDTO> schedules = reserService.getSchedule(storeId);
 
         // 모델에 추가해서 Thymeleaf로 전달
         model.addAttribute("store", store);
         model.addAttribute("reservations", reservations);
+        model.addAttribute("schedules", schedules);
 
         return "reservation/storeReservationList";
     }
