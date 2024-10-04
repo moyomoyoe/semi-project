@@ -64,35 +64,15 @@
             align-items: center;
         }
 
-        .header-left h1 {
-            margin-right: 5px; /* h1과 span 사이에 간격 추가 */
-            display: inline-block; /* h1을 블록에서 인라인으로 변경 */
+       /* .header-left h1 {
+            margin-right: 5px; !* h1과 span 사이에 간격 추가 *!
+            display: inline-block; !* h1을 블록에서 인라인으로 변경 *!
             font-size: 35px;
-        }
+        }*/
         .header-left span {
             display: inline-block;
             font-size: 17px;
         }
-
-        /*.header-right {*/
-        /*    display: flex;*/
-        /*    align-items: center; !* 수직으로 중앙 정렬 *!*/
-        /*    gap: 15px; !* 로그인, 회원가입, 로고 이미지 사이의 간격 *!*/
-        /*    width: 100%;*/
-        /*    margin-right: 20px;*/
-        /*}*/
-
-        /*.auth-links {*/
-        /*    display: flex;*/
-        /*    gap: 15px; !* 로그인과 회원가입 사이의 간격 *!*/
-        /*    align-items: center;*/
-        /*    white-space: nowrap; !* 한 줄로 유지 *!*/
-        /*    margin-right: 20px;*/
-        /*    position: absolute;*/
-        /*    right: 100px;*/
-        /*    bottom: 0;*/
-        /*    padding-bottom: 4px;*/
-        /*}*/
 
         .header-right {
             display: flex;
@@ -104,6 +84,7 @@
             right: 100px;
             bottom: 0;
             padding-bottom: 4px;
+
         }
 
         .header-right span {
@@ -145,29 +126,6 @@
         </ul>
     </nav>
 
-    <!--<div th:if="${userSession != null}" class="header-right">
-        <span th:text="${ userSession.nickname }"></span>
-        <img th:src="${ userSession.image }" alt="User Icon">
-    </div>
-
-    <div id="header-right" class="header-right">
-        <span th:text="${ user.nickname }"></span>
-        <img th:src="${ user.image }" alt="User Icon">
-    </div>-->
-    <!--
-    <div th:if="${user != null}" class="header-right">
-        <span th:text="${ user.nickname }"></span>
-        <img th:src="${ user.image }" alt="User Icon">
-    </div>-->
-
-    <!-- 비로그인 상태일 때 로그인/회원가입 버튼 표시 -->
-<!--    <div th:if="${userSession == null}" class="auth-links">-->
-<!--        <div sec:authorize="!isAuthenticated()">-->
-<!--            <span onclick="location.href='/member/auth/login'" style="cursor: pointer;">로그인</span>-->
-<!--            <a>/</a>-->
-<!--            <span onclick="location.href='/member/user/signup'" style="cursor: pointer;">회원가입</span>-->
-<!--        </div>-->
-<!--    </div>-->
 
     <!-- 메인 로고 클릭 시 메인으로 이동 -->
     <img src="/static/image/image1.png" alt="Main Logo" class="main-logo" style="cursor: pointer;" onclick="location.href='/'">
@@ -177,6 +135,7 @@
 <script>
         const header = document.querySelector("#header")
         const region = document.querySelector("#region")
+        console.log(header)
         fetch("/member/user/getInfo").
         then(response =>{
             // console.log(response)
