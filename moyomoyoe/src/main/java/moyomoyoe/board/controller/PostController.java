@@ -256,7 +256,7 @@ public class PostController {
 
         // 삭제 성공 메시지
         rAttr.addFlashAttribute("successMessage", "게시글이 삭제되었습니다.");
-        return "redirect:/board/searchlist";  // 삭제 후 게시글 목록으로 이동
+        return "redirect:/board/latestlist";  // 삭제 후 게시글 목록으로 이동
 
     }
 
