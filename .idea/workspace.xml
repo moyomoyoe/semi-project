@@ -96,7 +96,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.MoyomoyoeApplication.executor": "Run",
-    "git-widget-placeholder": "board",
+    "git-widget-placeholder": "Merging board",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/myWs/semiProject/Project/semi-project/semi-project/moyomoyoe",
@@ -217,6 +217,7 @@
       <workItem from="1727972221853" duration="13881000" />
       <workItem from="1727987640925" duration="8128000" />
       <workItem from="1728002004645" duration="44000" />
+      <workItem from="1728018575855" duration="922000" />
     </task>
     <servers />
   </component>

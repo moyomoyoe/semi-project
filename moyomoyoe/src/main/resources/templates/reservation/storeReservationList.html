@@ -9,8 +9,12 @@
 <body>
 <div th:replace="common/header.html"></div>
 <div class="outer-container">
-    <div class="left-space"></div>
-
+    <div class="left-space">
+        <div class="left-space-image" style="display: block">
+            <img src="/static/image/leftspace-1.png" alt="Left Space Image 1">
+            <!--            <img src="/static/image/leftspace-4.png" alt="Left Space Image 4" >-->
+        </div>
+    </div>
 
     <div class="centered-container">
         <h2>예약 관리</h2>
@@ -66,7 +70,7 @@
         if (curDate != r.res_date){
             curDate = r.res_date;
             const dateHeader = document.createElement("h2");
-            dateHeader.innerText = `${curDate.slice(-5)}의 예약 목록`;
+            dateHeader.innerText = `${curDate.slice(-5).replace("-","/")}의 예약 목록`;
             container.appendChild(dateHeader);
 
             const hr = document.createElement("hr");

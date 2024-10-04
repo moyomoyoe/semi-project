@@ -16,7 +16,12 @@
 <body>
 <div th:replace="common/header.html"></div>
 <div class="outer-container">
-    <div class="left-space"></div>
+    <div class="left-space">
+        <div class="left-space-image" style="display: block">
+            <img src="/static/image/leftspace-1.png" alt="Left Space Image 1">
+            <!--            <img src="/static/image/leftspace-4.png" alt="Left Space Image 4" >-->
+        </div>
+    </div>
 
     <div class="centered-container">
 
@@ -247,14 +252,14 @@
                         <table class="postlist-table">
                             <tr>
                                 <td rowspan="3">
-                                    <img th:if="${post.imageId != null and post.imageId != 0}"
-                                         th:src="@{'/static/image/' + ${post.imageId}}"
+                                    <img th:if="${post.imageName != null and post.imageName != ''}"
+                                         th:src="${post.imageName}"
                                          alt="이미지"
                                          style="width: 100px; height: 100px;">
 
-                                    <img th:if="${post.imageId == null or post.imageId == 0}"
+                                    <img th:if="${post.imageName == null or post.imageName == ''}"
                                          th:src="@{/static/image/image1.png}"
-                                         alt="이미지"
+                                         alt="기본 이미지"
                                          style="width: 100px; height: 100px;">
                                 </td>
                                 <td><span th:text="${post.title}">게시글 제목</span></td>

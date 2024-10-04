@@ -9,13 +9,27 @@
     <link rel="stylesheet" href="/static/style/main.css" />
     <link rel="stylesheet" href="/static/style/schedule.css" />
 
+    <style>
+
+    </style>
+
 </head>
 <body>
+<style>
+    .centered-container {
+        flex: 3;
+        text-align: center; /* 수평 중앙 정렬 */
+    }
+</style>
+
 <div th:replace="common/header.html"></div>
 <div class="outer-container">
-    <div class="left-space"></div>
-
-
+    <div class="left-space">
+        <div class="left-space-image" style="display: block">
+            <img src="/static/image/leftspace-1.png" alt="Left Space Image 1">
+            <!--            <img src="/static/image/leftspace-4.png" alt="Left Space Image 4" >-->
+        </div>
+    </div>
     <div class="centered-container">
 <!--
 
@@ -109,10 +123,8 @@
 <<<<<<< HEAD
         <h1>내 예약 목록</h1>
         <!-- 사용자 프로필 정보 -->
-        <div class="texts">클릭시 세부정보로 넘어갑니다.</div>
-        <div id="reservation-container" style="gap: 10px">
-
-        </div>
+<!--        <div class="texts">클릭시 세부정보로 넘어갑니다.</div>-->
+        <div id="reservation-container" style="gap: 10px"></div>
 
 <!-- 예약 목록
 <div th:if="${userReservations != null and userReservations.size() > 0}">
@@ -161,7 +173,7 @@
 
 <<<<<<< HEAD
 <!-- 홈으로 가는 링크 -->
-<a class="a-button" href="/">메인으로</a>
+<a class="a-button" href="/" style="margin-top: 20px">메인으로</a>
     </div>
     <div th:replace="common/schdulelist.html"></div>
 
@@ -184,7 +196,7 @@
         if (curDate != r.res_date){
             curDate = r.res_date;
             const dateHeader = document.createElement("h2");
-            dateHeader.innerText = `${curDate.slice(-5)}의 예약 목록`;
+            dateHeader.innerText = `${curDate.slice(-5).replace("-","/")}일 예약 목록`;
             container.appendChild(dateHeader);
 
             const hr = document.createElement("hr");
