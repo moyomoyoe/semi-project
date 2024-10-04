@@ -542,5 +542,23 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getInfo")
+    @ResponseBody
+    public Map<String,Object> headerInfo( HttpServletRequest req){
+
+        Map<String, Object> response;
+
+        if (req.getSession().getAttribute("user") != null) {
+            response =
+                    (Map<String, Object>) req.getSession().getAttribute("user");
+        } else {
+
+            response = new HashMap<>();
+            response.put("fail","pleaseLogin");
+        }
+
+
+        return response;
+    }
 
 }

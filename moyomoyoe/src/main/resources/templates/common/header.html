@@ -47,7 +47,7 @@
             font-size: 16px;
             cursor: pointer;
             text-align: center;
-            font-family: 'LaundryGothic',"런드리고딕OTF"; /* 폰트 적용 */
+            font-family: 'LaundryGothic',"런드리고딕OTF" ; /* 폰트 적용 */
             transition: background 0.3s ease, border-color 0.3s ease; /* 부드러운 전환 */
 
         }
@@ -129,11 +129,12 @@
 </head>
 <body>
 <!-- 상단 네비게이션 -->
-<div class="header">
+<div id="header" class="header">
     <div class="header-left" id="header-logo" onclick="location.href='/'" style="cursor: pointer;">
         <h1>모여모여</h1>
-        <span th:if="${userSession != null}" th:text="|📍 in ${ userSession.region }|"></span>
-        <span th:if="${user != null}" th:text="|📍 in ${ user.region }|"></span>
+        <span id="region"></span>
+       <!-- <span th:if="${userSession != null}" th:text="|📍 in ${ userSession.region }|"></span>
+        <span th:if="${user != null}" th:text="|📍 in ${ user.region }|"></span>-->
     </div>
 
     <!-- 네비게이션 바 -->
@@ -144,41 +145,64 @@
         </ul>
     </nav>
 
-    <div class="header-right">
-
-        <div class="user-profile" style="display: flex; align-items: center">
-    <div th:if="${userSession != null}">
-        <span th:text="${ userSession.nickname }" style="margin-right: 10px"></span>
+    <!--<div th:if="${userSession != null}" class="header-right">
+        <span th:text="${ userSession.nickname }"></span>
         <img th:src="${ userSession.image }" alt="User Icon">
     </div>
-    <div th:if="${user != null}">
-        <span th:text="${ user.nickname }" style="margin-right: 10px"></span>
+
+    <div id="header-right" class="header-right">
+        <span th:text="${ user.nickname }"></span>
         <img th:src="${ user.image }" alt="User Icon">
-    </div>
+    </div>-->
+    <!--
+    <div th:if="${user != null}" class="header-right">
+        <span th:text="${ user.nickname }"></span>
+        <img th:src="${ user.image }" alt="User Icon">
+    </div>-->
+    <!-- 비로그인 상태일 때 로그인/회원가입 버튼 표시 -->
+    <div th:if="${userSession == null}" class="auth-links">
+        <div sec:authorize="!isAuthenticated()">
+            <span onclick="location.href='/member/auth/login'" style="cursor: pointer;">로그인</span>
+            <a>/</a>
+            <span onclick="location.href='/member/user/signup'" style="cursor: pointer;">회원가입</span>
         </div>
-    <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
-        <a href="/member/user/myPage" class="a-button" style="width: 100px; padding: 5px 10px;">마이페이지</a>
     </div>
-    <div sec:authorize="hasAnyAuthority('BUSINESS')">
-        <a href="/member/business/myPage" class="a-button" style="width: 100px; padding: 5px 10px;">마이페이지</a>
-    </div>
-
-        <!-- 비로그인 상태일 때 로그인/회원가입 버튼 표시 -->
-        <div th:if="${userSession == null}" class="auth-links">
-            <div sec:authorize="!isAuthenticated()">
-                <span onclick="location.href='/member/auth/login'" style="cursor: pointer;">로그인</span>
-                <a>/</a>
-                <span onclick="location.href='/member/user/signup'" style="cursor: pointer;">회원가입</span>
-
-            </div>
-        </div>
-
-    </div>
-
 
     <!-- 메인 로고 클릭 시 메인으로 이동 -->
     <img src="/static/image/image1.png" alt="Main Logo" class="main-logo" style="cursor: pointer;" onclick="location.href='/'">
 
 </div>
 </body>
+<script>
+        const header = document.querySelector("#header")
+        const region = document.querySelector("#region")
+        fetch("/member/user/getInfo").
+        then(response =>{
+            // console.log(response)
+            return response.json()
+        }).then(data => {
+            console.log(data)
+            if (data.fail!=null){
+                //로그인 안되어있음
+                let authLinks = document.createElement("div")
+                authLinks.classList.add("auth-links")
+                authLinks.innerHTML=`<div>
+        <span onclick="location.href='/member/auth/login'" style="cursor: pointer;">로그인</span>
+                <a>/</a>
+                <span onclick="location.href='/member/user/signup'" style="cursor: pointer;">회원가입</span>
+        </div>`
+                header.appendChild(authLinks)
+            }
+            else {
+                region.innerHTML = `📍 in ${ data.region }`;
+
+                let memberHeader = document.createElement("div")
+                memberHeader.classList.add("header-right")
+                memberHeader.innerHTML =  `<span >${ data.nickname }님 </span>
+                <img src="${ data.image }" alt="User Icon">`
+                header.appendChild(memberHeader)
+            }
+        })
+
+</script>
 </html>
