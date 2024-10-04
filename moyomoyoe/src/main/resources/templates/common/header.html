@@ -196,14 +196,19 @@
             }
             else {
                 region.innerHTML = `📍 in ${ data.region }`;
-
+                let plusDiv =""
+                if (data.role !="BUSINESS") {
+                    plusDiv=`
+                    <div>
+                        <a href="/member/user/myPage" class="a-button"
+                           style="width: 100px; padding: 5px 10px;">마이페이지</a>
+                    </div>`
+                }
                 let memberHeader = document.createElement("div")
                 memberHeader.classList.add("header-right")
                 memberHeader.innerHTML =  `<span >${ data.nickname }님 </span>
                 <img src="${ data.image }" alt="User Icon">
-        <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
-        <a href="/member/user/myPage" class="a-button" style="width: 100px; padding: 5px 10px;">마이페이지</a>
-    </div>
+                ${plusDiv}
 `
                 header.appendChild(memberHeader)
             }

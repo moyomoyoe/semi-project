@@ -9,6 +9,7 @@ import moyomoyoe.member.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -544,13 +545,15 @@ public class UserController {
 
     @GetMapping("/getInfo")
     @ResponseBody
-    public Map<String,Object> headerInfo( HttpServletRequest req){
+    public Map<String,Object> headerInfo( HttpServletRequest req , Authentication authentication){
 
         Map<String, Object> response;
+
 
         if (req.getSession().getAttribute("user") != null) {
             response =
                     (Map<String, Object>) req.getSession().getAttribute("user");
+            response.put("role",  authentication.getAuthorities().iterator().next().getAuthority());
         } else {
 
             response = new HashMap<>();
