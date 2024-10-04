@@ -2,6 +2,7 @@ package moyomoyoe.reservation.controller;
 
 import jakarta.servlet.http.HttpSession;
 import moyomoyoe.member.auth.model.dto.UserDTO;
+import moyomoyoe.member.user.model.service.UserService;
 import moyomoyoe.reservation.model.dao.ReservationMapper;
 import moyomoyoe.reservation.model.dto.ReservationDTO;
 import moyomoyoe.reservation.model.dto.ScheduleDTO;
@@ -9,6 +10,8 @@ import moyomoyoe.reservation.model.dto.StoreDTO;
 import moyomoyoe.reservation.model.service.ReservationService;
 import moyomoyoe.reservation.model.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +23,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/reservation")
@@ -29,6 +31,7 @@ public class ReservationController {
 
     ReservationService reservationService;
     ScheduleService reserService;
+    UserService uerService;
     ReservationMapper reservationMapper;
     String defaultUrl ="/reservation/schedule/";
 
@@ -42,7 +45,20 @@ public class ReservationController {
     @GetMapping("/storeList")
     public String getStoreListPage(Model model) {
         List<StoreDTO> stores = reservationService.getAllStores();
-        model.addAttribute("stores", stores);
+        List<Map<String, Object>> storeListWithImagePaths = new ArrayList<>();
+
+        for (StoreDTO store : stores) {
+            Map<String, Object> storeMap = new HashMap<>();
+            storeMap.put("store", store);
+
+            // 매장 ID를 이용해 이미지 경로 조회
+            String imagePath = reservationService.getImagePathByStoreId(store.getStoreId());
+            storeMap.put("imagePath", imagePath);
+
+            storeListWithImagePaths.add(storeMap);
+        }
+
+        model.addAttribute("stores", storeListWithImagePaths);
         return "reservation/storeList";
     }
 
@@ -50,7 +66,13 @@ public class ReservationController {
     @GetMapping("/storeDetail/{id}")
     public String getStoreDetailPage(@PathVariable("id") int id, Model model) {
         StoreDTO store = reservationService.getStoreById(id);
+
+        // 매장 ID로 이미지 경로 조회
+        String imagePath = reservationService.getImagePathByStoreId(id);
+
         model.addAttribute("store", store);
+        model.addAttribute("imagePath", imagePath);
+
         return "reservation/storeDetailView";
     }
 
@@ -87,7 +109,7 @@ public class ReservationController {
             ScheduleDTO scheduleDTO = scheduleList.get(0); // 첫 번째 스케줄을 선택
 
             // 예약 DTO 생성
-            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0,"");
+            ReservationDTO reservationDTO = new ReservationDTO(0, userDTO.getId(), sqlDate, capacity, 0, "");
 
             // 예약 저장
             reservationService.saveReservation(reservationDTO, scheduleDTO);
@@ -136,6 +158,33 @@ public class ReservationController {
     public ModelAndView getUserReservations(@AuthenticationPrincipal UserDTO userDTO, HttpSession session) {
         ModelAndView mv = new ModelAndView("reservation/userReservations");
         int userId = userDTO.getId();
+        List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
+
+        // 스케줄 정보와 예약 정보를 결합하여 반환
+        List<Map<String, Object>> reservationDetails = new ArrayList<>();
+        for (ReservationDTO reservation : userReservations) {
+            Map<String, Object> reservationMap = new HashMap<>();
+            reservationMap.put("resId", reservation.getResId());
+            reservationMap.put("userIdRes", reservation.getUserIdRes());
+            reservationMap.put("resDate", reservation.getResDate());
+            reservationMap.put("customerNum", reservation.getCustomerNum());
+            reservationMap.put("scheduleId", reservation.getScheduleId());
+
+            // 스케줄 정보를 통해 시작 및 종료 시간 추가
+            ScheduleDTO schedule = reservationService.getScheduleById(reservation.getScheduleId());
+            if (schedule != null) {
+                reservationMap.put("startTime", schedule.getStartTime());
+                reservationMap.put("endTime", schedule.getEndTime());
+            } else {
+                reservationMap.put("startTime", "시간 없음");
+                reservationMap.put("endTime", "시간 없음");
+            }
+
+            reservationDetails.add(reservationMap);
+        }
+
+        session.setAttribute("userReservations", reservationDetails);
+        mv.addObject("userReservations", reservationDetails);
         //List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
 
         List<Map<String,String>> reservation = reserService.getUserFullReserInfo(userId);
@@ -148,11 +197,41 @@ public class ReservationController {
         return mv;
     }
 
-    // 예약 상세 조회
+    // 사용자 예약 목록 조회 - JSON 응답
+    @GetMapping("/userReservationsData")
+    @ResponseBody
+    public ResponseEntity<List<Map<String, Object>>> getUserReservationsData(@AuthenticationPrincipal UserDTO userDTO) {
+        int userId = userDTO.getId();
+        List<ReservationDTO> userReservations = reservationService.getUserReservations(userId);
+
+        if (userReservations == null || userReservations.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+        } else {
+            List<Map<String, Object>> reservationDataList = new ArrayList<>();
+
+            for (ReservationDTO reservation : userReservations) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("resId", reservation.getResId());
+                map.put("userIdRes", reservation.getUserIdRes());
+                map.put("resDate", reservation.getResDate());
+                map.put("customerNum", reservation.getCustomerNum());
+                map.put("scheduleId", reservation.getScheduleId());
+                map.put("startTime", reservationService.getScheduleById(reservation.getScheduleId()).getStartTime());
+                map.put("endTime", reservationService.getScheduleById(reservation.getScheduleId()).getEndTime());
+
+                reservationDataList.add(map);
+            }
+
+            return ResponseEntity.ok(reservationDataList);
+        }
+    }
+
+    // 예약 상세 정보
     @GetMapping("/reservationDetail/{resId}")
     public ModelAndView getReservationDetail(@PathVariable("resId") int resId) {
         ModelAndView mv = new ModelAndView("reservation/reservationDetail");
 
+        // 예약 정보 조회
         Map<String, Object> reservationDetailWithStore = reservationService.getReservationDetailWithStore(resId);
 
         if (reservationDetailWithStore == null || reservationDetailWithStore.isEmpty()) {
@@ -160,17 +239,17 @@ public class ReservationController {
             return mv;
         }
 
-        mv.addObject("reservation", reservationDetailWithStore);  // Map 전체를 모델에 추가
+        // 필요한 필드를 명시적으로 추가하여 Thymeleaf에서 사용 가능하도록 설정
+        mv.addObject("resId", reservationDetailWithStore.get("res_id"));
+        mv.addObject("resDate", reservationDetailWithStore.get("res_date"));
+        mv.addObject("startTime", reservationDetailWithStore.get("start_time"));
+        mv.addObject("endTime", reservationDetailWithStore.get("end_time"));
+        mv.addObject("customerNum", reservationDetailWithStore.get("customer_num"));
+        mv.addObject("storeName", reservationDetailWithStore.get("store_name"));
+        mv.addObject("storeSort", reservationDetailWithStore.get("store_sort"));
+        mv.addObject("storeAddress", reservationDetailWithStore.get("store_address"));
 
         return mv;
-    }
-
-    // 예약 목록 조회
-    @GetMapping("/reservationList")
-    public String getReservationList(Model model) {
-        List<ScheduleDTO> reservationList = reservationService.getAllReservations();
-        model.addAttribute("reservationList", reservationList);
-        return "reservation/reservationList";
     }
 
     // 예약 취소
@@ -210,19 +289,6 @@ public class ReservationController {
             return "redirect:" + defaultUrl + "storeInfo"; // 해당 페이지로 리턴
         }
 
-    }
-
-    @GetMapping("/storeInfo")
-    public String getStoreInfoFromSession(HttpSession session, Model model) {
-        // 세션에 저장된 데이터를 가져옴
-        StoreDTO storeInfo = (StoreDTO) session.getAttribute("store");
-        List<ScheduleDTO> schedule = (List<ScheduleDTO>) session.getAttribute("schedule");
-
-        // 모델에 추가해서 Thymeleaf로 전달
-        model.addAttribute("store", storeInfo);
-        model.addAttribute("schedule", schedule);
-
-        return defaultUrl+"storeInfo";
     }
 
     // 사업장별 예약 목록 조회

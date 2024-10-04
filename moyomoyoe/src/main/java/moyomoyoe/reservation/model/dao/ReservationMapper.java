@@ -50,12 +50,19 @@ public interface ReservationMapper {
     // 사용자의 사업장 ID 조회
     Integer getStoreIdByUserId(int userId);
 
+    List<Map<String, Object>> getUserReservationsWithSchedule(int userId);
+
     // 사업장별 예약 조회 메서드 추가
     List<ReservationDTO> getReservationsByStore(@Param("storeId") int storeId);
 
-    List<Integer> getResBySchedule(int id);
 
     void deleteReservation(@Param("resId") int resId);
 
+    // 기존 이미지 관련 메소드
+    int getImageId(String imageName);
+    String getImageById(int id);
+
+    // 매장 ID를 이용해 이미지 ID 조회
+    Integer getImageIdByStoreId(@Param("storeId") int storeId);
 
 }
